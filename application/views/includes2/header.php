@@ -31,14 +31,14 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo base_url(); ?>register">Regístrese</a>
+                        <a href="<?php echo base_url(); ?>panel/register">Regístrese</a>
                     </li>
                        <li>
                         <a href="<?php echo base_url() ?>premium">Premium</a>
                     </li>
 
                     <li>
-                        <a href="<?php echo base_url() ?>login">Acceder</a>
+                        <a href="<?php echo base_url() ?>panel/login">Acceder</a>
                     </li>
                   <!--  <li>
                         <a href="<?php echo base_url() ?>blog">Blog</a>

@@ -32,7 +32,7 @@ class Panel extends CI_Controller {
 		$this->load->library('flexi_auth');
 
      	// Redirect users logged in via password (However, not 'Remember me' users, as they may wish to login properly).
-		if ($this->flexi_auth->is_logged_in_via_password() && uri_string() != 'auth/logout')
+		if ($this->flexi_auth->is_logged_in_via_password() && uri_string() != 'panel/logout')
 		{
 			// Preserve any flashdata messages so they are passed to the redirect page.
 			if ($this->session->flashdata('message')) { $this->session->keep_flashdata('message'); }
@@ -94,9 +94,12 @@ class Panel extends CI_Controller {
 	 */
     function login()
     {
+
+
 		// If 'Login' form has been submited, attempt to log the user in.
 		if ($this->input->post('login_user'))
 		{
+
 			$this->load->model('demo_auth_model');
 			$this->demo_auth_model->login();
 		}

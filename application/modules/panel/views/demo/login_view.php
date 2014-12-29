@@ -63,27 +63,28 @@
 											<?php echo $message; ?>
 										</div>
 									<?php } ?>
-                                      <form class="form-horizontal" action='<?php echo base_url()?>/panel/login' method="post" role="form">
+                                      <form class="form-horizontal" action='<?php echo base_url()?>panel/login' method="post" role="form">
                                          <div class="form-group">
                                            <label for="identity" class="col-lg-4 control-label">Correo electrónico:</label>
 
                                            <div class="col-lg-6">
-<input type="text" id="identity" name="login_identity" value="<?php echo set_value('login_identity', 'admin@admin.com');?>"	/>
-                                             <?php echo form_input($login_identity,'','class="form-control" placeholder="Correo electrónico"');?>
+<input type="text" id="identity" name="login_identity" class="form-control" placeholder="Correo electrónico" value="<?php echo set_value('login_identity', 'admin@admin.com');?>"	/>
+
 
                                            </div>
                                          </div>
                                          <div class="form-group">
                                            <label for="password" class="col-lg-4 control-label">Contraseña:</label>
                                            <div class="col-lg-6">
-                                           <?php echo form_input($login_password,'','class="form-control" placeholder="Contraseña"');?>
-                                           	<input type="password" id="password" name="login_password" value="<?php echo set_value('login_password', 'password123');?>"/>
+
+                                           	<input type="password" id="password" class="form-control" placeholder="Contraseña" name="login_password" value="<?php echo set_value('login_password', 'password123');?>"/>
 
                                            </div>
                                          </div>
                                          <div class="form-group">
                                            <div class="col-lg-offset-4 col-lg-10">
-                                             <button type="submit" class="btn btn-default">Acceder</button>
+                                           <input type="submit" name="login_user" id="submit" value="Acceder" class="btn btn-default"/>
+
                                              <button type="reset" class="btn btn-default">Borrar</button>
                                            </div>
                                          </div>
@@ -94,7 +95,7 @@
                                       <p><a href="<?php echo base_url();?>panel/forgot_password">Olvidó su contraseña?</a></p>
                                       <h5>Crear cuenta</h5>
                                       <!-- Register link -->
-                                          No tiene una cuenta? <a href="<?php echo base_url(); ?>/panel/register">Regístrese</a>
+                                          No tiene una cuenta? <a href="<?php echo base_url(); ?>panel/register">Regístrese</a>
                                     </div>
                                   </div>
                 </div>
