@@ -39,7 +39,7 @@
 */
 
 // $route['default_controller'] = "welcome";
-$route['default_controller'] = "auth_lite2/index";
+$route['default_controller'] = "inicio";
 $route['404_override'] = '';
 
 

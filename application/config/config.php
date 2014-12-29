@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= "http://".$_SERVER['HTTP_HOST'].'/flexi_auth/';
+$config['base_url']	= "http://".$_SERVER['HTTP_HOST'].'/php/autopublicador/';
 
 /*
 |--------------------------------------------------------------------------

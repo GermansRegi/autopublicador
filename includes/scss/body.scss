@@ -1,0 +1,172 @@
+/* Button */
+
+a {
+  &.btn {
+    color: #333 !important;
+    &:visited, &:hover {
+      color: #333 !important;
+    }
+  }
+  &.btn-primary {
+    color: #fff !important;
+    &:visited, &:hover {
+      color: #fff !important;
+    }
+  }
+  &.btn-warning {
+    color: #fff !important;
+    &:visited, &:hover {
+      color: #fff !important;
+    }
+  }
+  &.btn-danger {
+    color: #fff !important;
+    &:visited, &:hover {
+      color: #fff !important;
+    }
+  }
+  &.btn-success {
+    color: #fff !important;
+    &:visited, &:hover {
+      color: #fff !important;
+    }
+  }
+  &.btn-info {
+    color: #fff !important;
+    &:visited, &:hover {
+      color: #fff !important;
+    }
+  }
+  &.btn-inverse {
+    color: #fff !important;
+    &:visited, &:hover {
+      color: #fff !important;
+    }
+  }
+}
+
+.button {
+  margin: 10px 0px 5px 0px;
+  a {
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 3px;
+    -webkit-transition: background 1s ease;
+    -moz-transition: background 1s ease;
+    -o-transition: background 1s ease;
+    transition: background 1s ease;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    &:visited {
+      color: #fff;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 3px;
+      -webkit-transition: background 1s ease;
+      -moz-transition: background 1s ease;
+      -o-transition: background 1s ease;
+      transition: background 1s ease;
+      font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    }
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+      -webkit-transition: background 1s ease;
+      -moz-transition: background 1s ease;
+      -o-transition: background 1s ease;
+      transition: background 1s ease;
+    }
+  }
+}
+
+/* Container */
+
+.container {
+  max-width: 980px;
+}
+/* Pricing table #1 */
+
+.pricel {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 20px !important;
+}
+
+.plist a {
+  i {
+    color: #333;
+  }
+  &:hover i {
+    color: #333;
+    text-decoration: none;
+  }
+}
+
+.pricel {
+  .phead-top {
+    margin: 0px;
+    padding: 15px 10px;
+    h4 {
+      color: #fff;
+    }
+  }
+  .phead-bottom {
+    background: #f8f8f8;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 0px;
+    padding: 10px 10px 5px 10px;
+    color: #777;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+  }
+  .pst {
+    font-size: 12px;
+    position: relative;
+    top: -5px;
+    font-weight: normal;
+  }
+  .psb {
+    font-size: 12px;
+    font-weight: normal;
+  }
+  .pbutton {
+    background: #eee;
+    border: 1px solid #ddd;
+    padding: 10px 0px 15px 0px;
+    color: #777;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 0px;
+  }
+  .plist {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    background: #fcfcfc;
+    ul {
+      margin-left: 0px;
+      margin-bottom: 0px !important;
+      padding-left: 0px;
+    }
+    li {
+      list-style-type: none;
+      background: none;
+      padding: 13px 0px;
+      font-size: 12px;
+      border-bottom: 1px solid #e1e1e1;
+      &:nth-child(even) {
+        background-color: #f8f8f8;
+      }
+      &:hover {
+        background: #fff;
+      }
+    }
+  }
+  .phead-top {
+    display: block;
+  }
+}

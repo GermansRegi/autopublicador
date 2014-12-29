@@ -1,0 +1,54 @@
+
+footer{
+	background: #65605c url("../img/footer.png") repeat;
+	padding-top: 20px;
+	padding-bottom: 0px;
+	margin-top: 20px;
+	color: #aaa;
+	font-size: 12px;
+	box-shadow: inset 0px 0px 10px #000;
+}
+
+footer a, footer a:visited{
+	color: #ddd;
+}
+
+footer a:hover{
+	color: #ccc;
+	text-decoration: underline;
+}
+
+footer hr{
+	height: 0px;
+	padding: 0px;
+	margin: 5px 0px;
+	border-top: 1px solid #111;
+	border-bottom: 1px solid #222;
+}
+
+footer h5{
+	color: #fff;
+}
+
+footer h6{
+	color: #fff;
+}
+
+footer ul{
+	margin-left: 0px;
+   padding-left:0px;
+}
+
+footer ul li{
+	list-style-type: none;
+	margin-bottom: 5px;
+}
+
+footer .widget{
+	margin-bottom: 10px;
+}
+
+footer .copy{
+	margin-bottom: 5px;
+	font-size: 11px;
+}
