@@ -47,6 +47,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/application\/config\/flexi_auth.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/application\/config\/flexi_auth.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/application\/config\/foreign_chars.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -389,875 +398,866 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/config\/config.php": {
+	"\/application\/modules\/panel\/config\/config.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/config\/config.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/config\/config.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/config\/flexi_auth.php": {
+	"\/application\/modules\/panel\/config\/flexi_auth.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/config\/flexi_auth.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/config\/flexi_auth.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/config\/routes.php": {
+	"\/application\/modules\/panel\/config\/routes.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/config\/routes.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/config\/routes.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/controllers\/auth.php": {
+	"\/application\/modules\/panel\/controllers\/auth_admin.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/controllers\/auth.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/controllers\/auth_admin.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/controllers\/auth_admin.php": {
+	"\/application\/modules\/panel\/controllers\/auth_lite.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/controllers\/auth_admin.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/controllers\/auth_lite.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/controllers\/auth_lite.php": {
+	"\/application\/modules\/panel\/controllers\/auth_public.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/controllers\/auth_lite.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/controllers\/auth_public.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/controllers\/auth_public.php": {
+	"\/application\/modules\/panel\/controllers\/panel.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/controllers\/auth_public.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/controllers\/panel.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/controllers\/user_guide.php": {
+	"\/application\/modules\/panel\/controllers\/user_guide.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/controllers\/user_guide.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/controllers\/user_guide.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/language\/english\/flexi_auth_lang.php": {
+	"\/application\/modules\/panel\/language\/english\/flexi_auth_lang.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/language\/english\/flexi_auth_lang.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/language\/english\/flexi_auth_lang.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/language\/english\/index.html": {
+	"\/application\/modules\/panel\/language\/english\/index.html": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/language\/english\/index.html",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/language\/english\/index.html",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/libraries\/Flexi_auth.php": {
+	"\/application\/modules\/panel\/libraries\/Flexi_auth.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/libraries\/Flexi_auth.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/libraries\/Flexi_auth.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/libraries\/Flexi_auth_lite.php": {
+	"\/application\/modules\/panel\/libraries\/Flexi_auth_lite.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/libraries\/Flexi_auth_lite.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/libraries\/Flexi_auth_lite.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/libraries\/MY_Form_validation.php": {
+	"\/application\/modules\/panel\/libraries\/MY_Form_validation.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/libraries\/MY_Form_validation.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/libraries\/MY_Form_validation.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/models\/demo_auth_admin_model.php": {
+	"\/application\/modules\/panel\/models\/demo_auth_admin_model.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/models\/demo_auth_admin_model.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/models\/demo_auth_admin_model.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/models\/demo_auth_model.php": {
+	"\/application\/modules\/panel\/models\/demo_auth_model.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/models\/demo_auth_model.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/models\/demo_auth_model.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/models\/flexi_auth_lite_model.php": {
+	"\/application\/modules\/panel\/models\/flexi_auth_lite_model.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/models\/flexi_auth_lite_model.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/models\/flexi_auth_lite_model.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/models\/flexi_auth_model.php": {
+	"\/application\/modules\/panel\/models\/flexi_auth_model.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/models\/flexi_auth_model.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/models\/flexi_auth_model.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/dashboard_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/dashboard_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/dashboard_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/dashboard_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/privilege_insert_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/privilege_insert_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/privilege_insert_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/privilege_insert_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/privilege_update_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/privilege_update_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/privilege_update_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/privilege_update_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/privileges_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/privileges_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/privileges_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/privileges_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/user_acccounts_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/user_acccounts_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/user_acccounts_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/user_acccounts_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/user_account_update_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/user_account_update_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/user_account_update_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/user_account_update_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/user_group_insert_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/user_group_insert_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/user_group_insert_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/user_group_insert_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/user_group_privileges_update_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/user_group_privileges_update_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/user_group_privileges_update_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/user_group_privileges_update_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/user_group_update_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/user_group_update_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/user_group_update_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/user_group_update_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/user_groups_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/user_groups_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/user_groups_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/user_groups_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/user_privileges_update_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/user_privileges_update_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/user_privileges_update_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/user_privileges_update_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/users_unactivated_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/users_unactivated_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/users_unactivated_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/users_unactivated_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/admin_examples\/users_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/admin_examples\/users_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/admin_examples\/users_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/admin_examples\/users_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/lite_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/lite_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/lite_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/lite_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/login_via_ajax_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/login_via_ajax_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/login_via_ajax_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/login_via_ajax_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/login_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/login_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/login_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/login_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/privilege_examples_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/privilege_examples_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/privilege_examples_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/privilege_examples_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/account_update_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/account_update_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/account_update_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/account_update_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/address_insert_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/address_insert_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/address_insert_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/address_insert_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/address_update_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/address_update_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/address_update_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/address_update_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/address_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/address_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/address_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/address_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/dashboard_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/dashboard_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/dashboard_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/dashboard_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/email_update_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/email_update_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/email_update_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/email_update_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/forgot_password_update_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/forgot_password_update_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/forgot_password_update_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/forgot_password_update_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/forgot_password_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/forgot_password_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/forgot_password_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/forgot_password_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/password_update_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/password_update_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/password_update_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/password_update_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/register_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/register_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/register_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/register_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo\/public_examples\/resend_activation_token_view.php": {
+	"\/application\/modules\/panel\/views\/demo\/public_examples\/resend_activation_token_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo\/public_examples\/resend_activation_token_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo\/public_examples\/resend_activation_token_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/demo_view.php": {
+	"\/application\/modules\/panel\/views\/demo_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/demo_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/demo_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/features_view.php": {
+	"\/application\/modules\/panel\/views\/features_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/features_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/features_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/demo_header.php": {
+	"\/application\/modules\/panel\/views\/includes\/demo_header.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/demo_header.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/demo_header.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/email\/activate_account.tpl.php": {
+	"\/application\/modules\/panel\/views\/includes\/email\/activate_account.tpl.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/email\/activate_account.tpl.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/email\/activate_account.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/email\/forgot_password.tpl.php": {
+	"\/application\/modules\/panel\/views\/includes\/email\/forgot_password.tpl.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/email\/forgot_password.tpl.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/email\/forgot_password.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/email\/new_password.tpl.php": {
+	"\/application\/modules\/panel\/views\/includes\/email\/new_password.tpl.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/email\/new_password.tpl.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/email\/new_password.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/email\/registration_welcome.tpl.php": {
+	"\/application\/modules\/panel\/views\/includes\/email\/registration_welcome.tpl.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/email\/registration_welcome.tpl.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/email\/registration_welcome.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/email\/update_email_address.tpl.php": {
+	"\/application\/modules\/panel\/views\/includes\/email\/update_email_address.tpl.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/email\/update_email_address.tpl.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/email\/update_email_address.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/footer.php": {
+	"\/application\/modules\/panel\/views\/includes\/footer.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/footer.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/footer.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/head.php": {
+	"\/application\/modules\/panel\/views\/includes\/head.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/head.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/head.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/header.php": {
+	"\/application\/modules\/panel\/views\/includes\/header.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/header.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/header.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/scripts.php": {
+	"\/application\/modules\/panel\/views\/includes\/scripts.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/scripts.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/scripts.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/includes\/user_guide_header.php": {
+	"\/application\/modules\/panel\/views\/includes\/user_guide_header.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/includes\/user_guide_header.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/includes\/user_guide_header.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/index.html": {
+	"\/application\/modules\/panel\/views\/index.html": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/index.html",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/index.html",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/index_view.php": {
+	"\/application\/modules\/panel\/views\/index_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/index_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/index_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/support_view.php": {
+	"\/application\/modules\/panel\/views\/support_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/support_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/support_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/custom_sql\/custom_sql_index_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/custom_sql\/custom_sql_index_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/custom_sql\/custom_sql_index_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/custom_sql\/custom_sql_index_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/custom_sql\/custom_sql_query_builder_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/custom_sql\/custom_sql_query_builder_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/custom_sql\/custom_sql_query_builder_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/custom_sql\/custom_sql_query_builder_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/custom_sql\/defining_custom_sql_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/custom_sql\/defining_custom_sql_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/custom_sql\/defining_custom_sql_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/custom_sql\/defining_custom_sql_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/custom_sql\/query_sql_results_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/custom_sql\/query_sql_results_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/custom_sql\/query_sql_results_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/custom_sql\/query_sql_results_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/email\/email_config_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/email\/email_config_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/email\/email_config_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/email\/email_config_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/email\/email_index_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/email\/email_index_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/email\/email_index_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/email\/email_index_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/email\/email_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/email\/email_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/email\/email_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/email\/email_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/login\/login_captcha_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/login\/login_captcha_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/login\/login_captcha_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/login\/login_captcha_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/login\/login_index_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/login\/login_index_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/login\/login_index_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/login\/login_index_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/login\/login_session_config_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/login\/login_session_config_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/login\/login_session_config_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/login\/login_session_config_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/login\/login_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/login\/login_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/login\/login_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/login\/login_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/messages\/message_config_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/messages\/message_config_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/messages\/message_config_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/messages\/message_config_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/messages\/message_index_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/messages\/message_index_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/messages\/message_index_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/messages\/message_index_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/messages\/message_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/messages\/message_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/messages\/message_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/messages\/message_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/misc\/change_log_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/misc\/change_log_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/misc\/change_log_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/misc\/change_log_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/misc\/concept_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/misc\/concept_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/misc\/concept_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/misc\/concept_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/misc\/general_settings.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/misc\/general_settings.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/misc\/general_settings.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/misc\/general_settings.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/misc\/installation_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/misc\/installation_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/misc\/installation_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/misc\/installation_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/misc\/libraries_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/misc\/libraries_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/misc\/libraries_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/misc\/libraries_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_account\/user_account_config_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_account\/user_account_config_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_account\/user_account_config_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_account\/user_account_config_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_account\/user_account_get_data_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_account\/user_account_get_data_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_account\/user_account_get_data_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_account\/user_account_get_data_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_account\/user_account_index_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_account\/user_account_index_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_account\/user_account_index_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_account\/user_account_index_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_account\/user_account_set_data_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_account\/user_account_set_data_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_account\/user_account_set_data_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_account\/user_account_set_data_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_group\/user_group_config_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_group\/user_group_config_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_group\/user_group_config_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_group\/user_group_config_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_group\/user_group_get_data_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_group\/user_group_get_data_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_group\/user_group_get_data_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_group\/user_group_get_data_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_group\/user_group_index_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_group\/user_group_index_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_group\/user_group_index_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_group\/user_group_index_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_group\/user_group_set_data_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_group\/user_group_set_data_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_group\/user_group_set_data_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_group\/user_group_set_data_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_privilege\/user_privilege_config_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_privilege\/user_privilege_config_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_privilege\/user_privilege_config_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_privilege\/user_privilege_config_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_privilege\/user_privilege_get_data_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_privilege\/user_privilege_get_data_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_privilege\/user_privilege_get_data_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_privilege\/user_privilege_get_data_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_privilege\/user_privilege_index_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_privilege\/user_privilege_index_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_privilege\/user_privilege_index_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_privilege\/user_privilege_index_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/user_privilege\/user_privilege_set_data_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/user_privilege\/user_privilege_set_data_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/user_privilege\/user_privilege_set_data_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/user_privilege\/user_privilege_set_data_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/validation\/validation_config_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/validation\/validation_config_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/validation\/validation_config_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/validation\/validation_config_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/validation\/validation_index_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/validation\/validation_index_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/validation\/validation_index_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/validation\/validation_index_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide\/validation\/validation_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide\/validation\/validation_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide\/validation\/validation_view.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide\/validation\/validation_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/application\/modules\/auth\/views\/user_guide_view.php": {
+	"\/application\/modules\/panel\/views\/user_guide_view.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/auth\/views\/user_guide_view.php",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/application\/modules\/welcome\/controllers\/welcome.php": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/application\/modules\/welcome\/controllers\/welcome.php",
+		"inputAbbreviatedPath": "\/application\/modules\/panel\/views\/user_guide_view.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -1721,11 +1721,29 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/application\/views\/includes2\/head.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/application\/views\/includes2\/head.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/application\/views\/includes2\/header.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/application\/views\/includes2\/header.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/application\/views\/includes2\/scripts.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/application\/views\/includes2\/scripts.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0

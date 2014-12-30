@@ -633,7 +633,7 @@
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
 
 	// Site title shown as 'from' header on emails.
-	$config['email']['site_title'] = "flexi auth";
+	$config['email']['site_title'] = "Autopublicador";
 
 	// Reply email shown as 'from' header on emails.
 	$config['email']['reply_email'] = "info@website.com";

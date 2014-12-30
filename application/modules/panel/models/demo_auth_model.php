@@ -109,14 +109,15 @@ class Demo_auth_model extends CI_Model {
 		// Set validation rules.
 		// The custom rules 'identity_available' and 'validate_password' can be found in '../libaries/MY_Form_validation.php'.
 		$validation_rules = array(
-			array('field' => 'register_first_name', 'label' => 'First Name', 'rules' => 'required'),
-			array('field' => 'register_last_name', 'label' => 'Last Name', 'rules' => 'required'),
-			array('field' => 'register_phone_number', 'label' => 'Phone Number', 'rules' => 'required'),
-			array('field' => 'register_newsletter', 'label' => 'Newsletter', 'rules' => 'integer'),
-			array('field' => 'register_email_address', 'label' => 'Email Address', 'rules' => 'required|valid_email|identity_available'),
-			array('field' => 'register_username', 'label' => 'Username', 'rules' => 'required|min_length[4]|identity_available'),
-			array('field' => 'register_password', 'label' => 'Password', 'rules' => 'required|validate_password'),
-			array('field' => 'register_confirm_password', 'label' => 'Confirm Password', 'rules' => 'required|matches[register_password]')
+			array('field' => 'register_first_name', 'label' => 'Nombre', 'rules' => 'required'),
+			array('field' => 'register_last_name', 'label' => 'Apellidos', 'rules' => 'required'),
+			array('field' => 'register_terms_and_conditions', 'label' => 'Terminos &amp; Condiciones', 'rules' => 'required'),
+			// array('field' => 'register_phone_number', 'label' => 'Phone Number', 'rules' => 'required'),
+			// array('field' => 'register_newsletter', 'label' => 'Newsletter', 'rules' => 'integer'),
+			array('field' => 'register_email_address', 'label' => 'Correo electónico', 'rules' => 'required|valid_email|identity_available'),
+			//array('field' => 'register_username', 'label' => 'Username', 'rules' => 'required|min_length[4]|identity_available'),
+			array('field' => 'register_password', 'label' => 'Contraseña', 'rules' => 'required|validate_password'),
+			array('field' => 'register_confirm_password', 'label' => 'Confirmacion contraseña', 'rules' => 'required|matches[register_password]')
 		);
 
 		$this->form_validation->set_rules($validation_rules);
@@ -153,8 +154,8 @@ class Demo_auth_model extends CI_Model {
 				// This is an example 'Welcome' email that could be sent to a new user upon registration.
 				// Bear in mind, if registration has been set to require the user activates their account, they will already be receiving an activation email.
 				// Therefore sending an additional email welcoming the user may be deemed unnecessary.
-				$email_data = array('identity' => $email);
-				$this->flexi_auth->send_email($email, 'Welcome', 'registration_welcome.tpl.php', $email_data);
+				//$email_data = array('identity' => $email);
+				//$this->flexi_auth->send_email($email, 'Benvingut', 'registration_welcome.tpl.php', $email_data);
 				// Note: The 'registration_welcome.tpl.php' template file is located in the '../views/includes/email/' directory defined by the config file.
 
 				###+++++++++++++++++###
@@ -171,7 +172,7 @@ class Demo_auth_model extends CI_Model {
 				}
 
 				// Redirect user to login page
-				redirect('auth');
+				redirect('panel');
 			}
 		}
 

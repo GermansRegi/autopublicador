@@ -237,7 +237,7 @@
 	 *
 	 * Note: The only valid columns are the users email address (Default column name 'uacc_email') or username (Default column name'uacc_username').
 	*/
-	$config['database']['settings']['identity_cols'] = array('uacc_email', 'uacc_username');
+	$config['database']['settings']['identity_cols'] = array('uacc_email');
 
 	/**
 	 * User Search Query Columns

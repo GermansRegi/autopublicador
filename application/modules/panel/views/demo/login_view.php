@@ -95,7 +95,7 @@
                                       <p><a href="<?php echo base_url();?>panel/forgot_password">Olvidó su contraseña?</a></p>
                                       <h5>Crear cuenta</h5>
                                       <!-- Register link -->
-                                          No tiene una cuenta? <a href="<?php echo base_url(); ?>panel/register">Regístrese</a>
+                                          No tiene una cuenta? <a href="<?php echo base_url(); ?>panel/register_account">Regístrese</a>
                                     </div>
                                   </div>
                 </div>

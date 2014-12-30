@@ -1,27 +1,142 @@
-<!doctype html>
-<!--[if lt IE 7 ]><html lang="en" class="no-js ie6"><![endif]-->
-<!--[if IE 7 ]><html lang="en" class="no-js ie7"><![endif]-->
-<!--[if IE 8 ]><html lang="en" class="no-js ie8"><![endif]-->
-<!--[if IE 9 ]><html lang="en" class="no-js ie9"><![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--><html lang="en" class="no-js"><!--<![endif]-->
+<!DOCTYPE html>
 <head>
-	<meta charset="utf-8">
-	<title>User Registration Demo | flexi auth | A User Authentication Library for CodeIgniter</title>
-	<meta name="description" content="flexi auth, the user authentication library designed for developers."/> 
-	<meta name="keywords" content="demo, flexi auth, user authentication, codeigniter"/>
-	<?php $this->load->view('includes/head'); ?> 
+
+    <title>Autopublicador Social</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta charset="UTF-8" />
+
+  <?php echo $this->load->view('includes2/head');?>
+
+
 </head>
 
-<body id="register">
+<body>
+    <?php echo $this->load->view('includes2/header');
 
-<div id="body_wrap">
-	<!-- Header -->  
-	<?php $this->load->view('includes/header'); ?> 
+?>
+<div class="page-head">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Registrese</h2>
+        <h4>something goes here</h4>
+      </div>
+    </div>
+  </div>
 
-	<!-- Demo Navigation -->
-	<?php $this->load->view('includes/demo_header'); ?> 
-	
-	<!-- Intro Content -->
+
+</div>
+<div class="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Some content -->
+                  <h3 class="title">Regístrese Hoy <span class="color">!!!</span></h3>
+                  <h4>Morbi tincidunt posuere turpis eu laoreet</h4>
+                  <p>Nullam in est urna. In vitae adipiscing enim. Curabitur rhoncus condimentum lorem, non convallis dolor faucibus eget. In vitae adipiscing enim. Curabitur rhoncus condimentum lorem, non convallis dolor faucibus eget. In ut nulla est. </p>
+                  <h5>Maecenas hendrerit neque id</h5>
+                  <ul>
+                    <li>Etiam adipiscing posuere justo, nec iaculis justo dictum non</li>
+                    <li>Cras tincidunt mi non arcu hendrerit eleifend</li>
+                    <li>Aenean ullamcorper justo tincidunt justo aliquet et lobortis diam faucibus</li>
+                    <li>Maecenas hendrerit neque id ante dictum mattis</li>
+                    <li>Vivamus non neque lacus, et cursus tortor</li>
+                  </ul>
+
+                  <p>Nullam in est urna. In vitae adipiscing enim. In ut nulla est. Nullam in est urna. In vitae adipiscing enim. Curabitur rhoncus condimentum lorem, non convallis dolor faucibus eget. In ut nulla est. </p>
+
+                </div>
+
+                <!-- Form -->
+                <div class="col-md-6">
+                  <div class="form well">
+                    <!-- Title -->
+                     <h4 class="title">Crear una nueva cuenta</h4>
+            <p>&nbsp;</p>
+                                  <div class="form">
+                          	<?php if (! empty($message)) { ?>
+									<div id="infoMessage">
+								<?php echo $message; ?>
+								</div>
+						<?php } ?>                   <!-- Register form (not working)-->
+                      <?php echo form_open("panel/register_account",array('class'=>'form-horizontal','role'=>'form'));?>
+                       <div class="form-group">
+                            <label for="first_name" class="col-lg-4 control-label">Nombre</label>
+                         <div class="col-lg-6">
+                         <input type="text" id="first_name" name="register_first_name" class="form-control" placeholder="Nombre" value="<?php echo set_value('register_first_name');?>"/>
+                        <!--  <?php echo form_input($first_name,'','');?> -->
+
+                         </div>
+                       </div>
+                       <div class="form-group">
+                          <label for="password" class="col-lg-4 control-label">Apellidos</label>
+                         <div class="col-lg-6">
+
+                        	<input type="text" id="last_name" name="register_last_name" class="form-control" placeholder="Apellidos" value="<?php echo set_value('register_last_name');?>"/>
+                         </div>
+                       </div>
+                       <div class="form-group">
+                        <label for="first_name" class="col-lg-4 control-label">Correo Electronico</label>
+                       <!--  <?php echo lang('create_user_email_label', 'email');?> -->
+                         <div class="col-lg-6">
+                         <input type="text" id="email_address" class="form-control" placeholder="Correo electrónico" name="register_email_address" value="<?php echo set_value('register_email_address');?>" class="tooltip_trigger"
+									title="This demo requires that upon registration, you will need to activate your account via clicking a link that is sent to your email address."
+								/>
+                    <!--      <?php echo form_input($email,'','class="form-control" placeholder="Correo electrónico"');?> -->
+                         </div>
+                       </div>
+                       <div class="form-group">
+							  <label for="first_name" class="col-lg-4 control-label">Contraseña</label>
+                  <!--   <?php echo lang('create_user_password_label', 'password');?> -->
+                         <div class="col-lg-6">
+                         	<input type="password" id="password" class="form-control" placeholder="Contraseña" name="register_password" value="<?php echo set_value('register_password');?>"/>
+                   <!--  <?php echo form_input($password,'','class="form-control" placeholder="Contraseña"');?> -->
+                         </div>
+                       </div>
+                       <div class="form-group">
+
+                <!--      <?php echo lang('create_user_password_confirm_label', 'password_confirm');?> -->
+                	  <label for="first_name" class="col-lg-4 control-label">Confirmación contraseña</label>
+                         <div class="col-lg-6 aligninput">
+                         <input class="form-control" placeholder="Confirmación contraseña" type="password" id="confirm_password" name="register_confirm_password" value="<?php echo set_value('register_confirm_password');?>"/>
+                   <!--   <?php echo form_input($password_confirm,'','class="form-control" placeholder="Confirmar contraseña"');?> -->
+                         </div>
+                       </div>
+
+                       <div class="form-group">
+                         <div class="col-lg-offset-2 col-lg-6">
+                         <div class="checkbox">
+                           <label>
+                           <input name="register_terms_and_conditions" type="checkbox"> Acepto los Términos &amp; Condiciones
+                           </label>
+                         </div>
+                         </div>
+                       </div>
+                       <div class="form-group">
+                         <div class="col-lg-offset-2 col-lg-8">
+                      <!--    <button type="submit" class="btn btn-default">Registrarse</button>
+ -->                         <input type="submit" name="register_user" id="submit" value="Registrarse" class="btn btn-default"/>
+                         <button type="reset" class="btn btn-default">Borrar</button>
+                         </div>
+                       </div>
+                       </form>
+                       <hr>
+
+                                             Ya tiene una cuenta? <a href="<?php echo base_url()?>login">Acceder</a>
+                                    </div>
+                                  </div>
+
+                </div>
+    </div>
+  </div>
+</div>
+
+	<!-- Demo Navigation -
+	<?php $this->load->view('includes/demo_header'); ?>
+
+	<!-- Intro Content -
 	<div class="content_wrap intro_bg">
 		<div class="content clearfix">
 			<div class="col100">
@@ -33,8 +148,8 @@
 			</div>
 		</div>
 	</div>
-	
-	<!-- Main Content -->
+
+	<!-- Main Content -
 	<div class="content_wrap main_content_bg">
 		<div class="content clearfix">
 			<div class="col100">
@@ -45,8 +160,8 @@
 					<?php echo $message; ?>
 				</div>
 			<?php } ?>
-				
-				<?php echo form_open(current_url()); ?>  	
+
+				<?php echo form_open(current_url()); ?>
 					<fieldset>
 						<legend>Personal Details</legend>
 						<ul>
@@ -60,7 +175,7 @@
 							</li>
 						</ul>
 					</fieldset>
-					
+
 					<fieldset>
 						<legend>Contact Details</legend>
 						<ul>
@@ -74,7 +189,7 @@
 							</li>
 						</ul>
 					</fieldset>
-					
+
 					<fieldset>
 						<legend>Login Details</legend>
 						<ul>
@@ -90,7 +205,7 @@
 									title="Set a username that can be used to login with."
 								/>
 							</li>
-							<li>							
+							<li>
 								<small>
 									<strong>For this demo, the following validation settings have been defined:</strong><br/>
 									Password length must be more than <?php echo $this->flexi_auth->min_password_length(); ?> characters in length.<br/>Only alpha-numeric, dashes, underscores, periods and comma characters are allowed.
@@ -106,7 +221,7 @@
 							</li>
 						</ul>
 					</fieldset>
-					
+
 					<fieldset>
 						<legend>Register</legend>
 
@@ -125,14 +240,14 @@
 				<?php echo form_close();?>
 			</div>
 		</div>
-	</div>	
-	
-	<!-- Footer -->  
-	<?php $this->load->view('includes/footer'); ?> 
+	</div>
+
+	<!-- Footer -->
+	<?php $this->load->view('includes2/footer'); ?>
 </div>
 
-<!-- Scripts -->  
-<?php $this->load->view('includes/scripts'); ?> 
+<!-- Scripts -->
+<?php $this->load->view('includes2/scripts'); ?>
 
 </body>
 </html>

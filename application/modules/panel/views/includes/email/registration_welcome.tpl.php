@@ -1,7 +1,7 @@
 <html>
 <body>
-	<h1>Thankyou for Registering!</h1>
-	
-	<p>You login identity is: <?php echo $identity;?></p>
+	<h1>Muchas gracias por su registro!</h1>
+
+	<p>Su  is: <?php echo $identity;?></p>
 </body>
 </html>

@@ -23,6 +23,7 @@ class Panel extends CI_Controller {
 		$this->load->library('session');
  		$this->load->helper('url');
  		$this->load->helper('form');
+ 		$this->load->helper('language');
 
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
@@ -174,7 +175,7 @@ class Panel extends CI_Controller {
 		// Redirect user away from registration page if already logged in.
 		if ($this->flexi_auth->is_logged_in())
 		{
-			redirect('auth');
+			redirect('panel');
 		}
 		// If 'Registration' form has been submitted, attempt to register their details as a new account.
 		else if ($this->input->post('register_user'))
@@ -317,7 +318,7 @@ class Panel extends CI_Controller {
 		// Set a message to the CI flashdata so that it is available after the page redirect.
 		$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
-		redirect('auth');
+		redirect('panel');
     }
 
 	/**
@@ -333,7 +334,7 @@ class Panel extends CI_Controller {
 		// Set a message to the CI flashdata so that it is available after the page redirect.
 		$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
-		redirect('auth');
+		redirect('panel');
     }
 }
 

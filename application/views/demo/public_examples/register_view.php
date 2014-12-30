@@ -7,20 +7,20 @@
 <head>
 	<meta charset="utf-8">
 	<title>User Registration Demo | flexi auth | A User Authentication Library for CodeIgniter</title>
-	<meta name="description" content="flexi auth, the user authentication library designed for developers."/> 
+	<meta name="description" content="flexi auth, the user authentication library designed for developers."/>
 	<meta name="keywords" content="demo, flexi auth, user authentication, codeigniter"/>
-	<?php $this->load->view('includes/head'); ?> 
+	<?php $this->load->view('includes/head'); ?>
 </head>
 
 <body id="register">
 
 <div id="body_wrap">
-	<!-- Header -->  
-	<?php $this->load->view('includes/header'); ?> 
+	<!-- Header -->
+	<?php $this->load->view('includes/header'); ?>
 
 	<!-- Demo Navigation -->
-	<?php $this->load->view('includes/demo_header'); ?> 
-	
+	<?php $this->load->view('includes/demo_header'); ?>
+
 	<!-- Intro Content -->
 	<div class="content_wrap intro_bg">
 		<div class="content clearfix">
@@ -33,7 +33,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Main Content -->
 	<div class="content_wrap main_content_bg">
 		<div class="content clearfix">
@@ -45,8 +45,8 @@
 					<?php echo $message; ?>
 				</div>
 			<?php } ?>
-				
-				<?php echo form_open(current_url()); ?>  	
+
+				<?php echo form_open(current_url()); ?>
 					<fieldset>
 						<legend>Personal Details</legend>
 						<ul>
@@ -60,7 +60,7 @@
 							</li>
 						</ul>
 					</fieldset>
-					
+
 					<fieldset>
 						<legend>Contact Details</legend>
 						<ul>
@@ -74,7 +74,7 @@
 							</li>
 						</ul>
 					</fieldset>
-					
+
 					<fieldset>
 						<legend>Login Details</legend>
 						<ul>
@@ -90,7 +90,7 @@
 									title="Set a username that can be used to login with."
 								/>
 							</li>
-							<li>							
+							<li>
 								<small>
 									<strong>For this demo, the following validation settings have been defined:</strong><br/>
 									Password length must be more than <?php echo $this->flexi_auth->min_password_length(); ?> characters in length.<br/>Only alpha-numeric, dashes, underscores, periods and comma characters are allowed.
@@ -106,7 +106,7 @@
 							</li>
 						</ul>
 					</fieldset>
-					
+
 					<fieldset>
 						<legend>Register</legend>
 
@@ -125,14 +125,14 @@
 				<?php echo form_close();?>
 			</div>
 		</div>
-	</div>	
-	
-	<!-- Footer -->  
-	<?php $this->load->view('includes/footer'); ?> 
+	</div>
+
+	<!-- Footer -->
+	<?php $this->load->view('includes/footer'); ?>
 </div>
 
-<!-- Scripts -->  
-<?php $this->load->view('includes/scripts'); ?> 
+<!-- Scripts -->
+<?php $this->load->view('includes/scripts'); ?>
 
 </body>
 </html>
