@@ -168,7 +168,7 @@ class Demo_auth_model extends CI_Model {
 				if ($instant_activate && $this->flexi_auth->login($email, $password))
 				{
 					// Redirect user to public dashboard.
-					redirect('auth_public/dashboard');
+					redirect('panel');
 				}
 
 				// Redirect user to login page
@@ -242,7 +242,7 @@ class Demo_auth_model extends CI_Model {
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
 			// Redirect user.
-			redirect('auth');
+			redirect('panel');
 		}
 		else
 		{

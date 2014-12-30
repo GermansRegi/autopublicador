@@ -1,42 +1,81 @@
-<!doctype html>
-<!--[if lt IE 7 ]><html lang="en" class="no-js ie6"><![endif]-->
-<!--[if IE 7 ]><html lang="en" class="no-js ie7"><![endif]-->
-<!--[if IE 8 ]><html lang="en" class="no-js ie8"><![endif]-->
-<!--[if IE 9 ]><html lang="en" class="no-js ie9"><![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--><html lang="en" class="no-js"><!--<![endif]-->
+<!DOCTYPE html>
 <head>
-	<meta charset="utf-8">
-	<title>Forgotten Password Demo | flexi auth | A User Authentication Library for CodeIgniter</title>
-	<meta name="description" content="flexi auth, the user authentication library designed for developers."/> 
-	<meta name="keywords" content="demo, flexi auth, user authentication, codeigniter"/>
-	<?php $this->load->view('includes/head'); ?> 
+
+    <title>Autopublicador Social</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta charset="UTF-8" />
+    <?php echo $this->load->view('includes2/head');?>
+
+
+
+
 </head>
 
-<body id="forgot_password">
+<body>
+    <?php echo $this->load->view('includes2/header');
 
-<div id="body_wrap">
-	<!-- Header -->  
-	<?php $this->load->view('includes/header'); ?> 
+?>
 
-	<!-- Demo Navigation -->
-	<?php $this->load->view('includes/demo_header'); ?> 
-	
-	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
-				<h2>Forgotten Password</h2>
-				<p>Users forgetting passwords is a common problem for sites that support user accounts. It is an essential feature that users must be able to securely reset their password without the involvement of a site administrator.</p>
-				<p>
-					Since the flexi auth library securely hashes all user passwords, it is not possible to check what the users forgotten password is and then inform them.<br/>
-					Therefore, the library includes a function that will email a link to the user that includes a unique token. When the user clicks the link, the user is directed to a page that validates whether the token is valid, provided it is, the flexi auth library can then be configured to allow the user to manually reset their password, or to automatically email the user a new password.
-				</p>
-				<p>This demo is setup to send the user an email with a link, when they click the link, they are directed to a page where they can manually change their password.</p>
-			</div>		
-		</div>
-	</div>
-	
-	<!-- Main Content -->
+
+<div class="page-head">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Recuperación de contraseña</h2>
+        <h4>something goes here</h4>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<div class="content">
+  <div class="container">
+    <div class="row">
+    <div class="col-md-6">
+                  <div class="formy well">
+                    <!-- Title -->
+                     <h4 class="title">Introduzca su correo electrónico</h4>
+                      <p>&nbsp;</p>
+                                  <div class="form">
+
+                                      <!-- Login form (not working)-->
+                                      <?php if (! empty($message)) { ?>
+										<div id="infoMessage">
+											<?php echo $message; ?>
+										</div>
+									<?php } ?>
+                                     <?php echo form_open("panel/forgotten_password",array('class'=>'form-horizontal','role'=>'form'));?>
+
+                                         <div class="form-group">
+ 											<label for="identity" class="col-lg-4 control-label">Correo electrónico</label>
+                                           <div class="col-lg-6	">
+
+                                            <input type="text" id="identity" name="forgot_password_identity" value="" class="form-control"
+									title="Por favor introduzca el correo electrónico con el que se registró."
+								/>
+        									<?php //echo form_input($email);?>
+                                           </div>
+                                         </div>
+                                         <div class="form-group">
+                                           <div class="col-lg-offset-2 col-lg-10">
+
+                                             	<input type="submit" name="send_forgotten_password" id="submit" value="Enviar" class="btn btn-default"/>
+                                             <button type="reset" class="btn btn-default">Borrar</button>
+                                           </div>
+                                         </div>
+                                       </form>
+                                      </div>
+                                      </div>
+
+
+    </div>
+  </div>
+</div>
+	<!-- Main Content --
 	<div class="content_wrap main_content_bg">
 		<div class="content clearfix">
 			<div class="col100">
@@ -47,8 +86,8 @@
 					<?php echo $message; ?>
 				</div>
 			<?php } ?>
-				
-				<?php echo form_open(current_url());	?>  	
+
+				<?php echo form_open(current_url());	?>
 					<div class="w100 frame">
 						<ul>
 							<li class="info_req">
@@ -63,18 +102,16 @@
 								<small>Note: By default, this demo is set so that the password must be reset within 15 minutes of the 'forgotten password' email being sent.</small>
 							</li>
 						</ul>
-					</div>	
+					</div>
 				<?php echo form_close();?>
 			</div>
 		</div>
-	</div>	
-	
-	<!-- Footer -->  
-	<?php $this->load->view('includes/footer'); ?> 
-</div>
+	</div>
 
-<!-- Scripts -->  
-<?php $this->load->view('includes/scripts'); ?> 
+<?php
+    echo $this->load->view('includes2/footer');
+?>
+ <?php echo $this->load->view('includes2/scripts');?>
 
 </body>
 </html>

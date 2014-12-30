@@ -331,7 +331,7 @@ class Flexi_auth extends Flexi_auth_lite
 		// Get users primary identity.
 		if (!$identity = $this->CI->flexi_auth_model->get_primary_identity($identifier))
 		{
-			$this->CI->flexi_auth_model->set_error_message('email_forgot_password_unsuccessful', 'config');
+			$this->CI->flexi_auth_model->set_error_message('email_forgot_password_unsuccessful','config');
 			return FALSE;
 		}
 
@@ -351,7 +351,7 @@ class Flexi_auth extends Flexi_auth_lite
 
 			// Set email data.
 			$email_to = $user->{$this->CI->auth->database_config['user_acc']['columns']['email']};
-			$email_title = ' - Forgotten Password Verification';
+			$email_title = ' - Contraseña olvidada';
 
 			$user_data = array(
 				'user_id' => $user_id,
