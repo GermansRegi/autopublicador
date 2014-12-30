@@ -48,7 +48,7 @@ class Panel extends CI_Controller {
 				redirect(base_url_module().'index');
 			}
 		}
-
+		$this->load->vars('section_app','panel');
 		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
 		$this->load->vars('base_url', base_url(). 'auth/');
 		$this->load->vars('includes_dir', 'http://localhost:8888/flexi_auth/includes/');

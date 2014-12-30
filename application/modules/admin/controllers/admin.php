@@ -40,6 +40,7 @@ class Admin extends CI_Controller {
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 			redirect('panel');
 		}
+		$this->load->vars('section_app','admin');
 
 		$this->load->vars('base_url', base_url(). 'auth/');
 		$this->load->vars('includes_dir', 'http://localhost:8888/flexi_auth/includes/');
