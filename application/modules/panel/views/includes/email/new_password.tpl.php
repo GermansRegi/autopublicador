@@ -1,7 +1,11 @@
 <html>
 <body>
-	<h1>New Password for <?php echo $identity;?></h1>
+	<h4>Nueva contraseña para <?php echo $identity;?></h4>
 	
-	<p>Your password has been reset to: <?php echo $new_password;?></p>
+	<p> Su nueva contraseña es: <?php echo $new_password;?></p>
+	<p>
+            Saludos,<br/>
+            Equipo de <span class="il">Autopublicador Social</span>.
+        </p>
 </body>
 </html>

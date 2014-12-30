@@ -41,11 +41,11 @@ class Panel extends CI_Controller {
 			// Redirect logged in admins (For security, admin users should always sign in via Password rather than 'Remember me'.
 			if ($this->flexi_auth->is_admin())
 			{
-				redirect('auth_admin/dashboard');
+				redirect(base_url().'admin');
 			}
 			else
 			{
-				redirect(base_url_module().'auth_public/dashboard');
+				redirect(base_url_module().'index');
 			}
 		}
 
@@ -298,7 +298,7 @@ class Panel extends CI_Controller {
 		// Set a message to the CI flashdata so that it is available after the page redirect.
 		$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
-		redirect('auth');
+		redirect('panel');
 	}
 
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###

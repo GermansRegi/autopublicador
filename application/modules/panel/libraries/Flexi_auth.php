@@ -337,7 +337,9 @@ class Flexi_auth extends Flexi_auth_lite
 
 		if ($this->CI->flexi_auth_model->forgotten_password($identity))
 		{
+	
 			// Get user information.
+		
 			$sql_select = array(
 				$this->CI->auth->tbl_col_user_account['id'],
 				$this->CI->auth->tbl_col_user_account['email'],
@@ -348,7 +350,7 @@ class Flexi_auth extends Flexi_auth_lite
 			$user = $this->CI->flexi_auth_model->get_users($sql_select, $sql_where)->row();
 			$user_id = $user->{$this->CI->auth->database_config['user_acc']['columns']['id']};
 			$forgotten_password_token = $user->{$this->CI->auth->database_config['user_acc']['columns']['forgot_password_token']};
-
+	
 			// Set email data.
 			$email_to = $user->{$this->CI->auth->database_config['user_acc']['columns']['email']};
 			$email_title = ' - Contraseña olvidada';
@@ -362,8 +364,11 @@ class Flexi_auth extends Flexi_auth_lite
 
 			if ($this->CI->flexi_auth_model->send_email($email_to, $email_title, $user_data, $template))
 			{
+				
 				$this->CI->flexi_auth_model->set_status_message('email_forgot_password_successful', 'config');
+	
 				return TRUE;
+
 			}
 		}
 
@@ -422,7 +427,7 @@ class Flexi_auth extends Flexi_auth_lite
 			{
 				// Set email data
 				$email_to = $user->{$this->CI->auth->database_config['user_acc']['columns']['email']};
-				$email_title = ' - New Password';
+				$email_title = ' - Nueva contraseña Password';
 
 				$user_data = array(
 					'identity' => $identity,

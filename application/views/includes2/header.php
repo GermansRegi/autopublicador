@@ -31,7 +31,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo base_url(); ?>panel/register">Regístrese</a>
+                        <a href="<?php echo base_url(); ?>panel/register_account">Regístrese</a>
                     </li>
                        <li>
                         <a href="<?php echo base_url() ?>premium">Premium</a>
