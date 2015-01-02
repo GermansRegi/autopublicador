@@ -43,16 +43,29 @@ class Panel extends CI_Controller {
 			{
 				redirect(base_url().'admin');
 			}
-			else
+			else if( uri_string()=='panel')
 			{
-				redirect(base_url_module().'index');
+
+				redirect(base_url().'panel/index');
+
+			}
+			
+			$this->load->vars('section_app','panel');
+
+			if ($this->flexi_auth->is_privileged('acces user free'))
+			{
+				$this->load->vars('privilege_user_app','free');
+			}
+			else if ($this->flexi_auth->is_privileged('acces user prem'))
+			{
+				$this->load->vars('privilege_user_pp','prem');
 			}
 		}
-		$this->load->vars('section_app','panel');
+
 		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
-		$this->load->vars('base_url', base_url(). 'auth/');
-		$this->load->vars('includes_dir', 'http://localhost:8888/flexi_auth/includes/');
-		$this->load->vars('current_url', $this->uri->uri_to_assoc(1));
+		//$this->load->vars('base_url', base_url(). 'auth/');
+		//$this->load->vars('includes_dir', 'http://localhost:8888/flexi_auth/includes/');
+		//$this->load->vars('current_url', $this->uri->uri_to_assoc(1));
 
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
@@ -81,8 +94,21 @@ class Panel extends CI_Controller {
 	 * index
 	 * Forwards to 'login'.
 	 */
-	function index()
+	function principal()
     {
+    		//$this->load->view('index_view');
+    
+
+    	
+		
+	}
+	function index()
+	{
+		if($this->flexi_auth->is_logged_in())
+		{
+			echo $this->load->view('index');
+		}
+		else
 		$this->login();
 	}
 
@@ -210,7 +236,7 @@ class Panel extends CI_Controller {
 		// Save any public status or error messages (Whilst suppressing any admin messages) to CI's flash session data.
 		$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
-		redirect('auth');
+		redirect('panel');
 	}
 
 	/**
@@ -336,6 +362,8 @@ class Panel extends CI_Controller {
 
 		redirect('panel');
     }
+    
+
 }
 
 /* End of file auth.php */

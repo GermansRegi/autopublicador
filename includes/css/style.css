@@ -5882,3 +5882,6 @@ a {
 /* Footer */
 footer {
   border-top: 4px solid #ff5d5e; }
+/* Messages --------------------------------------------------------------------------------------------------------------------------------------------------- */
+#message {margin-bottom:5px; border:1px solid #333; font-size:13px; font-weight:bold; text-align:center;}
+
