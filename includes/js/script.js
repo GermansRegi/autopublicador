@@ -1,4 +1,4 @@
-	console.log($(idUploader));
+
 
     
 if($(idUploader).length!=0){

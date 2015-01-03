@@ -104,6 +104,18 @@ class MY_Model extends CI_Model {
             return FALSE;
         }
     }
+    public function delete_by()
+    {
+        $where = func_get_args();
+	    
+        $this->_database->where($where[0]);
+        
+       $result = $this->_database->delete($this->_table);
+        
+        
+        return $result;
+    }
+
 }
 
 /* End of file MY_Model.php */

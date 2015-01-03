@@ -95,6 +95,16 @@ class MY_Form_validation extends CI_Form_validation
 		}
         return TRUE;
     }
+    protected function valid_url($str){
+
+           $pattern = "/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i";
+            if (!preg_match($pattern, $str))
+            {
+                return FALSE;
+            }
+
+            return TRUE;
+    }
 }
 
 /* End of file MY_Form_validation.php */

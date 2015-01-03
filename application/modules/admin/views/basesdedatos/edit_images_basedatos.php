@@ -22,7 +22,7 @@
               <div class="container">
                 <div class="row">
                   <div class="col-md-12">
-                    <h2>Bases de datos</h2>
+                  <h2>Editar base de datos: <?php echo $bbdd->name; ?></h2>
 
                   </div>
                 </div>
@@ -33,7 +33,7 @@
             <div class="content">
               <div class="container">
             		<div class='namebd'>
-    <p>Inserte imágenes en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." imágenes creadas. El máximo de imágenes son 5000</span>";?></p>
+    <p>Inserte imágenes en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." imágenes creadas. El máximo de imágenes son ".$this->config->item('max-images').".</span>";?></p>
 </div>
 
 <div id="message"></div>
@@ -50,12 +50,13 @@ var url_plupload='<?php echo base_url()?>admin/basesdedatos/editar/<?php echo $b
 var flash_swf_urlfile='<?php echo base_url()?>public/js/Moxie.swf';
 var silverlight_xap_urlfile='<?php echo base_url()?>public/js/Moxie.xap';
 var idUploader='#uploader'
-var checkmaxelements_url="<?php echo base_url()?>admin/basesdedatos/ismaxelementsimages/bbdd/<?php echo $bbdd->id; ?>"
-
+var checkmaxelements_url="<?php echo base_url()?>admin/basesdedatos/ismaxelementsimages/<?php echo $bbdd->id; ?>"
+var deletecontent_url='<?php echo base_url()?>admin/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>'
+var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 </script>
 		<div class="row">
 				<div class="col-sm-12 text-right">
-	                	<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" onclick="do_this()">
+	                	
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 	              </div>
 			</div>
@@ -66,18 +67,24 @@ var checkmaxelements_url="<?php echo base_url()?>admin/basesdedatos/ismaxelement
 				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
 				</div>
 
-				
+				<div class="row">
 				    <?php
 				    foreach ($elements as $element)
 				    {
 				        ?>
 				        <div class="col-sm-2">
 				        	<img width="60" height="60" src="<?php echo base_url()?>upload/<?php echo $element->filename;?>"/>
-						<a id='".$element->id."' class='btn btn-danger delete'><i class='fa fa-trash-o'></i></a> 
-						<input type='checkbox' value='".$element->id."' name='hk_group_bf[]'>
+						<a data-id='<?php echo $element->id; ?>' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> 
+						<input type='checkbox' value='<?php echo $element->id; ?>' name='hk_group_bf[]'>
 				        </div>
 				        <?php
 				    }
+				    ?>
+				    </div>
+				    <div class="row">
+						<?php echo $link_pager; ?>
+					</div>
+				    <?php
 				 }else{
 				    ?>
 				

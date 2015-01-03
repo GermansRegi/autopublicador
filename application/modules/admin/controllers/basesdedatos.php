@@ -58,7 +58,7 @@ class Basesdedatos extends CI_Controller {
 		
 			
 			$rules_validate=array(
-				array('field' => 'basededatos_create_name', 'label' => 'Nombre', 'rules' => 'required'),
+				array('field' => 'basededatos_create_name', 'label' => 'Nombre', 'rules' => 'required|trim'),
 				array('field' => 'content', 'label' => 'Tipo', 'rules' => 'required'),
 				array('field' => 'basededatos_create_social', 'label' => 'Red social', 'rules' => 'required')
 				);
@@ -133,7 +133,12 @@ class Basesdedatos extends CI_Controller {
                 $config["base_url"] = base_url() . "admin/basesdedatos/editar/".$idbd."/";
                 $page = (($this->uri->segment(5)===False) ? 0: $this->uri->segment(5));
                 
-               
+               if($basededatos[0]->content=='image')
+			{	
+				$config["per_page"] = 20;
+				$elements=$this->bases_datos_model->getElements($basededatos[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
+
+			}
                 
                $elements=$this->bases_datos_model->getElements($basededatos[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
                $numElementsTotal=$this->bases_datos_model->countAllElements($basededatos[0]->content,array('bbdd_id'=>$idbd));
@@ -187,7 +192,7 @@ class Basesdedatos extends CI_Controller {
 			{
 				if($this->input->post('bbdd_alta'))
 				{
-					$this->form_validation->set_rules('frase','Frase','required');
+					$this->form_validation->set_rules('frase','Frase','required|trim');
                 
 		                if($this->form_validation->run()==False)
 		                {
@@ -222,8 +227,8 @@ class Basesdedatos extends CI_Controller {
 			{
 				if($this->input->post('bbdd_alta'))
 				{
-					$this->form_validation->set_rules('text','Texto','required');
-					$this->form_validation->set_rules('link','Enlace','required');
+					$this->form_validation->set_rules('text','Texto','required|trim');
+					$this->form_validation->set_rules('link','Enlace','required|valid_url|trim');
                 
 		                if($this->form_validation->run()==False)
 		                {
@@ -265,21 +270,67 @@ class Basesdedatos extends CI_Controller {
 			redirect(base_url().'admin/basesdedatos');
 		}
 	}
-	public function ismaxElementsImages($typebd,$id)
+	public function ismaxElementsImages($id)
 	{
-		if($typebd='bbdd')
+	
+		$res=$this->bases_datos_model->countAllElements('image',array('bbdd_id'=>$id));
+		
+		
+		if($res>$this->config->item('max-images'))
 		{
-			$res=$this->bases_datos_model->countAllElements('image',array('bbdd_id'=>$id));
-			
-			
-			if($res>$this->config->item('max-images'))
+			echo json_encode(array('msg_errors'=>array('0'=>'No puedes añadir más imágenes en esta base de datos')));
+		     
+		
+   		}  
+          
+	
+	}
+	public function deleteContent($idbd,$id=null)
+	{
+		if($this->input->post('delco'))
+		{
+			$basededatos=$this->bases_datos_model->getById($idbd);
+
+			foreach($this->input->post('delco') as $id)
 			{
-				echo json_encode(array('msg_errors'=>array('0'=>'No puedes añadir más imágenes en esta base de datos')));
-			     
-			
-        		}  
-               
+
+				if($basededatos[0]->content=='image')
+				{
+					$this->bases_datos_model->deleteElementImage($id['value']);	
+				}
+				else
+				{
+					$this->bases_datos_model->deleteElement($basededatos[0]->content,array('id'=>$id['value']));
+				}
+			}
+			echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
 		}
+		else
+		{
+			if(isset($id) && isset($idbd))
+			{
+				$basededatos=$this->bases_datos_model->getById($idbd);
+				if($basededatos[0]->content=='image')
+				{
+					$this->bases_datos_model->deleteElementImage($id);	
+				}
+				else
+				{
+					$this->bases_datos_model->deleteElement($basededatos[0]->content,array('id'=>$id));
+				}
+				echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
+			}
+		}
+	}
+	public function delete($bdid)
+	{
+		
+		if(isset($bdid))
+		{
+			$this->bases_datos_model->deleteOne($bdid);
+			echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
+		}
+		
 	}
 
 }

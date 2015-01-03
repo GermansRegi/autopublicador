@@ -22,8 +22,8 @@
               <div class="container">
                 <div class="row">
                   <div class="col-md-12">
-                    <h2>Bases de datos</h2>
-
+                    
+				<h2>Editar base de datos: <?php echo $bbdd->name; ?></h2>
                   </div>
                 </div>
               </div>
@@ -32,9 +32,9 @@
             </div>
             <div class="content">
 			<div class="container">
-				<h3>Editar base de datos: <?php echo $bbdd->name; ?></h3>
+				
 				<div class='namebd'>
-					<p>Inserte Enlaces en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." enlaces creados. El máximo de enlaces son 7000.</span>";?></p>
+					<p>Inserte Enlaces en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." enlaces creados. El máximo de enlaces son ".$this->config->item('max-no-images').".</span>";?></p>
 				</div>
 
 				<div class="clearfix">
@@ -59,7 +59,7 @@
 				</div>
 							<div class="row">
 				<div class="col-sm-12 text-right">
-	                	<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" onclick="do_this()">
+	                	
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 	              </div>
 			</div>
@@ -80,7 +80,7 @@
 				    foreach ($elements as $element)
 				    {
 				        echo "<tr>";
-				            echo "<td>".$element->text."</td><td>".$element->link."</td><td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td><a id='".$element->id."' class='btn btn-danger delete'><i class='fa fa-trash-o'></i></a> </td>";
+				            echo "<td>".$element->text."</td><td>".$element->link."</td><td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td><a data-id='".$element->id."' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> </td>";
 				        echo "</tr>";
 				    }
 				    ?>
@@ -108,7 +108,10 @@
 
 			</div>
 		</div>
-
+<script type="text/javascript">
+	var deletecontent_url='<?php echo base_url()?>admin/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>'
+	var current_url='<?php echo base_url().$this->uri->uri_string();?>';
+</script>
 <?php
     echo $this->load->view('includes2/footer');
 ?>
