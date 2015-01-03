@@ -65,7 +65,7 @@ if($(idUploader).length!=0){
                         
                             
                              $('body').delay(1500).queue(function( nxt ) {
-                                location.href=url_plupload;
+                  //              location.href=url_plupload;
                                 nxt();
                             });
                   

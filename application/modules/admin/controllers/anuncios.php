@@ -1,12 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Basesdedatos extends CI_Controller {
+class Anuncios extends CI_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('session');
-		$this->load->model('bases_datos_model');
+		$this->load->model('anuncios_model');
 				// Load 'standard' flexi auth library by default.
 		$this->auth = new stdClass;
 		$this->load->library('flexi_auth');
@@ -31,9 +31,9 @@ class Basesdedatos extends CI_Controller {
 	public function index()
 	{
 			
-		$res=$this->bases_datos_model->getAll();
+		$res=$this->anuncios_model->getAll();
 		$data['arbbdd']=$res;
-		$this->load->view('admin/basesdedatos/index',$data);
+		$this->load->view('admin/anuncios/index',$data);
 
 		
 	}
@@ -62,7 +62,7 @@ class Basesdedatos extends CI_Controller {
 
 					
 					
-					$idcreated=$this->bases_datos_model->insertNew(array(
+					$idcreated=$this->anuncios_model->insertNew(array(
 						'socialnetwork'=>$this->input->post('basededatos_create_social'),
 						'content'=>$this->input->post('content'),
 						'name'=>$this->input->post('basededatos_create_name'),
@@ -83,12 +83,12 @@ class Basesdedatos extends CI_Controller {
 		}
 		
 			$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-			$this->load->view('admin/basesdedatos/crear',$this->data);
+			$this->load->view('admin/anuncios/crear',$this->data);
 			
 	}
 	public function editar($idbd)
 	{
-		if(!empty($idbd))
+		if(isset($idbd) && $idbd!='')
 		{
 
    			$this->load->library("pagination");
@@ -117,33 +117,33 @@ class Basesdedatos extends CI_Controller {
 			$config['num_links']=2;
 			
 			
-				$basededatos=$this->bases_datos_model->getById($idbd);
+				$anuncio=$this->anuncios_model->getById($idbd);
 				
-				
-                $config["base_url"] = base_url() . "admin/basesdedatos/editar/".$idbd."/";
+			
+                $config["base_url"] = base_url() . "admin/anuncios/editar/".$idbd."/";
                 $page = (($this->uri->segment(5)===False) ? 0: $this->uri->segment(5));
                 
-               if($basededatos[0]->content=='image')
+               if($anuncio[0]->content=='image')
 			{	
 				$config["per_page"] = 20;
-				$elements=$this->bases_datos_model->getElements($basededatos[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
+				$elements=$this->anuncios_model->getElements($anuncio[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
 
 			}
                 
-               $elements=$this->bases_datos_model->getElements($basededatos[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
-               $numElementsTotal=$this->bases_datos_model->countAllElements($basededatos[0]->content,array('bbdd_id'=>$idbd));
+               $elements=$this->anuncios_model->getElements($anuncio[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
+               $numElementsTotal=$this->anuncios_model->countAllElements($anuncio[0]->content,array('bbdd_id'=>$idbd));
                $config['total_rows']=$numElementsTotal;
                $config['uri_segment']=5;
          		$this->pagination->initialize($config);
 			
 			
-			//var_dump($basededatos);
+			//var_dump($anuncio);
          		$this->data['total']=$numElementsTotal;
-			$this->data['bbdd']=$basededatos[0];
+			$this->data['anuncio']=$anuncio[0];
 			$this->data['elements']=$elements;
 			$this->data['link_pager']=$this->pagination->create_links();
 			
-			if($basededatos[0]->content=='image')
+			if($anuncio[0]->content=='image')
 			{	
 				if($this->input->post('name'))
 				{
@@ -165,7 +165,7 @@ class Basesdedatos extends CI_Controller {
 	                        else 
 	                        {
 	                            $file=$this->upload->data();
-	                                $this->bases_datos_model->insertElement('image',array(
+	                                $this->anuncios_model->insertElement('image',array(
 	                                	'user_app' => $this->flexi_auth->get_user_id(),
 	                                	'bbdd_id' => $idbd,
 	                                  	'path' => $file['full_path'], 
@@ -176,11 +176,11 @@ class Basesdedatos extends CI_Controller {
 
 				}
 
-					$view='admin/basesdedatos/edit_images_basedatos';
+					$view='admin/anuncios/edit_images';
 			}
-			else if($basededatos[0]->content=='sentence')
+			else if($anuncio[0]->content=='sentence')
 			{
-				if($this->input->post('bbdd_alta'))
+				if($this->input->post('anuncio_alta'))
 				{
 					$this->form_validation->set_rules('frase','Frase','required|trim');
                 
@@ -201,7 +201,7 @@ class Basesdedatos extends CI_Controller {
 		                	else
 		                	{
 		                	
-		                	$this->bases_datos_model->insertElement('sentence',array(
+		                	$this->anuncios_model->insertElement('sentence',array(
 							'sentence'=>$this->input->post('frase'),
 							'bbdd_id'=>$idbd,
 							'user_app'=>$this->flexi_auth->get_user_id()));
@@ -211,11 +211,11 @@ class Basesdedatos extends CI_Controller {
 		                }
 					exit;
 				}
-				$view='admin/basesdedatos/edit_sentences_basedatos';
+				$view='admin/anuncios/edit_sentences';
 			}
 			else
 			{
-				if($this->input->post('bbdd_alta'))
+				if($this->input->post('anuncio_alta'))
 				{
 					$this->form_validation->set_rules('text','Texto','required|trim');
 					$this->form_validation->set_rules('link','Enlace','required|valid_url|trim');
@@ -237,7 +237,7 @@ class Basesdedatos extends CI_Controller {
 		                	else
 		                	{
 		                	
-		                	$this->bases_datos_model->insertElement('link',array(
+		                	$this->anuncios_model->insertElement('link',array(
 							'text'=>$this->input->post('text'),
 							'link'=>$this->input->post('link'),
 							'bbdd_id'=>$idbd,
@@ -249,7 +249,7 @@ class Basesdedatos extends CI_Controller {
 					exit;
 				}
 					
-				$view='admin/basesdedatos/edit_links_basedatos';
+				$view='admin/anuncios/edit_links';
 			}
 
 			$this->load->view($view,$this->data);		
@@ -257,57 +257,57 @@ class Basesdedatos extends CI_Controller {
 		else 
 		{
 			
-			redirect(base_url().'admin/basesdedatos');
+			redirect(base_url().'admin/anuncios');
 		}
 	}
 	public function ismaxElementsImages($id)
 	{
-		if(!empty($id))
+		if(isset($id) && $id!='')
 		{
-			$res=$this->bases_datos_model->countAllElements('image',array('bbdd_id'=>$id));
-			
-			
+	
+		$res=$this->anuncios_model->countAllElements('image',array('bbdd_id'=>$id));
 			if($res>$this->config->item('max-images'))
 			{
 				echo json_encode(array('msg_errors'=>array('0'=>'No puedes añadir más imágenes en esta base de datos')));
 			     
 			
-	   		}  
-          }
+	   		}
+   		}  
+          
 	
 	}
 	public function deleteContent($idbd,$id=null)
 	{
 		if($this->input->post('delco'))
 		{
-			$basededatos=$this->bases_datos_model->getById($idbd);
+			$anuncio=$this->anuncios_model->getById($idbd);
 
 			foreach($this->input->post('delco') as $id)
 			{
 
-				if($basededatos[0]->content=='image')
+				if($anuncio[0]->content=='image')
 				{
-					$this->bases_datos_model->deleteElementImage($id['value']);	
+					$this->anuncios_model->deleteElementImage($id['value']);	
 				}
 				else
 				{
-					$this->bases_datos_model->deleteElement($basededatos[0]->content,array('id'=>$id['value']));
+					$this->anuncios_model->deleteElement($anuncio[0]->content,array('id'=>$id['value']));
 				}
 			}
 			echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
 		}
 		else
 		{
-			if(!empty($id) && !empty($idbd))
+			if(isset($id) && isset($idbd) && $id!=''  && $idbd!='')
 			{
-				$basededatos=$this->bases_datos_model->getById($idbd);
-				if($basededatos[0]->content=='image')
+				$anuncio=$this->anuncios_model->getById($idbd);
+				if($anuncio[0]->content=='image')
 				{
-					$this->bases_datos_model->deleteElementImage($id);	
+					$this->anuncios_model->deleteElementImage($id);	
 				}
 				else
 				{
-					$this->bases_datos_model->deleteElement($basededatos[0]->content,array('id'=>$id));
+					$this->anuncios_model->deleteElement($anuncio[0]->content,array('id'=>$id));
 				}
 				echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
 			}
@@ -316,9 +316,9 @@ class Basesdedatos extends CI_Controller {
 	public function delete($bdid)
 	{
 		
-		if(!empty($bdid))
+		if(isset($bdid) && $bdid!='')
 		{
-			$this->bases_datos_model->deleteOne($bdid);
+			$this->anuncios_model->deleteOne($bdid);
 			echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
 		}
 		
@@ -326,5 +326,5 @@ class Basesdedatos extends CI_Controller {
 
 }
 
-/* End of file basesdedatos.php */
-/* Location: ./application/modules/panel/controllers/basesdedatos.php */
+/* End of file anuncios.php */
+/* Location: ./application/modules/admin/controllers/anuncios.php */

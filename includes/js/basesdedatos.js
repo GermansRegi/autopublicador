@@ -56,7 +56,7 @@ $(function(){
 	
 		
 		var url=$(this).attr('action');
-		
+		var editUrl=url.replace('crear','editar');
 		 var formdata =new FormData($(this)[0]);
 		$.ajax({url:url,
 			type:'POST',
@@ -68,7 +68,7 @@ $(function(){
 				var res=showResults(data,',','#message');
 				console.log(res);
 				if(res!=false)
-				setTimeout(function(){location.href=base_url+'admin/basesdedatos/editar/'+data.idcreated},1500)
+				setTimeout(function(){location.href=editUrl+'/'+data.idcreated},1500)
 
 			} ,
 			processData:false,

@@ -1,13 +1,12 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+    <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Anuncios_model extends MY_Model {
-	
+class Bases_datos_model extends MY_Model {
 
 	
 	public function __construct()
 	{
 		parent::__construct();
-		$this->setTable('anuncios');
+		$this->setTable('basesdedatos');
 
 	}
 	
@@ -52,7 +51,7 @@ class Anuncios_model extends MY_Model {
 	{
 		$this->setContentTable($type);
 		$result= $this->limit(1)->get_by_id($id);
-		$this->setTable('anuncios');		
+		$this->setTable('basesdedatos');		
 		return $result;
 	}
 	///selecciona els elements d'uun tipus
@@ -65,28 +64,28 @@ class Anuncios_model extends MY_Model {
 		}
 		else
 			$result=$this->get_many_by($where);
-		$this->setTable('anuncios');		
+		$this->setTable('basesdedatos');		
 		return $result;
 	}
 	public function countAllElements($type,$where=array())
 	{
 		$this->setContentTable($type);
 		$result=$this->count_by($where);
-		$this->setTable('anuncios');		
+		$this->setTable('basesdedatos');		
 		return $result;
 	}
 	public function insertElement($type,$data)
 	{
 		$this->setContentTable($type);
 		$this->insert($data);
-		$this->setTable('anuncios');	
+		$this->setTable('basesdedatos');	
 	}
 
 	public function deleteElement($type,$data)
 	{
 		$this->setContentTable($type);
 		$this->delete_by($data);
-		$this->setTable('anuncios');		
+		$this->setTable('basesdedatos');		
 	}
 	public function deleteOne($bdid)
 	{
@@ -109,9 +108,9 @@ class Anuncios_model extends MY_Model {
 	}
 
 
-	
+
 
 }
 
-/* End of file anuncios_model.php */
-/* Location: ./application/models/anuncios_model.php */
+/* End of file basesdedatos.php */
+/* Location: ./application/models/basesdedatos.php */
