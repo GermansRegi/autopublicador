@@ -21,7 +21,7 @@ class Bases_datos_model extends MY_Model {
 		return $this->limit(1)->get_by_id($id);
 	}
 
-	public function getAll($where)
+	public function getAll($where=array(),$user_app=null)
 	{
 		if($user_app)
 			return $this->get_many_by($where);
@@ -37,9 +37,6 @@ class Bases_datos_model extends MY_Model {
 	public function delete($where)
 	{
 
-	}
-	public function update($data,$where)
-	{
 	}
 	///selecciona els elements d'uun tipus
 	public function getElements($type,$where=array(),$limit=false,$offset=false)

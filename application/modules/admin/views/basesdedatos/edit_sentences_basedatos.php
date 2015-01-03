@@ -78,7 +78,7 @@
 				    foreach ($elements as $element)
 				    {
 				        echo "<tr>";
-				            echo "<td>".$element->sentence."</td><td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'>";
+				            echo "<td>".$element->sentence."</td><td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td><a id='".$element->id."' class='btn btn-danger delete'><i class='fa fa-trash-o'></i></a> </td>";
 				        echo "</tr>";
 				    }
 				    ?>

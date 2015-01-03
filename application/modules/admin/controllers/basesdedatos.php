@@ -132,7 +132,7 @@ class Basesdedatos extends CI_Controller {
 				
                 $config["base_url"] = base_url() . "admin/basesdedatos/editar/".$idbd."/";
                 $page = (($this->uri->segment(5)===False) ? 0: $this->uri->segment(5));
-                echo $page;
+                
                
                 
                $elements=$this->bases_datos_model->getElements($basededatos[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
@@ -150,7 +150,36 @@ class Basesdedatos extends CI_Controller {
 			
 			if($basededatos[0]->content=='image')
 			{	
+				if($this->input->post('name'))
+				{
+			           
 
+	                        $config['file_name']=uniqid("Image_");
+	                        $config['upload_path'] = 'upload/';
+	                        $config['allowed_types'] = 'jpg|png';               
+	                        $config['max_size'] = '800'; //in KB
+
+	                        $this->load->library('upload', $config);
+	                        //sino sha pujat be
+	                        if (! $this->upload->do_upload('file'))
+	                        {
+	                            //$upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
+	                            echo json_encode(array('msg_error'=>$this->upload->display_errors()));        
+
+	                        }
+	                        else 
+	                        {
+	                            $file=$this->upload->data();
+	                                $this->bases_datos_model->insertElement('image',array(
+	                                	'user_app' => $this->flexi_auth->get_user_id(),
+	                                	'bbdd_id' => $idbd,
+	                                  	'path' => $file['full_path'], 
+	                                  	'filename' => $file['file_name']));
+	                        }
+	                                            
+         				exit;
+
+				}
 
 					$view='admin/basesdedatos/edit_images_basedatos';
 			}
@@ -170,7 +199,7 @@ class Basesdedatos extends CI_Controller {
 		                {
 		                	//si sha arribat al max delements permesos
 		                	
-		                	if(count($allelements)>9)
+		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
 		                	{
 		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
 		                	}
@@ -193,7 +222,8 @@ class Basesdedatos extends CI_Controller {
 			{
 				if($this->input->post('bbdd_alta'))
 				{
-					$this->form_validation->set_rules('frase','Frase','required');
+					$this->form_validation->set_rules('text','Texto','required');
+					$this->form_validation->set_rules('link','Enlace','required');
                 
 		                if($this->form_validation->run()==False)
 		                {
@@ -205,15 +235,16 @@ class Basesdedatos extends CI_Controller {
 		                {
 		                	//si sha arribat al max delements permesos
 		                	
-		                	if(count($allelements)>9)
+		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
 		                	{
 		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
 		                	}
 		                	else
 		                	{
 		                	
-		                	$this->bases_datos_model->insertElement('sentence',array(
-							'sentence'=>$this->input->post('frase'),
+		                	$this->bases_datos_model->insertElement('link',array(
+							'text'=>$this->input->post('text'),
+							'link'=>$this->input->post('link'),
 							'bbdd_id'=>$idbd,
 							'user_app'=>$this->flexi_auth->get_user_id()));
 		                		echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
@@ -232,6 +263,22 @@ class Basesdedatos extends CI_Controller {
 		{
 			
 			redirect(base_url().'admin/basesdedatos');
+		}
+	}
+	public function ismaxElementsImages($typebd,$id)
+	{
+		if($typebd='bbdd')
+		{
+			$res=$this->bases_datos_model->countAllElements('image',array('bbdd_id'=>$id));
+			
+			
+			if($res>$this->config->item('max-images'))
+			{
+				echo json_encode(array('msg_errors'=>array('0'=>'No puedes añadir más imágenes en esta base de datos')));
+			     
+			
+        		}  
+               
 		}
 	}
 

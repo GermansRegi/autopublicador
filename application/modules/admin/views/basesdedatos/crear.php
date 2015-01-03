@@ -40,7 +40,7 @@
 	            			<select class="form-control" name="content">
 	            				<option value="">Selecciona una opción</option>
 	            				<option value="link">Enlaces</option>
-	            				<option value='images'>Imágenes</option>
+	            				<option value='image'>Imágenes</option>
 	            				<option value="sentence">Texto</option>
 	            			</select>
 	      			</div>
