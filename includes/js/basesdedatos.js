@@ -28,5 +28,33 @@ $(function(){
 		})
 
 	})
+	$('body').on('submit','#addcontent',function(e){
+		e.preventDefault();
+	
+		
+		var url=$(this).attr('action');
+		
+		 var formdata =new FormData($(this)[0]);
+		$.ajax({url:url,
+			type:'POST',
+			data:formdata,
+			
+			dataType:'json',
+			success:function(data){
+
+				var res=showResults(data,',','#message');
+				if(res!=false)
+				{
+					
+				}
+
+			} ,
+			processData:false,
+			async:false,
+			cache:false,
+			contentType:false
+		})
+
+	})
 
 })

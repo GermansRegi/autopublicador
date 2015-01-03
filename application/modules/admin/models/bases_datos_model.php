@@ -15,16 +15,16 @@ class Bases_datos_model extends MY_Model {
 		return $this->get_by($where)->limit(1);
 
 	}
-
+*/
 	public function getById($id,$user_app=null)
 	{	
-		return $this->get_by_id($id)->limit(1);
-	}*/
+		return $this->limit(1)->get_by_id($id);
+	}
 
-	public function getAll($user_app=null)
+	public function getAll($where)
 	{
 		if($user_app)
-			return $this->get_many_by(array('user_app'=>$user_app->id));
+			return $this->get_many_by($where);
 		else
 			return $this->get_all();
 
@@ -33,23 +33,42 @@ class Bases_datos_model extends MY_Model {
 	{
 		return $this->insert($data);
 	}
-/*
-*	public function delete($where)
+
+	public function delete($where)
 	{
 
 	}
 	public function update($data,$where)
 	{
-	}/
-	///selecciona els elements d'uun tipus
-	public function getElements($type,$where=null,$limit=false,$offset=false)
-	{
-		/*$this->change_table('basesdedatos_'.$type);
-		echo $this->_table;
-		$this->update_by(array('socialnetwork'=>'face'),array('oo'=>2));
-		echo $this->_table;/
 	}
-	*public function deleteElement(type,$where)
+	///selecciona els elements d'uun tipus
+	public function getElements($type,$where=array(),$limit=false,$offset=false)
+	{
+		$this->setContentTable($type);
+		if($limit)
+		{
+			$result=$this->limit($limit,$offset)->get_many_by($where);
+		}
+		else
+			$result=$this->get_many_by($where);
+		$this->setTable('basesdedatos');		
+		return $result;
+	}
+	public function countAllElements($type,$where=array())
+	{
+		$this->setContentTable($type);
+		$result=$this->count_by($where);
+		$this->setTable('basesdedatos');		
+		return $result;
+	}
+	public function insertElement($type,$data)
+	{
+		$this->setContentTable($type);
+		$this->insert($data);
+		$this->setTable('basesdedatos');	
+	}
+	/*
+	/*public function deleteElement(type,$where)
 	{
 
 	}

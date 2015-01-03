@@ -23,7 +23,7 @@ class MY_Model extends CI_Model {
 	{
 		$this->_table=$this->_table."_".$type;
 	}
-	public function _table()
+	public function table()
 	{
 		return $this->_table;
 	}
@@ -31,7 +31,8 @@ class MY_Model extends CI_Model {
     {
         $where = func_get_args();
         
-        $this->_database->where($where);
+        $this->_database->where($where[0]);
+     
         return $this->get_all();
     }
     public function get_all()
@@ -42,6 +43,14 @@ class MY_Model extends CI_Model {
        
         return $result;
     }
+    public function count_by()
+    {
+        
+        $where = func_get_args();
+        $this->_database->where($where[0]);
+        return $this->_database->count_all_results($this->_table);
+    }
+
     protected function _return_type($multi = FALSE)
     {
         $method = ($multi) ? 'result' : 'row';
@@ -63,13 +72,13 @@ class MY_Model extends CI_Model {
         $this->_temporary_return_type = 'object';
         return $this;
     }
-    /*public function get_by_id($id)
+    public function get_by_id($id)
     {
     		if($id!==FALSE)
     		{
     		
     			 $this->_database->where('id',$id);
-    			 return = $this->_database->get($this->_table)
+    			 return  $this->_database->get($this->_table)
                            ->{$this->_return_type(1)}();
         
     		}
@@ -78,7 +87,7 @@ class MY_Model extends CI_Model {
     {
         $this->_database->limit($limit, $offset);
         return $this;
-    }*/
+    }
     public function insert($data)
     {
         

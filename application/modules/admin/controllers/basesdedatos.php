@@ -101,9 +101,132 @@ class Basesdedatos extends CI_Controller {
 		if(isset($idbd))
 		{
 
-			//$basededatos=$this->bases_datos_model->getById($idbd);
+   			$this->load->library("pagination");
+                $config = array();
+                $config["per_page"] = 5;
+                $config['full_tag_open']='<div> <ul class="pagination pagination-small pagination-centered">';
+                $config['full_tag_close']="</ul></div>";
+                $config['num_tag_open'] = '<li>';
+			$config['num_tag_close'] = '</li>';
+			$config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+			$config['cur_tag_close'] = "<span class='sr-only'></span></a></li></li>";
+			$config['next_tag_open'] = "<li>";
+			$config['next_tag_close'] = "</li>";
+			$config['prev_tag_open'] = "<li>";
+			$config['prev_tag_close'] = "</li>";
+			$config['first_tag_open'] = "<li>";
+			$config['first_tag_close'] = "</li>";
+			$config['last_tag_open'] = "<li>";
+			$config['last_tag_close'] = "</li>";
+			   $config['prev_link'] = '&lt; Prev';
+		    $config['prev_tag_open'] = '<li>';
+		    $config['prev_tag_close'] = '</li>';
+		    $config['next_link'] = 'Next &gt;';
+		    $config['next_tag_open'] = '<li>';
+		    $config['next_tag_close'] = '</li>';
+			$config['num_links']=2;
+			
+			
+				$basededatos=$this->bases_datos_model->getById($idbd);
+				
+				
+                $config["base_url"] = base_url() . "admin/basesdedatos/editar/".$idbd."/";
+                $page = (($this->uri->segment(5)===False) ? 0: $this->uri->segment(5));
+                echo $page;
+               
+                
+               $elements=$this->bases_datos_model->getElements($basededatos[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
+               $numElementsTotal=$this->bases_datos_model->countAllElements($basededatos[0]->content,array('bbdd_id'=>$idbd));
+               $config['total_rows']=$numElementsTotal;
+               $config['uri_segment']=5;
+         		$this->pagination->initialize($config);
+			
+			
 			//var_dump($basededatos);
+         		$this->data['total']=$numElementsTotal;
+			$this->data['bbdd']=$basededatos[0];
+			$this->data['elements']=$elements;
+			$this->data['link_pager']=$this->pagination->create_links();
+			
+			if($basededatos[0]->content=='image')
+			{	
 
+
+					$view='admin/basesdedatos/edit_images_basedatos';
+			}
+			else if($basededatos[0]->content=='sentence')
+			{
+				if($this->input->post('bbdd_alta'))
+				{
+					$this->form_validation->set_rules('frase','Frase','required');
+                
+		                if($this->form_validation->run()==False)
+		                {
+		                    $errors = $this->form_validation->error_array();
+		                     echo json_encode(array('msg_errors'=>$errors));
+		           
+		                }
+		                else 
+		                {
+		                	//si sha arribat al max delements permesos
+		                	
+		                	if(count($allelements)>9)
+		                	{
+		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
+		                	}
+		                	else
+		                	{
+		                	
+		                	$this->bases_datos_model->insertElement('sentence',array(
+							'sentence'=>$this->input->post('frase'),
+							'bbdd_id'=>$idbd,
+							'user_app'=>$this->flexi_auth->get_user_id()));
+		                		echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
+		                	}
+		                
+		                }
+					exit;
+				}
+				$view='admin/basesdedatos/edit_sentences_basedatos';
+			}
+			else
+			{
+				if($this->input->post('bbdd_alta'))
+				{
+					$this->form_validation->set_rules('frase','Frase','required');
+                
+		                if($this->form_validation->run()==False)
+		                {
+		                    $errors = $this->form_validation->error_array();
+		                     echo json_encode(array('msg_errors'=>$errors));
+		           
+		                }
+		                else 
+		                {
+		                	//si sha arribat al max delements permesos
+		                	
+		                	if(count($allelements)>9)
+		                	{
+		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
+		                	}
+		                	else
+		                	{
+		                	
+		                	$this->bases_datos_model->insertElement('sentence',array(
+							'sentence'=>$this->input->post('frase'),
+							'bbdd_id'=>$idbd,
+							'user_app'=>$this->flexi_auth->get_user_id()));
+		                		echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
+		                	}
+		                
+		                }
+					exit;
+				}
+					
+				$view='admin/basesdedatos/edit_links_basedatos';
+			}
+
+			$this->load->view($view,$this->data);		
 		}
 		else 
 		{

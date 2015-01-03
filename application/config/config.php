@@ -359,3 +359,6 @@ $config['proxy_ips'] = '';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
+
+$config['max-images']=5000;
+$config['max-no-images']=7000;
