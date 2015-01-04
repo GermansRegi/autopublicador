@@ -5,7 +5,15 @@
         <header>
         <div class="container">
             <div class="row">
-            <div class="col-md-6 col-sm-5">
+           <?php if( isset($section_app) && $section_app=='panel')
+     		{?>
+            <div class="col-sm-4">
+            <?php }else{
+            	?>
+            	  <div class="col-sm-5">
+            	<?php
+            }
+            ?>
                 <div class="logo">
                     <h1>
 
@@ -32,16 +40,19 @@
 
                 </div>
             </div>
-            <div class="col-md-6 col-sm-7">
+           <?php if( isset($section_app) && $section_app=='panel')
+     		{?>
+            <div class="col-sm-8">
+            <?php }else{
+            	?>
+            	  <div class="col-sm-7">
+            	<?php
+            }
+            ?>
+           
+
             <div class="navbar bs-docs-nav" role="banner">
-            <div class="navbar-header">
-                                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                            </div>
+            
           <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
 
                 <ul class="nav navbar-nav navbar-right">

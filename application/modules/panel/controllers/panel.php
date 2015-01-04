@@ -54,11 +54,12 @@ class Panel extends CI_Controller {
 
 			if ($this->flexi_auth->is_privileged('acces user free'))
 			{
+				
 				$this->load->vars('privilege_user_app','free');
 			}
 			else if ($this->flexi_auth->is_privileged('acces user prem'))
 			{
-				$this->load->vars('privilege_user_pp','prem');
+				$this->load->vars('privilege_user_app','prem');
 			}
 		}
 
