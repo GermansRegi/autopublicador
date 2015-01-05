@@ -16,18 +16,9 @@
     <?php echo $this->load->view('includes2/header');
 
 ?>
-<div class="page-head">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2>Registrese</h2>
-        <h4>something goes here</h4>
-      </div>
-    </div>
-  </div>
 
 
-</div>
+
 <div class="content">
   <div class="container">
     <div class="row">

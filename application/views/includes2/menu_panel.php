@@ -1,4 +1,4 @@
-<li>
+				<li>
                         <a href="<?php echo base_url(); ?>panel/">Inicio</a>
                     </li>
 
@@ -21,6 +21,18 @@
                         <a href="<?php echo base_url() ?>panel/herramientas">herramientas</a>
                     </li>
              <?php } ?>
-                    <li>
-                        <a href="<?php echo base_url() ?>panel/perfil">Perfil</a>
+                    <li>  <!-- OMG NO SEMANTIC HTML, well, it help us to avoid JS in the menu slide in mobile -->
+
+					<a class="link_dropdown" href="">Usuari</a>
+                         <ul class="nav--top__list">
+				
+		            		<li><a href="<?php echo base_url() ?>panel/perfil">Perfil</a></li>
+		              <li><a href="">item</a></li>
+		              <li><a href="">item</a></li>
+		              <li><a href="">item</a></li>
+		              <li><a href="">item</a></li>
+		          	</ul>
+
+        
                     </li>
+				

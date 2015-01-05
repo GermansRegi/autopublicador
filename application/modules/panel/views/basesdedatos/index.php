@@ -20,15 +20,6 @@
 
 	?>
        
-  <div class="page-head">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2>Bases de datos</h2>
-
-        </div>
-      </div>
-         </div>
 </div>
 	<div class="container">
 	<div class='row'>
@@ -48,7 +39,7 @@
 	    ?>
 	<table class="table table-condensed">
 	    <tr>
-	        <th>Nombre</th><th>Red social</th><th>Contenido</th><th>Creador</th><th></th><th></th>
+	        <th>Nombre</th><th>Red social</th><th>Contenido</th><th></th><th></th>
 	    </tr>
 	    
 	    <?php
@@ -59,7 +50,7 @@
 	      echo "<td>".$bbdd->name."</td>";
 	      echo "<td>".$socialNamesAr[$bbdd->socialnetwork]."</td>";
 	      echo "<td>".$tradArray[$bbdd->content]."</td>";
-	      echo "<td>".($bbdd->is_admin==1?'administrador':'usuario')."</td>";
+	      
 	      echo "<td><a type='button' class='btn btn-default btn-ms' href='".base_url('admin/basesdedatos/editar/'.$bbdd->id)."' '>Editar</a></td>";
 	        echo "<td><a type='button' class='btn btn-danger btn-ms delete'  data-id='".$bbdd->id."'>Eliminar</a></td>";
 	      echo "</tr>";

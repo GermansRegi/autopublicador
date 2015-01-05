@@ -8,7 +8,8 @@ class Premium extends CI_Controller {
 	}
 	function index()
 	{
-		$this->load->view('premium');
+		$data['titlepage']="Nuestros planes";
+		$this->load->view('premium',$data);
 
 	}
 }

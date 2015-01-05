@@ -19,16 +19,6 @@
 	<!-- Main Content -->
 
 
-<div class="page-head">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2>Acceder</h2>
-        <h4>something goes here</h4>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="content">
   <div class="container">

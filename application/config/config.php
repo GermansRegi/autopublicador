@@ -364,9 +364,7 @@ $config['max-images']=5000;
 $config['max-no-images']=7000;
 $config['facebook']['api_id'] = '672117342900527';
 $config['facebook']['app_secret'] = 'dadf12c69da3aba534a736ca9b492116';
-$config['facebook']['redirect_url'] = 'http://www.sergiregi.com/panel/conectar_facebook';
+$config['facebook']['redirect_url'] = 'panel/facebook/registrar_facebook';
 $config['facebook']['permissions'] = array(
-  'email',
-  'user_location',
-  'user_birthday'
+  'email','offline_access'
 );

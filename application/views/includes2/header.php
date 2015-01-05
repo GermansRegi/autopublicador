@@ -10,7 +10,7 @@
             <div class="col-sm-4">
             <?php }else{
             	?>
-            	  <div class="col-sm-5">
+            	  <div class="col-sm-6">
             	<?php
             }
             ?>
@@ -26,13 +26,13 @@
 						if($section_app=='admin')
 						{
 						?>
-							<h1> Panel de administración</h1>
+							<h1 class="subheader"> Panel de administración</h1>
 						<?php
 						}
 						elseif($section_app=='panel')
 						{
 						?>
-							<h1> Panel de usuario</h1>
+							<h1 class="subheader"> Panel de usuario</h1>
 						<?php
 						}
 					}
@@ -45,7 +45,7 @@
             <div class="col-sm-8">
             <?php }else{
             	?>
-            	  <div class="col-sm-7">
+            	  <div class="col-sm-6">
             	<?php
             }
             ?>
@@ -93,4 +93,15 @@
 
         </header>
         <div class="sep"></div>
+		   
+            <div class="page-head">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h2><?php echo $titlepage?></h2>
+
+                  </div>
+                </div>
+              </div>
+              </div>
 

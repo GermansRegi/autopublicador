@@ -1,7 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-
+if ( session_status() == PHP_SESSION_NONE ) {
+  session_start();
+}
 // Autoload the required files
 require_once( APPPATH . 'modules/panel/libraries/facebook/vendor/autoload.php' );
 
@@ -27,7 +29,7 @@ class Facebooklib {
     // Create the login helper and replace REDIRECT_URI with your URL
     // Use the same domain you set for the apps 'App Domains'
     // e.g. $helper = new FacebookRedirectLoginHelper( 'http://mydomain.com/redirect' );
-    $this->helper = new FacebookRedirectLoginHelper( $this->ci->config->item('redirect_url', 'facebook') );
+    $this->helper = new FacebookRedirectLoginHelper( base_url().$this->ci->config->item('redirect_url', 'facebook') );
 
     if ( $this->ci->session->userdata('fb_token') ) {
       $this->session = new FacebookSession( $this->ci->session->userdata('fb_token') );
@@ -58,10 +60,17 @@ class Facebooklib {
       $this->session = new FacebookSession( $this->session->getToken() );
     }
   }
-
+  public function setSession($fb_token)
+  {
+  	$this->session = new FacebookSession( $this->ci->session->userdata('fb_token') );
+  }
   /**
    * Returns the login URL.
    */
+  public function getSession()
+  {
+  	return $this->session;
+  }
   public function login_url() {
     return $this->helper->getLoginUrl( $this->permissions );
   }
@@ -76,6 +85,23 @@ class Facebooklib {
        */
       // Graph API to request user data
       $request =  new FacebookRequest( $this->session, 'GET', '/me' ) ;
+      $request->execute();
+
+      // Get response as an array
+      $user = $request->getGraphObject()->asArray();
+
+      return $user;
+    }
+    return false;
+  }
+  public function api($path,$params=array(),$method='GET')
+  {
+  	  if ( $this->session ) {
+      /**
+       * Retrieve User’s Profile Information
+       */
+      // Graph API to request user data
+      $request =  new FacebookRequest( $this->session, $method, $path ) ;
       $request->execute();
 
       // Get response as an array

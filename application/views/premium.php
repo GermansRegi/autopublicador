@@ -17,16 +17,7 @@
 <body>
     <?php echo $this->load->view('includes2/header');
     ?>
-    <div class="page-head">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2>Nuestros planes</h2>
-        <h4>something goes here</h4>
-      </div>
-    </div>
-  </div>
-</div>
+    
 <div class="content">
   <div class="container">
 
@@ -59,7 +50,7 @@
                               </div>
                               <div class="pbutton button">
                                  <!-- button -->
-                                 <a href="<?php echo base_url(); ?>register/"><i class="fa fa-shopping-cart"></i> Contratar!</a>
+                                 <a href="<?php echo base_url(); ?>panel/register_account/"><i class="fa fa-shopping-cart"></i> Contratar!</a>
                               </div>
                            </div>
 
@@ -88,7 +79,7 @@
                               </div>
                               <div class="pbutton button">
                                  <!-- button -->
-                                 <a href="<?php echo base_url(); ?>register/"><i class="fa fa-shopping-cart"></i> Contratar!</a>
+                                 <a href="<?php echo base_url(); ?>panel/register_account"><i class="fa fa-shopping-cart"></i> Contratar!</a>
                               </div>
                            </div>
 

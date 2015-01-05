@@ -6,19 +6,24 @@ header {
   background: #fafafa url("../images/cream.png") repeat;
   .logo {
     padding: 0px;
-    padding-top: 10px;
     h1 a {
-      font-size: 35px;
+      font-size: 29px;
       color: #777;
       text-decoration: none;
       font-weight: 400;
       &:visited, &:hover {
-        font-size: 35px;
+        font-size: 29px;
         color: #777;
         text-decoration: none;
         font-weight: 400;
       }
     }
+    h1.subheader
+    {
+    	font-size:25px;
+    }
+   
+
     .meta {
       color: #888;
       line-height: 15px;
@@ -35,7 +40,7 @@ header {
   text-shadow: none !important;
   border-radius: 0px !important;
   font-weight: 600 !important;
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 }
 
@@ -100,7 +105,26 @@ header {
     &:hover, &:active {
       background: transparent !important;
     }
+    
   }
+}
+.nav li ul.nav--top__list{
+		display:none;
+
+}
+.nav li ul.nav--top__list li
+{
+	background-color:#ddd;
+	width:80px;
+	height:10px;
+}
+.nav li a.link_dropdown:hover + ul
+{
+	display:block;
+	left:-40px;
+	top:-15px;
+	position:relative;
+
 }
 /* Page heading */
 
@@ -112,7 +136,7 @@ header {
   h2 {
     color: #777;
     font-size: 23px;
-    line-height: 33px;
+    line-height: 23px;
   }
   h4 {
     color: #999;

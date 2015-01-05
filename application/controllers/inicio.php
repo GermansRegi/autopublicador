@@ -5,10 +5,12 @@ class Inicio extends CI_Controller {
     {
         parent::__construct();
         $this->load->helper('url');
+
 	}
 	function index()
 	{
-		$this->load->view('inicio');
+		$data['titlepage']="Bienvenido al Autopublicador Social";
+		$this->load->view('inicio',$data);
 
 	}
 }

@@ -107,7 +107,8 @@ class Panel extends CI_Controller {
 	{
 		if($this->flexi_auth->is_logged_in())
 		{
-			echo $this->load->view('index');
+			$data['titlepage']="Bienvenido a su panel de usuario";
+			echo $this->load->view('index',$data);
 		}
 		else
 		$this->login();
@@ -166,7 +167,7 @@ class Panel extends CI_Controller {
 
 		// Get any status message that may have been set.
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-
+		$this->data['titlepage']="Acceda a su cuenta";
 		$this->load->view('demo/login_view', $this->data);
     }
 
@@ -213,7 +214,7 @@ class Panel extends CI_Controller {
 
 		// Get any status message that may have been set.
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-
+		$this->data['titlepage']="Registrese";
 		$this->load->view('demo/public_examples/register_view', $this->data);
 	}
 

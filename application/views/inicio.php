@@ -17,17 +17,7 @@
     <?php echo $this->load->view('includes2/header');
 
 ?>
-            <div class="sep"></div>
-            <div class="page-head">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h2>Bienvenido al Autopublicador Social</h2>
-
-                  </div>
-                </div>
-              </div>
-
+         
 
             </div>
             <div class="content">

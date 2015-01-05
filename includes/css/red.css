@@ -1,221 +1,173 @@
 /* Red Color */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\000033}}
+a {
+  color: #ff5d5e; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\000035}}
+  a:visited {
+    color: #ff5d5e; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\000038}}
+  a:hover {
+    color: #df4c4d; }
 
-a, a:visited{
-	color: #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000313}}
+.color {
+  color: #ff5d5e; }
 
-a:hover{
-	color: #df4c4d;
-}
-
-.color{
-	color: #ff5d5e;
-}
-
-.button a, .button a:visited{
-background:#ff5d5e;
-border-bottom:2px solid #df4c4d;
-}
-
-.button a:hover{
-background:#df4c4d;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000317}}
+.button a {
+  background: #ff5d5e;
+  border-bottom: 2px solid #df4c4d; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000320}}
+  .button a:visited {
+    background: #ff5d5e;
+    border-bottom: 2px solid #df4c4d; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000324}}
+  .button a:hover {
+    background: #df4c4d; }
 
 /* Navigation */
-
-.navbar .nav > li > a:hover{
-	color: #ff5d5e !important;
-	-webkit-transition:color 1s ease;
-	-moz-transition:color 1s ease;
-	-o-transition:color 1s ease;
-	transition:color 1s ease;
-}
-
-.navbar .nav li.dropdown.open > .dropdown-toggle,
-.navbar .nav li.dropdown.active > .dropdown-toggle,
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000332}}
+.navbar .nav > li > a:hover {
+  color: #ff5d5e !important;
+  -webkit-transition: color 1s ease;
+  -moz-transition: color 1s ease;
+  -o-transition: color 1s ease;
+  transition: color 1s ease; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000340}}
+.navbar .nav li.dropdown.open > .dropdown-toggle, .navbar .nav li.dropdown.active > .dropdown-toggle {
+  color: #ff5d5e !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000344}}
 .navbar .nav li.dropdown.open.active > .dropdown-toggle {
-	color: #ff5d5e !important;
-}
+  color: #ff5d5e !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000347}}
+.navbar .nav li.dropdown.open > .dropdown-toggle .caret {
+  border-top-color: #ff5d5e !important;
+  border-bottom-color: #ff5d5e !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000352}}
+.navbar .nav li.dropdown.active > .dropdown-toggle .caret, .navbar .nav li.dropdown.open.active > .dropdown-toggle .caret {
+  border-top-color: #ff5d5e !important;
+  border-bottom-color: #ff5d5e !important; }
 
-.navbar .nav li.dropdown.open > .dropdown-toggle .caret,
-.navbar .nav li.dropdown.active > .dropdown-toggle .caret,
-.navbar .nav li.dropdown.open.active > .dropdown-toggle .caret {
-	border-top-color:#ff5d5e !important;
-	border-bottom-color:#ff5d5e !important;
-}
-
-.dropdown-menu{
-	border-top: 2px solid #ff5d5e !important;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000359}}
+.dropdown-menu {
+  border-top: 2px solid #ff5d5e !important; }
 
 /* Title */
-
-.title i{
-	color: #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000365}}
+.title i {
+  color: #ff5d5e; }
 
 /* Service #2 */
-
-.aserv-img i:hover{
-	background: #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000371}}
+.aserv-img i:hover, .flex-caption h3 {
+  background: #ff5d5e; }
 
 /* Flex Slider */
-
-.flex-caption h3 {
-	background: #ff5d5e;
-}
-
 /* Slider */
-
-.da-slide h2 span{
-	background: #ff5d5e;
-}
-
-.da-slide p{
-	border-left: 3px solid #ff5d5e;
-}
-
-.da-slide .da-link{
-	border-left:3px solid #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000380}}
+.da-slide h2 span {
+  background: #ff5d5e; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000383}}
+.da-slide p, .da-slide .da-link {
+  border-left: 3px solid #ff5d5e; }
 
 /* Slider features */
-
-.slider-features i{
-	background: #ff5d5e;
-}
-
-.slider-features h5 a:hover{
-	color: #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000391}}
+.slider-features i {
+  background: #ff5d5e; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\0000394}}
+.slider-features h5 a:hover {
+  color: #ff5d5e; }
 
 /* Blog */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003101}}
+.posts .tags a {
+  background: #ff5d5e;
+  border: 1px solid #df4c4d;
+  border-bottom: 3px solid #df4c4d; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003105}}
+  .posts .tags a:hover {
+    border-bottom: 3px solid #ff5d5e;
+    background: #df4c4d;
+    border: 1px solid #df4c4d; }
 
-.posts .tags a{
-background:#ff5d5e;
-border:1px solid #df4c4d;
-border-bottom:3px solid #df4c4d;
-}
-
-.posts .tags a:hover{
-border-bottom:3px solid #ff5d5e;
-background:#df4c4d;
-border:1px solid #df4c4d;
-}
-
-.paging a:hover{
-background: #ff5d5e;
-border:1px solid #df4c4d;
-}
-
-.paging .current{
-background: #ff5d5e;
-border:1px solid #df4c4d;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003113}}
+.paging a:hover, .paging .current {
+  background: #ff5d5e;
+  border: 1px solid #df4c4d; }
 
 /* Sidebar */
-
-.sidebar .widget{
-	border-top: 1px solid #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003121}}
+.sidebar .widget {
+  border-top: 1px solid #ff5d5e; }
 
 /* Events */
-
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003127}}
 .events .panel-heading {
-	background: #ff5d5e;
-}
+  background: #ff5d5e; }
 
 /* Testimonial */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003133}}
+.test {
+  border-bottom: 2px solid #ff5d5e; }
 
-.test{
-border-bottom:2px solid #ff5d5e;
-}
-
-.test-arrow{
-border-top-color: #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003137}}
+.test-arrow {
+  border-top-color: #ff5d5e; }
 
 /* Service style #2 */
-
-.service-two h5 i{
-	color: #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003143}}
+.service-two h5 i {
+  color: #ff5d5e; }
 
 /* Process */
-
-.process .process-meta{
-	background: #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003149}}
+.process .process-meta {
+  background: #ff5d5e; }
 
 /* Features #1 */
-
-.features-one .feat i{
-	color: #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003155}}
+.features-one .feat i, .features-two i {
+  color: #ff5d5e; }
 
 /* Features #2 */
-
-.features-two i{
-	color: #ff5d5e;
-}
-
 /* About #2 */
-
-.about-two .asocial i{
-	background:#ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003163}}
+.about-two .asocial i, .pricel .phead-top {
+  background: #ff5d5e; }
 
 /* Pricing table #1 */
-
-.pricel .phead-top{
-	background: #ff5d5e;
-}
-
 /* Pricing table #2 */
-
-.phead-round{
-	background: #ff5d5e;
-}
-
-.phead-round:hover{
-	background: #df4c4d;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003171}}
+.phead-round {
+  background: #ff5d5e; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003173}}
+  .phead-round:hover {
+    background: #df4c4d; }
 
 /* Flex slider */
-
-.flexslider .flex-control-nav a:hover{
-	background: #ff5d5e !important;
-}
-
-.flexslider a.flex-active{
-	background: #ff5d5e !important;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003181}}
+.flexslider .flex-control-nav a:hover, .flexslider a.flex-active {
+  background: #ff5d5e !important; }
 
 /* Recent posts */
-
-.recent-news .custom-nav a i{
-	background: #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003188}}
+.recent-news .custom-nav a i, .nav-tabs > li > a:hover {
+  background: #ff5d5e; }
 
 /* Career */
-
-.nav-tabs > li > a:hover{
-	background: #ff5d5e;
-}
-
 /* Back to top */
-
-.totop a, .totop a:visited{
-	background: #ff5d5e;
-}
-
-.totop a:hover{
-	background: #df4c4d;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003196}}
+.totop a {
+  background: #ff5d5e; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003198}}
+  .totop a:visited {
+    background: #ff5d5e; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003201}}
+  .totop a:hover {
+    background: #df4c4d; }
 
 /* Footer */
-
-footer{
-	border-top: 4px solid #ff5d5e;
-}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/red\.scss}line{font-family:\00003208}}
+footer {
+  border-top: 4px solid #ff5d5e; }

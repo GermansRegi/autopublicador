@@ -1,0 +1,143 @@
+/* Header */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\000034}}
+header {
+  padding: 10px 0px 25px 0px;
+  background: #fafafa url("../images/cream.png") repeat; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\000037}}
+  header .logo {
+    padding: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\000039}}
+    header .logo h1 a {
+      font-size: 29px;
+      color: #777;
+      text-decoration: none;
+      font-weight: 400; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000314}}
+      header .logo h1 a:visited, header .logo h1 a:hover {
+        font-size: 29px;
+        color: #777;
+        text-decoration: none;
+        font-weight: 400; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000321}}
+    header .logo h1.subheader {
+      font-size: 25px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000327}}
+    header .logo .meta {
+      color: #888;
+      line-height: 15px;
+      padding: 0px;
+      margin: 0px; }
+
+/* Navigation #1 */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000338}}
+.navbar *, .nav-collapse * {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border-radius: 0px !important;
+  font-weight: 600 !important;
+  font-size: 12.5px !important;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000347}}
+.navbar {
+  padding-left: 0px;
+  background: transparent;
+  filter: none !important;
+  border: 0px !important;
+  border-top: 0px !important;
+  border-bottom: 0px !important;
+  margin-top: 15px;
+  margin-bottom: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000352}}
+  .navbar .btn {
+    font-size: 13px;
+    padding: 6px 10px;
+    color: #fff !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000361}}
+  .navbar ul li {
+    list-style-type: none;
+    padding: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000365}}
+  .navbar button {
+    border: 0px;
+    background: #eee !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000368}}
+    .navbar button:hover {
+      background: #e9e9e9 !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000371}}
+    .navbar button .icon-bar {
+      background: #ddd !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000375}}
+  .navbar .caret {
+    border-top-color: #888 !important;
+    border-bottom-color: #888 !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000379}}
+  .navbar a {
+    color: #666 !important;
+    background: transparent; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000382}}
+    .navbar a:visited {
+      color: #666 !important;
+      background: transparent; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000387}}
+  .navbar .nav > li > a {
+    color: #666 !important;
+    padding: 15px 15px 15px;
+    filter: none !important;
+    -webkit-transition: color 1s ease;
+    -moz-transition: color 1s ease;
+    -o-transition: color 1s ease;
+    transition: color 1s ease;
+    background: transparent !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000395}}
+    .navbar .nav > li > a:visited {
+      color: #666 !important;
+      padding: 15px 15px 15px;
+      filter: none !important;
+      -webkit-transition: color 1s ease;
+      -moz-transition: color 1s ease;
+      -o-transition: color 1s ease;
+      transition: color 1s ease; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003105}}
+    .navbar .nav > li > a:hover, .navbar .nav > li > a:active {
+      background: transparent !important; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003111}}
+.nav li ul.nav--top__list {
+  display: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003115}}
+.nav li ul.nav--top__list li {
+  background-color: #ddd;
+  width: 80px;
+  height: 10px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003121}}
+.nav li a.link_dropdown:hover + ul {
+  display: block;
+  left: -40px;
+  top: -15px;
+  position: relative; }
+
+/* Page heading */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003131}}
+.page-head {
+  padding: 20px 0px;
+  box-shadow: inset 0px 0px 4px #bbb;
+  background: #f8f8f8;
+  border-bottom: 1px solid #ddd; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003136}}
+  .page-head h2 {
+    color: #777;
+    font-size: 23px;
+    line-height: 23px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003141}}
+  .page-head h4 {
+    color: #999;
+    font-size: 15px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003147}}
+.sep {
+  height: 5px;
+  background: url("../images/sep.png") repeat; }

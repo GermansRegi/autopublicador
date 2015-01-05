@@ -75,8 +75,10 @@ class Basesdedatos extends CI_Controller {
 	}
 	public function index()
 	{
+
 		$res=$this->bases_datos_model->getAll(array('user_app'=>$this->flexi_auth->get_user_id()));
 		$data['arbbdd']=$res;
+		$data['titlepage']="Crear base de datos"; 
 		$this->load->view('panel/basesdedatos/index',$data);
 
 		
@@ -84,6 +86,197 @@ class Basesdedatos extends CI_Controller {
 	
 		
 	}
+	public function editar($idbd)
+	{
+		if(!empty($idbd))
+		{
+
+   			$this->load->library("pagination");
+                $config = array();
+                $config["per_page"] = 5;
+                $config['full_tag_open']='<div> <ul class="pagination pagination-small pagination-centered">';
+                $config['full_tag_close']="</ul></div>";
+                $config['num_tag_open'] = '<li>';
+			$config['num_tag_close'] = '</li>';
+			$config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+			$config['cur_tag_close'] = "<span class='sr-only'></span></a></li></li>";
+			$config['next_tag_open'] = "<li>";
+			$config['next_tag_close'] = "</li>";
+			$config['prev_tag_open'] = "<li>";
+			$config['prev_tag_close'] = "</li>";
+			$config['first_tag_open'] = "<li>";
+			$config['first_tag_close'] = "</li>";
+			$config['last_tag_open'] = "<li>";
+			$config['last_tag_close'] = "</li>";
+			   $config['prev_link'] = '&lt; Prev';
+		    $config['prev_tag_open'] = '<li>';
+		    $config['prev_tag_close'] = '</li>';
+		    $config['next_link'] = 'Next &gt;';
+		    $config['next_tag_open'] = '<li>';
+		    $config['next_tag_close'] = '</li>';
+			$config['num_links']=2;
+			
+			
+				$basededatos=$this->bases_datos_model->getById($idbd);
+				
+				
+                $config["base_url"] = base_url() . "admin/basesdedatos/editar/".$idbd."/";
+                $page = (($this->uri->segment(5)===False) ? 0: $this->uri->segment(5));
+                
+               if($basededatos[0]->content=='image')
+			{	
+				$config["per_page"] = 20;
+				$elements=$this->bases_datos_model->getElements($basededatos[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
+
+			}
+                
+               $elements=$this->bases_datos_model->getElements($basededatos[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
+               $numElementsTotal=$this->bases_datos_model->countAllElements($basededatos[0]->content,array('bbdd_id'=>$idbd));
+               $config['total_rows']=$numElementsTotal;
+               $config['uri_segment']=5;
+         		$this->pagination->initialize($config);
+			
+			
+			//var_dump($basededatos);
+         		$this->data['total']=$numElementsTotal;
+			$this->data['bbdd']=$basededatos[0];
+			$this->data['elements']=$elements;
+			$this->data['link_pager']=$this->pagination->create_links();
+			
+			if($basededatos[0]->content=='image')
+			{	
+				if($this->input->post('name'))
+				{
+			           
+
+	                        $config['file_name']=uniqid("Image_");
+	                        $config['upload_path'] = 'upload/';
+	                        $config['allowed_types'] = 'jpg|png';               
+	                        $config['max_size'] = '800'; //in KB
+
+	                        $this->load->library('upload', $config);
+	                        //sino sha pujat be
+	                        if (! $this->upload->do_upload('file'))
+	                        {
+	                            //$upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
+	                            echo json_encode(array('msg_error'=>$this->upload->display_errors()));        
+
+	                        }
+	                        else 
+	                        {
+	                            $file=$this->upload->data();
+	                                $this->bases_datos_model->insertElement('image',array(
+	                                	'user_app' => $this->flexi_auth->get_user_id(),
+	                                	'bbdd_id' => $idbd,
+	                                  	'path' => $file['full_path'], 
+	                                  	'filename' => $file['file_name']));
+	                        }
+	                                            
+         				exit;
+
+				}
+
+					$view='panel/basesdedatos/edit_images_basedatos';
+			}
+			else if($basededatos[0]->content=='sentence')
+			{
+				if($this->input->post('bbdd_alta'))
+				{
+					$this->form_validation->set_rules('frase','Frase','required|trim');
+                
+		                if($this->form_validation->run()==False)
+		                {
+		                    $errors = $this->form_validation->error_array();
+		                     echo json_encode(array('msg_errors'=>$errors));
+		           
+		                }
+		                else 
+		                {
+		                	//si sha arribat al max delements permesos
+		                	
+		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
+		                	{
+		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
+		                	}
+		                	else
+		                	{
+		                	
+		                	$this->bases_datos_model->insertElement('sentence',array(
+							'sentence'=>$this->input->post('frase'),
+							'bbdd_id'=>$idbd,
+							'user_app'=>$this->flexi_auth->get_user_id()));
+		                		echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
+		                	}
+		                
+		                }
+					exit;
+				}
+				$view='panel/basesdedatos/edit_sentences_basedatos';
+			}
+			else
+			{
+				if($this->input->post('bbdd_alta'))
+				{
+					$this->form_validation->set_rules('text','Texto','required|trim');
+					$this->form_validation->set_rules('link','Enlace','required|valid_url|trim');
+                
+		                if($this->form_validation->run()==False)
+		                {
+		                    $errors = $this->form_validation->error_array();
+		                     echo json_encode(array('msg_errors'=>$errors));
+		           
+		                }
+		                else 
+		                {
+		                	//si sha arribat al max delements permesos
+		                	
+		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
+		                	{
+		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
+		                	}
+		                	else
+		                	{
+		                	
+		                	$this->bases_datos_model->insertElement('link',array(
+							'text'=>$this->input->post('text'),
+							'link'=>$this->input->post('link'),
+							'bbdd_id'=>$idbd,
+							'user_app'=>$this->flexi_auth->get_user_id()));
+		                		echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
+		                	}
+		                
+		                }
+					exit;
+				}
+				$this->data['titlepage']="Editar base de datos: ".$basededatos[0]->name; 
+				$view='panel/basesdedatos/edit_links_basedatos';
+			}
+
+			$this->load->view($view,$this->data);		
+		}
+		else 
+		{
+			
+			redirect(base_url().'panel/basesdedatos');
+		}
+	}
+	public function ismaxElementsImages($id)
+	{
+		if(!empty($id))
+		{
+			$res=$this->bases_datos_model->countAllElements('image',array('bbdd_id'=>$id));
+			
+			
+			if($res>$this->config->item('max-images'))
+			{
+				echo json_encode(array('msg_errors'=>array('0'=>'No puedes añadir más imágenes en esta base de datos')));
+			     
+			
+	   		}  
+          }
+	
+	}
+	
 
 	public function crear()
 	{
