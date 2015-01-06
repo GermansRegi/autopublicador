@@ -32,10 +32,12 @@ class Basesdedatos extends CI_Controller {
 
 		// Load 'standard' flexi auth library by default.
 		$this->load->library('flexi_auth');
+		
 
      	// Redirect users logged in via password (However, not 'Remember me' users, as they may wish to login properly).
 		if ($this->flexi_auth->is_logged_in_via_password() && uri_string() != 'panel/logout')
 		{
+			
 			// Preserve any flashdata messages so they are passed to the redirect page.
 			if ($this->session->flashdata('message')) { $this->session->keep_flashdata('message'); }
 
@@ -47,7 +49,7 @@ class Basesdedatos extends CI_Controller {
 			else if( uri_string()=='panel')
 			{
 
-				redirect(base_url().'panel/index');
+				redirect(base_url().'panel/basesdedatos');
 
 			}
 			
@@ -62,6 +64,9 @@ class Basesdedatos extends CI_Controller {
 			{
 				$this->load->vars('privilege_user_app','prem');
 			}
+		}else
+		{
+			redirect(base_url().'panel');
 		}
 
 		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
@@ -78,7 +83,7 @@ class Basesdedatos extends CI_Controller {
 
 		$res=$this->bases_datos_model->getAll(array('user_app'=>$this->flexi_auth->get_user_id()));
 		$data['arbbdd']=$res;
-		$data['titlepage']="Crear base de datos"; 
+		$data['titlepage']="Base de datos"; 
 		$this->load->view('panel/basesdedatos/index',$data);
 
 		
@@ -107,7 +112,7 @@ class Basesdedatos extends CI_Controller {
 			$config['first_tag_open'] = "<li>";
 			$config['first_tag_close'] = "</li>";
 			$config['last_tag_open'] = "<li>";
-			$config['last_tag_close'] = "</li>";
+			$config['last_t	ag_close'] = "</li>";
 			   $config['prev_link'] = '&lt; Prev';
 		    $config['prev_tag_open'] = '<li>';
 		    $config['prev_tag_close'] = '</li>';
@@ -148,9 +153,12 @@ class Basesdedatos extends CI_Controller {
 				if($this->input->post('name'))
 				{
 			           
-
+						if(!file_exists('upload/'.$this->flexi_auth->get_user_identity()))
+		                    {
+		                        mkdir('upload/'.$this->flexi_auth->get_user_identity());
+		                    }
 	                        $config['file_name']=uniqid("Image_");
-	                        $config['upload_path'] = 'upload/';
+	                        $config['upload_path'] = 'upload/'.$this->flexi_auth->get_user_identity();
 	                        $config['allowed_types'] = 'jpg|png';               
 	                        $config['max_size'] = '800'; //in KB
 
@@ -218,7 +226,7 @@ class Basesdedatos extends CI_Controller {
 				if($this->input->post('bbdd_alta'))
 				{
 					$this->form_validation->set_rules('text','Texto','required|trim');
-					$this->form_validation->set_rules('link','Enlace','required|valid_url|trim');
+					$this->form_validation->set_rules('link','Enlace','required|prep_url|valid_url|trim');
                 
 		                if($this->form_validation->run()==False)
 		                {
@@ -248,10 +256,10 @@ class Basesdedatos extends CI_Controller {
 		                }
 					exit;
 				}
-				$this->data['titlepage']="Editar base de datos: ".$basededatos[0]->name; 
+			
 				$view='panel/basesdedatos/edit_links_basedatos';
 			}
-
+				$this->data['titlepage']="Editar base de datos: ".$basededatos[0]->name; 
 			$this->load->view($view,$this->data);		
 		}
 		else 
@@ -321,10 +329,57 @@ class Basesdedatos extends CI_Controller {
 		
 			exit;	
 		}
-		
+			$this->data['titlepage']='Crear base de datos';
 			$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
 			$this->load->view('panel/basesdedatos/crear',$this->data);
 			
+	}
+	public function deleteContent($idbd,$id=null)
+	{
+		if($this->input->post('delco'))
+		{
+			$basededatos=$this->bases_datos_model->getById($idbd);
+
+			foreach($this->input->post('delco') as $id)
+			{
+
+				if($basededatos[0]->content=='image')
+				{
+					$this->bases_datos_model->deleteElementImage($id['value']);	
+				}
+				else
+				{
+					$this->bases_datos_model->deleteElement($basededatos[0]->content,array('id'=>$id['value']));
+				}
+			}
+			echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
+		}
+		else
+		{
+			if(!empty($id) && !empty($idbd))
+			{
+				$basededatos=$this->bases_datos_model->getById($idbd);
+				if($basededatos[0]->content=='image')
+				{
+					$this->bases_datos_model->deleteElementImage($id);	
+				}
+				else
+				{
+					$this->bases_datos_model->deleteElement($basededatos[0]->content,array('id'=>$id));
+				}
+				echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
+			}
+		}
+	}
+	public function delete($bdid)
+	{
+		
+		if(!empty($bdid))
+		{
+			$this->bases_datos_model->deleteOne($bdid);
+			echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
+		}
+		
 	}
 
 }

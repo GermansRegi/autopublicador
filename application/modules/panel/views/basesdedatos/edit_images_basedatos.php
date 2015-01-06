@@ -62,7 +62,7 @@ var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 				    {
 				        ?>
 				        <div class="col-sm-2">
-				        	<img width="60" height="60" src="<?php echo base_url()?>upload/<?php echo $element->filename;?>"/>
+				        	<img width="60" height="60" src="<?php echo base_url()?>upload/<?php echo $this->flexi_auth->get_user_identity()."/".$element->filename;?>"/>
 						<a data-id='<?php echo $element->id; ?>' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> 
 						<input type='checkbox' value='<?php echo $element->id; ?>' name='hk_group_bf[]'>
 				        </div>

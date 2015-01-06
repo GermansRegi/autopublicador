@@ -17,19 +17,7 @@
     <?php echo $this->load->view('includes2/header');
 
 ?>
-            <div class="sep"></div>
-            <div class="page-head">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-12">
-                    
-				<h2>Editar base de datos: <?php echo $bbdd->name; ?></h2>
-                  </div>
-                </div>
-              </div>
 
-
-            </div>
             <div class="content">
 			<div class="container">
 				

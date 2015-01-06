@@ -30,7 +30,7 @@
 					</div>
 
 				<div>
-				<form id='addcontent' method='post' action='<?php echo base_url(); ?>admin/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
+				<form id='addcontent' method='post' action='<?php echo base_url(); ?>panel/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
 					<div id='message'>      
 
 

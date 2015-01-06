@@ -61,11 +61,11 @@ if($(idUploader).length!=0){
        
                     UploadComplete:function()
                     {
-                            $("#message").html("<div class='greenbox'><p>Se ha creado correctamente</p></div>")
+                            $("#message").html("<div class='alert alert-success'><p>Datos guardados con éxito</p></div>")
                         
                             
                              $('body').delay(1500).queue(function( nxt ) {
-                  //              location.href=url_plupload;
+                                location.href=url_plupload;
                                 nxt();
                             });
                   

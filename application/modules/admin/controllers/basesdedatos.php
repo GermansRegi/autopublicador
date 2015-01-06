@@ -26,12 +26,13 @@ class Basesdedatos extends CI_Controller {
 		}		
 			$this->load->vars('section_app','admin');	
 
-		
+		$this->data=null;
 	}
 	public function index()
 	{
 			
 		$res=$this->bases_datos_model->getAll();
+		$data['titlepage']="Bases de datos";
 		$data['arbbdd']=$res;
 		$this->load->view('admin/basesdedatos/index',$data);
 
@@ -81,7 +82,7 @@ class Basesdedatos extends CI_Controller {
 		
 			exit;	
 		}
-		
+			$this->data['titlepage']="Crear base de datos";
 			$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
 			$this->load->view('admin/basesdedatos/crear',$this->data);
 			
@@ -218,7 +219,7 @@ class Basesdedatos extends CI_Controller {
 				if($this->input->post('bbdd_alta'))
 				{
 					$this->form_validation->set_rules('text','Texto','required|trim');
-					$this->form_validation->set_rules('link','Enlace','required|valid_url|trim');
+					$this->form_validation->set_rules('link','Enlace','required|prep_url|valid_url|trim');
                 
 		                if($this->form_validation->run()==False)
 		                {
@@ -251,7 +252,7 @@ class Basesdedatos extends CI_Controller {
 					
 				$view='admin/basesdedatos/edit_links_basedatos';
 			}
-
+			$this->data['titlepage']="Editar base de datos: ".$basededatos[0]->name;
 			$this->load->view($view,$this->data);		
 		}
 		else 

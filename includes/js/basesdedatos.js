@@ -17,18 +17,19 @@ $(function(){
 	})
 	$('body').on('click','.delete',function(){
 		
-		$.ajax({url:delete_url,
+		var id=$(this).data('id')
+		$.ajax({url:delete_url+'/'+id,
 			type:'get',dataType:'json',
 			success:function(data)
 			{
 		         var res=showResults(data,',','#message');
 				if(res!=false)
 				{
-					      $('body').delay(1500).queue(function( nxt ) {
-                                location.href=current_url;
-                                nxt();
-                            });  	
-				}    
+					$('body').delay(1000).queue(function( nxt ) {
+						$('#line'+id).hide();
+					nxt();
+                            }); 
+				 }    
 			}})	
 	})
 	$('body').on('click','.deletemulti',function(){

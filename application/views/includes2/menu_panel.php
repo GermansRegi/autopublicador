@@ -18,21 +18,24 @@
                         <a href="<?php echo base_url() ?>panel/anuncios">Anuncios</a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url() ?>panel/herramientas">herramientas</a>
+                        <a href="<?php echo base_url() ?>panel/herramientas">Herramientas</a>
                     </li>
              <?php } ?>
                     <li>  <!-- OMG NO SEMANTIC HTML, well, it help us to avoid JS in the menu slide in mobile -->
 
-					<a class="link_dropdown" href="">Usuari</a>
+				<!--	<a class="link_dropdown" href="">Usuari</a>
                          <ul class="nav--top__list">
-				
+				-->
 		            		<li><a href="<?php echo base_url() ?>panel/perfil">Perfil</a></li>
-		              <li><a href="">item</a></li>
+		            <!--  <li><a href="">item</a></li>
 		              <li><a href="">item</a></li>
 		              <li><a href="">item</a></li>
 		              <li><a href="">item</a></li>
 		          	</ul>
-
+				
         
                     </li>
-				
+
+				-->
+				<li> <a href="">RSS</a></li>
+				<li> <a href="">Salir</a></li>

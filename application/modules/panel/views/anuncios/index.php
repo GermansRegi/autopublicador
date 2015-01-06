@@ -21,11 +21,10 @@
 
 	?>
        
->
 	<div class="container">
 	<div class='row'>
     
-        <p> Tienes     <?php echo count($arbbdd)?> bases de datos creadas.<a href="<?php echo base_url();?>admin/anuncios/crear">Crear nueva base de datos</a>
+        <p> Tienes     <?php echo count($arbbdd)?> bases de datos creadas.<a href="<?php echo base_url();?>panel/anuncios/crear">Crear nueva base de datos</a>
         </p>
         <div id="message"></div>
     </div>
@@ -47,12 +46,12 @@
 	            
 	    foreach($arbbdd as $bbdd)
 	    {
-	      echo "<tr id='line".$bbdd->id."'>";
+	      echo "<tr id='line".$bbdd->id."''>";
 	      echo "<td>".$bbdd->name."</td>";
 	      echo "<td>".$socialNamesAr[$bbdd->socialnetwork]."</td>";
 	      echo "<td>".$tradArray[$bbdd->content]."</td>";
-	      echo "<td>".($bbdd->is_admin==1?'administrador':'usuario')."</td>";
-	      echo "<td><a type='button' class='btn btn-default btn-ms' href='".base_url('admin/anuncios/editar/'.$bbdd->id)."' '>Editar</a></td>";
+	      
+	      echo "<td><a type='button' class='btn btn-default btn-ms' href='".base_url('panel/anuncios/editar/'.$bbdd->id)."' '>Editar</a></td>";
 	        echo "<td><a type='button' class='btn btn-danger btn-ms delete'  data-id='".$bbdd->id."'>Eliminar</a></td>";
 	      echo "</tr>";
 	      
@@ -67,7 +66,7 @@
 	    </div>
 	</div>
        <script type="text/javascript">
-	var delete_url='<?php echo base_url()?>admin/basesdedatos/delete';
+	var delete_url='<?php echo base_url()?>panel/anuncios/delete';
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 </script>
                      

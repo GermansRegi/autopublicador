@@ -28,7 +28,7 @@
 				</div>
 
 				<div class="clearfix">
-					<form id="addcontent" method='post' action='<?php echo base_url(); ?>admin/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
+					<form id="addcontent" method='post' action='<?php echo base_url(); ?>panel/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
 						<div id='message'>      
 						</div>	
 						<div class="col-sm-4">

@@ -17,6 +17,7 @@
     <?php echo $this->load->view('includes2/header');
 
 ?>
+            
             <div class="content">
 			<div class="container">
 				
@@ -25,7 +26,7 @@
 				</div>
 
 				<div class="clearfix">
-					<form id="addcontent" method='post' action='<?php echo base_url(); ?>admin/anuncios/editar/<?php echo $anuncio->id; ?>'>
+					<form id="addcontent" method='post' action='<?php echo base_url(); ?>panel/anuncios/editar/<?php echo $anuncio->id; ?>'>
 						<div id='message'>      
 						</div>	
 						<div class="col-sm-4">
@@ -96,7 +97,7 @@
 			</div>
 		</div>
 <script type="text/javascript">
-	var deletecontent_url='<?php echo base_url()?>admin/anuncios/deletecontent/<?php echo $anuncio->id; ?>'
+	var deletecontent_url='<?php echo base_url()?>panel/anuncios/deletecontent/<?php echo $anuncio->id; ?>'
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 </script>
 <?php

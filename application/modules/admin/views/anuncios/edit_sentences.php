@@ -18,19 +18,6 @@
 
 ?>
             
-            <div class="page-head">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-12">
-                
-                    <h2>Editar base de datos: <?php echo $anuncio->name; ?></h2>
-
-                  </div>
-                </div>
-              </div>
-
-
-			</div>
 			<div class="content">
 				<div class="container">
 					

@@ -46,12 +46,12 @@
 	            
 	    foreach($arbbdd as $bbdd)
 	    {
-	      echo "<tr>";
+	      echo "<tr id='line".$bbdd->id."'>";
 	      echo "<td>".$bbdd->name."</td>";
 	      echo "<td>".$socialNamesAr[$bbdd->socialnetwork]."</td>";
 	      echo "<td>".$tradArray[$bbdd->content]."</td>";
 	      
-	      echo "<td><a type='button' class='btn btn-default btn-ms' href='".base_url('admin/basesdedatos/editar/'.$bbdd->id)."' '>Editar</a></td>";
+	      echo "<td><a type='button' class='btn btn-default btn-ms' href='".base_url('panel/basesdedatos/editar/'.$bbdd->id)."' '>Editar</a></td>";
 	        echo "<td><a type='button' class='btn btn-danger btn-ms delete'  data-id='".$bbdd->id."'>Eliminar</a></td>";
 	      echo "</tr>";
 	      
@@ -66,7 +66,7 @@
 	    </div>
 	</div>
        <script type="text/javascript">
-	var delete_url='<?php echo base_url()?>panel/basesdedatos/delete/<?php echo $bbdd->id; ?>';
+	var delete_url='<?php echo base_url()?>panel/basesdedatos/delete';
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 </script>
                      

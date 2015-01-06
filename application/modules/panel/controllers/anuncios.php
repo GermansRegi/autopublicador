@@ -5,41 +5,92 @@ class Anuncios extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('session');
 		$this->load->model('anuncios_model');
-				// Load 'standard' flexi auth library by default.
+		
+				// To load the CI benchmark and memory usage profiler - set 1==1.
+		if (1==2)
+		{
+			$sections = array(
+				'benchmarks' => TRUE, 'memory_usage' => TRUE,
+				'config' => FALSE, 'controller_info' => FALSE, 'get' => FALSE, 'post' => FALSE, 'queries' => FALSE,
+				'uri_string' => FALSE, 'http_headers' => FALSE, 'session_data' => FALSE
+			);
+			$this->output->set_profiler_sections($sections);
+			$this->output->enable_profiler(TRUE);
+		}
+
+		// Load required CI libraries and helpers.
+		$this->load->database();
+		$this->load->library('session');
+ 		$this->load->helper('url');
+ 		$this->load->helper('form');
+ 		$this->load->helper('language');
+ 		$this->load->library('form_validation');
+  		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
+ 		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
 		$this->auth = new stdClass;
+
+		// Load 'standard' flexi auth library by default.
 		$this->load->library('flexi_auth');
-		$this->load->library('form_validation');
+		
 
      	// Redirect users logged in via password (However, not 'Remember me' users, as they may wish to login properly).
-	
-		$this->data=array();
-		// Check user is logged in as an admin.
-		// For security, admin users should always sign in via Password rather than 'Remember me'.
-		if (! $this->flexi_auth->is_logged_in_via_password() || ! $this->flexi_auth->is_admin())
+		if ($this->flexi_auth->is_logged_in_via_password() && uri_string() != 'panel/logout')
 		{
-			// Set a custom error message.
-			$this->flexi_auth->set_error_message('You must login as an admin to access this area.', TRUE);
-			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
-			redirect('panel');
-		}		
-			$this->load->vars('section_app','admin');	
+			
+			// Preserve any flashdata messages so they are passed to the redirect page.
+			if ($this->session->flashdata('message')) { $this->session->keep_flashdata('message'); }
 
-		$this->data=null;
+			// Redirect logged in admins (For security, admin users should always sign in via Password rather than 'Remember me'.
+			if ($this->flexi_auth->is_admin())
+			{
+				redirect(base_url().'admin');
+			}
+			else if( uri_string()=='panel')
+			{
+
+				redirect(base_url().'panel/basesdedatos');
+
+			}
+			
+			$this->load->vars('section_app','panel');
+
+			if ($this->flexi_auth->is_privileged('acces user free'))
+			{
+				
+				$this->load->vars('privilege_user_app','free');
+			}
+			else if ($this->flexi_auth->is_privileged('acces user prem'))
+			{
+				$this->load->vars('privilege_user_app','prem');
+			}
+		}else
+		{
+			redirect(base_url().'panel');
+		}
+
+		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
+		//$this->load->vars('base_url', base_url(). 'auth/');
+		//$this->load->vars('includes_dir', 'http://localhost:8888/flexi_auth/includes/');
+		//$this->load->vars('current_url', $this->uri->uri_to_assoc(1));
+
+		// Define a global variable to store data that is then used by the end view page.
+		$this->data = null;
+	
 	}
-	//llistar totes les basesde dades anuncis DE TOTS ELS USUARIS
 	public function index()
 	{
-			
-		$res=$this->anuncios_model->getAll();
-		$data['titlepage']="Anuncios";
+
+		$res=$this->anuncios_model->getAll(array('user_app'=>$this->flexi_auth->get_user_id()));
 		$data['arbbdd']=$res;
-		$this->load->view('admin/anuncios/index',$data);
+		$data['titlepage']="Anuncios"; 
+		$this->load->view('panel/anuncios/index',$data);
 
 		
+
+	
+		
 	}
-	//CREAR BASE DE DADES ANUNCIS
 	public function crear()
 	{
 		
@@ -59,18 +110,17 @@ class Anuncios extends CI_Controller {
 
 
 				$this->form_validation->set_rules($rules_validate);
-				//SI EL FORUMUALRI ES CORRRECTE
+
 				if($this->form_validation->run()==TRUE)
 				{
 
 					
-					//INSERTO L'ANUNCI
+					
 					$idcreated=$this->anuncios_model->insertNew(array(
 						'socialnetwork'=>$this->input->post('basededatos_create_social'),
 						'content'=>$this->input->post('content'),
 						'name'=>$this->input->post('basededatos_create_name'),
-						'user_app'=>$this->flexi_auth->get_user_id(),
-						'is_admin'=>1));
+						'user_app'=>$this->flexi_auth->get_user_id()));
 					echo json_encode(array('msg_success'=>'Datos guardados con éxito','idcreated'=>$idcreated));
 				}
 				else
@@ -84,19 +134,16 @@ class Anuncios extends CI_Controller {
 		
 			exit;	
 		}
-			//TITOL DE LA PAGINA
-		$this->data['titlepage']="Crear base de datos de anuncios";
+			$this->data['titlepage']="Crear base de datos de anuncios";
 			$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-			$this->load->view('admin/anuncios/crear',$this->data);
+			$this->load->view('panel/anuncios/crear',$this->data);
 			
 	}
-	//EDITAR UN ANUNCI 
 	public function editar($idbd)
 	{
-		//SI MARRIBEN EL PARAMETR
 		if(isset($idbd) && $idbd!='')
 		{
-			//CONFIGURACIO DE PAGINACIO
+
    			$this->load->library("pagination");
                 $config = array();
                 $config["per_page"] = 5;
@@ -122,42 +169,45 @@ class Anuncios extends CI_Controller {
 		    $config['next_tag_close'] = '</li>';
 			$config['num_links']=2;
 			
-				//AGAFO L'ANUNCI A EDITAR
+			
 				$anuncio=$this->anuncios_model->getById($idbd);
 				
-			//CONFIG PAGICACIO
+			
                 $config["base_url"] = base_url() . "admin/anuncios/editar/".$idbd."/";
                 $page = (($this->uri->segment(5)===False) ? 0: $this->uri->segment(5));
-                // SI L'ANUNCI ES DIMATGES LA PAGINACIO ES FA CADA 20 IMATGES
+                
                if($anuncio[0]->content=='image')
 			{	
 				$config["per_page"] = 20;
 				$elements=$this->anuncios_model->getElements($anuncio[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
 
 			}
-                //AGAFO ELS ANUNCIS
+                
                $elements=$this->anuncios_model->getElements($anuncio[0]->content,array('bbdd_id'=>$idbd),$config['per_page'],$page);   
-               //CONTO EL TOTAL D'ANUNCIS
                $numElementsTotal=$this->anuncios_model->countAllElements($anuncio[0]->content,array('bbdd_id'=>$idbd));
                $config['total_rows']=$numElementsTotal;
                $config['uri_segment']=5;
          		$this->pagination->initialize($config);
 			
-			//OMPLO LES VARIABLES PER LA VISTA
+			
 			//var_dump($anuncio);
          		$this->data['total']=$numElementsTotal;
 			$this->data['anuncio']=$anuncio[0];
 			$this->data['elements']=$elements;
 			$this->data['link_pager']=$this->pagination->create_links();
-			//SI L'ANUNCI ES DIMATGES
+			
 			if($anuncio[0]->content=='image')
-			{	//SI MARRIBA UNA PETICIO POST
+			{	
 				if($this->input->post('name'))
 				{
 			           
-						//COFIGURACIO PER A PUJADA DE FITXER
+
+	                       if(!file_exists('upload/'.$this->flexi_auth->get_user_identity()))
+		                    {
+		                        mkdir('upload/'.$this->flexi_auth->get_user_identity());
+		                    }
 	                        $config['file_name']=uniqid("Image_");
-	                        $config['upload_path'] = 'upload/';
+	                        $config['upload_path'] = 'upload/'.$this->flexi_auth->get_user_identity();
 	                        $config['allowed_types'] = 'jpg|png';               
 	                        $config['max_size'] = '800'; //in KB
 
@@ -171,7 +221,6 @@ class Anuncios extends CI_Controller {
 	                        }
 	                        else 
 	                        {
-	                        		//guardo la imatge a bd
 	                            $file=$this->upload->data();
 	                                $this->anuncios_model->insertElement('image',array(
 	                                	'user_app' => $this->flexi_auth->get_user_id(),
@@ -183,20 +232,17 @@ class Anuncios extends CI_Controller {
          				exit;
 
 				}
-					// poso la vista per edicio d'imatges
-					$view='admin/anuncios/edit_images';
-			}//si lanunci es de frases
+
+					$view='panel/anuncios/edit_images';
+			}
 			else if($anuncio[0]->content=='sentence')
 			{
-				//si marriba una peticio post
 				if($this->input->post('anuncio_alta'))
 				{
-
 					$this->form_validation->set_rules('frase','Frase','required|trim');
-                		//si el formulari no es valid
+                
 		                if($this->form_validation->run()==False)
 		                {
-		                	//n mostro error
 		                    $errors = $this->form_validation->error_array();
 		                     echo json_encode(array('msg_errors'=>$errors));
 		           
@@ -207,12 +253,11 @@ class Anuncios extends CI_Controller {
 		                	
 		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
 		                	{
-		                			// mostro error
 		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
 		                	}
 		                	else
 		                	{
-		                	//inserto la frase a bd
+		                	
 		                	$this->anuncios_model->insertElement('sentence',array(
 							'sentence'=>$this->input->post('frase'),
 							'bbdd_id'=>$idbd,
@@ -223,21 +268,17 @@ class Anuncios extends CI_Controller {
 		                }
 					exit;
 				}
-				// poso la vista per edicio de frases
-				$view='admin/anuncios/edit_sentences';
-			} 
+				$view='panel/anuncios/edit_sentences';
+			}
 			else
 			{
-				// si marriba peticio post
 				if($this->input->post('anuncio_alta'))
 				{
-
 					$this->form_validation->set_rules('text','Texto','required|trim');
 					$this->form_validation->set_rules('link','Enlace','required|prep_url|valid_url|trim');
-                		// si la validacio del formulari es incorrecte
+                
 		                if($this->form_validation->run()==False)
 		                {
-		                	//mostro errror
 		                    $errors = $this->form_validation->error_array();
 		                     echo json_encode(array('msg_errors'=>$errors));
 		           
@@ -248,13 +289,12 @@ class Anuncios extends CI_Controller {
 		                	
 		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
 		                	{
-		                		// mostro error
 		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
 		                	}
 		                	else
 		                	{
-		                		//inserto el link a bd
-		                		$this->anuncios_model->insertElement('link',array(
+		                	
+		                	$this->anuncios_model->insertElement('link',array(
 							'text'=>$this->input->post('text'),
 							'link'=>$this->input->post('link'),
 							'bbdd_id'=>$idbd,
@@ -265,12 +305,10 @@ class Anuncios extends CI_Controller {
 		                }
 					exit;
 				}
-				/// poso la vista per edicio de links
-				$view='admin/anuncios/edit_links';
+					
+				$view='panel/anuncios/edit_links';
 			}
-			// poso el titol de la pagina 
 			$this->data['titlepage']="Editar base de datos de anuncios: ".$anuncio[0]->name;
-			// mostro la vista
 			$this->load->view($view,$this->data);		
 		}
 		else 
@@ -279,17 +317,14 @@ class Anuncios extends CI_Controller {
 			redirect(base_url().'admin/anuncios');
 		}
 	}
-	// accio per limitar el numero dimatges duna bd 
 	public function ismaxElementsImages($id)
 	{
 		if(isset($id) && $id!='')
 		{
 	
 		$res=$this->anuncios_model->countAllElements('image',array('bbdd_id'=>$id));
-			// si el numero dimatges es mes gran que el permes
 			if($res>$this->config->item('max-images'))
 			{
-				// mostro error
 				echo json_encode(array('msg_errors'=>array('0'=>'No puedes añadir más imágenes en esta base de datos')));
 			     
 			
@@ -298,63 +333,49 @@ class Anuncios extends CI_Controller {
           
 	
 	}
-	// accio per eliminar un element de anuncis
+	
 	public function deleteContent($idbd,$id=null)
 	{
-		if(isset($id) && isset($idbd) && $id!=''  && $idbd!='')
+		if($this->input->post('delco'))
 		{
-			// agafo l'anunci al que pertanyen els elements
 			$anuncio=$this->anuncios_model->getById($idbd);
-			// si marriva peticio post ( varis elemennts a eliminar)
-			if($this->input->post('delco'))
-			{
-				
-	
-				// per cada element a eliminar
-				foreach($this->input->post('delco') as $id)
-				{
-					// si lanunci es dimatges 
-					if($anuncio[0]->content=='image')
-					{
-						// esborro la imatge fisica i lelement de lanunci
-						$this->anuncios_model->deleteElementImage($id['value']);	
-					}
-					else
-					{
-						// esborro l'element de l'anunci
-						$this->anuncios_model->deleteElement($anuncio[0]->content,array('id'=>$id['value']));
-					}
-				}
-				echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
-			}
-			// si marriba una peticio get
-			else
-			{
-				
 
-				// si l'anunci es dimatges 
+			foreach($this->input->post('delco') as $id)
+			{
+
 				if($anuncio[0]->content=='image')
 				{
-					// esborro la imatge fisica i lelement de lanunci
+					$this->anuncios_model->deleteElementImage($id['value']);	
+				}
+				else
+				{
+					$this->anuncios_model->deleteElement($anuncio[0]->content,array('id'=>$id['value']));
+				}
+			}
+			echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
+		}
+		else
+		{
+			if(isset($id) && isset($idbd) && $id!=''  && $idbd!='')
+			{
+				$anuncio=$this->anuncios_model->getById($idbd);
+				if($anuncio[0]->content=='image')
+				{
 					$this->anuncios_model->deleteElementImage($id);	
 				}
 				else
 				{
-					// esborro l'element de l'anunci
 					$this->anuncios_model->deleteElement($anuncio[0]->content,array('id'=>$id));
 				}
 				echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
-			
 			}
 		}
 	}
-	// accio que permet esborra una base de dades d'anuncis i els seus elements
 	public function delete($bdid)
 	{
 		
 		if(isset($bdid) && $bdid!='')
 		{
-			
 			$this->anuncios_model->deleteOne($bdid);
 			echo json_encode(array('msg_success'=>'Datos borrados con éxito'));
 		}
@@ -364,4 +385,4 @@ class Anuncios extends CI_Controller {
 }
 
 /* End of file anuncios.php */
-/* Location: ./application/modules/admin/controllers/anuncios.php */
+/* Location: ./application/modules/panel/controllers/anuncios.php */

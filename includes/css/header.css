@@ -83,7 +83,7 @@ header {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000387}}
   .navbar .nav > li > a {
     color: #666 !important;
-    padding: 15px 15px 15px;
+    padding: 15px 10px 15px;
     filter: none !important;
     -webkit-transition: color 1s ease;
     -moz-transition: color 1s ease;

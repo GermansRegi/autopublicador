@@ -18,12 +18,9 @@
     <?php echo $this->load->view('includes2/header');
 
 	?>
-	    <div class="content">
-              <div class="container">
-        
 	<div  id='crearbbdd' class="clearfix">
-        <div class="col-sm-8 col-sm-offset-2">
-	      <form action="<?php echo base_url(); ?>panel/basesdedatos/crear" method="post" id="addbbdd" > 
+        <div class="col-sm-5 col-sm-offset-4">
+	      <form action="<?php echo base_url(); ?>panel/anuncios/crear" method="post" id="addbbdd" > 
 	        
 	         
 				<div id="message">
@@ -59,7 +56,7 @@
 	            			</select></div>
 	           	</div>
 	      			<div class="form-group col-md-9">
-	      				<div class="col-sm-9 col-sm-offset-4">
+	      				<div class="col-sm-8 col-sm-offset-2">
 	             				<input id="addbbdd-btn" type="submit"  class="btn btn-primary" name='addnew' value='Crear'>
 	             				<input type='button' class="btn" id='cancel_crear_bbdd' value='Cancelar'>
 	             			</div>
@@ -67,8 +64,7 @@
 				</div>
 		     </div>
 	     </form>
-</div>
-</div>
+
   <?php
     echo $this->load->view('includes2/footer');
 ?>

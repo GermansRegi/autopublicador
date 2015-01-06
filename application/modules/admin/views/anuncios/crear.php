@@ -35,7 +35,7 @@
 	            		</div>
 	        		</div>
 	     		<div class="form-group col-sm-9">
-	            		<label class="col-sm-4 control-label">Tipo:</label>
+	            		<label class="col-sm-4 control-label">Contenido:</label>
 	            		<div class="col-sm-8">
 	            			<select class="form-control" name="content">
 	            				<option value="">Selecciona una opción</option>

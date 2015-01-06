@@ -22,9 +22,9 @@ class Anuncios_model extends MY_Model {
 		return $this->limit(1)->get_by_id($id);
 	}
 
-	public function getAll($where=array(),$user_app=null)
+	public function getAll($where=array())
 	{
-		if($user_app)
+		if(count($where)>0)
 			return $this->get_many_by($where);
 		else
 			return $this->get_all();
