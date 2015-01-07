@@ -366,5 +366,5 @@ $config['facebook']['api_id'] = '672117342900527';
 $config['facebook']['app_secret'] = 'dadf12c69da3aba534a736ca9b492116';
 $config['facebook']['redirect_url'] = 'panel/facebook/registrar_facebook';
 $config['facebook']['permissions'] = array(
-  'email','offline_access'
+  'email','offline_access','manage_pages','user_groups','user_events','publish_stream','publish_actions'
 );

@@ -94,6 +94,7 @@ $(function(){
 			success:function(data){
 
 				var res=showResults(data,',','#message');
+				
 				if(res!=false)
 				{
 					      $('body').delay(1500).queue(function( nxt ) {
@@ -110,5 +111,22 @@ $(function(){
 		})
 
 	})
-
+	console.log($("#toogle"));
+	$("body").on('click','#toggle',function()
+	{
+		console.log("ssssss0");
+		var checkboxes = document.getElementsByName('hk_group_bf[]');
+        var button = document.getElementById('toggle');
+        if(button.value == 'Marcar todos'){
+            for (var i in checkboxes){
+                checkboxes[i].checked = 'FALSE';
+            }
+            button.value = 'Desmarcar todos';
+        }else{
+            for (var i in checkboxes){
+                checkboxes[i].checked = '';
+            }
+            button.value = 'Marcar todos';
+        }	
+	})
 })

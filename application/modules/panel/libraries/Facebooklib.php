@@ -102,10 +102,10 @@ class Facebooklib {
        */
       // Graph API to request user data
       $request =  new FacebookRequest( $this->session, $method, $path ) ;
-      $request->execute();
+      $response=$request->execute();
 
       // Get response as an array
-      $user = $request->getGraphObject()->asArray();
+      $user = $response->getGraphObject()->asArray();
 
       return $user;
     }

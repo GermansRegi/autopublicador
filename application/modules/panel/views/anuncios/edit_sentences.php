@@ -45,8 +45,9 @@
 			
 			<div class="row">
 				<div class="col-sm-12 text-right">
-	                	
+	                	<input type="button" id="toggle" value="Desmarcar todos" class="btn btn-primary">
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
+
 	              </div>
 			</div>
 			<div class "row" id="contenido">

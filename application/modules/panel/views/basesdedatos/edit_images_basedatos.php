@@ -45,7 +45,7 @@ var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 </script>
 		<div class="row">
 				<div class="col-sm-12 text-right">
-	                	
+	     <input type="button" id="toggle" value="Desmarcar todos" class="btn btn-primary" >           	
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 	              </div>
 			</div>

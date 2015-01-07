@@ -94,34 +94,37 @@ if($(idUploader).length!=0){
 	   
 	            return '<div class="alert alert-success"><p>'+text+'</p></div>';
 	}
+
+    function generateNotify(elem,position,text,type){
+    	if(elem==null)
+    	{
+    		$.notify(text,type)
+    	}
+    	else
+
+    	$(elem).notify(
+  		text, type,
+  		{ position:position }
+		);
+    }
 	function showResults(data,form,id)
 	{
-	    //console.log(data)
-	              //form.find(id).text(data);
-	//console.log(data,typeof data);
-	  
 		$(id).children().remove();
-			            
-
 	    	if(data.msg_errors)
-	        {
-
-
-	              $(id).html(showErrorsForm(data.msg_errors));
-	            return false
-	        }
-	        else if(data.msg_success)
-	            {
-	                
-	            $(id).html(showSuccessForm(data.msg_success))
-	            if(data.idcreated)
-	            {
-	            	return data.idcreated
-	            }  
-	            return true;
-	      }
-	    
-	    
-	   
+		{
+		     $(id).html(showErrorsForm(data.msg_errors));
+		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error");
+			return false
+		}
+		else if(data.msg_success)
+		{      
+		     $(id).html(showSuccessForm(data.msg_success))
+		     generateNotify(id,"top",showErrorsForm(data.msg_success),"success");
+		     if(data.idcreated)
+			{
+		  		return data.idcreated
+       		}  
+	          return true;
+	     }
 	}
 
