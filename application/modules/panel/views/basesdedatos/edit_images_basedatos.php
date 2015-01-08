@@ -19,18 +19,18 @@
 ?>
 
           
-            <div class="content">
-              <div class="container">
-            		<div class='namebd'>
+            <section class="content">
+              <section class="container">
+            		<section class='namebd'>
     <p>Inserte imágenes en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." imágenes creadas. El máximo de imágenes son ".$this->config->item('max-images').".</span>";?></p>
-</div>
+</section>
 
-<div id="message"></div>
+<section class="message"></section>
 <form  method="post"  enctype='multipart/form-data'>	
-	<div id="uploader">
+	<section id="uploader">
 		<p>Your browser doesn't have Flash, Silverlight or HTML5 support.</p>
                 
-        </div>
+        </section>
     <input type='hidden' id='image_add_id' name='bbdd_add' value='<?php echo $bbdd->id; ?>'>
 </form>
 <br class='clearfix'>
@@ -43,36 +43,36 @@ var checkmaxelements_url="<?php echo base_url()?>panel/basesdedatos/ismaxelement
 var deletecontent_url='<?php echo base_url()?>panel/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>'
 var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 </script>
-		<div class="row">
-				<div class="col-sm-12 text-right">
+		<section class="row">
+				<section class="col-sm-12 text-right">
 	     <input type="button" id="toggle" value="Desmarcar todos" class="btn btn-primary" >           	
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
-	              </div>
-			</div>
-			<div class "row" id="contenido">
+	              </section>
+			</section>
+			<section class "row" id="contenido">
 				<?php if(count($elements)>0){
 					?>
-				<div class='namebd'>
+				<section class='namebd'>
 				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
-				</div>
+				</section>
 
-				<div class="row">
+				<section class="row">
 				    <?php
 				    foreach ($elements as $element)
 				    {
 				        ?>
-				        <div class="col-sm-2">
+				        <section class="col-sm-2">
 				        	<img width="60" height="60" src="<?php echo base_url()?>upload/<?php echo $this->flexi_auth->get_user_identity()."/".$element->filename;?>"/>
 						<a data-id='<?php echo $element->id; ?>' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> 
 						<input type='checkbox' value='<?php echo $element->id; ?>' name='hk_group_bf[]'>
-				        </div>
+				        </section>
 				        <?php
 				    }
 				    ?>
-				    </div>
-				    <div class="row">
+				    </section>
+				    <section class="row">
 						<?php echo $link_pager; ?>
-					</div>
+					</section>
 				    <?php
 				 }else{
 				    ?>
@@ -87,8 +87,8 @@ var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 
                     
                    
-                </div>
-            </div>
+                </section>
+            </section>
 <?php
     echo $this->load->view('includes2/footer');
 ?>

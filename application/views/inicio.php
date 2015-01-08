@@ -19,21 +19,21 @@
 ?>
          
 
-            </div>
-            <div class="content">
-              <div class="container">
-                <div class="row">
-                <div class="col-md-12">
-                <div class="slider">
+            </section>
+            <section class="content">
+              <section class="container">
+                <section class="row">
+                <section class="col-md-12">
+                <section class="slider">
                 Slider
-            </div>
+            </section>
 
-            <div class="ultimos-articulos"></div>
+            <section class="ultimos-articulos"></section>
 
-                    </div>
-                    </div>
-                </div>
-            </div>
+                    </section>
+                    </section>
+                </section>
+            </section>
 <?php
     echo $this->load->view('includes2/footer');
 ?>

@@ -14,7 +14,7 @@
 
 <body id="update_user_privileges">
 
-<div id="body_wrap">
+<section id="body_wrap">
 	<!-- Header -->  
 	<?php $this->load->view('includes/header'); ?> 
 
@@ -22,15 +22,15 @@
 	<?php $this->load->view('includes/demo_header'); ?> 
 	
 	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Admin: Update User Privileges</h2>
 				<p>The flexi auth library allows for unlimited custom privileges to be defined. The privileges can then be assigned to user groups or users individually.</p>
 				<p>Once privileges have been defined, access to specific pages or even specific sections of pages can be controlled by checking whether a user has permission to access a requested page.</p>
 				<p>The default setup of this demo uses user groups and privileges to restrict the example public user from accessing the admin area, and the example moderator user from inserting, updating and deleting specific data within the admin area.</p>
                 <h3 class="toggle">&raquo; View Current Privilege Sources</h3>
-                <div class="hide_toggle">
+                <section class="hide_toggle">
 	                <p>The flexi auth config. setting '<em>privilege_sources</em>' defines whether user privileges should be determined by individual privileges assigned per user, or via privileges assigned to a users user group. 
 	                <p>According to the current settings:</p>
 	                <ul class="bullet">
@@ -54,23 +54,23 @@
 	                    }
 	                ?>
 	                </ul>
-				</div>		
-			</div>		
-		</div>
-	</div>
+				</section>		
+			</section>		
+		</section>
+	</section>
 	
 	<!-- Main Content -->
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Update User Privileges of '<?php echo $user['upro_first_name'].' '.$user['upro_last_name']; ?>', Member of Group '<?php echo $user['ugrp_name']; ?>'</h2>
 				<a href="<?php echo $base_url;?>auth_admin/manage_user_accounts">Manage User Accounts</a> | 
 				<a href="<?php echo $base_url;?>auth_admin/update_user_account/<?php echo $user['upro_uacc_fk']; ?>">Update Users Account</a>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 			
 				<?php echo form_open(current_url());	?>  	
@@ -128,13 +128,13 @@
 						</tfoot>
 					</table>					
 				<?php echo form_close();?>
-			</div>
-		</div>
-	</div>	
+			</section>
+		</section>
+	</section>	
 	
 	<!-- Footer -->  
 	<?php $this->load->view('includes/footer'); ?> 
-</div>
+</section>
 
 <!-- Scripts -->  
 <?php $this->load->view('includes/scripts'); ?> 

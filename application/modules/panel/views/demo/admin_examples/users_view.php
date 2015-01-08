@@ -14,7 +14,7 @@
 
 <body id="list_users">
 
-<div id="body_wrap">
+<section id="body_wrap">
 	<!-- Header -->  
 	<?php $this->load->view('includes/header'); ?> 
 
@@ -22,9 +22,9 @@
 	<?php $this->load->view('includes/demo_header'); ?> 
 	
 	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Admin: <?php echo $page_title;?></h2>
 				<p>The flexi auth library includes functions to return custom database queries on user account data.</p>
 			<?php if (isset($status) && $status == 'failed_login_users') { ?>
@@ -36,20 +36,20 @@
 					<p>This page demonstrates a database query to display all users that have not activated their account since registration.</p>
 				<?php } ?>
 			<?php } ?>
-			</div>		
-		</div>
-	</div>
+			</section>		
+		</section>
+	</section>
 	
 	<!-- Main Content -->
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2><?php echo $page_title;?></h2>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 				
 				<?php echo form_open(current_url()); ?>
@@ -114,13 +114,13 @@
 					<?php } ?>
 					</table>
 				<?php echo form_close(); ?>
-			</div>
-		</div>
-	</div>	
+			</section>
+		</section>
+	</section>	
 	
 	<!-- Footer -->  
 	<?php $this->load->view('includes/footer'); ?> 
-</div>
+</section>
 
 <!-- Scripts -->  
 <?php $this->load->view('includes/scripts'); ?> 

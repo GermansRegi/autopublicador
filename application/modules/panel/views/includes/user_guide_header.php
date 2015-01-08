@@ -1,5 +1,5 @@
-	<div class="content_wrap nav_bg">
-		<div id="sub_nav_wrap" class="content">
+	<section class="content_wrap nav_bg">
+		<section id="sub_nav_wrap" class="content">
 			<ul id="sub_nav">
 			
 				<li>
@@ -102,5 +102,5 @@
 					</form>
 				</li>
 			</ul>
-		</div>
-	</div>
+		</section>
+	</section>

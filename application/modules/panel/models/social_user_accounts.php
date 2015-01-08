@@ -17,7 +17,15 @@ class Social_user_accounts extends MY_Model {
 	{
 		return $this->insert($data);
 	}
-	
+	public function userAccountExist($where)
+	{
+		$res=$this->count_by($where);
+		return (1==$res);
+	}
+	public function getUserappAccounts($where)
+	{
+		return $this->get_many_by($where);
+	}
 }
 
 /* End of file social_user_accounts.php */

@@ -23,7 +23,7 @@
 <section class="container">
 	<section class="row">
 		<section class="col-sm-12">
-			<form action="<?php echo base_url();?>panel/facebook/anadir_paginas" method="POST">
+			
 
 				<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 				  
@@ -40,27 +40,27 @@
 				      <section class="panel-body">
 				        <table class="table table-striped">
 				        	<?php 
-				        	$i=0;
+				        
 				        		foreach ($pages as $page)
 				        		{
 				        			?>
-								<tr>
+								<tr id="line<?php echo $page->id ?>">
 									<td>
-										<img src="http://graph.facebook.com/v2.2/<?php echo $page->id ?>/picture?width=50&height=50">;
+										<img src="http://graph.facebook.com/v2.2/<?php echo $page->idaccount ?>/picture?width=50&height=50">;
 
 									</td>
 									<td >
 										<?php echo $page->name; ?>
 									</td>
 									<td>
-										<input type="hidden" name='page[<?php echo $i; ?>][id]' value="<?php echo $page->id; ?>">
-											<input type="hidden" name='page[<?php echo $i; ?>][access_token]' value="<?php echo $page->access_token; ?>">
-											<input type="hidden" name='page[<?php echo $i; ?>][name]' value="<?php echo $page->name; ?>">
-										<input type="checkbox" value="0" name="page[<?php echo $i; ?>][checked]"  >
+										<a href="https:/www.facebook.com/<?php echo $page->idaccount ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
+										<a href="<?php echo base_url()?>panel/facebook/editar/<?php echo $page->idaccount ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
+										<a data-id="<?php echo $page->id ?>" class="btn btn-danger deletefb"><i class="fa fa-trash-o"></i></a>
+										
 									</td>
 								</tr>
 				        			<?php
-				        			$i++;
+				        			
 				        		}
 				        	?>
 				        </table>
@@ -79,27 +79,27 @@
 				      <section class="panel-body">
 				            <table class="table table-striped">
 				        	<?php 
-				        	$i=0;
+				     
 				        		foreach ($groups as $page)
 				        		{
-				        			?>
-								<tr>
+				        		?>
+								<tr id="line<?php echo $page->id ?>">
 									<td>
-										<img src="http://graph.facebook.com/v2.2/<?php echo $page->id ?>/picture?width=50&height=50">;
+										<img src="http://graph.facebook.com/v2.2/<?php echo $page->idaccount ?>/picture?width=50&height=50">;
 
 									</td>
 									<td >
 										<?php echo $page->name; ?>
 									</td>
 									<td>
-										<input type="hidden" name='group[<?php echo $i; ?>][id]' value="<?php echo $page->id; ?>">
-											<!--<input type="hidden" name='groups[<?php echo $i; ?>][access_token]' value="<?php echo $page->access_token; ?>">-->
-											<input type="hidden" name='group[<?php echo $i; ?>][name]' value="<?php echo $page->name; ?>">
-										<input type="checkbox" value="0" name="group[<?php echo $i; ?>][checked]"  >
+										<a href="https:/www.facebook.com/<?php echo $page->idaccount ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
+										<a href="<?php echo base_url()?>panel/facebook/editar/<?php echo $page->idaccount ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
+										<a data-id="<?php echo $page->id ?>" class="btn btn-danger deletefb"><i class="fa fa-trash-o"></i></a>
+										
 									</td>
 								</tr>
 				        			<?php
-				        			$i++;
+				        			
 				        		}
 				        	?>
 				        </table>
@@ -118,27 +118,26 @@
 				      <section class="panel-body">
 				      	<table class="table table-striped">
 				        	<?php 
-				        	$i=0;
+				       
 				        		foreach ($events as $page)
 				        		{
 				        			?>
-								<tr>
+								<tr id="line<?php echo $page->id ?>">
 									<td>
-										<img src="http://graph.facebook.com/v2.2/<?php echo $page->id ?>/picture?width=50&height=50">;
+										<img src="http://graph.facebook.com/v2.2/<?php echo $page->idaccount ?>/picture?width=50&height=50">;
 
 									</td>
 									<td >
 										<?php echo $page->name; ?>
 									</td>
 									<td>
-										<input type="hidden" name='event[<?php echo $i; ?>][id]' value="<?php echo $page->id; ?>">
+										<a href="https:/www.facebook.com/<?php echo $page->idaccount ?>" target="_blank" class="btn btn-defaultbtn-ms"><i  class="fa fa-eye"></i></a>
+										<a href="<?php echo base_url()?>panel/facebook/editar/<?php echo $page->idaccount ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
+										<a data-id="<?php echo $page->id ?>" class="btn btn-danger deletefb"><i class="fa fa-trash-o"></i></a>
 										
-											<input type="hidden" name='event[<?php echo $i; ?>][name]' value="<?php echo $page->name; ?>">
-										<input type="checkbox" value="0" name="event[<?php echo $i; ?>][checked]"  >
 									</td>
 								</tr>
 				        			<?php
-				        			$i++;
 				        		}
 				        	?>
 				        </table>
@@ -147,9 +146,6 @@
 				    </section>
 				  </section>
 				</section>
-				<input type="submit" name="submit" value="Añadir Páginas">
-				<a href=""> cancelar</a>
-			</form>
 
 		</section>
 	</section>

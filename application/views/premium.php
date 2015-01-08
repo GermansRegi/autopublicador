@@ -18,27 +18,27 @@
     <?php echo $this->load->view('includes2/header');
     ?>
     
-<div class="content">
-  <div class="container">
+<section class="content">
+  <section class="container">
 
 <!-- Pricing table -->
                      <!-- Price details. Note down the class name before you edit. -->
-                     <div class="row">
+                     <section class="row">
 
-                        <div class="col-md-6">
+                        <section class="col-md-6">
 
                            <!-- Pricing table #1. Class name "col-left" -->
-                           <div class="pricel center">
-                                 <div class="phead-top">
+                           <section class="pricel center">
+                                 <section class="phead-top">
                                     <!-- Title -->
                                     <h4>Gratuito</h4>
-                                 </div>
-                                 <div class="phead-bottom">
+                                 </section>
+                                 <section class="phead-bottom">
                                     <!-- Price. Use the syntax correctly. -->
                                     <p>0 € </p>
-                                 </div>
-                                 <div class="arrow-down"></div>
-                              <div class="plist">
+                                 </section>
+                                 <section class="arrow-down"></section>
+                              <section class="plist">
                                  <!-- List -->
                                  <ul>
                                   <!-- List with tooltip. -->
@@ -47,26 +47,26 @@
                                     <li>Más de 5 bases de datos de imágenes de todas las temáticas.</li>
 
                                  </ul>
-                              </div>
-                              <div class="pbutton button">
+                              </section>
+                              <section class="pbutton button">
                                  <!-- button -->
                                  <a href="<?php echo base_url(); ?>panel/register_account/"><i class="fa fa-shopping-cart"></i> Contratar!</a>
-                              </div>
-                           </div>
+                              </section>
+                           </section>
 
-                        </div>
-                        <div class="col-md-6">
+                        </section>
+                        <section class="col-md-6">
 
                            <!-- Pricing table #3. Class name "col-left" -->
-                           <div class="pricel center">
-                                 <div class="phead-top">
+                           <section class="pricel center">
+                                 <section class="phead-top">
                                     <h4>Premium</h4>
-                                 </div>
-                                 <div class="phead-bottom">
+                                 </section>
+                                 <section class="phead-bottom">
                                     <p> 10 € </p>
-                                 </div>
-                                 <div class="arrow-down"></div>
-                              <div class="plist">
+                                 </section>
+                                 <section class="arrow-down"></section>
+                              <section class="plist">
                                  <ul>
                                     <li>Hasta 100 perfiles sociales de facebook y twiiter en una misma cuenta.</li>
                                     <li>Autopublicación de bases de datos propias o internas cada 10 minutos.</li>
@@ -76,20 +76,20 @@
                                     <li>Programa todas las imágenes, textos o enlaces que quieras, y a la hora que prefieras.</li>
                                     <li>Configurador de borrador automático con el tiempo que quieras.</li>
                                  </ul>
-                              </div>
-                              <div class="pbutton button">
+                              </section>
+                              <section class="pbutton button">
                                  <!-- button -->
                                  <a href="<?php echo base_url(); ?>panel/register_account"><i class="fa fa-shopping-cart"></i> Contratar!</a>
-                              </div>
-                           </div>
+                              </section>
+                           </section>
 
-                           <div class="clearfix"></div>
+                           <section class="clearfix"></section>
 
-                        </div>
-                     </div>
+                        </section>
+                     </section>
 
-  </div>
-</div>
+  </section>
+</section>
 <?php
     echo $this->load->view('includes2/footer');
 ?>

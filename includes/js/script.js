@@ -1,7 +1,19 @@
 
 
+$(function(){
+
+console.log($('#premiumnormal'));
+$("body").on('click','#premiumnormal',function(){
+		                    	//$("body").on('click','#premiumnormal',function() {
+		                    		console.log('pp');
+		                            $("#pagoplanp").show();
+		                            $(".box-plan").hide();
+		                        });
+
+})
+
     
-if($(idUploader).length!=0){
+if(idUploader){
 	// Setup html5 version
         //pp
 	$(idUploader).pluploadQueue({
@@ -38,7 +50,7 @@ if($(idUploader).length!=0){
                         success:function(data){
                          
 
-                                  var res=showResults(data,'.',"#message")
+                                  var res=showResults(data,'.',".message")
                          console.log(res);
                          
                           		if(res==false)
@@ -61,7 +73,7 @@ if($(idUploader).length!=0){
        
                     UploadComplete:function()
                     {
-                            $("#message").html("<div class='alert alert-success'><p>Datos guardados con éxito</p></div>")
+                            $(".message").html("<div class='alert alert-success'><p>Datos guardados con éxito</p></div>")
                         
                             
                              $('body').delay(1500).queue(function( nxt ) {
@@ -79,47 +91,61 @@ if($(idUploader).length!=0){
 	function showErrorsForm(p)
 	{
 	  console.log(p);
-	    var str="<div class='alert alert-danger'>";
+	    var str;//;="<div title='Clicar para esconder'>";
+	       	    for (i in p){
+	           str+='<p>'+p[i]+'</p>';
+	        }
+	        
+	        return str;///+"</div>";
+/*
+    var str="<div title='Clicar para esconder'>";
 	    for (i in p)
 	        {
 	            str+='<p>'+p[i]+'</p>';
 	        }
 	        
-	        return str+"</div>";
-
+	        return str+"</div>";*/
 	}
 
 	function showSuccessForm(text)
 	{
 	   
-	            return '<div class="alert alert-success"><p>'+text+'</p></div>';
+	   //         return '<div title="Clicar para esconder"><p>'+text+'</p></div>';
+	            return ''+text+'';
 	}
 
-    function generateNotify(elem,position,text,type){
-    	if(elem==null)
-    	{
-    		$.notify(text,type)
-    	}
-    	else
-
-    	$(elem).notify(
-  		text, type,
-  		{ position:position }
-		);
+    function generateNotify(elem,position,text,type,seg,timeout,closeWith){
+    		if(type=="error")
+    		{
+    			
+    		}
+	    	if(elem==null)
+	    	{
+	    		var noty=$.notyfy({text:text,type:type});
+	    	}
+	    	else
+		{
+	    		console.log(elem,$(elem));
+	    		$(elem).notyfy({
+	  		text:"aaa"	
+			});
+	    }
+	 
+	    
     }
 	function showResults(data,form,id)
 	{
 		$(id).children().remove();
 	    	if(data.msg_errors)
 		{
-		     $(id).html(showErrorsForm(data.msg_errors));
-		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error");
+		     //$(id).html(showErrorsForm(data.msg_errors));
+		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error",0,false,['click']);
 			return false
 		}
 		else if(data.msg_success)
 		{      
-		     $(id).html(showSuccessForm(data.msg_success))
-		     generateNotify(id,"top",showErrorsForm(data.msg_success),"success");
+		     //$(id).html(showSuccessForm(data.msg_success))
+		     generateNotify(id,"top",showErrorsForm(data.msg_success),"success",0,false,['click']);
 		     if(data.idcreated)
 			{
 		  		return data.idcreated
@@ -128,3 +154,4 @@ if($(idUploader).length!=0){
 	     }
 	}
 
+	

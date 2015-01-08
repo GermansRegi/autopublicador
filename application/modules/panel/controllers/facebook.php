@@ -7,6 +7,7 @@ class Facebook extends CI_Controller {
 		parent::__construct();
 		$this->load->model('bases_datos_model');
 		$this->load->model('social_users');		
+
 				// To load the CI benchmark and memory usage profiler - set 1==1.
 		if (1==2)
 		{
@@ -82,7 +83,14 @@ class Facebook extends CI_Controller {
 
 	public function index()
 	{
-		
+		$this->load->model("social_user_accounts");
+			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['events']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['groups']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['pages']=$pages;
+			$this->data['titlepage']="Cuentas de facebook";
+			$this->load->view('panel/facebook/index',$this->data);
+
 	}
 	public function connectar_facebook()
 	{
@@ -97,13 +105,57 @@ class Facebook extends CI_Controller {
 		else
 		{
 			
-
-			$this->data['pages']=$this->fblib->api('/me/accounts');
-			$this->data['events']=$this->fblib->api('/me/events');
-			$this->data['groups']=$this->fblib->api('/me/groups');
+			$user=$this->user_fb=$this->fblib->api('/me');
 			
+			$this->load->model("social_user_accounts");
 
-			var_dump($this->data['groups']);
+			$pages=array();
+
+			$pagesFace=$this->fblib->api('/me/accounts');
+			
+			foreach($pagesFace['data'] as $val)
+	           {    
+				
+	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user['id'],'type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+                    if(in_array('ADMINISTER',$val->perms) && $exist==false)
+                    {
+                    	$pages[]=$val;
+                    }
+                    
+               }
+               $groups=array();
+               $groupsFace=$this->fblib->api('/me/groups');
+			
+			foreach($groupsFace['data'] as $val)
+	           {    
+				
+	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user['id'],'type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+                    if($exist==false)
+                    {
+                    	$groups[]=$val;
+                    }
+                    
+               }
+               $events=array();
+               $eventsFace=$this->fblib->api('/me/events');
+			
+			foreach($eventsFace['data'] as $val)
+	           {    
+				
+	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user['id'],'type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+                    if($exist==false)
+                    {
+                    	$events[]=$val;
+                    }
+                    
+               }
+               $this->data['pages']=$pages;
+
+			$this->data['events']=$events;
+			$this->data['groups']=$groups;
+				
+
+			
 			$this->data['titlepage']="Añadir cuentas de facebook";
 			
 			$this->load->view('panel/facebook/accounts_add',$this->data);
@@ -135,7 +187,7 @@ class Facebook extends CI_Controller {
 	public function anadir_paginas()
 	{
 		$this->load->library('Facebooklib','','fblib');
-		$arrayTypes=array("pages","groups","events");
+		$arrayTypes=array("page","group","event");
 		$this->user_fb=$this->fblib->api('/me');
 		foreach($arrayTypes as $type)
 		{
@@ -153,7 +205,7 @@ class Facebook extends CI_Controller {
 				$this->load->model("social_user_accounts");
 				foreach ($arrayPagesSelected as $page) {
 					unset($page['checked']);
-					if($type=="groups" || $type=="events"){
+					if($type=="group" || $type=="event"){
 						$page['access_token']=$this->fblib->getSession()->getToken();
 					}
 					$page['idaccount']=$page['id'];	

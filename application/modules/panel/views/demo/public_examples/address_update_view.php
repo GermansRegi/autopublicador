@@ -14,7 +14,7 @@
 
 <body id="update_address">
 
-<div id="body_wrap">
+<section id="body_wrap">
 	<!-- Header -->  
 	<?php $this->load->view('includes/header'); ?> 
 
@@ -22,28 +22,28 @@
 	<?php $this->load->view('includes/demo_header'); ?> 
 	
 	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Public: Update Address</h2>
 				<p>The flexi auth library allows multiple custom user data tables to be related to the libraries user account table.</p>
 				<p>As an example of this, this demo includes a user address book that can be used by each user to save addresses and relate them to their account.</p>
 				<p>This page will update a specific address within the current logged in users address book.</p>
-			</div>		
-		</div>
-	</div>
+			</section>		
+		</section>
+	</section>
 	
 	<!-- Main Content -->
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Update Address</h2>
 				<a href="<?php echo $base_url;?>auth_public/manage_address_book">Manage Address Book</a>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 				
 				<?php echo form_open(current_url());	?>  	
@@ -123,13 +123,13 @@
 						</ul>
 					</fieldset>
 				<?php echo form_close();?>
-			</div>
-		</div>
-	</div>	
+			</section>
+		</section>
+	</section>	
 	
 	<!-- Footer -->  
 	<?php $this->load->view('includes/footer'); ?> 
-</div>
+</section>
 
 <!-- Scripts -->  
 <?php $this->load->view('includes/scripts'); ?> 

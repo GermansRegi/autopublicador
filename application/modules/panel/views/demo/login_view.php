@@ -20,10 +20,10 @@
 
 
 
-<div class="content">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
+<section class="content">
+  <section class="container">
+    <section class="row">
+      <section class="col-md-6">
                   <!-- Some content -->
                   <h3 class="title">Regístrese hoy <span class="color">!!!</span></h3>
                   <h4>Morbi tincidunt posuere turpis eu laoreet</h4>
@@ -39,45 +39,45 @@
 
                   <p>Nullam in est urna. In vitae adipiscing enim. In ut nulla est. Nullam in est urna. In vitae adipiscing enim. Curabitur rhoncus condimentum lorem, non convallis dolor faucibus eget. In ut nulla est. </p>
 
-                </div>
+                </section>
 
                 <!-- Login form -->
-                <div class="col-md-6">
-                  <div class="formy well">
+                <section class="col-md-6">
+                  <section class="formy well">
                     <!-- Title -->
                      <h4 class="title">Acceda a su cuenta</h4>
                       <p>&nbsp;</p>
-                                  <div class="form">
+                                  <section class="form">
 							<?php if (! empty($message)) { ?>
-										<div id="infoMessage">
+										<section id="infoMessage">
 											<?php echo $message; ?>
-										</div>
+										</section>
 									<?php } ?>
                                       <form class="form-horizontal" action='<?php echo base_url()?>panel/login' method="post" role="form">
-                                         <div class="form-group">
+                                         <section class="form-group">
                                            <label for="identity" class="col-lg-4 control-label">Correo electrónico:</label>
 
-                                           <div class="col-lg-6">
-<input type="text" id="identity" name="login_identity" class="form-control" placeholder="Correo electrónico" value="<?php echo set_value('login_identity', 'admin@admin.com');?>"	/>
+                                           <section class="col-lg-6">
+<input type="text" id="identity" name="login_identity" class="form-control" placeholder="Correo electrónico" value="<?php echo set_value('login_identity', 'eugeniregidev@gmail.com');?>"	/>
 
 
-                                           </div>
-                                         </div>
-                                         <div class="form-group">
+                                           </section>
+                                         </section>
+                                         <section class="form-group">
                                            <label for="password" class="col-lg-4 control-label">Contraseña:</label>
-                                           <div class="col-lg-6">
+                                           <section class="col-lg-6">
 
-                                           	<input type="password" id="password" class="form-control" placeholder="Contraseña" name="login_password" value="<?php echo set_value('login_password', 'password123');?>"/>
+                                           	<input type="password" id="password" class="form-control" placeholder="Contraseña" name="login_password" value="<?php echo set_value('login_password', 'eugeni88');?>"/>
 
-                                           </div>
-                                         </div>
-                                         <div class="form-group">
-                                           <div class="col-lg-offset-4 col-lg-10">
+                                           </section>
+                                         </section>
+                                         <section class="form-group">
+                                           <section class="col-lg-offset-4 col-lg-10">
                                            <input type="submit" name="login_user" id="submit" value="Acceder" class="btn btn-default"/>
 
                                              <button type="reset" class="btn btn-default">Borrar</button>
-                                           </div>
-                                         </div>
+                                           </section>
+                                         </section>
                                        </form>
 
                                       <hr>
@@ -86,16 +86,16 @@
                                       <h5>Crear cuenta</h5>
                                       <!-- Register link -->
                                           No tiene una cuenta? <a href="<?php echo base_url(); ?>panel/register_account">Regístrese</a>
-                                    </div>
-                                  </div>
-                </div>
-                </div>
-                </div>
-                </div>
+                                    </section>
+                                  </section>
+                </section>
+                </section>
+                </section>
+                </section>
 
-    </div>
-  </div>
-</div>
+    </section>
+  </section>
+</section>
 
 <?php
     echo $this->load->view('includes2/footer');

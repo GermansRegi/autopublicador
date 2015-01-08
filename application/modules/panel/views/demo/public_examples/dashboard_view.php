@@ -14,7 +14,7 @@
 
 <body id="public_dashboard">
 
-<div id="body_wrap">
+<section id="body_wrap">
 	<!-- Header -->  
 	<?php $this->load->view('includes/header'); ?> 
 
@@ -22,27 +22,27 @@
 	<?php $this->load->view('includes/demo_header'); ?> 
 	
 	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Public: Dashboard</h2>
 				<p>This page acts as an example dashboard landing page for logged in public users, demonstrating how some of the functions within the flexi auth library can be used to manage the account details of public users.</p>
-			</div>		
-		</div>
-	</div>
+			</section>		
+		</section>
+	</section>
 	
 	<!-- Main Content -->
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 			
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 				
-				<div class="w100 frame">							
+				<section class="w100 frame">							
 					<h3>Account Details</h3>
 					<p>Update the account details of the currently logged in user.</p>
 					<p>This example updates records from the required 'User Accounts' table, and from the custom 'Demo User Profile' table that in this demo is used to store a users name, phone number etc.</p>
@@ -84,14 +84,14 @@
 							<a href="<?php echo $base_url;?>auth_public/manage_address_book">Manage Address Book</a>
 						</li>	
 					</ul>
-				</div>
-			</div>
-		</div>
-	</div>	
+				</section>
+			</section>
+		</section>
+	</section>	
 	
 	<!-- Footer -->  
 	<?php $this->load->view('includes/footer'); ?> 
-</div>
+</section>
 
 <!-- Scripts -->  
 <?php $this->load->view('includes/scripts'); ?> 

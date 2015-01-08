@@ -1,5 +1,5 @@
-	<div class="content_wrap nav_bg">
-		<div id="sub_nav_wrap" class="content">
+	<section class="content_wrap nav_bg">
+		<section id="sub_nav_wrap" class="content">
 			<ul id="sub_nav">
 				<li>
 					<a href="<?php echo $base_url;?>auth_lite/demo">About Demo</a>
@@ -83,5 +83,5 @@
 					<a href="<?php echo $base_url;?>auth_lite/lite_library">Lite Library</a>
 				</li>
 			</ul>
-		</div>
-	</div>
+		</section>
+	</section>

@@ -18,45 +18,45 @@
 
 ?>
 
-            <div class="content">
-			<div class="container">
+            <section class="content">
+			<section class="container">
 				
-				<div class='namebd'>
+				<section class='namebd'>
 					<p>Inserte Enlaces en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." enlaces creados. El máximo de enlaces son ".$this->config->item('max-no-images').".</span>";?></p>
-				</div>
+				</section>
 
-				<div class="clearfix">
+				<section class="clearfix">
 					<form id="addcontent" method='post' action='<?php echo base_url(); ?>admin/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
-						<div id='message'>      
-						</div>	
-						<div class="col-sm-4">
-							<div class="form-group">
+						<section id='message'>      
+						</section>	
+						<section class="col-sm-4">
+							<section class="form-group">
 								<label>Enlace:</label>
 								<input type='text' class="form-control" name='link'>
-							</div>
-							<div class="form-group">
+							</section>
+							<section class="form-group">
 							<label>Texto:</label>
 							<input type='text' class="form-control" name='text' >
-							</div>
-							<div class="form-group">
+							</section>
+							<section class="form-group">
 								<input value='<?php echo $bbdd->id; ?>' name='bbdd_alta' type='hidden'>
 								<input type='submit' value='guardar' class="btn btn-primary" name='Submit'>
-							</div>
-						</div>
+							</section>
+						</section>
 					</form>
-				</div>
-							<div class="row">
-				<div class="col-sm-12 text-right">
+				</section>
+							<section class="row">
+				<section class="col-sm-12 text-right">
 	                	
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
-	              </div>
-			</div>
-			<div class "row" id="contenido">
+	              </section>
+			</section>
+			<section class "row" id="contenido">
 				<?php if(count($elements)>0){
 					?>
-				<div class='namebd'>
+				<section class='namebd'>
 				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
-				</div>
+				</section>
 
 				
 				  <table class="table table-striped" >
@@ -73,9 +73,9 @@
 				    }
 				    ?>
 				</table>
-				<div class="row">
+				<section class="row">
 					<?php echo $link_pager; ?>
-				</div>
+				</section>
 				<?php }
 				else {
 					?>
@@ -91,11 +91,11 @@
 
 				 	<?php
 				 } ?>
-			</div>
+			</section>
 			
 
-			</div>
-		</div>
+			</section>
+		</section>
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>admin/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>'
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

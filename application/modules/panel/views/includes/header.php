@@ -3,8 +3,8 @@
 	document.body.className += ' js-enabled';
 </script>
 
-<div id="header_wrap">
-	<div id="header">
+<section id="header_wrap">
+	<section id="header">
 		<h1 id="logo">
 			<a href="<?php echo $base_url; ?>" title="flexi auth">
 				<img src="<?php echo $includes_dir;?>images/logo.png" alt="flexi auth"/>
@@ -34,7 +34,7 @@
 		</ul> 
 
 		<a href="http://haseydesign.com/flexi-cart/" id="flexi_cart_ribbon">
-			<div class="ribbon_text">			
+			<section class="ribbon_text">			
 				<p>
 					Need a New<br/>
 					CodeIgniter<br/>
@@ -42,7 +42,7 @@
 					Library?
 				</p>
 				<h6>flexi cart</h6>
-			</div>
+			</section>
 		</a>
-	</div>
-</div>
+	</section>
+</section>

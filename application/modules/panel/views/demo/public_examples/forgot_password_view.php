@@ -19,76 +19,76 @@
 ?>
 
 
-<div class="page-head">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
+<section class="page-head">
+  <section class="container">
+    <section class="row">
+      <section class="col-md-12">
         <h2>Recuperación de contraseña</h2>
         <h4>something goes here</h4>
-      </div>
-    </div>
-  </div>
+      </section>
+    </section>
+  </section>
 
 
-</div>
+</section>
 
-<div class="content">
-  <div class="container">
-    <div class="row">
-    <div class="col-md-6">
-                  <div class="formy well">
+<section class="content">
+  <section class="container">
+    <section class="row">
+    <section class="col-md-6">
+                  <section class="formy well">
                     <!-- Title -->
                      <h4 class="title">Introduzca su correo electrónico</h4>
                       <p>&nbsp;</p>
-                                  <div class="form">
+                                  <section class="form">
 
                                       <!-- Login form (not working)-->
                                       <?php if (! empty($message)) { ?>
-										<div id="infoMessage">
+										<section id="infoMessage">
 											<?php echo $message; ?>
-										</div>
+										</section>
 									<?php } ?>
                                      <?php echo form_open("panel/forgotten_password",array('class'=>'form-horizontal','role'=>'form'));?>
 
-                                         <div class="form-group">
+                                         <section class="form-group">
  											<label for="identity" class="col-lg-4 control-label">Correo electrónico</label>
-                                           <div class="col-lg-6	">
+                                           <section class="col-lg-6	">
 
                                             <input type="text" id="identity" name="forgot_password_identity" value="" class="form-control"
 									title="Por favor introduzca el correo electrónico con el que se registró."
 								/>
         									<?php //echo form_input($email);?>
-                                           </div>
-                                         </div>
-                                         <div class="form-group">
-                                           <div class="col-lg-offset-2 col-lg-10">
+                                           </section>
+                                         </section>
+                                         <section class="form-group">
+                                           <section class="col-lg-offset-2 col-lg-10">
 
                                              	<input type="submit" name="send_forgotten_password" id="submit" value="Enviar" class="btn btn-default"/>
                                              <button type="reset" class="btn btn-default">Borrar</button>
-                                           </div>
-                                         </div>
+                                           </section>
+                                         </section>
                                        </form>
-                                      </div>
-                                      </div>
+                                      </section>
+                                      </section>
 
 
-    </div>
-  </div>
-</div>
+    </section>
+  </section>
+</section>
 	<!-- Main Content --
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Forgotten Password</h2>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 
 				<?php echo form_open(current_url());	?>
-					<div class="w100 frame">
+					<section class="w100 frame">
 						<ul>
 							<li class="info_req">
 								<label for="identity">Email or Username:</label>
@@ -102,11 +102,11 @@
 								<small>Note: By default, this demo is set so that the password must be reset within 15 minutes of the 'forgotten password' email being sent.</small>
 							</li>
 						</ul>
-					</div>
+					</section>
 				<?php echo form_close();?>
-			</div>
-		</div>
-	</div>
+			</section>
+		</section>
+	</section>
 
 <?php
     echo $this->load->view('includes2/footer');

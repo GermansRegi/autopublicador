@@ -14,7 +14,7 @@
 
 <body id="insert_privilege">
 
-<div id="body_wrap">
+<section id="body_wrap">
 	<!-- Header -->  
 	<?php $this->load->view('includes/header'); ?> 
 
@@ -22,28 +22,28 @@
 	<?php $this->load->view('includes/demo_header'); ?> 
 	
 	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Admin: Insert New Privilege</h2>
 				<p>The flexi auth library allows for unlimited custom user privileges to be defined. The privileges can then be assigned to users on an individual basis.</p>
 				<p>Once privileges have been defined, access to specific pages or even specific sections of pages can be controlled by checking whether a user has permission to access a requested page.</p>
 				<p>The default setup of this demo uses user groups and privileges to restrict the example public user from accessing the admin area, and the example moderator user from inserting, updating and deleting specific data within the admin area.</p>
-			</div>		
-		</div>
-	</div>
+			</section>		
+		</section>
+	</section>
 	
 	<!-- Main Content -->
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Insert New Privilege</h2>
 				<a href="<?php echo $base_url;?>auth_admin/manage_privileges">Manage Privileges</a>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 				
 				<?php echo form_open(current_url());	?>  	
@@ -73,13 +73,13 @@
 						</ul>
 					</fieldset>
 				<?php echo form_close();?>
-			</div>
-		</div>
-	</div>	
+			</section>
+		</section>
+	</section>	
 	
 	<!-- Footer -->  
 	<?php $this->load->view('includes/footer'); ?> 
-</div>
+</section>
 
 <!-- Scripts -->  
 <?php $this->load->view('includes/scripts'); ?> 

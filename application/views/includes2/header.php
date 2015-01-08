@@ -1,20 +1,20 @@
 <script>
 	var base_url='<?php echo base_url()?>'
 </script>
-    <div id="container">
+    <main id="container">
         <header>
-        <div class="container">
-            <div class="row">
+        <section class="container">
+            <section class="row">
            <?php if( isset($section_app) && $section_app=='panel')
      		{?>
-            <div class="col-sm-4">
+            <section class="col-sm-4">
             <?php }else{
             	?>
-            	  <div class="col-sm-6">
+            	  <section class="col-sm-6">
             	<?php
             }
             ?>
-                <div class="logo">
+                <section class="logo">
                     <h1>
 
                         <a href="<?php echo base_url_module(); ?>">Autopublicador<span class="color bold"> Social</span></a>
@@ -38,20 +38,20 @@
 					}
 						?>
 
-                </div>
-            </div>
+                </section>
+            </section>
            <?php if( isset($section_app) && $section_app=='panel')
      		{?>
-            <div class="col-sm-8">
+            <section class="col-sm-8">
             <?php }else{
             	?>
-            	  <div class="col-sm-6">
+            	  <section class="col-sm-6">
             	<?php
             }
             ?>
            
 
-            <div class="navbar bs-docs-nav" role="banner">
+            <section class="navbar bs-docs-nav" role="banner">
             
           <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
 
@@ -86,22 +86,22 @@
                 </ul>
 
                 	</nav>
-                    </div>
-                </div>
-                </div>
-                </div>
+                    </section>
+                </section>
+                </section>
+                </section>
 
         </header>
-        <div class="sep"></div>
+        <section class="sep"></section>
 		   
-            <div class="page-head">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-12">
+            <section class="page-head">
+              <section class="container">
+                <section class="row">
+                  <section class="col-md-12">
                     <h2><?php echo $titlepage?></h2>
 
-                  </div>
-                </div>
-              </div>
-              </div>
+                  </section>
+                </section>
+              </section>
+              </section>
 

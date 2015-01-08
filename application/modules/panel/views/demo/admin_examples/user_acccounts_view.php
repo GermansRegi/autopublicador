@@ -14,7 +14,7 @@
 
 <body id="manage_users">
 
-<div id="body_wrap">
+<section id="body_wrap">
 	<!-- Header -->  
 	<?php $this->load->view('includes/header'); ?> 
 
@@ -22,26 +22,26 @@
 	<?php $this->load->view('includes/demo_header'); ?> 
 	
 	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Admin: Manage User Accounts</h2>
 				<p>The flexi auth library includes functions to aid the management of user accounts by site administrators.</p>
 				<p>This page demonstrates how to display a pagninated list of all user accounts and then apply a search filter to find specific users via their email address or first and last name. In addition, the page demonstrates how to mass update or delete multiple accounts at the same time.</p>
-			</div>		
-		</div>
-	</div>
+			</section>		
+		</section>
+	</section>
 	
 	<!-- Main Content -->
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>User Accounts</h2>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 				
 				<?php echo form_open(current_url());	?>
@@ -149,20 +149,20 @@
 					</table>
 					
 				<?php if (! empty($pagination['links'])) { ?>
-					<div id="pagination" class="w100 frame">
+					<section id="pagination" class="w100 frame">
 						<p>Pagination: <?php echo $pagination['total_users'];?> users match your search</p>
 						<p>Links: <?php echo $pagination['links'];?></p>
-					</div>
+					</section>
 				<?php } ?>
 					
 				<?php echo form_close();?>
-			</div>
-		</div>
-	</div>	
+			</section>
+		</section>
+	</section>	
 	
 	<!-- Footer -->  
 	<?php $this->load->view('includes/footer'); ?> 
-</div>
+</section>
 
 <!-- Scripts -->  
 <?php $this->load->view('includes/scripts'); ?> 

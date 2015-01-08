@@ -14,7 +14,7 @@
 
 <body id="change_forgot_password">
 
-<div id="body_wrap">
+<section id="body_wrap">
 	<!-- Header -->  
 	<?php $this->load->view('includes/header'); ?> 
 
@@ -22,31 +22,31 @@
 	<?php $this->load->view('includes/demo_header'); ?> 
 	
 	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Change Forgotten Password</h2>
 				<p>This page is accessed via clicking on a link within a 'forgotten password' email.</p>
 				<p>Whereas a typical 'updated password' page would require the user to verify their identity via entering their current password, in the situation when the user has forgotten their password, this obviously isn't possible.</p>
 				<p>Therefore, by clicking the link in their 'forgotten password' email, they have verified they have access to that email account, the link then contains a validation token that is verified to match a token generated in the users account when they requested they had forgotten their password, provided the token is valid, the user can then manually set their new password.</p>
-			</div>		
-		</div>
-	</div>
+			</section>		
+		</section>
+	</section>
 	
 	<!-- Main Content -->
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Change Forgotten Password</h2>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 				
 				<?php echo form_open(current_url());	?>  	
-					<div class="w100 frame">
+					<section class="w100 frame">
 						<ul>
 							<li>
 								<small>
@@ -67,15 +67,15 @@
 								<input type="submit" name="change_forgotten_password" id="submit" value="Submit" class="link_button large"/>
 							</li>
 						</ul>
-					</div>
+					</section>
 				<?php echo form_close();?>
-			</div>
-		</div>
-	</div>	
+			</section>
+		</section>
+	</section>	
 	
 	<!-- Footer -->  
 	<?php $this->load->view('includes/footer'); ?> 
-</div>
+</section>
 
 <!-- Scripts -->  
 <?php $this->load->view('includes/scripts'); ?> 

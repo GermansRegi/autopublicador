@@ -14,7 +14,7 @@
 
 <body id="update_email">
 
-<div id="body_wrap">
+<section id="body_wrap">
 	<!-- Header -->  
 	<?php $this->load->view('includes/header'); ?> 
 
@@ -22,31 +22,31 @@
 	<?php $this->load->view('includes/demo_header'); ?> 
 	
 	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Public: Change Email via Email Verification</h2>
 				<p>Whilst it is possible to instantly update a users email address using the flexi auth library, if a user was to unknowingly mispell their email address, they would be unable to login at a later date, as they wouldn't know how they spelt the email address.</p>
 				<p>To counter this problem, when updating the email via email verification, once the user submits their new email address, an email is sent to the user, if they do not click the verification link in that email, their account is not updated.</p>
-			</div>		
-		</div>
-	</div>
+			</section>		
+		</section>
+	</section>
 	
 	<!-- Main Content -->
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Change Email via Email Verification</h2>
 				<a href="<?php echo $base_url;?>auth_public/update_account">Update Account Details</a>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 				
 				<?php echo form_open(current_url());	?>  	
-					<div class="w100 frame">
+					<section class="w100 frame">
 						<ul>
 							<li class="info_req">
 								<label for="email_address">New Email Address:</label>
@@ -57,15 +57,15 @@
 								<input type="submit" name="update_email" id="submit" value="Submit" class="link_button large"/>
 							</li>
 						</ul>
-					</div>
+					</section>
 				<?php echo form_close();?>
-			</div>
-		</div>
-	</div>	
+			</section>
+		</section>
+	</section>	
 	
 	<!-- Footer -->  
 	<?php $this->load->view('includes/footer'); ?> 
-</div>
+</section>
 
 <!-- Scripts -->  
 <?php $this->load->view('includes/scripts'); ?> 

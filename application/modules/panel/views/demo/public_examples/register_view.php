@@ -19,10 +19,10 @@
 
 
 
-<div class="content">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
+<section class="content">
+  <section class="container">
+    <section class="row">
+      <section class="col-md-6">
         <!-- Some content -->
                   <h3 class="title">Regístrese Hoy <span class="color">!!!</span></h3>
                   <h4>Morbi tincidunt posuere turpis eu laoreet</h4>
@@ -38,118 +38,118 @@
 
                   <p>Nullam in est urna. In vitae adipiscing enim. In ut nulla est. Nullam in est urna. In vitae adipiscing enim. Curabitur rhoncus condimentum lorem, non convallis dolor faucibus eget. In ut nulla est. </p>
 
-                </div>
+                </section>
 
                 <!-- Form -->
-                <div class="col-md-6">
-                  <div class="form well">
+                <section class="col-md-6">
+                  <section class="form well">
                     <!-- Title -->
                      <h4 class="title">Crear una nueva cuenta</h4>
             <p>&nbsp;</p>
-                                  <div class="form">
+                                  <section class="form">
                           	<?php if (! empty($message)) { ?>
-									<div id="infoMessage">
+									<section id="infoMessage">
 								<?php echo $message; ?>
-								</div>
+								</section>
 						<?php } ?>                   <!-- Register form (not working)-->
                       <?php echo form_open("panel/register_account",array('class'=>'form-horizontal','role'=>'form'));?>
-                       <div class="form-group">
+                       <section class="form-group">
                             <label for="first_name" class="col-lg-4 control-label">Nombre</label>
-                         <div class="col-lg-6">
+                         <section class="col-lg-6">
                          <input type="text" id="first_name" name="register_first_name" class="form-control" placeholder="Nombre" value="<?php echo set_value('register_first_name');?>"/>
                         <!--  <?php echo form_input($first_name,'','');?> -->
 
-                         </div>
-                       </div>
-                       <div class="form-group">
+                         </section>
+                       </section>
+                       <section class="form-group">
                           <label for="password" class="col-lg-4 control-label">Apellidos</label>
-                         <div class="col-lg-6">
+                         <section class="col-lg-6">
 
                         	<input type="text" id="last_name" name="register_last_name" class="form-control" placeholder="Apellidos" value="<?php echo set_value('register_last_name');?>"/>
-                         </div>
-                       </div>
-                       <div class="form-group">
+                         </section>
+                       </section>
+                       <section class="form-group">
                         <label for="first_name" class="col-lg-4 control-label">Correo Electronico</label>
                        <!--  <?php echo lang('create_user_email_label', 'email');?> -->
-                         <div class="col-lg-6">
+                         <section class="col-lg-6">
                          <input type="text" id="email_address" class="form-control" placeholder="Correo electrónico" name="register_email_address" value="<?php echo set_value('register_email_address');?>" class="tooltip_trigger"
 									title="This demo requires that upon registration, you will need to activate your account via clicking a link that is sent to your email address."
 								/>
                     <!--      <?php echo form_input($email,'','class="form-control" placeholder="Correo electrónico"');?> -->
-                         </div>
-                       </div>
-                       <div class="form-group">
+                         </section>
+                       </section>
+                       <section class="form-group">
 							  <label for="first_name" class="col-lg-4 control-label">Contraseña</label>
                   <!--   <?php echo lang('create_user_password_label', 'password');?> -->
-                         <div class="col-lg-6">
+                         <section class="col-lg-6">
                          	<input type="password" id="password" class="form-control" placeholder="Contraseña" name="register_password" value="<?php echo set_value('register_password');?>"/>
                    <!--  <?php echo form_input($password,'','class="form-control" placeholder="Contraseña"');?> -->
-                         </div>
-                       </div>
-                       <div class="form-group">
+                         </section>
+                       </section>
+                       <section class="form-group">
 
                 <!--      <?php echo lang('create_user_password_confirm_label', 'password_confirm');?> -->
                 	  <label for="first_name" class="col-lg-4 control-label">Confirmación contraseña</label>
-                         <div class="col-lg-6 aligninput">
+                         <section class="col-lg-6 aligninput">
                          <input class="form-control" placeholder="Confirmación contraseña" type="password" id="confirm_password" name="register_confirm_password" value="<?php echo set_value('register_confirm_password');?>"/>
                    <!--   <?php echo form_input($password_confirm,'','class="form-control" placeholder="Confirmar contraseña"');?> -->
-                         </div>
-                       </div>
+                         </section>
+                       </section>
 
-                       <div class="form-group">
-                         <div class="col-lg-offset-2 col-lg-6">
-                         <div class="checkbox">
+                       <section class="form-group">
+                         <section class="col-lg-offset-2 col-lg-6">
+                         <section class="checkbox">
                            <label>
                            <input name="register_terms_and_conditions" type="checkbox"> Acepto los Términos &amp; Condiciones
                            </label>
-                         </div>
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <div class="col-lg-offset-2 col-lg-8">
+                         </section>
+                         </section>
+                       </section>
+                       <section class="form-group">
+                         <section class="col-lg-offset-2 col-lg-8">
                       <!--    <button type="submit" class="btn btn-default">Registrarse</button>
  -->                         <input type="submit" name="register_user" id="submit" value="Registrarse" class="btn btn-default"/>
                          <button type="reset" class="btn btn-default">Borrar</button>
-                         </div>
-                       </div>
+                         </section>
+                       </section>
                        </form>
                        <hr>
 
                                              Ya tiene una cuenta? <a href="<?php echo base_url()?>login">Acceder</a>
-                                    </div>
-                                  </div>
+                                    </section>
+                                  </section>
 
-                </div>
-    </div>
-  </div>
-</div>
+                </section>
+    </section>
+  </section>
+</section>
 
 	<!-- Demo Navigation -
 	<?php $this->load->view('includes/demo_header'); ?>
 
 	<!-- Intro Content -
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Register Account</h2>
 				<p>User registation is a core requirement for any site that is to allow anonymous users to register for an account within the site.</p>
 				<p>The data collected and saved during this process will always vary from site to site, but typically comes down to two primary types, data that is essential for user authentication and then user profile data.</p>
 				<p>The essential user authentication data consists of information like a users email address and password that are required by users to securely log into their account. In addition to this, the flexi auth library can also automatically save and manage user data like IP addresses, last login dates etc.</p>
 				<p>As for the user profile data, flexi auth allows you to save and relate whatever data you require to the users account, whether that data is all stored in the same table, or via multiple tables. The design of the database schema is up to you.</p>
-			</div>
-		</div>
-	</div>
+			</section>
+		</section>
+	</section>
 
 	<!-- Main Content -
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Register Account</h2>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 
 				<?php echo form_open(current_url()); ?>
@@ -229,13 +229,13 @@
 						</ul>
 					</fieldset>
 				<?php echo form_close();?>
-			</div>
-		</div>
-	</div>
+			</section>
+		</section>
+	</section>
 
 	<!-- Footer -->
 	<?php $this->load->view('includes2/footer'); ?>
-</div>
+</section>
 
 <!-- Scripts -->
 <?php $this->load->view('includes2/scripts'); ?>

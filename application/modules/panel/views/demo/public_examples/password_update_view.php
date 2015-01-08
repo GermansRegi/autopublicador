@@ -14,7 +14,7 @@
 
 <body id="change_password">
 
-<div id="body_wrap">
+<section id="body_wrap">
 	<!-- Header -->  
 	<?php $this->load->view('includes/header'); ?> 
 
@@ -22,32 +22,32 @@
 	<?php $this->load->view('includes/demo_header'); ?> 
 	
 	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Public: Update Password</h2>
 				<p>The users password is the front line of defence when protecting an account from unauthorised access.</p>
 				<p>The flexi auth library includes functions to help the secure managment of user passwords using the popular <a href="http://www.openwall.com/phpass/" target="_blank">phpass framework</a>.</p>
 				<p>In addition, flexi auth extends CodeIgniters form validation class so that entered passwords can be consistently validated to contain valid characters and be of a specific character length.</p>
-			</div>
-		</div>
-	</div>
+			</section>
+		</section>
+	</section>
 	
 	<!-- Main Content -->
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Update Password</h2>
 				<a href="<?php echo $base_url;?>auth_public/update_account">Update Account Details</a>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 				
 				<?php echo form_open(current_url());	?>  	
-					<div class="w100 frame">
+					<section class="w100 frame">
 						<ul>
 							<li>
 								<small>
@@ -73,15 +73,15 @@
 								<input type="submit" name="change_password" id="submit" value="Submit" class="link_button large"/>
 							</li>
 						</ul>
-					</div>
+					</section>
 				<?php echo form_close();?>
-			</div>
-		</div>
-	</div>	
+			</section>
+		</section>
+	</section>	
 	
 	<!-- Footer -->  
 	<?php $this->load->view('includes/footer'); ?> 
-</div>
+</section>
 
 <!-- Scripts -->  
 <?php $this->load->view('includes/scripts'); ?> 

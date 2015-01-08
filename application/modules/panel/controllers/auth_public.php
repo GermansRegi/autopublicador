@@ -114,7 +114,7 @@ class Auth_public extends CI_Controller {
 
 		// Set any returned status/error messages.
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-
+		$this->data['titlepage']="Editar perfil";
 		$this->load->view('demo/public_examples/account_update_view', $this->data);
 	}
 

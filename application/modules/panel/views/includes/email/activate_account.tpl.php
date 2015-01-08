@@ -58,7 +58,7 @@
 
         <td width="580">
 
-	<div align="justify">
+	<section align="justify">
 
         <br>Bienvenido <?php echo $identity; ?> a <span class="il">Autopublicador Social</span>.
 
@@ -96,7 +96,7 @@
 
 	<br>El equipo de <span class="il">Autopublicador Social</span>.
 
-	</div>
+	</section>
 
 	</td>
 

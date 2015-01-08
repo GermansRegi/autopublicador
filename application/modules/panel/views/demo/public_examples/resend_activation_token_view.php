@@ -14,7 +14,7 @@
 
 <body id="resend_activation_token">
 
-<div id="body_wrap">
+<section id="body_wrap">
 	<!-- Header -->  
 	<?php $this->load->view('includes/header'); ?> 
 
@@ -22,30 +22,30 @@
 	<?php $this->load->view('includes/demo_header'); ?> 
 	
 	<!-- Intro Content -->
-	<div class="content_wrap intro_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap intro_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Resend Activation Token</h2>
 				<p>This demo is setup to require that users that register for a new account must activate their account via clicking a link that is emailed to them immediately upon registration.</p>
 				<p>Since the user can not gain access to their account until it is activated, it is important to allow users to request for the activation email to be resent to them incase they have not received the initial activation email.</p>
-			</div>		
-		</div>
-	</div>
+			</section>		
+		</section>
+	</section>
 	
 	<!-- Main Content -->
-	<div class="content_wrap main_content_bg">
-		<div class="content clearfix">
-			<div class="col100">
+	<section class="content_wrap main_content_bg">
+		<section class="content clearfix">
+			<section class="col100">
 				<h2>Resend Activation Token</h2>
 
 			<?php if (! empty($message)) { ?>
-				<div id="message">
+				<section class="message">
 					<?php echo $message; ?>
-				</div>
+				</section>
 			<?php } ?>
 				
 				<?php echo form_open(current_url());?>  	
-					<div class="w100 frame">
+					<section class="w100 frame">
 						<ul>
 							<li class="info_req">
 								<label for="identity">Email or Username:</label>
@@ -58,15 +58,15 @@
 								<input type="submit" name="send_activation_token" id="submit" value="Submit" class="link_button large"/>
 							</li>
 						</ul>
-					</div>	
+					</section>	
 				<?php echo form_close();?>
-			</div>
-		</div>
-	</div>	
+			</section>
+		</section>
+	</section>	
 	
 	<!-- Footer -->  
 	<?php $this->load->view('includes/footer'); ?> 
-</div>
+</section>
 
 <!-- Scripts -->  
 <?php $this->load->view('includes/scripts'); ?> 

@@ -5,7 +5,7 @@ $(function(){
 			type:'get',dataType:'json',
 			success:function(data)
 			{
-		         var res=showResults(data,',','#message');
+		         var res=showResults(data,',','.message');
 				if(res!=false)
 				{
 					      $('body').delay(1500).queue(function( nxt ) {
@@ -22,7 +22,7 @@ $(function(){
 			type:'get',dataType:'json',
 			success:function(data)
 			{
-		         var res=showResults(data,',','#message');
+		         var res=showResults(data,',','.message');
 				if(res!=false)
 				{
 					$('body').delay(1000).queue(function( nxt ) {
@@ -40,7 +40,7 @@ $(function(){
 			type:'post',dataType:'json',
 			success:function(data)
 			{
-				var res=showResults(data,',','#message');
+				var res=showResults(data,',','.message');
 				if(res!=false)
 				{
 					      $('body').delay(1500).queue(function( nxt ) {
@@ -66,7 +66,7 @@ $(function(){
 			dataType:'json',
 			success:function(data){
 
-				var res=showResults(data,',','#message');
+				var res=showResults(data,',','.message');
 				console.log(res);
 				if(res!=false)
 				setTimeout(function(){location.href=editUrl+'/'+data.idcreated},1500)
@@ -93,7 +93,7 @@ $(function(){
 			dataType:'json',
 			success:function(data){
 
-				var res=showResults(data,',','#message');
+				var res=showResults(data,',','.message');
 				
 				if(res!=false)
 				{
