@@ -216,6 +216,18 @@ class Facebook extends CI_Controller {
 			}
 		}
 	}
+	public function publicar()
+	{
+		$this->load->model('social_user_accounts');
+		$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['events']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['groups']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['pages']=$pages;
+			$this->data['titlepage']="Cuentas de facebook";
+			
+
+		$this->load->view('panel/facebook/publicar',$this->data);
+	}
 }
 
 /* End of file facebook.php */

@@ -2,26 +2,26 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\000034}}
 header {
-  padding: 10px 0px 25px 0px;
+  padding: 10px 0px 0px 0px;
   background: #fafafa url("../images/cream.png") repeat; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\000037}}
   header .logo {
     padding: 0px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\000039}}
     header .logo h1 a {
-      font-size: 29px;
+      font-size: 26px;
       color: #777;
       text-decoration: none;
       font-weight: 400; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000314}}
       header .logo h1 a:visited, header .logo h1 a:hover {
-        font-size: 29px;
+        font-size: 26px;
         color: #777;
         text-decoration: none;
         font-weight: 400; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000321}}
     header .logo h1.subheader {
-      font-size: 25px; }
+      font-size: 23px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000327}}
     header .logo .meta {
       color: #888;
@@ -123,15 +123,15 @@ header {
 /* Page heading */
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003131}}
 .page-head {
-  padding: 20px 0px;
+  padding: 10px 0px;
   box-shadow: inset 0px 0px 4px #bbb;
   background: #f8f8f8;
   border-bottom: 1px solid #ddd; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003136}}
   .page-head h2 {
     color: #777;
-    font-size: 23px;
-    line-height: 23px; }
+    font-size: 19px;
+    line-height: 20px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003141}}
   .page-head h4 {
     color: #999;

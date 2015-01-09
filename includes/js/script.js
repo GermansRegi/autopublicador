@@ -10,6 +10,7 @@ $("body").on('click','#premiumnormal',function(){
 		                            $(".box-plan").hide();
 		                        });
 
+	
 })
 
     
@@ -90,31 +91,24 @@ if(idUploader){
 		
 	function showErrorsForm(p)
 	{
-	  console.log(p);
-	    var str;//;="<div title='Clicar para esconder'>";
+	  
+	    var str="<div title='Clicar para esconder'>";
 	       	    for (i in p){
 	           str+='<p>'+p[i]+'</p>';
 	        }
 	        
-	        return str;///+"</div>";
-/*
-    var str="<div title='Clicar para esconder'>";
-	    for (i in p)
-	        {
-	            str+='<p>'+p[i]+'</p>';
-	        }
-	        
-	        return str+"</div>";*/
+	        return str+"</div>";
+
 	}
 
 	function showSuccessForm(text)
 	{
 	   
-	   //         return '<div title="Clicar para esconder"><p>'+text+'</p></div>';
-	            return ''+text+'';
+	            return '<div title="Clicar para esconder"><p>'+text+'</p></div>';
+	   //         return ''+text+'';
 	}
 
-    function generateNotify(elem,position,text,type,seg,timeout,closeWith){
+    function generateNotify(elem,position,text,type,seg,timeout){
     		if(type=="error")
     		{
     			
@@ -125,9 +119,9 @@ if(idUploader){
 	    	}
 	    	else
 		{
-	    		console.log(elem,$(elem));
+	    	//	console.log(elem,$(elem));
 	    		$(elem).notyfy({
-	  		text:"aaa"	
+	  		text:text,type:type	
 			});
 	    }
 	 
@@ -135,7 +129,7 @@ if(idUploader){
     }
 	function showResults(data,form,id)
 	{
-		$(id).children().remove();
+		//$(id).children().remove();
 	    	if(data.msg_errors)
 		{
 		     //$(id).html(showErrorsForm(data.msg_errors));
@@ -145,7 +139,7 @@ if(idUploader){
 		else if(data.msg_success)
 		{      
 		     //$(id).html(showSuccessForm(data.msg_success))
-		     generateNotify(id,"top",showErrorsForm(data.msg_success),"success",0,false,['click']);
+		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",0,false,['click']);
 		     if(data.idcreated)
 			{
 		  		return data.idcreated

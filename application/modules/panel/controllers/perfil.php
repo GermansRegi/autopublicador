@@ -76,7 +76,39 @@ class Perfil extends CI_Controller {
 	{
 		$this->load->view('panel/perfil/planes');
 	}
+	function change_password()
+	{
+		// If 'Update Password' form has been submitted, validate and then update the users password.
+		
+				$this->data['user'] = $this->flexi_auth->get_user_by_identity_row_array();
 
+		// Set any returned status/error messages.
+		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+
+		$this->load->view('demo/public_examples/account_update_view', $this->data);
+	}
+	function index()
+	{
+		// If 'Update Account' form has been submitted, update the user account details.
+		if ($this->input->post('update_account'))
+		{
+			$this->load->model('demo_auth_model');
+			$this->demo_auth_model->update_account();
+		}
+		if ($this->input->post('change_password'))
+		{
+			$this->load->model('demo_auth_model');
+			$this->demo_auth_model->change_password();
+		}
+		// Get users current data.
+		// This example does so via 'get_user_by_identity()', however, 'get_users()' using any other unqiue identifying column and value could also be used.
+		$this->data['user'] = $this->flexi_auth->get_user_by_identity_row_array();
+
+		// Set any returned status/error messages.
+		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+		$this->data['titlepage']="Editar perfil";
+		$this->load->view('demo/public_examples/account_update_view', $this->data);
+	}
 }
 
 /* End of file perfil.php */

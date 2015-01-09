@@ -31,7 +31,7 @@
 
 				<section>
 				<form id='addcontent' method='post' action='<?php echo base_url(); ?>panel/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
-					<section id='message'>      
+					<section class='message'>      
 
 
 					</section>
@@ -48,7 +48,7 @@
 			
 			<section class="row">
 				<section class="col-sm-12 text-right">
-<input type="button" id="toggle" value="Desmarcar todos" class="btn btn-primary" >	                	
+<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >	                	
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 	              </section>
 			</section>

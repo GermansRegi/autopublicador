@@ -22,7 +22,7 @@
        
 <section class="container">
 	<section class="row">
-		<section class="col-sm-12">
+		<section class="col-sm-12 panel panel-body">
 			
 
 				<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

@@ -20,8 +20,10 @@
  
 
           
-            <section class="content">
+            
 			<section class="container">
+			<div class="row">
+			<div class="col-sm-12 panel panel-body">
 				
 				<section class='namebd'>
 					<p>Inserte Enlaces en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." enlaces creados. El máximo de enlaces son ".$this->config->item('max-no-images').".</span>";?></p>
@@ -29,7 +31,7 @@
 
 				<section class="clearfix">
 					<form id="addcontent" method='post' action='<?php echo base_url(); ?>panel/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
-						<section id='message'>      
+						<section class='message'>      
 						</section>	
 						<section class="col-sm-4">
 							<section class="form-group">
@@ -49,7 +51,7 @@
 				</section>
 							<section class="row">
 				<section class="col-sm-12 text-right">
-	                	<input type="button" id="toggle" value="Desmarcar todos" class="btn btn-primary" >
+	                	<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 	              </section>
 			</section>
@@ -94,9 +96,9 @@
 				 	<?php
 				 } ?>
 			</section>
-			
+			</div>
 
-			</section>
+			</div>
 		</section>
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>panel/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>'

@@ -310,11 +310,11 @@ class Demo_auth_model extends CI_Model {
 		// The custom rule 'identity_available' can be found in '../libaries/MY_Form_validation.php'.
 		$validation_rules = array(
 			array('field' => 'update_first_name', 'label' => 'First Name', 'rules' => 'required'),
-			array('field' => 'update_last_name', 'label' => 'Last Name', 'rules' => 'required'),
+			/*array('field' => 'update_last_name', 'label' => 'Last Name', 'rules' => 'required'),
 			array('field' => 'update_phone_number', 'label' => 'Phone Number', 'rules' => 'required'),
 			array('field' => 'update_newsletter', 'label' => 'Newsletter', 'rules' => 'integer'),
 			array('field' => 'update_email', 'label' => 'Email', 'rules' => 'required|valid_email|identity_available'),
-			array('field' => 'update_username', 'label' => 'Username', 'rules' => 'min_length[4]|identity_available')
+			array('field' => 'update_username', 'label' => 'Username', 'rules' => 'min_length[4]|identity_available')*/
 		);
 
 		$this->form_validation->set_rules($validation_rules);
@@ -349,7 +349,8 @@ class Demo_auth_model extends CI_Model {
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
 			// Redirect user.
-			($response) ? redirect('auth_public/dashboard') : redirect('auth_public/update_account');
+			//($response) ? redirect('panel/perfil') : redirect('auth_public/update_account');
+			redirect('panel/perfil');
 		}
 		else
 		{

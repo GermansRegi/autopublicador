@@ -2,17 +2,17 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
 
 header {
-  padding: 10px 0px 25px 0px;
+  padding: 10px 0px 0px 0px;
   background: #fafafa url("../images/cream.png") repeat;
   .logo {
     padding: 0px;
     h1 a {
-      font-size: 29px;
+      font-size: 26px;
       color: #777;
       text-decoration: none;
       font-weight: 400;
       &:visited, &:hover {
-        font-size: 29px;
+        font-size: 26px;
         color: #777;
         text-decoration: none;
         font-weight: 400;
@@ -20,7 +20,7 @@ header {
     }
     h1.subheader
     {
-    	font-size:25px;
+    	font-size:23px;
     }
    
 
@@ -129,14 +129,14 @@ header {
 /* Page heading */
 
 .page-head {
-  padding: 20px 0px;
+  padding: 10px 0px;
   box-shadow: inset 0px 0px 4px #bbb;
   background: #f8f8f8;
   border-bottom: 1px solid #ddd;
   h2 {
     color: #777;
-    font-size: 23px;
-    line-height: 23px;
+    font-size: 19px;
+    line-height: 20px;
   }
   h4 {
     color: #999;
