@@ -12,6 +12,7 @@
     <script src="<?php echo base_url(); ?>includes/js/script.js"></script>
    <script  src="<?php echo base_url(); ?>includes/js/basesdedatos.js"></script>
 
+ <script  src="<?php echo base_url(); ?>includes/js/social.js"></script>
 
    
    

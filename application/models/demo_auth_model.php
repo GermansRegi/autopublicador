@@ -309,11 +309,12 @@ class Demo_auth_model extends CI_Model {
 		// Set validation rules.
 		// The custom rule 'identity_available' can be found in '../libaries/MY_Form_validation.php'.
 		$validation_rules = array(
-			array('field' => 'update_first_name', 'label' => 'First Name', 'rules' => 'required'),
-			/*array('field' => 'update_last_name', 'label' => 'Last Name', 'rules' => 'required'),
-			array('field' => 'update_phone_number', 'label' => 'Phone Number', 'rules' => 'required'),
-			array('field' => 'update_newsletter', 'label' => 'Newsletter', 'rules' => 'integer'),
-			array('field' => 'update_email', 'label' => 'Email', 'rules' => 'required|valid_email|identity_available'),
+			array('field' => 'update_first_name', 'label' => 'Nombre', 'rules' => 'required'),
+		//	array('field' => 'update_last_name', 'label' => 'Last Name', 'rules' => 'required'),
+			array('field' => 'update_city', 'label' => 'Ciudad', 'rules' => 'required'),
+			array('field' => 'update_address', 'label' => 'Dirección', 'rules' => 'required'),
+			array('field' => 'update_country', 'label' => 'País', 'rules' => 'required'),
+			/*array('field' => 'update_email', 'label' => 'Email', 'rules' => 'required|valid_email|identity_available'),
 			array('field' => 'update_username', 'label' => 'Username', 'rules' => 'min_length[4]|identity_available')*/
 		);
 
@@ -336,10 +337,11 @@ class Demo_auth_model extends CI_Model {
 				'upro_uacc_fk' => $user_id,
 				'upro_first_name' => $this->input->post('update_first_name'),
 				'upro_last_name' => $this->input->post('update_last_name'),
-				'upro_phone' => $this->input->post('update_phone_number'),
-				'upro_newsletter' => $this->input->post('update_newsletter'),
-				$this->flexi_auth->db_column('user_acc', 'email') => $this->input->post('update_email'),
-				$this->flexi_auth->db_column('user_acc', 'username') => $this->input->post('update_username')
+				'upro_city' => $this->input->post('update_city'),
+				'upro_address' => $this->input->post('update_address'),
+				'upro_country' => $this->input->post('update_country'),
+				/*$this->flexi_auth->db_column('user_acc', 'email') => $this->input->post('update_email'),
+				$this->flexi_auth->db_column('user_acc', 'username') => $this->input->post('update_username')*/
 			);
 
 			// If we were only updating profile data (i.e. no email or username included), we could use the 'update_custom_user_data()' function instead.
@@ -372,9 +374,9 @@ class Demo_auth_model extends CI_Model {
 		// Set validation rules.
 		// The custom rule 'validate_password' can be found in '../libaries/MY_Form_validation.php'.
 		$validation_rules = array(
-			array('field' => 'current_password', 'label' => 'Current Password', 'rules' => 'required'),
-			array('field' => 'new_password', 'label' => 'New Password', 'rules' => 'required|validate_password|matches[confirm_new_password]'),
-			array('field' => 'confirm_new_password', 'label' => 'Confirm Password', 'rules' => 'required')
+			array('field' => 'current_password', 'label' => 'Contraseña antigua', 'rules' => 'required'),
+			array('field' => 'new_password', 'label' => ' Contraseña nueva', 'rules' => 'required|validate_password|matches[confirm_new_password]'),
+			array('field' => 'confirm_new_password', 'label' => 'Reperir nueva contraseña', 'rules' => 'required')
 		);
 
 		$this->form_validation->set_rules($validation_rules);

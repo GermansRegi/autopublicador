@@ -185,7 +185,7 @@
 	$config['database']['custom']['user_profile']['foreign_key'] = 'upro_uacc_fk';
 	$config['database']['custom']['user_profile']['join'] = 'demo_user_profiles.upro_uacc_fk';
 	$config['database']['custom']['user_profile']['custom_columns'] = array(
-		'upro_first_name','upro_last_name','upro_phone','upro_newsletter'
+		'upro_first_name','upro_last_name','upro_adress','upro_city','upro_country'
 	);
 
 	###+++++++++++++++++++++++++++###
@@ -197,7 +197,8 @@
 	 *
 	 * Note: This table and all included fields can be expanded upon or removed completely.
 	*/
-	$config['database']['custom']['user_address']['table'] = 'demo_user_address';
+
+/*	$config['database']['custom']['user_address']['table'] = 'demo_user_address';
 	$config['database']['custom']['user_address']['primary_key'] = 'uadd_id';
 	$config['database']['custom']['user_address']['foreign_key'] = 'uadd_uacc_fk';
 	$config['database']['custom']['user_address']['join'] = 'demo_user_address.uadd_uacc_fk';
@@ -206,7 +207,7 @@
 		'uadd_post_code','uadd_country'
 	);
 
-
+*/
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
 	// DATABASE SETTINGS
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###

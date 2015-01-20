@@ -109,6 +109,16 @@ class Perfil extends CI_Controller {
 		$this->data['titlepage']="Editar perfil";
 		$this->load->view('demo/public_examples/account_update_view', $this->data);
 	}
+	function pagos()
+	{
+		$this->data['user'] = $this->flexi_auth->get_user_by_identity_row_array();
+		$this->load->model("payments");
+		$this->data["pays"]=$this->payments->getAllFromUser($this->flexi_auth->get_user_id());
+
+		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
+		$this->data['titlepage']="Registro de pagos realizados";
+		$this->load->view('perfil/pagos', $this->data);	
+	}
 }
 
 /* End of file perfil.php */

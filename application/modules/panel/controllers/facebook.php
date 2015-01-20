@@ -79,17 +79,62 @@ class Facebook extends CI_Controller {
 		$this->data = null;
 	
 	}
-
+	public function programar_facebook(){
+	$this->load->model("social_user_accounts");
+		$this->data['user_accounts']=$this->social_user_accounts->getUserAppAccounts(array('user_app'=>$this->flexi_auth->get_user_id()));
+$this->data['titlepage']="Programar Facebook ";
+		$this->load->view("panel/facebook/programar_facebook",$this->data);
+	}
 
 	public function index()
 	{
+
 		$this->load->model("social_user_accounts");
-			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['events']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['groups']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['pages']=$pages;
-			$this->data['titlepage']="Cuentas de facebook";
-			$this->load->view('panel/facebook/index',$this->data);
+		$this->load->model("folders");
+		$this->data['user_accounts']=$this->social_user_accounts->getUserAppAccounts(array('user_app'=>$this->flexi_auth->get_user_id()));
+		$this->data['folders']=$this->folders->get_many_by(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>"fb"));
+		$this->data['user_accounts_view']=null;
+		$arraydata=array('page'=>array('folders'=>array(),'nofolder'=>array()),
+			'group'=>array('folders'=>array(),'nofolder'=>array()),
+			'event'=>array('folders'=>array(),'nofolder'=>array())
+			);
+		$n=0;
+		
+//		primer jhhas de recorrere array de tipusaccount
+//		recorrer array carpetes amb comptess i si no hi ha carpeta al comptes
+	
+	//	$arrayfolder=array('data'=>'','rows'=>array());
+		foreach ($this->data['folders'] as $key) {
+			
+			$arraydata[$key->type]['folders'][]=array('data'=>$key,'rows'=>array());
+			
+			
+		}
+
+		foreach ($this->data['user_accounts'] as $key) {
+			
+			if((int)$key->folder_id==0)
+			{
+				$arraydata[$key->type_account]['nofolder'][]=$key;				
+			}
+			else
+			{
+				if(count($arraydata[$key->type_account]['folders'])!=0)
+				for($m=0;$m<count($arraydata[$key->type_account]['folders']);$m++)
+				{
+					//var_dump($arraydata[$key->type_account]['folders'][1]);
+					if($arraydata[$key->type_account]['folders'][$m]['data']->id==$key->folder_id)
+					$arraydata[$key->type_account]['folders'][$m]['rows'][]=$key;				
+				}
+				
+			}
+		}
+		
+		$this->data['titlepage']="Cuentas de facebook";
+
+		
+		$this->data['arraydata']=$arraydata;
+		$this->load->view('panel/facebook/index',$this->data);
 
 	}
 	public function connectar_facebook()
@@ -193,7 +238,7 @@ class Facebook extends CI_Controller {
 		{
 			$arrayPages=$this->input->post($type);
 			$i=0;
-			if(isset($arrayPages) AND !EMPTY($arrayPages)){			
+			if(is11set($arrayPages) AND !EMPTY($arrayPages)){			
 				$arrayPagesSelected=array();
 				foreach($arrayPages as $page){
 				
@@ -227,6 +272,33 @@ class Facebook extends CI_Controller {
 			
 
 		$this->load->view('panel/facebook/publicar',$this->data);
+	}
+	public function deletecontent($is_folder,$id)
+	{
+		$this->load->model('social_user_accounts');
+		if($is_folder){
+			$numaccount=$this->social_user_accounts->count_by(array("folder_id"=>$folder_id));
+			if($numaccount>0)
+			{
+				
+				echo json_encode(array("result"=>"delAccountsInFolder","idFolder"=>$id));
+			}
+			else
+			{
+				$this->load->model("folders");
+				$this->folders->delete_by(array("id"=>$id));
+				echo json_encode(array("result"=>"ok"));
+			}
+
+		}
+		else{	
+		$this->social_user_accounts->delete_by(array("id"=>$id));
+		echo json_encode(array("result"=>"ok"));
+		}
+	}
+	public function deleteFolderContent()
+	{
+
 	}
 }
 
