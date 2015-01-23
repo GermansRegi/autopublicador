@@ -336,14 +336,14 @@ class Demo_auth_model extends CI_Model {
 			$profile_data = array(
 				'upro_uacc_fk' => $user_id,
 				'upro_first_name' => $this->input->post('update_first_name'),
-				'upro_last_name' => $this->input->post('update_last_name'),
+				//'upro_last_name' => $this->input->post('update_last_name'),
 				'upro_city' => $this->input->post('update_city'),
 				'upro_address' => $this->input->post('update_address'),
 				'upro_country' => $this->input->post('update_country'),
 				/*$this->flexi_auth->db_column('user_acc', 'email') => $this->input->post('update_email'),
 				$this->flexi_auth->db_column('user_acc', 'username') => $this->input->post('update_username')*/
 			);
-
+			//var_dump($profile_data);exit;
 			// If we were only updating profile data (i.e. no email or username included), we could use the 'update_custom_user_data()' function instead.
 			$response = $this->flexi_auth->update_user($user_id, $profile_data);
 

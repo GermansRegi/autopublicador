@@ -25,14 +25,14 @@
 <section class="col-md-12">
 
 
-<section id="infoMessage"><?php echo isset($message)?$message:'';?></section>      
+<section id="message"><?php echo isset($message)?$message:'';?></section>      
 <section class="col-md-6">
 	<h3> Datos personales</h3>
 	<?php echo form_open(uri_string());?>
 
       <section class="form-group">    
             <label class="label-form">Correo eletrónico</label>
-           <input type="text" disabled class=" form-control" value="<?php echo $user['uacc_email']; ?>"/>
+           <input type="text" disabled class=" form-control" value="<?php echo $user[0]->uacc_email; ?>"/>
             
       </section>
 	
@@ -45,7 +45,7 @@
         <section class="form-group">    
           
             <label class="label-form">Nombre</label>
-           <input type="text" class="form-control " name="update_first_name" value="<?php echo $user['upro_first_name']; ?>"/>
+           <input type="text" class="form-control " name="update_first_name" value="<?php echo $user[0]->upro_first_name; ?>"/>
             
 
 
@@ -314,7 +314,7 @@
 			<?php foreach($country as $key => $val) {
 			 ?>
 				<option
-					<?php if($key==$user['upro_country']){
+					<?php if($key==$user[0]->upro_country){
 					 ECHO 'selected="selected"';} ?>
 					 value="<?php echo $key;?>">
 					 <?php echo $val; ?>
@@ -325,13 +325,13 @@
       <section class="form-group">    
           
             <label class="label-form">Ciudad</label>
-           <input type="text" class="form-control " name="update_city" value="<?php echo $user['upro_first_name']; ?>aaa"/>
+           <input type="text" class="form-control " name="update_city" value="<?php echo $user[0]->upro_city; ?>"/>
             
       </section>
       <section class="form-group">    
           
             <label class="label-form">Dirección</label>
-           <input type="text" class="form-control " name="update_address" value="<?php echo $user['upro_first_name']; ?>"/>
+           <input type="text" class="form-control " name="update_address" value="<?php echo $user[0]->upro_address; ?>"/>
             
       </section>
       	<div class="text-center col-sm-12">

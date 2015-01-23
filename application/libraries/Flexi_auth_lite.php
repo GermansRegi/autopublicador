@@ -345,8 +345,8 @@ class Flexi_auth_lite
 		}
 
 		$sql_where = array($this->CI->auth->tbl_col_user_account['id'] => $user_id);
-		
-		return $this->CI->flexi_auth_lite_model->get_users($sql_select, $sql_where);
+	
+			return $this->CI->flexi_auth_lite_model->get_users($sql_select, $sql_where);
 	}
 	
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
@@ -366,7 +366,7 @@ class Flexi_auth_lite
 		}
 
 		$sql_where = array($this->CI->auth->primary_identity_col => $identity);
-		
+		var_dump($sql_where);	
 		return $this->CI->flexi_auth_lite_model->get_users($sql_select, $sql_where);
 	}
 	

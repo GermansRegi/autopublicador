@@ -21,14 +21,14 @@
 	?>
        
 
-	<section class="container">
-	<section class='row'>
+	<div class="container">
+	<div class='row'>
     
         <p> Tienes     <?php echo count($arbbdd)?> bases de datos creadas.<a href="<?php echo base_url();?>panel/basesdedatos/crear">Crear nueva base de datos</a>
         </p>
-        <section class="message"></section>
-    </section>
-	<section class="row">
+        <div class="message"></div>
+    </div>
+	<div class="row">
 	    <?php
 	    if(count($arbbdd)==0)
 	    {
@@ -63,8 +63,8 @@
 	    
 	       ?>
 	    
-	    </section>
-	</section>
+	    </div>
+	</div>
        <script type="text/javascript">
 	var delete_url='<?php echo base_url()?>panel/basesdedatos/delete';
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

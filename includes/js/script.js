@@ -74,7 +74,9 @@ if(idUploader){
        
                     UploadComplete:function()
                     {
-                            $(".message").html("<div class='alert alert-success'><p>Datos guardados con éxito</p></div>")
+                            $(".message").notyfy({
+	  				text:'Datos guardados con éxito',type:'success'	
+					});
                         
                             
                              $('body').delay(1500).queue(function( nxt ) {

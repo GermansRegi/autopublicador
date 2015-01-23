@@ -29,4 +29,5 @@ class Social_user_accounts extends MY_Model {
 }
 
 /* End of file social_user_accounts.php */
-/* Location: ./application/modules/panel/models/social_user_accounts.php */
+/* Locat
+ion: ./application/modules/panel/models/social_user_accounts.php */

@@ -15,7 +15,8 @@
 		       
 		<section class="container">
 			<section class="row">
-				<section class="col-sm-12 panel panel-body">
+				<section class="col-sm-12 panel panel-default">
+				<div class="panel-body">
 					<div role="tabpanel">
 						<!-- Nav tabs -->
 						<ul class="nav nav-tabs" role="tablist">
@@ -56,7 +57,7 @@
 														<td>
 															<a href="https:/www.facebook.com/<?php echo $pagenofolder->idaccount ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
 															<a href="<?php echo base_url()?>panel/facebook/editar/<?php echo $pagenofolder->idaccount ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
-															<a  data-id="<?php echo $pagenofolder->id ?>" class="btn btn-danger deletefbaccount"><i class="fa fa-trash-o"></i></a>
+															<a  data-id="<?php echo $pagenofolder->id ?>" class="btn btn-danger deleteaccount" data-type="false" data-social="fb"><i class="fa fa-trash-o"></i></a>
 															
 														</td>
 													</tr>
@@ -88,7 +89,7 @@
 																          <?php echo $folder['data']->name; ?>
 
 																        </a>
-																        <div class="pull-right btn btn-danger delete" data-type="true" data-social="fb" data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i></div>
+																        <div class="pull-right btn btn-danger deleteaccount" data-type="true" data-social="fb" data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i></div>
 																      </h4>
 																    </div>
 																    <div id="fold<?php echo $folder['data']->id; ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headerfold<?php echo $folder['data']->id; ?>">
@@ -111,7 +112,7 @@
 																				<td>
 																					<a href="https:/www.facebook.com/<?php echo $pagefolder->idaccount ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
 																					<a href="<?php echo base_url()?>panel/facebook/editar/<?php echo $pagefolder->idaccount ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
-																					<a data-id="<?php echo $pagefolder->id ?>" data-type="false" data-solial="fb" class="btn btn-danger delete"><i class="fa fa-trash-o"></i></a>
+																					<a data-id="<?php echo $pagefolder->id ?>" data-type="false" data-social="fb" class="btn btn-danger deleteaccount"><i class="fa fa-trash-o"></i></a>
 																					
 																				</td>
 																			</tr>
@@ -148,78 +149,12 @@
 						?>	    	
 					</div>
 					</div>
+					</div>
+					</div>
 					</section>
 					</section>
-			 <!--   <div role="tabpanel" class="tab-pane active" id="pages">
-			    		
-				
-
-			    </div>
-			    <div role="tabpanel" class="tab-pane" id="groups">
-			    	      <table class="table table-striped">
-				        	<?php 
-				     
-				        		foreach ($groups as $page)
-				        		{
-				        		?>
-								<tr id="line<?php echo $page->id ?>">
-									<td>
-										<img src="http://graph.facebook.com/v2.2/<?php echo $page->idaccount ?>/picture?width=50&height=50">;
-
-									</td>
-									<td >
-										<?php echo $page->name; ?>
-									</td>
-									<td>
-										<a href="https:/www.facebook.com/<?php echo $page->idaccount ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
-										<a href="<?php echo base_url()?>panel/facebook/editar/<?php echo $page->idaccount ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
-										<a data-id="<?php echo $page->id ?>" class="btn btn-danger deletefb"><i class="fa fa-trash-o"></i></a>
-										
-									</td>
-								</tr>
-				        			<?php
-				        			
-				        		}
-				        	?>
-				        </table>
-				      
-			    </div>
-			    <div role="tabpanel" class="tab-pane" id="messages">
-						<table class="table table-striped">
-				        	<?php 
-				       
-				        		foreach ($events as $page)
-				        		{
-				        			?>
-								<tr id="line<?php echo $page->id ?>">
-									<td>
-										<img src="http://graph.facebook.com/v2.2/<?php echo $page->idaccount ?>/picture?width=50&height=50">;
-
-									</td>
-									<td >
-										<?php echo $page->name; ?>
-									</td>
-									<td>
-										<a href="https:/www.facebook.com/<?php echo $page->idaccount ?>" target="_blank" class="btn btn-defaultbtn-ms"><i  class="fa fa-eye"></i></a>
-										<a href="<?php echo base_url()?>panel/facebook/editar/<?php echo $page->idaccount ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
-										<a data-id="<?php echo $page->id ?>" class="btn btn-danger deletefb"><i class="fa fa-trash-o"></i></a>
-										
-									</td>
-								</tr>
-				        			<?php
-				        		}
-				        	?>
-				        </table>
-				      
-			    </div>
-			    <div role="tabpanel" class="tab-pane" id="settings">...</div>
-			  </div>
--->
-			</div>
-				      
-				      
-	</section>
-</section>              
+	</section>		 
+	              
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>panel/facebook/deletecontent';
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

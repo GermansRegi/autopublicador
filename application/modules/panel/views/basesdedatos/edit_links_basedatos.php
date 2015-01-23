@@ -21,46 +21,46 @@
 
           
             
-			<section class="container">
+			<div class="container">
 			<div class="row">
 			<div class="col-sm-12 panel panel-body">
 				
-				<section class='namebd'>
+				<div class='namebd'>
 					<p>Inserte Enlaces en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." enlaces creados. El máximo de enlaces son ".$this->config->item('max-no-images').".</span>";?></p>
-				</section>
+				</div>
 
-				<section class="clearfix">
+				<div class="clearfix">
 					<form id="addcontent" method='post' action='<?php echo base_url(); ?>panel/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
-						<section class='message'>      
-						</section>	
-						<section class="col-sm-4">
-							<section class="form-group">
+						<div class='message'>      
+						</div>	
+						<div class="col-sm-4">
+							<div class="form-group">
 								<label>Enlace:</label>
 								<input type='text' class="form-control" name='link'>
-							</section>
-							<section class="form-group">
+							</div>
+							<div class="form-group">
 							<label>Texto:</label>
 							<input type='text' class="form-control" name='text' >
-							</section>
-							<section class="form-group">
+							</div>
+							<div class="form-group">
 								<input value='<?php echo $bbdd->id; ?>' name='bbdd_alta' type='hidden'>
 								<input type='submit' value='guardar' class="btn btn-primary" name='Submit'>
-							</section>
-						</section>
+							</div>
+						</div>
 					</form>
-				</section>
-							<section class="row">
-				<section class="col-sm-12 text-right">
+				</div>
+							<div class="row">
+				<div class="col-sm-12 text-right">
 	                	<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
-	              </section>
-			</section>
-			<section class "row" id="contenido">
+	              </div>
+			</div>
+			<div class "row" id="contenido">
 				<?php if(count($elements)>0){
 					?>
-				<section class='namebd'>
+				<div class='namebd'>
 				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
-				</section>
+				</div>
 
 				
 				  <table class="table table-striped" >
@@ -77,9 +77,9 @@
 				    }
 				    ?>
 				</table>
-				<section class="row">
+				<div class="row">
 					<?php echo $link_pager; ?>
-				</section>
+				</div>
 				<?php }
 				else {
 					?>
@@ -95,11 +95,11 @@
 
 				 	<?php
 				 } ?>
-			</section>
+			</div>
 			</div>
 
 			</div>
-		</section>
+		</div>
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>panel/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>'
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

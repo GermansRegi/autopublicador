@@ -21,43 +21,44 @@
    
 
 		
-			<section class="content">
-				<section class="container">
-					
+		<div class="container">
+			<div class="row">
+			<div class="col-sm-12 panel panel-body">
+						
 
-					<section class='namebd'>
+					<div class='namebd'>
 						<p>Inserte frases en: <span class="bold"> <?php echo $bbdd->name."</span> <span class='right'> Tiene  ".$total." frases creadas. El máximo de frases son ".$this->config->item('max-no-images').".</span>";?></p>
-					</section>
+					</div>
 
-				<section>
+				<div>
 				<form id='addcontent' method='post' action='<?php echo base_url(); ?>panel/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
-					<section class='message'>      
+					<div class='message'>      
 
 
-					</section>
-					<section class="form-group">
+					</div>
+					<div class="form-group">
 						<textarea placeholder="Frase" class="form-control" name='frase'></textarea>
-					</section>
-					<section class="form-group">
+					</div>
+					<div class="form-group">
 
 						<input value='<?php echo $bbdd->id; ?>' name='bbdd_alta' type='hidden'/>
 						<input type='submit' value='guardar' class="btn btn-primary" name='Submit'/>
-					</section>
+					</div>
 				</form>
-			</section>
+			</div>
 			
-			<section class="row">
-				<section class="col-sm-12 text-right">
+			<div class="row">
+				<div class="col-sm-12 text-right">
 <input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >	                	
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
-	              </section>
-			</section>
-			<section class "row" id="contenido">
+	              </div>
+			</div>
+			<div class "row" id="contenido">
 				<?php if(count($elements)>0){
 					?>
-				<section class='namebd'>
+				<div class='namebd'>
 				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
-				</section>
+				</div>
 
 				
 				  <table class="table table-striped" >
@@ -74,9 +75,9 @@
 				    }
 				    ?>
 				</table>
-				<section class="row">
+				<div class="row">
 					<?php echo $link_pager; ?>
-				</section>
+				</div>
 				<?php }
 				else {
 					?>
@@ -92,10 +93,11 @@
 
 				 	<?php
 				 } ?>
-			</section>
+			</div>
 			
-			</section>
-			</section>
+			</div>
+			</div>
+			</div>
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>panel/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>';
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

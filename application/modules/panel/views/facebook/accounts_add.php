@@ -20,24 +20,25 @@
 
 	?>
        
-<section class="container">
-	<section class="row">
-		<section class="col-sm-12">
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12 panel panel-default">
+			<div class="panel-body">
 			<form action="<?php echo base_url();?>panel/facebook/anadir_paginas" method="POST">
 
-				<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 				  
 				
-				  <section class="panel panel-default">
-				    <section class="panel-heading" role="tab" id="headingOne">
+				  <div class="panel panel-default">
+				    <div class="panel-heading" role="tab" id="headingOne">
 				      <h4 class="panel-title">
 				        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 				          Páginas
 				        </a>
 				      </h4>
-				    </section>
-				    <section id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-				      <section class="panel-body">
+				    </div>
+				    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+				      <div class="panel-body">
 				        <table class="table table-striped">
 				        	<?php 
 				        	$i=0;
@@ -64,19 +65,19 @@
 				        		}
 				        	?>
 				        </table>
-				      </section>
-				    </section>
-				  </section>
-				  <section class="panel panel-default">
-				    <section class="panel-heading" role="tab" id="headingTwo">
+				      </div>
+				    </div>
+				  </div>
+				  <div class="panel panel-default">
+				    <div class="panel-heading" role="tab" id="headingTwo">
 				      <h4 class="panel-title">
 				        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 				          Grupos
 				        </a>
 				      </h4>
-				    </section>
-				    <section id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-				      <section class="panel-body">
+				    </div>
+				    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+				      <div class="panel-body">
 				            <table class="table table-striped">
 				        	<?php 
 				        	$i=0;
@@ -103,19 +104,19 @@
 				        		}
 				        	?>
 				        </table>
-				      </section>
-				    </section>
-				  </section>
-				  <section class="panel panel-default">
-				    <section class="panel-heading" role="tab" id="headingThree">
+				      </div>
+				    </div>
+				  </div>
+				  <div class="panel panel-default">
+				    <div class="panel-heading" role="tab" id="headingThree">
 				      <h4 class="panel-title">
 				        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 				          Eventos
 				        </a>
 				      </h4>
-				    </section>
-				    <section id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-				      <section class="panel-body">
+				    </div>
+				    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+				      <div class="panel-body">
 				      	<table class="table table-striped">
 				        	<?php 
 				        	$i=0;
@@ -143,17 +144,17 @@
 				        	?>
 				        </table>
 				        
-				      </section>
-				    </section>
-				  </section>
-				</section>
+				      </div>
+				    </div>
+				  </div>
+				</div>
 				<input type="submit" name="submit" value="Añadir Páginas">
 				<a href=""> cancelar</a>
 			</form>
-
-		</section>
-	</section>
-</section>              
+		</div>
+		</div>
+	</div>
+</div>              
 <?php
     echo $this->load->view('includes2/footer');
 ?>

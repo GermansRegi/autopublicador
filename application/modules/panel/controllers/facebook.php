@@ -273,32 +273,50 @@ $this->data['titlepage']="Programar Facebook ";
 
 		$this->load->view('panel/facebook/publicar',$this->data);
 	}
-	public function deletecontent($is_folder,$id)
+	public function deletecontent()
 	{
 		$this->load->model('social_user_accounts');
-		if($is_folder){
-			$numaccount=$this->social_user_accounts->count_by(array("folder_id"=>$folder_id));
+		if($this->input->get("is_folder")){
+			$numaccount=$this->social_user_accounts->count_by(array("folder_id"=>$this->input->get("id")));
 			if($numaccount>0)
 			{
 				
-				echo json_encode(array("result"=>"delAccountsInFolder","idFolder"=>$id));
+				echo json_encode(array("result"=>"delAccountsInFolder","idFolder"=>$this->input->get("id")));
 			}
 			else
 			{
 				$this->load->model("folders");
-				$this->folders->delete_by(array("id"=>$id));
+				$this->folders->delete_by(array("id"=>$this->input->get("id")));
 				echo json_encode(array("result"=>"ok"));
 			}
 
 		}
 		else{	
-		$this->social_user_accounts->delete_by(array("id"=>$id));
+		$this->social_user_accounts->delete_by(array("id"=>$this->input->get("id")));
 		echo json_encode(array("result"=>"ok"));
 		}
 	}
-	public function deleteFolderContent()
+	public function deleteQuitFolderContent()
 	{
-
+		$this->load->model('social_user_accounts');
+		$rows=$this->social_user_accounts->get_many_by(array("folder_id"=>$this->input->get("id")));
+		if($this->input->get("type")=="quit")
+		{		
+			foreach ($rows as  $value) {
+				# code...
+				$this->social_user_accounts->update_by(array("folder_id"=>null),array("id"=>$value->id));
+			}
+		}
+		else
+		{
+			foreach ($rows as  $value) {
+				# code...
+				$this->social_user_accounts->delete_by(array("id"=>$value->id));
+			}
+			$this->load->model("folders");
+			$this->folders->delete_by(array("id"=>$this->input->get("id")));
+						
+		}
 	}
 }
 

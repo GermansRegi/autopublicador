@@ -335,6 +335,7 @@ class Flexi_auth_model extends Flexi_auth_lite_model
 		return $this->db->trans_status();
 	}
 
+
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
 
 	/**
@@ -484,7 +485,8 @@ class Flexi_auth_model extends Flexi_auth_lite_model
 						unset($custom_data[$column]);
 					}
 				}
-
+				//var_dump($sql_update,$identifier_id,$identifier_col,$table_data['table']);
+				
 				if (count($sql_update) > 0)
 				{
 					if ($identifier_id)
@@ -497,6 +499,7 @@ class Flexi_auth_model extends Flexi_auth_lite_model
 						$this->set_error_message('custom_data_requires_primary_key', 'config');
 					}
 				}
+
 			}
 		}
 
@@ -585,6 +588,7 @@ class Flexi_auth_model extends Flexi_auth_lite_model
 				$sql_update[$this->auth->tbl_col_user_group[$key]] = $group_data[$column];
 				unset($group_data[$column]);
 			}
+			
 		}
 
 		$sql_where = array($this->auth->tbl_col_user_group['id'] => $group_id);

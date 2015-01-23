@@ -76,11 +76,11 @@ class Perfil extends CI_Controller {
 	{
 		$this->load->view('panel/perfil/planes');
 	}
-	function change_password()
+	public function change_password()
 	{
 		// If 'Update Password' form has been submitted, validate and then update the users password.
 		
-				$this->data['user'] = $this->flexi_auth->get_user_by_identity_row_array();
+				$this->data['user'] = $this->flexi_auth->get_user_by_id_query();
 
 		// Set any returned status/error messages.
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
@@ -102,7 +102,7 @@ class Perfil extends CI_Controller {
 		}
 		// Get users current data.
 		// This example does so via 'get_user_by_identity()', however, 'get_users()' using any other unqiue identifying column and value could also be used.
-		$this->data['user'] = $this->flexi_auth->get_user_by_identity_row_array();
+		$this->data['user'] = $this->flexi_auth->get_user_by_id_query()->result();
 
 		// Set any returned status/error messages.
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];

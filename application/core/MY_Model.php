@@ -115,8 +115,13 @@ class MY_Model extends CI_Model {
         
         return $result;
     }
+    public function update_by()
+    {
+    		$this->_database->where(func_get_args(1));
+    		$this->_database->set(func_get_args(0));
+    		return $this->_database->update($this->_table);
 
+    }
 }
-
 /* End of file MY_Model.php */
 /* Location: ./application/core/MY_Model.php */
