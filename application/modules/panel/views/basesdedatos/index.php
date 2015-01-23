@@ -21,28 +21,39 @@
 	?>
        
 
-	<div class="container">
-	<div class='row'>
+	
+	<div>
     
-        <p> Tienes     <?php echo count($arbbdd)?> bases de datos creadas.<a href="<?php echo base_url();?>panel/basesdedatos/crear">Crear nueva base de datos</a>
+        <p> Tiene    <?php echo count($arbbdd)?> bases de datos creadas.<a href="<?php echo base_url();?>panel/basesdedatos/crear">Crear nueva base de datos</a>
         </p>
         <div class="message"></div>
     </div>
-	<div class="row">
+	<div class="col-sm-12">
 	    <?php
 	    if(count($arbbdd)==0)
 	    {
-	        echo "No tienes ninguna base de datos";
+	        ?>
+	<table class="table table-striped">
+	   <thead>
+	    	 <th>Nombre</th><th>Red social</th><th>Contenido</th><th></th><th></th>
+	    </thead>
+	    <tbody>
+	    	<tr>
+	    		<td colspan="6">No tiene ninguna base de datos</td>
+	    	</tr>
+	    </tbody>
+	</table>
+	    <?php
+	    
 	    }
 	 else {
 	        
 	    ?>
-	<table class="table table-condensed">
-	    <tr>
-	        <th>Nombre</th><th>Red social</th><th>Contenido</th><th></th><th></th>
-	    </tr>
-	    
-	    <?php
+	<table class="table table-striped">
+	    <thead>
+	    	 <th>Nombre</th><th>Red social</th><th>Contenido</th><th></th><th></th>
+	    </thead>
+	    <tbody>	    <?php
 	            
 	    foreach($arbbdd as $bbdd)
 	    {
@@ -57,6 +68,7 @@
 	      
 	    }
 	    ?>
+	    </tbody>
 	</table>
 	    <?php
 	    }       

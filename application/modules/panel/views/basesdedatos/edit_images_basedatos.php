@@ -19,9 +19,7 @@
 ?>
 
           
-		<div class="container">
-			<div class="row">
-			<div class="col-sm-12 panel panel-body">
+		
 	            		<div class='namebd'>
     <p>Inserte imágenes en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." imágenes creadas. El máximo de imágenes son ".$this->config->item('max-images').".</span>";?></p>
 </div>
@@ -45,19 +43,21 @@ var deletecontent_url='<?php echo base_url()?>panel/basesdedatos/deletecontent/<
 var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 </script>
 		<div class="row">
-				<div class="col-sm-12 text-right">
-	     <input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >           	
+			<div class='namebd col-lg-6'>
+				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
+			</div>
+		
+				<div class="col-sm-6 text-right">
+	     <input type="button" id="toggle" value="Marcar todo" class="btn btn-primary" >           	
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 	              </div>
 			</div>
-			<div class "row" id="contenido">
+			<div id="contenido" >
 				<?php if(count($elements)>0){
 					?>
-				<div class='namebd'>
-				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
-				</div>
+				
 
-				<div class="row">
+				<div>
 				    <?php
 				    foreach ($elements as $element)
 				    {
@@ -71,26 +71,23 @@ var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 				    }
 				    ?>
 				    </div>
-				    <div class="row">
+				    <div >
 						<?php echo $link_pager; ?>
 					</div>
 				    <?php
 				 }else{
 				    ?>
 				
-				   
-				    		<td colspan="4">No hay ningún elemento en esta base de datos</td>
-				   
+				   <div class="col-lg-12">
+				    	No hay ningún elemento en esta base de datos
+				   </div>
 
 				 	<?php
 				 } ?>
 	
 
                     
-                   
-                </div>
-            </div>
-          </div>
+       
 <?php
     echo $this->load->view('includes2/footer');
 ?>

@@ -21,9 +21,7 @@
 
           
             
-			<div class="container">
-			<div class="row">
-			<div class="col-sm-12 panel panel-body">
+	
 				
 				<div class='namebd'>
 					<p>Inserte Enlaces en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." enlaces creados. El máximo de enlaces son ".$this->config->item('max-no-images').".</span>";?></p>
@@ -31,9 +29,10 @@
 
 				<div class="clearfix">
 					<form id="addcontent" method='post' action='<?php echo base_url(); ?>panel/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
+							
+						<div class="col-sm-12">
 						<div class='message'>      
-						</div>	
-						<div class="col-sm-4">
+						</div>
 							<div class="form-group">
 								<label>Enlace:</label>
 								<input type='text' class="form-control" name='link'>
@@ -50,24 +49,29 @@
 					</form>
 				</div>
 							<div class="row">
-				<div class="col-sm-12 text-right">
-	                	<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >
+							<div class='namebd col-lg-6'>
+				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
+			</div>
+				<div class="col-sm-6 text-right">
+	                	<input type="button" id="toggle" value="Marcar todo" class="btn btn-primary" >
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 	              </div>
 			</div>
-			<div class "row" id="contenido">
+			
+			<div id="contenido" class="col-sm-12">
 				<?php if(count($elements)>0){
 					?>
-				<div class='namebd'>
-				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
-				</div>
+				
 
 				
 				  <table class="table table-striped" >
+				  <thead>
 				    <tr>
 				     <th>Texto</th>   <th>Enlace</th><th></th><th></th>
 				        
 				    </tr>
+				    </thead>
+				    <tbody>
 				    <?php
 				    foreach ($elements as $element)
 				    {
@@ -76,30 +80,33 @@
 				        echo "</tr>";
 				    }
 				    ?>
+				    </tbody>
 				</table>
-				<div class="row">
+				<div >
 					<?php echo $link_pager; ?>
 				</div>
 				<?php }
 				else {
 					?>
 					  <table class="table table-striped" >
+					  <thead>
 				    <tr>
 				        <th></th>   <th>Frase</th><th>Borrar</th><th></th>
 				        
 				    </tr>
+				    </thead>
+				    <tbody>
 				    <tr >
 				    		<td colspan="4">No hay ningún elemento en esta base de datos</td>
 				    </tr>
+				    </tbody>
 				</table>
 
 				 	<?php
 				 } ?>
+		
 			</div>
-			</div>
-
-			</div>
-		</div>
+	
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>panel/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>'
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

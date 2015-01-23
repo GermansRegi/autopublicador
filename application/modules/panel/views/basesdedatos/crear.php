@@ -1,77 +1,66 @@
-  <!DOCTYPE html>
-<head>
+ <!DOCTYPE html>
+ <html>
+ 	<head>
+		<title>Autopublicador Social</title>
+	 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 	<meta charset="UTF-8" />
+	 	<?php echo $this->load->view('includes2/head');?>
+	</head>
+	<body>
+ 		<?php echo $this->load->view('includes2/header'); ?>
+ 			
+						<section  id='crearbbdd' class="clearfix">
+		 					<section class="col-sm-8 col-sm-offset-2">
+			 					<form action="<?php echo base_url(); ?>panel/basesdedatos/crear" method="post" id="addbbdd" > 
+			 						<section class="message">
 
-    <title>Autopublicador Social</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+			 						</section>
 
-    <meta charset="UTF-8" />
-    <?php echo $this->load->view('includes2/head');?>
+			 						<section class="form-group col-sm-9">
+			 							<label class="col-sm-4 control-label">Nombre</label>
+			 							<section class="col-sm-8">
+			 								<input type='text' class="form-control col-sm-7"  placeholder="Nombre" name='basededatos_create_name'>
+			 							</section>
+			 						</section>
+			 						<section class="form-group col-sm-9">
+			 							<label class="col-sm-4 control-label">Contenido:</label>
+			 							<section class="col-sm-8">
+			 								<select class="form-control" name="content">
+			 									<option value="">Selecciona una opción</option>
+			 									<option value="link">Enlaces</option>
+			 									<option value='image'>Imágenes</option>
+			 									<option value="sentence">Texto</option>
+			 								</select>
+			 							</section>
+			 						</section>
+			 						<section class="form-group col-md-9">
+			 							<label class="control-label col-sm-4">Red social:</label>
+			 							<section class="col-sm-8">
+			 								<select class="form-control" name="basededatos_create_social">
+			 									<option value="">Selecciona una opción</option>
+			 									<option value="face">Facebook</option>
+			 									<option value='twt'>Twitter</option>
 
-
-
-
-</head>
-
-<body>
-
-    <?php echo $this->load->view('includes2/header');
-
-	?>
-	    <section class="content">
-              <section class="container">
-        
-	<section  id='crearbbdd' class="clearfix">
-        <section class="col-sm-8 col-sm-offset-2">
-	      <form action="<?php echo base_url(); ?>panel/basesdedatos/crear" method="post" id="addbbdd" > 
-	        
-	         
-				<section class="message">
-
-					
+			 								</select></section>
+			 							</section>
+			 							<section class="form-group col-md-9">
+			 								<section class="col-sm-9 col-sm-offset-4">
+			 									<input id="addbbdd-btn" type="submit"  class="btn btn-primary" name='addnew' value='Crear'>
+			 									<input type='button' class="btn" id='cancel_crear_bbdd' value='Cancelar'>
+			 								</section>
+			 							</section>      
+			 						</section>
+			 					</form>
+		 					</section>
+	 					</section>
+ 					</section>
 				</section>
-	
-	        		<section class="form-group col-sm-9">
-	            		<label class="col-sm-4 control-label">Nombre</label>
-	            		<section class="col-sm-8">
-	            			<input type='text' class="form-control col-sm-7"  placeholder="Nombre" name='basededatos_create_name'>
-	            		</section>
-	        		</section>
-	     		<section class="form-group col-sm-9">
-	            		<label class="col-sm-4 control-label">Contenido:</label>
-	            		<section class="col-sm-8">
-	            			<select class="form-control" name="content">
-	            				<option value="">Selecciona una opción</option>
-	            				<option value="link">Enlaces</option>
-	            				<option value='image'>Imágenes</option>
-	            				<option value="sentence">Texto</option>
-	            			</select>
-	      			</section>
-	      		</section>
-	      		<section class="form-group col-md-9">
-	            		<label class="control-label col-sm-4">Red social:</label>
-	           		<section class="col-sm-8">
-	             			<select class="form-control" name="basededatos_create_social">
-	            				<option value="">Selecciona una opción</option>
-	            				<option value="face">Facebook</option>
-	            				<option value='twt'>Twitter</option>
-	            				
-	            			</select></section>
-	           	</section>
-	      			<section class="form-group col-md-9">
-	      				<section class="col-sm-9 col-sm-offset-4">
-	             				<input id="addbbdd-btn" type="submit"  class="btn btn-primary" name='addnew' value='Crear'>
-	             				<input type='button' class="btn" id='cancel_crear_bbdd' value='Cancelar'>
-	             			</section>
-	     		     </section>      
-				</section>
-		     </section>
-	     </form>
-</section>
-</section>
-  <?php
-    echo $this->load->view('includes2/footer');
-?>
- <?php echo $this->load->view('includes2/scripts');?>
-</body>
-</html>
+ 			</section>
+ 		</section>
+ 		<?php
+ 		echo $this->load->view('includes2/footer');
+ 		?>
+ 		<?php echo $this->load->view('includes2/scripts');?>
+ 	</body>
+ 	</html>

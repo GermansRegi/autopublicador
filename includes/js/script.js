@@ -110,20 +110,20 @@ if(idUploader){
 	   //         return ''+text+'';
 	}
 
-    function generateNotify(elem,position,text,type,seg,timeout){
+    function generateNotify(elem,position,text,type,seg){
     		if(type=="error")
     		{
     			
     		}
 	    	if(elem==null)
 	    	{
-	    		var noty=$.notyfy({text:text,type:type});
+	    		var noty=$.notyfy({text:text,type:type,dismissQueue:false});
 	    	}
 	    	else
 		{
 	    	//	console.log(elem,$(elem));
 	    		$(elem).notyfy({
-	  		text:text,type:type	
+	  		text:text,type:type	,dismissQueue:true,timeout:seg
 			});
 	    }
 	 
@@ -131,17 +131,18 @@ if(idUploader){
     }
 	function showResults(data,form,id)
 	{
-		//$(id).children().remove();
+		
 	    	if(data.msg_errors)
 		{
 		     //$(id).html(showErrorsForm(data.msg_errors));
-		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error",0,false,['click']);
+		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error",3);
 			return false
 		}
 		else if(data.msg_success)
 		{      
+			$(id).children('.notyfy_error').remove();
 		     //$(id).html(showSuccessForm(data.msg_success))
-		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",0,false,['click']);
+		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",4);
 		     if(data.idcreated)
 			{
 		  		return data.idcreated

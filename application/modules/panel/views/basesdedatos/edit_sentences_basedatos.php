@@ -19,12 +19,7 @@
 ?>
             
    
-
-		
-		<div class="container">
-			<div class="row">
-			<div class="col-sm-12 panel panel-body">
-						
+					
 
 					<div class='namebd'>
 						<p>Inserte frases en: <span class="bold"> <?php echo $bbdd->name."</span> <span class='right'> Tiene  ".$total." frases creadas. El máximo de frases son ".$this->config->item('max-no-images').".</span>";?></p>
@@ -32,10 +27,12 @@
 
 				<div>
 				<form id='addcontent' method='post' action='<?php echo base_url(); ?>panel/basesdedatos/editar/<?php echo $bbdd->id; ?>'>
+					<div class="col-sm-12">
 					<div class='message'>      
 
 
 					</div>
+
 					<div class="form-group">
 						<textarea placeholder="Frase" class="form-control" name='frase'></textarea>
 					</div>
@@ -44,36 +41,43 @@
 						<input value='<?php echo $bbdd->id; ?>' name='bbdd_alta' type='hidden'/>
 						<input type='submit' value='guardar' class="btn btn-primary" name='Submit'/>
 					</div>
+					</div>
 				</form>
 			</div>
 			
 			<div class="row">
-				<div class="col-sm-12 text-right">
-<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >	                	
+			<div class='namebd col-sm-6'>
+				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
+				</div>
+				<div class="col-sm-6 text-right">
+<input type="button" id="toggle" value="Marcar todo" class="btn btn-primary" >	                	
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 	              </div>
 			</div>
-			<div class "row" id="contenido">
+			
+			<div  id="contenido" class="col-sm-12">
 				<?php if(count($elements)>0){
 					?>
-				<div class='namebd'>
-				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
-				</div>
+				
 
 				
 				  <table class="table table-striped" >
-				    <tr>
-				     <th></th>   <th>Frase</th><th></th>
-				        
-				    </tr>
-				    <?php
+				  <thead>
+				  	<tr>
+				  		<th></th>   <th>Frase</th><th></th>
+				  	</tr>
+				  </thead>
+				    <tbody>
+				    	<?php
 				    foreach ($elements as $element)
 				    {
 				        echo "<tr>";
-				            echo "<td>".$element->sentence."</td><td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td><a data-id='".$element->id."' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> </td>";
+				            echo "<td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td>".$element->sentence."</td><td><a data-id='".$element->id."' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> </td>";
 				        echo "</tr>";
 				    }
 				    ?>
+				    </tbody>
+				    
 				</table>
 				<div class="row">
 					<?php echo $link_pager; ?>
@@ -82,22 +86,23 @@
 				else {
 					?>
 					  <table class="table table-striped" >
-				    <tr>
-				        <th></th>   <th>Frase</th><th>Borrar</th><th></th>
-				        
-				    </tr>
+				  <thead>
+				  	<tr>
+				  		<th></th>   <th>Frase</th><th></th>
+				  	</tr>
+				  </thead>
+				    <tbody>
 				    <tr >
-				    		<td colspan="4">No hay ningún elemento en esta base de datos</td>
+				    		<td colspan="3">No hay ningún elemento en esta base de datos</td>
 				    </tr>
+				    </tbody>
 				</table>
 
 				 	<?php
 				 } ?>
 			</div>
 			
-			</div>
-			</div>
-			</div>
+	
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>panel/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>';
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

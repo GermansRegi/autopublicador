@@ -9,6 +9,7 @@
     <script src="<?php echo base_url(); ?>includes/js/bootstrap.min.js"></script>
    <script  src="<?php echo base_url(); ?>includes/js/bootstrap-filestyle.min.js"></script>
     <script src="<?php echo base_url(); ?>includes/js/jquery.notyfy.js"></script>
+        <script src="<?php echo base_url(); ?>includes/js/jquery.cookie.js"></script>
     <script src="<?php echo base_url(); ?>includes/js/script.js"></script>
    <script  src="<?php echo base_url(); ?>includes/js/basesdedatos.js"></script>
 

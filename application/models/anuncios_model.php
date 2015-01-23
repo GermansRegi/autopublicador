@@ -21,6 +21,19 @@ class Anuncios_model extends MY_Model {
 	{	
 		return $this->limit(1)->get_by_id($id);
 	}
+	public function getAllWithAdmin($where=array())
+	{
+	
+		if(count($where)>0)
+		{
+			
+		return	$this->get_many_by($where,array('is_admin'=>1));
+	
+		}	
+		else
+			return $this->get_by();
+
+	}
 
 	public function getAll($where=array())
 	{

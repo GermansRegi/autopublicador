@@ -18,8 +18,6 @@
 
 ?>
             
-			<section class="content">
-				<section class="container">
 					
 
 					<section class='namebd'>
@@ -28,6 +26,7 @@
 
 				<section>
 				<form id='addcontent' method='post' action='<?php echo base_url(); ?>panel/anuncios/editar/<?php echo $anuncio->id; ?>'>
+					<div class="col-lg-12">
 					<section id='message'>      
 
 
@@ -40,37 +39,44 @@
 						<input value='<?php echo $anuncio->id; ?>' name='anuncio_alta' type='hidden'/>
 						<input type='submit' value='guardar' class="btn btn-primary" name='Submit'/>
 					</section>
+					</div>
 				</form>
 			</section>
 			
 			<section class="row">
-				<section class="col-sm-12 text-right">
-	                	<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary">
+				<section class='namebd col-lg-6'>
+					<p>Elimine frases de: <span class='bold'><?php echo $anuncio->name;?></span></p>    
+				</section>
+
+				<section class="col-lg-6 text-right">
+	                	<input type="button" id="toggle" value="Marcar todo" class="btn btn-primary">
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 
 	              </section>
 			</section>
-			<section class "row" id="contenido">
+		
+			<section class="col-lg-12" id="contenido">
 				<?php if(count($elements)>0){
 					?>
-				<section class='namebd'>
-				<p>Elimine frases de: <span class='bold'><?php echo $anuncio->name;?></span></p>    
-				</section>
 
 				
 				  <table class="table table-striped" >
-				    <tr>
-				     <th></th>   <th>Frase</th><th></th>
-				        
-				    </tr>
-				    <?php
+				  <thead>
+				  	<tr>
+				  		   <th></th><th>Frase</th><th></th>
+				  	</tr>
+				  </thead>
+				    <tbody>
+				      <?php
 				    foreach ($elements as $element)
 				    {
 				        echo "<tr>";
-				            echo "<td>".$element->sentence."</td><td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td><a data-id='".$element->id."' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> </td>";
+				            echo "<td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td>".$element->sentence."</td><td><a data-id='".$element->id."' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> </td>";
 				        echo "</tr>";
 				    }
 				    ?>
+				    </tbody>
+				  
 				</table>
 				<section class="row">
 					<?php echo $link_pager; ?>
@@ -79,13 +85,15 @@
 				else {
 					?>
 					  <table class="table table-striped" >
-				    <tr>
-				        <th></th>   <th>Frase</th><th>Borrar</th><th></th>
-				        
+				  <thead>
+				  	<tr>
+				  		    <th>Frase</th><th></th>
+				  	</tr>
+				  </thead>
+				    <tbody>  <tr >
+				    		<td colspan="2">No hay ningún elemento en esta base de datos</td>
 				    </tr>
-				    <tr >
-				    		<td colspan="4">No hay ningún elemento en esta base de datos</td>
-				    </tr>
+				    </tbody>
 				</table>
 
 				 	<?php

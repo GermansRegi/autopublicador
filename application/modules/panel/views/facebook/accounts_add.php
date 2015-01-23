@@ -20,10 +20,6 @@
 
 	?>
        
-<div class="container">
-	<div class="row">
-		<div class="col-sm-12 panel panel-default">
-			<div class="panel-body">
 			<form action="<?php echo base_url();?>panel/facebook/anadir_paginas" method="POST">
 
 				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -148,13 +144,10 @@
 				    </div>
 				  </div>
 				</div>
-				<input type="submit" name="submit" value="Añadir Páginas">
-				<a href=""> cancelar</a>
+				<input type="submit" name="submit" value="Añadir Páginas" class="btn btn-primary">
+				<a class="btn btn-danger" href="<?php echo base_url();?>panel/facebook "> Cancelar</a>
 			</form>
-		</div>
-		</div>
-	</div>
-</div>              
+	             
 <?php
     echo $this->load->view('includes2/footer');
 ?>

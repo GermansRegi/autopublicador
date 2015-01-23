@@ -6,6 +6,7 @@ class Facebook extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('bases_datos_model');
+		$this->load->model('anuncios_model');
 		$this->load->model('social_users');		
 
 				// To load the CI benchmark and memory usage profiler - set 1==1.
@@ -92,11 +93,13 @@ $this->data['titlepage']="Programar Facebook ";
 		$this->load->model("social_user_accounts");
 		$this->load->model("folders");
 		$this->data['user_accounts']=$this->social_user_accounts->getUserAppAccounts(array('user_app'=>$this->flexi_auth->get_user_id()));
+		$this->data['user_accounts']=array_merge($this->data['user_accounts'],$this->social_users->getUserAppUsers(array('user_app'=>$this->flexi_auth->get_user_id())));
 		$this->data['folders']=$this->folders->get_many_by(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>"fb"));
 		$this->data['user_accounts_view']=null;
 		$arraydata=array('page'=>array('folders'=>array(),'nofolder'=>array()),
-			'group'=>array('folders'=>array(),'nofolder'=>array()),
-			'event'=>array('folders'=>array(),'nofolder'=>array())
+					'group'=>array('folders'=>array(),'nofolder'=>array()),
+					'event'=>array('folders'=>array(),'nofolder'=>array()),
+					'user'=>array('folders'=>array(),'nofolder'=>array())
 			);
 		$n=0;
 		
@@ -113,20 +116,34 @@ $this->data['titlepage']="Programar Facebook ";
 
 		foreach ($this->data['user_accounts'] as $key) {
 			
-			if((int)$key->folder_id==0)
+			if(is_null($key->folder_id))
 			{
-				$arraydata[$key->type_account]['nofolder'][]=$key;				
+				if(!isset($key->type_account))
+					$arraydata['user']['nofolder'][]=$key;
+				else
+					$arraydata[$key->type_account]['nofolder'][]=$key;				
 			}
 			else
-			{
-				if(count($arraydata[$key->type_account]['folders'])!=0)
-				for($m=0;$m<count($arraydata[$key->type_account]['folders']);$m++)
-				{
-					//var_dump($arraydata[$key->type_account]['folders'][1]);
-					if($arraydata[$key->type_account]['folders'][$m]['data']->id==$key->folder_id)
-					$arraydata[$key->type_account]['folders'][$m]['rows'][]=$key;				
+			{	
+				if(!isset($key->type_account)){
+					if(count($arraydata['user']['folders'])!=0)
+					for($m=0;$m<count($arraydata['user']['folders']);$m++)
+					{
+						//var_dump($arraydata['user']['folders'][1]);
+						if($arraydata['user']['folders'][$m]['data']->id==$key->folder_id)
+						$arraydata['user']['folders'][$m]['rows'][]=$key;				
+					}
 				}
-				
+				else
+				{
+					if(count($arraydata[$key->type_account]['folders'])!=0)
+					for($m=0;$m<count($arraydata[$key->type_account]['folders']);$m++)
+					{
+						//var_dump($arraydata[$key->type_account]['folders'][1]);
+						if($arraydata[$key->type_account]['folders'][$m]['data']->id==$key->folder_id)
+						$arraydata[$key->type_account]['folders'][$m]['rows'][]=$key;				
+					}
+				}
 			}
 		}
 		
@@ -152,12 +169,24 @@ $this->data['titlepage']="Programar Facebook ";
 			
 			$user=$this->user_fb=$this->fblib->api('/me');
 			
+			$this->user_fb=$this->fblib->api('/me');
+			//sino existeix l'usuari de facebook l'inserim
+			if($this->social_users->notExists($this->user_fb['id'],'face')==true)
+			{
+				$this->social_users->insertNew(array(
+				'user_id'=>$this->user_fb['id'],
+				'username'=>$this->user_fb['name'],
+				'social_network'=>'fb',
+				'access_token'=>$this->fblib->getSession()->getToken(),
+				'user_app'=>$this->flexi_auth->get_user_id(),
+				'disabled'=>0));
+			}			
 			$this->load->model("social_user_accounts");
 
 			$pages=array();
 
 			$pagesFace=$this->fblib->api('/me/accounts');
-			
+			if(isset($pagesFace['data']) && count($pagesFace['data'])>0)
 			foreach($pagesFace['data'] as $val)
 	           {    
 				
@@ -170,7 +199,7 @@ $this->data['titlepage']="Programar Facebook ";
                }
                $groups=array();
                $groupsFace=$this->fblib->api('/me/groups');
-			
+			if(isset($groupsFace['data']) &&  count($groupsFace['data'])>0)
 			foreach($groupsFace['data'] as $val)
 	           {    
 				
@@ -184,6 +213,7 @@ $this->data['titlepage']="Programar Facebook ";
                $events=array();
                $eventsFace=$this->fblib->api('/me/events');
 			
+			if(isset($eventsFace['data']) && count($eventsFace['data'])>0)
 			foreach($eventsFace['data'] as $val)
 	           {    
 				
@@ -220,7 +250,7 @@ $this->data['titlepage']="Programar Facebook ";
 				$this->social_users->insertNew(array(
 				'user_id'=>$this->user_fb['id'],
 				'username'=>$this->user_fb['name'],
-				'socialnetwork'=>'face',
+				'social_network'=>'fb',
 				'access_token'=>$this->fblib->getSession()->getToken(),
 				'user_app'=>$this->flexi_auth->get_user_id(),
 				'disabled'=>0));
@@ -231,43 +261,62 @@ $this->data['titlepage']="Programar Facebook ";
 	}	
 	public function anadir_paginas()
 	{
-		$this->load->library('Facebooklib','','fblib');
-		$arrayTypes=array("page","group","event");
-		$this->user_fb=$this->fblib->api('/me');
-		foreach($arrayTypes as $type)
+		if($this->input->post())
 		{
-			$arrayPages=$this->input->post($type);
-			$i=0;
-			if(is11set($arrayPages) AND !EMPTY($arrayPages)){			
-				$arrayPagesSelected=array();
-				foreach($arrayPages as $page){
-				
-						if(isset($page['checked'])){
-							$arrayPagesSelected[$i]=$page;
-							$i++;
-						}
-				}
-				$this->load->model("social_user_accounts");
-				foreach ($arrayPagesSelected as $page) {
-					unset($page['checked']);
-					if($type=="group" || $type=="event"){
-						$page['access_token']=$this->fblib->getSession()->getToken();
+			$this->load->library('Facebooklib','','fblib');
+			$arrayTypes=array("page","group","event");
+			$this->user_fb=$this->fblib->api('/me');
+			foreach($arrayTypes as $type)
+			{
+				$arrayPages=$this->input->post($type);
+				$i=0;
+				if(isset($arrayPages) AND !EMPTY($arrayPages)){			
+					$arrayPagesSelected=array();
+					foreach($arrayPages as $page){
+					
+							if(isset($page['checked'])){
+								$arrayPagesSelected[$i]=$page;
+								$i++;
+							}
 					}
-					$page['idaccount']=$page['id'];	
-					unset($page['id']);
-					$infoadd=array('user_app'=>$this->flexi_auth->get_user_id(),"type_account"=>$type,'id_social_user'=>$this->user_fb['id']);
-					$this->social_user_accounts->insertNew(array_merge($page,$infoadd));
+					$this->load->model("social_user_accounts");
+					foreach ($arrayPagesSelected as $page) {
+						unset($page['checked']);
+						if($type=="group" || $type=="event"){
+							$page['access_token']=$this->fblib->getSession()->getToken();
+						}
+						$page['idaccount']=$page['id'];	
+						unset($page['id']);
+						$infoadd=array('user_app'=>$this->flexi_auth->get_user_id(),"type_account"=>$type,'id_social_user'=>$this->user_fb['id']);
+						$this->social_user_accounts->insertNew(array_merge($page,$infoadd));
+					}
 				}
 			}
+			$this->data['message']='success';
 		}
+		else
+		{
+			$this->data['message']='error';
+		}
+		$this->data['titlepage']="";
+		$this->load->view("panel/facebook/anadir_paginas",$this->data);
+		
 	}
 	public function publicar()
 	{
 		$this->load->model('social_user_accounts');
+		$this->load->model('social_users');
+
+		//$basededatos=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+		
 		$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['events']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['groups']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['pages']=$pages;
+			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['data']['page']=$pages;
+			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+
 			$this->data['titlepage']="Cuentas de facebook";
 			
 
@@ -276,47 +325,99 @@ $this->data['titlepage']="Programar Facebook ";
 	public function deletecontent()
 	{
 		$this->load->model('social_user_accounts');
-		if($this->input->get("is_folder")){
-			$numaccount=$this->social_user_accounts->count_by(array("folder_id"=>$this->input->get("id")));
+		$this->load->model('social_users');
+		
+		if($this->input->get("is_folder")=="true"){
+			//var_dump($this->input->get("is_user"));
+			if($this->input->get("is_user")=="true")
+				$numaccount=$this->social_users->count_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+			else	
+				$numaccount=$this->social_user_accounts->count_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
 			if($numaccount>0)
 			{
 				
-				echo json_encode(array("result"=>"delAccountsInFolder","idFolder"=>$this->input->get("id")));
+				echo json_encode(array("result"=>"delAccountsInFolder","idFolder"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
 			}
 			else
 			{
 				$this->load->model("folders");
-				$this->folders->delete_by(array("id"=>$this->input->get("id")));
+				$this->folders->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
 				echo json_encode(array("result"=>"ok"));
 			}
 
 		}
-		else{	
-		$this->social_user_accounts->delete_by(array("id"=>$this->input->get("id")));
-		echo json_encode(array("result"=>"ok"));
+		else
+		{	
+			if($this->input->get("is_user")=="true")
+				$this->social_users->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+			else	
+				$this->social_user_accounts->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+		echo json_encode(array("result"=>"oook"));
 		}
 	}
 	public function deleteQuitFolderContent()
 	{
 		$this->load->model('social_user_accounts');
-		$rows=$this->social_user_accounts->get_many_by(array("folder_id"=>$this->input->get("id")));
+		$this->load->model("social_users");
+		if($this->input->get("is_user")=="true")
+			$rows=$this->social_users->get_many_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+		else
+		$rows=$this->social_user_accounts->get_many_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+	//var_dump($rows);
 		if($this->input->get("type")=="quit")
 		{		
 			foreach ($rows as  $value) {
-				# code...
-				$this->social_user_accounts->update_by(array("folder_id"=>null),array("id"=>$value->id));
+			//	echo $value->id.$this->input->get("is_user");
+				if($this->input->get("is_user")=="true")
+			
+					 $this->social_users->update_by(array("folder_id"=>null),array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
+					//$this->social_users->getLasQuery();
+			
+				else
+					$this->social_user_accounts->update_by(array("folder_id"=>null),array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
 			}
 		}
 		else
 		{
 			foreach ($rows as  $value) {
-				# code...
-				$this->social_user_accounts->delete_by(array("id"=>$value->id));
+				if($this->input->get("is_user")=="true")
+					$this->social_users->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
+				else	
+					$this->social_user_accounts->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
 			}
 			$this->load->model("folders");
-			$this->folders->delete_by(array("id"=>$this->input->get("id")));
-						
+			$this->folders->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
 		}
+	}
+	public function createFolder()
+	{
+		
+		if($this->input->post())
+		{
+			$this->form_validation->set_rules('name', 'Nombre', 'required');
+			$this->form_validation->set_rules('type', 'Carpeta para', 'required');
+			if($this->form_validation->run()==FALSE)
+			{
+				$errors = $this->form_validation->error_array();
+		                     echo json_encode(array('msg_errors'=>$errors));
+		           
+			}
+			else
+			{
+				$this->load->model("folders");
+				$arr=array(
+				"name"=>$this->input->post("name"),
+				"type"=>$this->input->post("type"),
+				'user_app'=>$this->flexi_auth->get_user_id(),
+				"social_network"=>"fb"
+				);
+				if($this->folders->insert($arr)){
+					echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
+				}	
+			}
+		
+		}
+		
 	}
 }
 

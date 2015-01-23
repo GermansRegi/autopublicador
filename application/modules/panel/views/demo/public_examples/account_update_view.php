@@ -18,12 +18,6 @@
 
 ?>
             
-			<section class="content">
-				<section class="container">
-					
-<section class="row">
-<section class="col-md-12">
-
 
 <section id="message"><?php echo isset($message)?$message:'';?></section>      
 <section class="col-md-6">
@@ -367,10 +361,7 @@
       
 
 <?php echo form_close();?>
-</section>
-</section>
-</section>
-</section>                  
+
 <?php
     echo $this->load->view('includes2/footer');
 ?>

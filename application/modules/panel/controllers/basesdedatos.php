@@ -125,7 +125,7 @@ class Basesdedatos extends CI_Controller {
 				$basededatos=$this->bases_datos_model->getById($idbd);
 				
 				
-                $config["base_url"] = base_url() . "admin/basesdedatos/editar/".$idbd."/";
+                $config["base_url"] = base_url() . "panel/basesdedatos/editar/".$idbd."/";
                 $page = (($this->uri->segment(5)===False) ? 0: $this->uri->segment(5));
                 
                if($basededatos[0]->content=='image')
@@ -208,6 +208,7 @@ class Basesdedatos extends CI_Controller {
 		                	}
 		                	else
 		                	{
+		                	
 		                	
 		                	$this->bases_datos_model->insertElement('sentence',array(
 							'sentence'=>$this->input->post('frase'),
@@ -315,7 +316,7 @@ class Basesdedatos extends CI_Controller {
 						'content'=>$this->input->post('content'),
 						'name'=>$this->input->post('basededatos_create_name'),
 						'user_app'=>$this->flexi_auth->get_user_id(),
-						'is_admin'=>1));
+						'is_admin'=>0));
 					echo json_encode(array('msg_success'=>'Datos guardados con éxito','idcreated'=>$idcreated));
 				}
 				else

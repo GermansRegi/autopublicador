@@ -32,9 +32,11 @@ class MY_Model extends CI_Model {
         $where = func_get_args();
         
         $this->_database->where($where[0]);
-     
+        if(isset($where[1]))
+     	$this->_database->or_where($where[1]);
         return $this->get_all();
     }
+
     public function get_all()
     {
         $result = $this->_database->get($this->_table)
@@ -117,10 +119,18 @@ class MY_Model extends CI_Model {
     }
     public function update_by()
     {
-    		$this->_database->where(func_get_args(1));
-    		$this->_database->set(func_get_args(0));
+    		$this->_database->where(func_get_args()[1]);
+    		$this->_database->set(func_get_args()[0]);
     		return $this->_database->update($this->_table);
 
+    }
+    public function or_where($array)
+    {
+    		$this->_database->or_where($array);
+    }
+    public function getLasQuery()
+    {
+    	return $this->_database->last_query();
     }
 }
 /* End of file MY_Model.php */

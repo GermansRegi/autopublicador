@@ -120,7 +120,8 @@ class Anuncios extends CI_Controller {
 						'socialnetwork'=>$this->input->post('basededatos_create_social'),
 						'content'=>$this->input->post('content'),
 						'name'=>$this->input->post('basededatos_create_name'),
-						'user_app'=>$this->flexi_auth->get_user_id()));
+						'user_app'=>$this->flexi_auth->get_user_id(),
+						'is_admin'=>0));
 					echo json_encode(array('msg_success'=>'Datos guardados con éxito','idcreated'=>$idcreated));
 				}
 				else
@@ -173,7 +174,7 @@ class Anuncios extends CI_Controller {
 				$anuncio=$this->anuncios_model->getById($idbd);
 				
 			
-                $config["base_url"] = base_url() . "admin/anuncios/editar/".$idbd."/";
+                $config["base_url"] = base_url() . "panel/anuncios/editar/".$idbd."/";
                 $page = (($this->uri->segment(5)===False) ? 0: $this->uri->segment(5));
                 
                if($anuncio[0]->content=='image')

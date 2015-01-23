@@ -397,7 +397,8 @@ class Demo_auth_model extends CI_Model {
 
 			// Redirect user.
 			// Note: As an added layer of security, you may wish to email the user that their password has been updated.
-			($response) ? redirect('auth_public/dashboard') : redirect('auth_public/change_password');
+			//($response) ? redirect('auth_public/dashboard') : redirect('auth_public/change_password');
+			redirect('panel/perfil');
 		}
 		else
 		{

@@ -30,15 +30,24 @@ class Bases_datos_model extends MY_Model {
 			return $this->get_all();
 
 	}
+	public function getAllWithAdmin($where=array())
+	{
+	
+		if(count($where)>0)
+		{
+			
+		return	$this->get_many_by($where,array('is_admin'=>1));
+	
+		}	
+		else
+			return $this->get_by();
+
+	}
 	public function insertNew($data)
 	{
 		return $this->insert($data);
 	}
 
-	public function delete($where)
-	{
-
-	}
 	public function deleteElementImage($id)
 	{
 		$image=$this->getElementById('image',$id);

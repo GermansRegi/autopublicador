@@ -15,8 +15,12 @@ class Social_users extends MY_Model {
 	public function notExists($user_id,$socialnet)
 	{
 		
-		$exist=$this->count_by(array('user_id'=>$user_id,'socialnetwork'=>$socialnet));
+		$exist=$this->count_by(array('user_id'=>$user_id,'social_network'=>$socialnet));
 		return (0==$exist);
+	}
+	public function getUserappUsers($where)
+	{
+		return $this->get_many_by($where);
 	}
 }
 
