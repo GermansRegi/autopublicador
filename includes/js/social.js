@@ -117,3 +117,62 @@
 	$(document).on("ready",function(){
 		$("a[href="+$.cookie("currTab")+"]").tab("show")
 	})
+		$("BODY").on("change","#select-bbdd",function(){
+			$this=$(this);
+			var id=$this.val();
+			$.ajax({url:base_url+"panel/facebook/get_bbddElements",
+			type:'post',
+			dataType:"json",		
+			data:{"id":id,"page":1},
+			success:function(data){
+								
+    					generate("generate-bbdd",data)
+				
+				
+			},
+		});
+		});
+			$("#generate-bbdd").on("click",".links",function(){
+
+			})
+		$("BODY").on("change","#select-anuncis",function(){
+			$this=$(this);
+			var id=$this.val();
+			$.ajax({url:base_url+"panel/facebook/get_anuncisElements",
+			type:'post',
+			dataType:"json",		
+			data:{"id":id,"page":1},
+			success:function(data){
+								
+    					generate("generate-anuncis",data)
+				
+				
+			},
+		});
+		});
+			$("#generate-bbdd").on("click",".links",function(){
+
+			})
+		
+		function generate(container,data)
+		{
+			    	$("#"+container).html("");
+			    	if(data.data.length==0){
+			    		$("<p>Debe añadir contenido a la base de datos seleccionada.</p>").appendTo("#"+container)
+			    	}
+			    	else for(i=0;i<data.data.length;i++)
+				    	{
+				    		$('<input type="checkbox" name="bbdd_'+data.content+'" value="'+data.data[i].id+'"/>').appendTo($("#"+container))
+				    		if(data.content=="sentence"){	
+				    			console.log(data.data[i]);
+				    			$('<span>'+data.data[i].sentence+'</span>').appendTo($("#"+container))}
+				    		else if(data.content=="image")
+				    			$('<img width="60" src=">'+base_url+data.data[i].url+'"/>').appendTo($("#"+container))
+				    		else
+				    			$('<span>'+data.data[i].text+'</span>').appendTo($("#generate-bbdd"))
+				    	}	
+
+
+		}
+
+	

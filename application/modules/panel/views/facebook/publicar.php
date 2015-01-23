@@ -56,8 +56,9 @@
 			                    }
 			           		?>
 			               </select>
+			          	<div id="generate-anuncis"></div>
 			          </div>
-			          <div id="generate-anuncis"></div>
+			          
 			       </div>
 			   </div>
 			   <div class="col-lg-6">	       
@@ -65,7 +66,7 @@
 			           <label class="control-label col-lg-12 ">Bases de datos:</label>
 			           <div class="col-lg-12">
 			           
-				           <select class='form-control' name="bbdd"  id="select-bbdd" >
+				           <select  class='form-control' name="bbdd"  id="select-bbdd" >
 					          <option value=''> Seleccione una base de datos</option>
 				       		<?php
 				               foreach ($basesdedatos as $bbdd)
@@ -74,8 +75,8 @@
 				             	}
 				       		?>
 				          </select>
+				     	<div id="generate-bbdd"></div>
 				     </div>
-					<div id="generate-bbdd"></div>
 				</div>    
 				<div class="form-group col-lg-12">
 					<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -131,3 +132,10 @@
  <?php echo $this->load->view('includes2/scripts');?>
 </body>
 </html>
+<script id="personTpl" type="text/template">
+<ul>
+{{#/data}}
+<li>{{id}}</li>
+{{#/data}}
+</ul>
+</script>

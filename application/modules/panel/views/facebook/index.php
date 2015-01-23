@@ -76,23 +76,23 @@
 			for($i=0;$i<count($arraytypes);$i++){
 				?>
 				<div role="tabpanel" class="tab-pane <?php echo (($i==0)? "active":""); ?>" id="<?php echo $arraytypes[$i]['name'];?>">	
-					<div class="panel panel-default">
+					<div class="panel  panel-default">
 						<div class="panel-heading"></div>
 						<div class="panel-body">
 							<?php
 							if(count($arraydata[$arraytypes[$i]['name']]['nofolder'])>=0)
 							{		
 								?>
-								<div class="panel panel-default">
+								<div class="panel panel-default panel-accounts-nofolder">
 									<div class="panel-heading">Cuentas sin carpeta </div>
 
-									<div class="panel-body">
+									<div class="panel-body ">
 										<table class="table table-striped">
 											<?php
 											foreach ($arraydata[$arraytypes[$i]['name']]['nofolder'] as $pagenofolder) {
 												?>
 												
-												<tr >
+												<tr class="item" >
 													<td>
 														<img src="http://graph.facebook.com/v2.2/<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id:$pagenofolder->idaccount); //$pagenofolder->idaccount ?>/picture?width=50&height=50">
 
@@ -126,7 +126,7 @@
 									<?php
 									foreach ($arraydata[$arraytypes[$i]['name']]['folders'] as $folder) {
 										?>
-										<div class="panel panel-default">
+										<div class="panel panel-default panel-accounts-folder">
 											<div class="panel-heading" role="tab" id="headerfold<?php echo $folder['data']->id; ?>">
 												<h4 class=" clearfix panel-title">
 													<a data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">

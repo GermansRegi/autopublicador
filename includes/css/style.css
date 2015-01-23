@@ -7378,6 +7378,11 @@ a {
 footer {
   border-top: 4px solid #ff5d5e; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/style\.scss}line{font-family:\0000315}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/style\.scss}line{font-family:\0000317}}
 .container {
   margin-top: 20px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/style\.scss}line{font-family:\0000320}}
+#generate-bbdd,
+#generate-anuncis {
+  padding-top: 15px; }

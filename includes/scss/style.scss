@@ -10,8 +10,15 @@
 
 //color
 @import "red.scss";
+
+//@import "jquery-ui-min.scss";
 //@import "style_public.scss";
 
 .container{
 	margin-top:20px;
+}
+#generate-bbdd,
+#generate-anuncis{
+	padding-top:15px;
+
 }

@@ -419,6 +419,60 @@ $this->data['titlepage']="Programar Facebook ";
 		}
 		
 	}
+	public function get_bbddElements()
+	{
+		if($this->input->post())
+		{
+			$config=$this->load->config("pagination");
+			$config["base_url"] = base_url() . "panel/facebook/publicar";
+			$this->load->library('pagination');
+			$page=$this->input->get("page");						
+			
+			
+			
+			//$this->data['pager']=$this->pagination->create_links();
+
+			$idBBDD=$this->input->post("id");
+			$bbdd=$this->bases_datos_model->getById($idBBDD);
+			$type=$bbdd[0]->content;
+			$bbddType=$this->bases_datos_model->getElements($type,array("bbdd_id"=>$idBBDD),$page,5);
+			//var_dump($bbddType);
+			$config['total_rows']=$this->bases_datos_model->countAllElements($type,array("bbdd_id"=>$idBBDD),$page,5);
+			$config['page']=$page;
+			$this->pagination->initialize($config);
+			
+	//		$pager=$this->pagination->create_links();
+			//var_dump($pager);
+			echo json_encode(array("data"=>$bbddType,'content'=>$type));
+						//$this->flexi_auth->get_user_id()
+		}		
+	}
+	public function get_anuncisElements()
+	{
+		if($this->input->post())
+		{
+			$config=$this->load->config("pagination");
+			$config["base_url"] = base_url() . "panel/facebook/publicar";
+			$this->load->library('pagination');
+			$page=$this->input->get("page");						
+
+			//$this->data['pager']=$this->pagination->create_links();
+
+			$idBBDD=$this->input->post("id");
+			$bbdd=$this->anuncios_model->getById($idBBDD);
+			$type=$bbdd[0]->content;
+			$bbddType=$this->anuncios_model->getElements($type,array("bbdd_id"=>$idBBDD),$page,5);
+			//var_dump($bbddType);
+			$config['total_rows']=$this->anuncios_model->countAllElements($type,array("bbdd_id"=>$idBBDD),$page,5);
+			$config['page']=$page;
+			$this->pagination->initialize($config);
+			
+	//		$pager=$this->pagination->create_links();
+			//var_dump($pager);
+			echo json_encode(array("data"=>$bbddType,'content'=>$type));
+						//$this->flexi_auth->get_user_id()
+		}		
+	}
 }
 
 /* End of file facebook.php */

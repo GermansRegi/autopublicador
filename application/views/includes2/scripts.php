@@ -12,7 +12,9 @@
         <script src="<?php echo base_url(); ?>includes/js/jquery.cookie.js"></script>
     <script src="<?php echo base_url(); ?>includes/js/script.js"></script>
    <script  src="<?php echo base_url(); ?>includes/js/basesdedatos.js"></script>
-
+ <script  src="<?php echo base_url(); ?>includes/js/jquery-ui.min.js"></script>
+ 
+ <script src="http://github.com/janl/mustache.js/raw/master/mustache.js"></script>
  <script  src="<?php echo base_url(); ?>includes/js/social.js"></script>
 
    

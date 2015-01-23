@@ -116,7 +116,7 @@ class Bases_datos_model extends MY_Model {
 		$this->delete_by(array('id'=>$bdid));
 		
 	}
-
+	
 
 
 
