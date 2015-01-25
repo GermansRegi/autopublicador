@@ -22,7 +22,7 @@
 		else
 		{
 		?>
-			<form id="publicarahora"  action='<?php echo base_url()?>facebook/publicar' method='post' enctype="multipart/form-data">
+			<form id="publicarahora"  action='<?php echo base_url()?>panel/facebook/publicar' method='post' enctype="multipart/form-data">
 			   <div id="resultadopublicar"></div>
 			   <div class="col-lg-6">
 			       <div class="form-group">  
@@ -47,7 +47,7 @@
 			      <div class="form-group ">
 			          <label class=" col-lg-12 control-label">Anuncios:</label>
 			          <div class="col-lg-12">
-			               <select  class='form-control' name="anuncis"  id="select-anuncis" >
+			               <select data-typeselect="anuncis" class='form-control generate-select' name="anuncis" id="select-anuncis"  >
 			        			<option value=''> Seleccione una base de datos de anuncios</option>
 			           		<?php
 			                    foreach ($anuncios as $anunci)
@@ -66,7 +66,7 @@
 			           <label class="control-label col-lg-12 ">Bases de datos:</label>
 			           <div class="col-lg-12">
 			           
-				           <select  class='form-control' name="bbdd"  id="select-bbdd" >
+				           <select data-typeselect="bbdd" class='form-control generate-select' name="bbdd"  id="select-bbdd" >
 					          <option value=''> Seleccione una base de datos</option>
 				       		<?php
 				               foreach ($basesdedatos as $bbdd)

@@ -246,7 +246,7 @@
 			},
 
 			_removeContainerIfNew: function() {
-				//self.container.filter('.i-am-new').remove();
+				self.container.filter('.i-am-new').remove();
 				delete self.container;
 			},
 

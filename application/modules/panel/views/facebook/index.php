@@ -13,7 +13,7 @@
 	$arraytypes=array(array("name"=>"user","title"=>"Usuarios"),array("name"=>"group","title"=>"Grupos"),array("name"=>"page","title"=>"Páginas"),array("name"=>"event","title"=>"Eventos"))
 	?>
 	<div class="clearfix ">
-		<div class="col-lg-3"><a href="<?php echo base_url(); ?>panel/facebook/connectar_facebook" class="btn btn-primary">Connectar con Facebook</a></div>
+		<div class="col-lg-3"><a href="<?php echo base_url(); ?>panel/facebook/connectar_facebook" class="btn btn-primary">Conectar con Facebook</a></div>
 		<div class="col-lg-2"><a class="btn btn-default showHide" >Crear Carpeta</a></div>
 
 		<div  class="col-lg-6 clearfix  hidden"  >
@@ -87,7 +87,7 @@
 									<div class="panel-heading">Cuentas sin carpeta </div>
 
 									<div class="panel-body ">
-										<table class="table table-striped">
+										<table class="table table-striped accounts">
 											<?php
 											foreach ($arraydata[$arraytypes[$i]['name']]['nofolder'] as $pagenofolder) {
 												?>
@@ -97,7 +97,7 @@
 														<img src="http://graph.facebook.com/v2.2/<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id:$pagenofolder->idaccount); //$pagenofolder->idaccount ?>/picture?width=50&height=50">
 
 													</td>
-													<td >
+													<td class="name">
 														<?php echo ((!isset($pagenofolder->name))?$pagenofolder->username:$pagenofolder->name); ?>
 													</td>
 													<td>
@@ -127,31 +127,32 @@
 									foreach ($arraydata[$arraytypes[$i]['name']]['folders'] as $folder) {
 										?>
 										<div class="panel panel-default panel-accounts-folder">
-											<div class="panel-heading" role="tab" id="headerfold<?php echo $folder['data']->id; ?>">
+											<div class="panel-heading  " role="tab" id="headerfold<?php echo $folder['data']->id; ?>">
 												<h4 class=" clearfix panel-title">
 													<a data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">
-														<span><?php echo $folder['data']->name; ?><span class="badge"><?php echo count($folder['rows']); ?></span></span>
+														<span><?php echo $folder['data']->name; ?> <span class="badge"> <?php echo count($folder['rows']); ?></span></span>
 														<div class="pull-right btn btn-danger deleteaccount"  data-user="<?php echo (($arraytypes[$i]['name']=="user")?'true':'false'); ?>" data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i></div>
 													</a>
 
 												</h4>
 											</div>
-											<div id="fold<?php echo $folder['data']->id; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headerfold<?php echo $folder['data']->id; ?>">
-												<div class="panel-body">
+											
+											<div id="fold<?php echo $folder['data']->id; ?>" data-idfolder='<?php echo $folder['data']->id; ?>' class="panel-collapse collapse" role="tabpanel" aria-labelledby="headerfold<?php echo $folder['data']->id; ?>">
+											<div class="panel-body">	
 
 
-										<table class="table table-striped">
+										<table class="table table-striped accounts">
 											<?php
 												foreach ($folder['rows'] as $pagefolder) 
 												{
 											?>
 
-											<tr id="line<?php echo $pagefolder->id ?>">
+											<tr  class='folderrow'>
 												<td>
 													<img src="http://graph.facebook.com/v2.2/<?php echo ((!isset($pagefolder->idaccount))?$pagefolder->user_id:$pagefolder->idaccount);///$pagefolder->idaccount ?>/picture?width=50&height=50">
 
 												</td>
-												<td >
+												<td class="name">
 												<?php echo ((!isset($pagefolder->name))?$pagefolder->username:$pagefolder->name); ?>
 													<!--<?php// echo $pagefolder->name; ?>-->
 												</td>

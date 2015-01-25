@@ -115,9 +115,10 @@ if(idUploader){
     		{
     			
     		}
+    		console.log(seg);
 	    	if(elem==null)
 	    	{
-	    		var noty=$.notyfy({text:text,type:type,dismissQueue:false});
+	    		var noty=notyfy({text:text,type:type	,dismissQueue:true,timeout:seg});
 	    	}
 	    	else
 		{
@@ -135,14 +136,14 @@ if(idUploader){
 	    	if(data.msg_errors)
 		{
 		     //$(id).html(showErrorsForm(data.msg_errors));
-		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error",3);
+		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error",2000);
 			return false
 		}
 		else if(data.msg_success)
 		{      
 			$(id).children('.notyfy_error').remove();
 		     //$(id).html(showSuccessForm(data.msg_success))
-		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",4);
+		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",4000);
 		     if(data.idcreated)
 			{
 		  		return data.idcreated

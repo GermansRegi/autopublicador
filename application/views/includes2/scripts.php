@@ -4,8 +4,6 @@
     <script src="<?php echo base_url();?>includes/js/moxie.min.js"></script>
    <script  src="<?php echo base_url();?>includes/js/jquery.plupload.queue.min.js"></script>
    <script  src="<?php echo base_url();?>includes/js/jquery.plupload.es.js"></script>
-   <link rel="stylesheet" href="<?php echo base_url(); ?>includes/js/jquery.notyfy.css"> 
-   <link rel="stylesheet" href="<?php echo base_url(); ?>includes/js/themes/default.css"> 
     <script src="<?php echo base_url(); ?>includes/js/bootstrap.min.js"></script>
    <script  src="<?php echo base_url(); ?>includes/js/bootstrap-filestyle.min.js"></script>
     <script src="<?php echo base_url(); ?>includes/js/jquery.notyfy.js"></script>
@@ -14,7 +12,7 @@
    <script  src="<?php echo base_url(); ?>includes/js/basesdedatos.js"></script>
  <script  src="<?php echo base_url(); ?>includes/js/jquery-ui.min.js"></script>
  
- <script src="http://github.com/janl/mustache.js/raw/master/mustache.js"></script>
+ 
  <script  src="<?php echo base_url(); ?>includes/js/social.js"></script>
 
    

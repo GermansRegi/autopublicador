@@ -86,7 +86,7 @@ class Facebook extends CI_Controller {
 $this->data['titlepage']="Programar Facebook ";
 		$this->load->view("panel/facebook/programar_facebook",$this->data);
 	}
-
+	// llista les comptes de facebook  que te afegides l'usuarii de aplicacio
 	public function index()
 	{
 
@@ -154,6 +154,7 @@ $this->data['titlepage']="Programar Facebook ";
 		$this->load->view('panel/facebook/index',$this->data);
 
 	}
+	//llista les comptes de facebook de uusuari de facebook 
 	public function connectar_facebook()
 	{
 		
@@ -171,7 +172,7 @@ $this->data['titlepage']="Programar Facebook ";
 			
 			$this->user_fb=$this->fblib->api('/me');
 			//sino existeix l'usuari de facebook l'inserim
-			if($this->social_users->notExists($this->user_fb['id'],'face')==true)
+			if($this->social_users->notExists($this->user_fb['id'],'fb')==true)
 			{
 				$this->social_users->insertNew(array(
 				'user_id'=>$this->user_fb['id'],
@@ -237,6 +238,7 @@ $this->data['titlepage']="Programar Facebook ";
 		}
 
 	}
+	// funcio callback de x connectar a facebook
 	public function registrar_facebook()
 	{
 		$this->load->library('Facebooklib','','fblib');
@@ -245,7 +247,7 @@ $this->data['titlepage']="Programar Facebook ";
 
 			$this->user_fb=$this->fblib->api('/me');
 			//sino existeix l'usuari de facebook l'inserim
-			if($this->social_users->notExists($this->user_fb['id'],'face')==true)
+			if($this->social_users->notExists($this->user_fb['id'],'fb')==true)
 			{
 				$this->social_users->insertNew(array(
 				'user_id'=>$this->user_fb['id'],
@@ -259,6 +261,7 @@ $this->data['titlepage']="Programar Facebook ";
 
 		}
 	}	
+	//afegeix les comptes seleccionades per usuari
 	public function anadir_paginas()
 	{
 		if($this->input->post())
@@ -302,6 +305,7 @@ $this->data['titlepage']="Programar Facebook ";
 		$this->load->view("panel/facebook/anadir_paginas",$this->data);
 		
 	}
+	// permet publicar a facebook
 	public function publicar()
 	{
 		$this->load->model('social_user_accounts');
@@ -322,6 +326,7 @@ $this->data['titlepage']="Programar Facebook ";
 
 		$this->load->view('panel/facebook/publicar',$this->data);
 	}
+	// elimina un compte de facebook
 	public function deletecontent()
 	{
 		$this->load->model('social_user_accounts');
@@ -342,7 +347,7 @@ $this->data['titlepage']="Programar Facebook ";
 			{
 				$this->load->model("folders");
 				$this->folders->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-				echo json_encode(array("result"=>"ok"));
+				echo json_encode(array("result"=>"ok","msg_success"=>'Carpeta eliminada correctamente '));
 			}
 
 		}
@@ -352,9 +357,10 @@ $this->data['titlepage']="Programar Facebook ";
 				$this->social_users->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
 			else	
 				$this->social_user_accounts->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-		echo json_encode(array("result"=>"oook"));
+		echo json_encode(array("result"=>"ok","msg_success"=>'Cuenta eliminada correctamente '));
 		}
 	}
+	// elimina una carpeta i el seu contingut si en te 
 	public function deleteQuitFolderContent()
 	{
 		$this->load->model('social_user_accounts');
@@ -385,10 +391,12 @@ $this->data['titlepage']="Programar Facebook ";
 				else	
 					$this->social_user_accounts->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
 			}
-			$this->load->model("folders");
-			$this->folders->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
 		}
+		$this->load->model("folders");
+		$this->folders->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+		echo json_encode(array("result"=>"ok","msg_success"=>'Cambios aplicados correctamente '));
 	}
+	// crea una carpeta de facebook
 	public function createFolder()
 	{
 		
@@ -419,59 +427,91 @@ $this->data['titlepage']="Programar Facebook ";
 		}
 		
 	}
-	public function get_bbddElements()
+	// agafa els elements duna base de dades i els mostra
+	public function get_bbddElements($page=0)
 	{
 		if($this->input->post())
 		{
 			$config=$this->load->config("pagination");
-			$config["base_url"] = base_url() . "panel/facebook/publicar";
+			$config["base_url"] = base_url() . "panel/facebook/get_bbddElements";
 			$this->load->library('pagination');
-			$page=$this->input->get("page");						
+			$page=($page!=0)?$page:0;
 			
 			
-			
+			$config['per_page']=5;	
 			//$this->data['pager']=$this->pagination->create_links();
-
+		//	$config['page_query_strings']=true;
 			$idBBDD=$this->input->post("id");
 			$bbdd=$this->bases_datos_model->getById($idBBDD);
 			$type=$bbdd[0]->content;
-			$bbddType=$this->bases_datos_model->getElements($type,array("bbdd_id"=>$idBBDD),$page,5);
+			$bbddType=$this->bases_datos_model->getElements($type,array("bbdd_id"=>$idBBDD),$config['per_page'],$page);
 			//var_dump($bbddType);
-			$config['total_rows']=$this->bases_datos_model->countAllElements($type,array("bbdd_id"=>$idBBDD),$page,5);
+			$config['total_rows']=$this->bases_datos_model->countAllElements($type,array("bbdd_id"=>$idBBDD));
 			$config['page']=$page;
+			$config['uri_segment']=4;
+			//echo $this->uri->segment(4);
+			//el problema s k no ilumina el current page pk 
 			$this->pagination->initialize($config);
 			
-	//		$pager=$this->pagination->create_links();
+			$pager=$this->pagination->create_links();
 			//var_dump($pager);
-			echo json_encode(array("data"=>$bbddType,'content'=>$type));
+			echo json_encode(array('pager'=>$pager,"data"=>$bbddType,'content'=>$type));
 						//$this->flexi_auth->get_user_id()
 		}		
 	}
-	public function get_anuncisElements()
+	// agafa els elements d'una base de dades anuncis
+	public function get_anuncisElements($page=0)
 	{
 		if($this->input->post())
 		{
 			$config=$this->load->config("pagination");
 			$config["base_url"] = base_url() . "panel/facebook/publicar";
 			$this->load->library('pagination');
-			$page=$this->input->get("page");						
-
-			//$this->data['pager']=$this->pagination->create_links();
-
+			$page=($page!=0)?$page:0;
+			
+			
+			$config['per_page']=5;	
+		
 			$idBBDD=$this->input->post("id");
 			$bbdd=$this->anuncios_model->getById($idBBDD);
 			$type=$bbdd[0]->content;
-			$bbddType=$this->anuncios_model->getElements($type,array("bbdd_id"=>$idBBDD),$page,5);
+			$bbddType=$this->anuncios_model->getElements($type,array("bbdd_id"=>$idBBDD),$config['per_page'],$page);
 			//var_dump($bbddType);
-			$config['total_rows']=$this->anuncios_model->countAllElements($type,array("bbdd_id"=>$idBBDD),$page,5);
+			$config['total_rows']=$this->anuncios_model->countAllElements($type,array("bbdd_id"=>$idBBDD));
+			
 			$config['page']=$page;
+			$config['uri_segment']=4;
 			$this->pagination->initialize($config);
 			
+			$pager=$this->pagination->create_links();
 	//		$pager=$this->pagination->create_links();
 			//var_dump($pager);
-			echo json_encode(array("data"=>$bbddType,'content'=>$type));
+			echo json_encode(array("pager"=>$pager,"data"=>$bbddType,'content'=>$type));
 						//$this->flexi_auth->get_user_id()
 		}		
+	}
+	public function changeAccountFolder()
+	{
+		if($this->input->post())
+		{
+			$idpage=$this->input->post('page');
+			$idfolder=$this->input->post('folder');
+			
+			if($idfolder=='null')
+			{
+					$idfolder=NULL;
+			}
+			$this->load->model('social_user_accounts');
+			if($this->input->post('isuser')=='true')
+			{
+				$this->social_users->update_by(array('folder_id'=>$idfolder),array('id'=>$idpage,'user_app'=>$this->flexi_auth->get_user_id()));
+			}	
+			else
+			{
+
+				$this->social_user_accounts->update_by(array('folder_id'=>$idfolder),array('id'=>$idpage,'user_app'=>$this->flexi_auth->get_user_id()));
+			}
+		}
 	}
 }
 
