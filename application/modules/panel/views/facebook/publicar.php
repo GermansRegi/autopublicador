@@ -23,7 +23,7 @@
 		{
 		?>
 			<form id="publicarahora"  action='<?php echo base_url()?>panel/facebook/publicar' method='post' enctype="multipart/form-data">
-			   <div id="resultadopublicar"></div>
+			   <div class="message"></div>
 			   <div class="col-lg-6">
 			       <div class="form-group">  
 			           <label class=" col-lg-12  control-label">Texto:</label>
@@ -79,6 +79,8 @@
 				     </div>
 				</div>    
 				<div class="form-group col-lg-12">
+					 <label class="control-label ">Cuentas:</label>
+					  <div class="">
 					<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					
 					<?php
@@ -106,7 +108,8 @@
 									<?php
 									foreach($data[$arraytypes[$i]['name']] as $page)
 									{
-										echo " <input type='checkbox' name='ck_group_ap[]' value='".(($arraytypes[$i]['name']=="user")?$page->user_id:$page->idaccount)."' />&nbsp;&nbsp;&nbsp; <span >".(($arraytypes[$i]['name']=="user")?$page->username:$page->name)."</span>&nbsp;&nbsp;<br>";
+										
+										echo " <input type='checkbox' name='ck_group_ap[".(($arraytypes[$i]['name']=="user")?'user':'account')."][]' value='".(($arraytypes[$i]['name']=="user")?$page->user_id:$page->idaccount)."' />&nbsp;&nbsp;&nbsp; <span >".(($arraytypes[$i]['name']=="user")?$page->username:$page->name)."</span>&nbsp;&nbsp;<br>";
 									}
 									?>
 									</section>
@@ -117,10 +120,11 @@
 					}
 					?>      
 				</section>
+				</div>
 				<section class="col-lg-12">
 						<input type='submit' name='publicar' class="btn btn-primary" value='Publicar'/>
 				</section>
-				</div>
+				<div>
 					<p>Facebook no permite poner en una misma publicación imágenes y enlaces</p>
 				</div>
 			</div>

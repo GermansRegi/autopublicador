@@ -30,7 +30,7 @@
 		<script>
 		$(function(){
 				
-				$("#msg_anadirpags").notyfy({text:'Las cuentas seleccionadas se han añadido corectamente',type:'success'})
+				$("#msg_anadirpags").noty({text:'Las cuentas seleccionadas se han añadido corectamente',type:'success'})
 
 
 		})
@@ -42,7 +42,7 @@
        	?>
        	<script>
        	$(function(){
-		$("#msg_anadirpags").notyfy({text:'No se han añadido las cuentas seleccionadas',type:'error'})
+		$("#msg_anadirpags").noty({text:'No se han añadido las cuentas seleccionadas',type:'error'})
 		</script>
 		})
        	<?php

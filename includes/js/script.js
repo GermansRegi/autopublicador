@@ -74,7 +74,7 @@ if(idUploader){
        
                     UploadComplete:function()
                     {
-                            $(".message").notyfy({
+                            $(".message").noty({
 	  				text:'Datos guardados con éxito',type:'success'	
 					});
                         
@@ -118,13 +118,14 @@ if(idUploader){
     		console.log(seg);
 	    	if(elem==null)
 	    	{
-	    		var noty=notyfy({text:text,type:type	,dismissQueue:true,timeout:seg});
+
+	    		var notyp=noty({text:text,type:type	,layout:position,dismissQueue:true,timeout:seg,maxVisible:1});
 	    	}
 	    	else
 		{
 	    	//	console.log(elem,$(elem));
-	    		$(elem).notyfy({
-	  		text:text,type:type	,dismissQueue:true,timeout:seg
+	    		$(elem).noty({
+	  		text:text,type:type	,dismissQueue:false,timeout:seg,maxVisible:1
 			});
 	    }
 	 
@@ -133,15 +134,16 @@ if(idUploader){
 	function showResults(data,form,id)
 	{
 		
+		//$.notyfy.closeAll();
 	    	if(data.msg_errors)
-		{
+		{	
 		     //$(id).html(showErrorsForm(data.msg_errors));
 		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error",2000);
 			return false
 		}
 		else if(data.msg_success)
 		{      
-			$(id).children('.notyfy_error').remove();
+			
 		     //$(id).html(showSuccessForm(data.msg_success))
 		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",4000);
 		     if(data.idcreated)

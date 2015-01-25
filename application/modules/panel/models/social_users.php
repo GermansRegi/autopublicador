@@ -22,6 +22,7 @@ class Social_users extends MY_Model {
 	{
 		return $this->get_many_by($where);
 	}
+	
 }
 
 /* End of file social_users.php */

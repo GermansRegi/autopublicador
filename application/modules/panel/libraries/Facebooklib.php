@@ -62,7 +62,13 @@ class Facebooklib {
   }
   public function setSession($fb_token)
   {
+
   	$this->session = new FacebookSession( $this->ci->session->userdata('fb_token') );
+  }
+  public function setSessionfromToken($fb_token)
+  {
+
+  	$this->session = new FacebookSession( $fb_token );
   }
   /**
    * Returns the login URL.
@@ -93,6 +99,23 @@ class Facebooklib {
       return $user;
     }
     return false;
+  }
+  public function api_post($path,$params=array())
+  {
+	  if ( $this->session ) {
+      /**
+       * Retrieve User’s Profile Information
+       */
+      // Graph API to request user data
+      $request =  new FacebookRequest( $this->session, 'post', $path ,$params) ;
+      $response=$request->execute();
+
+      // Get response as an array
+      $user = $response->getGraphObject()->asArray();
+
+      return $user;
+ 	}
+ 	return false;
   }
   public function api($path,$params=array(),$method='GET')
   {

@@ -7,7 +7,7 @@
 		var isUser=Boolean($this.data("user"));
 		var is_folder=Boolean($this.data("type"));
 		console.log(is_folder);
-		var n=notyfy(
+		var n=noty(
 				{
 					text:"Seguro que quiere eliminar la "+((is_folder===true)?"carpeta":"cuenta")+"?",
 					buttons:
@@ -31,7 +31,7 @@
 											console.log(data);
 											
 											if(data.idFolder){
-												var n=notyfy({
+												var n=noty({
 
 													text:'Esta carpeta tiene contenido, que quiere hacer?',
 													buttons:[{
@@ -64,7 +64,12 @@
 
 											
 													var res=showResults(data,',',null);
-																			
+													if(res){
+														$('body').delay(1000).queue(function( nxt ) {
+															document.location.href=current_url;
+															nxt();
+									                      }); 	
+													}						
 											
 												
 												//document.location.href=current_url;									
@@ -92,8 +97,12 @@
 			success:function(data){
 				
 						var res=showResults(data,',',null);
-												
-				
+						if(res){
+							$('body').delay(1000).queue(function( nxt ) {
+								document.location.href=current_url;
+								nxt();
+		                      }); 	
+						}
 									
 			}
 		});
@@ -122,7 +131,12 @@
 				dataType:"json",
 				success:function(data){
 					var res=showResults(data,',','.message');
-					document.location.href=current_url;
+					if(res){
+							$('body').delay(1000).queue(function( nxt ) {
+								document.location.href=current_url;
+								nxt();
+		                      }); 	
+						}
 				},
 
 			});	
@@ -186,7 +200,8 @@
 //generar elements de base d daddes per publicar i prohgramar
 	function generate(container,data)
 	{
-	
+		var container_sub=container.substr(9,container.length);
+		console.log(container_sub);
 		$("#"+container).html("");
 		if(data.data.length==0){
 			$("<p>Debe añadir contenido a la base de datos seleccionada.</p>").appendTo("#"+container)
@@ -195,11 +210,11 @@
 		{
 			for(i=0;i<data.data.length;i++)
 			{
-				$('<input type="checkbox" name="bbdd_'+data.content+'" value="'+data.data[i].id+'"/>').appendTo($("#"+container))
+				$('<input type="checkbox" name="'+container_sub+'_'+data.content+'" value="'+data.data[i].id+'"/>').appendTo($("#"+container))
 				if(data.content=="sentence"){	
 					$('<span>'+data.data[i].sentence+'</span>').appendTo($("#"+container))}
 				else if(data.content=="image")
-					$('<img width="60" src=">'+base_url+data.data[i].url+'"/>').appendTo($("#"+container))
+					$('<img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'')+data.data[i].filename+'"/>').appendTo($("#"+container))
 				else
 					$('<span>'+data.data[i].text+'</span>').appendTo($("#"+container))
 			}	
@@ -210,12 +225,13 @@
 		}	
 	}
 
-	$('body').on('submit',"#publicarahora",function(e){
+	$('body').on('submit',"#programar",function(e){
 		e.preventDefault();
 		 var formdata =new FormData($(this)[0]);
 		 var url=$(this).attr('action');
 		 $.ajax({
 		 	url:url,
+		 	dataType:'json',
 		 	type:'post',
 		 	data:formdata,
 		 	async:false,
@@ -225,7 +241,40 @@
 			contentType:false,
 			success:function(data)
 			{
+				var res=showResults(data,',','.message');
+				if(res){
+						$('body').delay(1000).queue(function( nxt ) {
+							document.location.href=current_url;
+							nxt();
+	                      }); 	
+					}
+			}
+		 })
+	})
 
+	$('body').on('submit',"#publicarahora",function(e){
+		e.preventDefault();
+		 var formdata =new FormData($(this)[0]);
+		 var url=$(this).attr('action');
+		 $.ajax({
+		 	url:url,
+		 	dataType:'json',
+		 	type:'post',
+		 	data:formdata,
+		 	async:false,
+		 	processData:false,
+			async:false,
+			cache:false,
+			contentType:false,
+			success:function(data)
+			{
+				var res=showResults(data,',','.message');
+				if(res){
+						$('body').delay(1000).queue(function( nxt ) {
+							document.location.href=current_url;
+							nxt();
+	                      }); 	
+					}
 			}
 		 })
 	})

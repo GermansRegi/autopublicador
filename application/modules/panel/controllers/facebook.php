@@ -28,7 +28,7 @@ class Facebook extends CI_Controller {
  		$this->load->helper('form');
  		$this->load->helper('language');
  		$this->load->library('form_validation');
- 		$this->load->library('Facebooklib','','fblib');
+
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
 		$this->auth = new stdClass;
@@ -80,10 +80,79 @@ class Facebook extends CI_Controller {
 		$this->data = null;
 	
 	}
+	function date_valid($date){
+	    $p=strtotime($_POST['date'].$_POST['time']);
+	    if($p)
+	    {
+		    	if($p<=time())
+		    	{
+		    		$this->form_validation->set_message('date_valid', 'Debe seleccionar una fecha y hora posterior a la actual');
+	    			return false;	
+		    	}
+		    	else
+		    	{
+		    		return true;
+		    	}
+	    	
+	    }
+	    else
+	    {
+	    		$this->form_validation->set_message('date_valid', 'Debe seleccionar una fecha y hora');
+	    		return false;
+	    }
+	}
 	public function programar_facebook(){
-	$this->load->model("social_user_accounts");
-		$this->data['user_accounts']=$this->social_user_accounts->getUserAppAccounts(array('user_app'=>$this->flexi_auth->get_user_id()));
-$this->data['titlepage']="Programar Facebook ";
+
+			$this->load->model('social_user_accounts');
+		$this->load->model('social_users');
+		$this->form_validation->set_rules('ck_group_ap','Páginas','callback_checkSelected');
+         	$this->form_validation->set_rules('link','Enlace','prep_url|valid_url');
+         	$this->form_validation->set_rules('time', 'Hora', 'required');
+     	$this->form_validation->set_rules('date', 'Fecha y hora', 'required|callback_date_valid');
+		if($this->input->post())
+		{
+			
+         		if($this->form_validation->run()==false)
+         		{
+    			    $errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors));      
+
+         		}
+         		else
+         		{
+         			if($this->input->post('ck_group_ap'))
+         			{
+         				//var_dump($_FILES);
+         					//var_dump(($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && count($_FILES)==0));	//si  no ha introduit cap dada
+					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
+					{
+						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
+						exit;
+					}
+					else
+					{
+
+						$this->load->library('form_validation_global');
+						$response=$this->form_validation_global->ErrorsPublicar($this->input->post());
+					}
+				}
+			}
+			exit;
+		}
+		$this->load->model('social_user_accounts');
+		$this->load->model('social_users');
+			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['data']['page']=$pages;
+			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+
+		
+			
+
+		$this->data['titlepage']="Programar Facebook ";
 		$this->load->view("panel/facebook/programar_facebook",$this->data);
 	}
 	// llista les comptes de facebook  que te afegides l'usuarii de aplicacio
@@ -159,7 +228,7 @@ $this->data['titlepage']="Programar Facebook ";
 	{
 		
 
-
+		$this->load->library('Facebooklib','','fblib');
 		if($this->fblib->getSession()==null)
 		{
 			redirect($this->fblib->login_url());
@@ -305,13 +374,138 @@ $this->data['titlepage']="Programar Facebook ";
 		$this->load->view("panel/facebook/anadir_paginas",$this->data);
 		
 	}
+	public function checkSelected($str)
+	{
+
+		if (!isset($str['user']) && !isset($str['account']))
+
+		{
+			$this->form_validation->set_message('checkSelected', 'Debe seleccionar las cuentas donde publicar');
+			return FALSE;
+		}
+		else 
+		{
+			return TRUE;
+		}
+	}
+	
 	// permet publicar a facebook
 	public function publicar()
 	{
 		$this->load->model('social_user_accounts');
 		$this->load->model('social_users');
+		$this->form_validation->set_rules('ck_group_ap','Páginas','callback_checkSelected');
+         	$this->form_validation->set_rules('link','Enlace','prep_url|valid_url');
+         		
+		if($this->input->post())
+		{
+			
+         		
 
-		//$basededatos=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+         		if($this->form_validation->run()==false)
+         		{
+    			    $errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors));      
+
+         		}
+         		else
+         		{
+         			if($this->input->post('ck_group_ap'))
+         			{
+         				//var_dump($_FILES);
+         					//var_dump(($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && count($_FILES)==0));	//si  no ha introduit cap dada
+					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
+					{
+						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
+						exit;
+					}
+					else
+					{
+
+						$this->load->library('form_validation_global');
+						$response=$this->form_validation_global->ErrorsPublicar($this->input->post());
+						$row=null;
+						$urlfb="/feed";
+						if(isset($response['msg_errors']))
+						{
+							echo json_encode($response);
+							exit;
+						}
+						
+						else if(isset($response['table']))
+						{
+							if($response['table']=="basesdedatos")
+							{
+								$row=$this->bases_datos_model->getElements($response['content'],array("id"=>$response['idelement']));
+							}	
+							else
+							{	
+								$row=$this->anuncios_model->getElements($response['content'],array("id"=>$response['idelement']));
+							}
+							if($response['content']=='image')
+							{
+								$urlfb="/photos";
+								$params['source']="@".$row[0]->path;
+							}
+							elseif($response['content']=='link')
+							{
+								$params['link']=$row[0]->link;
+							}
+							else
+							{
+								$params['message']=$row[0]->sentence;
+							}
+
+						}
+						if(!$response)
+						{
+							if(isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")
+                                    {
+                                        
+                                       $array=array('image/jpg','image/jpeg','image/png','image/x-png','image/gif');
+                                       if(in_array($_FILES['imagen']['type'],$array))
+                                       {
+                                       	$params['source']='@'.$_FILES['imagen']['tmp_name'];
+                                       	$params['message']=$this->input->post('texto_facebook');
+                                       }
+                                        $urlfb="/photos";    
+                                   
+                                    }
+                                    else
+                                    {
+                                    	$params['message']=$this->input->post('texto_facebook');
+                                    	$params['link']=$this->input->post('link');
+                                    }
+						}
+						//var_dump($params);
+						 $this->load->library('Facebooklib','','fblib');
+						$group_ap=$this->input->post('ck_group_ap');
+						if(isset($group_ap['user']) )
+						foreach ($group_ap['user'] as $accountid) 
+						{
+							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid));
+							$this->fblib->setSessionFromToken($user[0]->access_token);
+							$this->fblib->api_post('/'.$accountid.$urlfb,$params);
+
+						}
+						if(isset($group_ap['account']))
+						foreach ($group_ap['account'] as $accountid) 
+						{
+							$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$accountid));
+							$this->fblib->setSessionFromToken($acc[0]->access_token);
+							$this->fblib->api_post('/'.$accountid.$urlfb,$params);
+							
+
+						}
+						 echo json_encode(array('msg_success'=>'La publicacion se ha realizado correctemente'));
+					}
+
+         			}
+         		}
+         		exit;
+		}
+
+		
 		
 		$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
@@ -443,6 +637,12 @@ $this->data['titlepage']="Programar Facebook ";
 		//	$config['page_query_strings']=true;
 			$idBBDD=$this->input->post("id");
 			$bbdd=$this->bases_datos_model->getById($idBBDD);
+			$email="";
+			if($bbdd[0]->is_admin==0)
+			{
+				$email=$this->flexi_auth->get_user_identity();
+			}
+			
 			$type=$bbdd[0]->content;
 			$bbddType=$this->bases_datos_model->getElements($type,array("bbdd_id"=>$idBBDD),$config['per_page'],$page);
 			//var_dump($bbddType);
@@ -455,7 +655,7 @@ $this->data['titlepage']="Programar Facebook ";
 			
 			$pager=$this->pagination->create_links();
 			//var_dump($pager);
-			echo json_encode(array('pager'=>$pager,"data"=>$bbddType,'content'=>$type));
+			echo json_encode(array('pager'=>$pager,"data"=>$bbddType,'content'=>$type,'folder'=>$email));
 						//$this->flexi_auth->get_user_id()
 		}		
 	}
@@ -474,6 +674,12 @@ $this->data['titlepage']="Programar Facebook ";
 		
 			$idBBDD=$this->input->post("id");
 			$bbdd=$this->anuncios_model->getById($idBBDD);
+			$email="";
+			if($bbdd[0]->is_admin==0)
+			{
+				$email=$this->flexi_auth->get_user_identity();
+			}
+
 			$type=$bbdd[0]->content;
 			$bbddType=$this->anuncios_model->getElements($type,array("bbdd_id"=>$idBBDD),$config['per_page'],$page);
 			//var_dump($bbddType);
@@ -486,7 +692,7 @@ $this->data['titlepage']="Programar Facebook ";
 			$pager=$this->pagination->create_links();
 	//		$pager=$this->pagination->create_links();
 			//var_dump($pager);
-			echo json_encode(array("pager"=>$pager,"data"=>$bbddType,'content'=>$type));
+			echo json_encode(array('pager'=>$pager,"data"=>$bbddType,'content'=>$type,'folder'=>$email));
 						//$this->flexi_auth->get_user_id()
 		}		
 	}

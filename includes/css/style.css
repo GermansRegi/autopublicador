@@ -7385,4 +7385,5 @@ footer {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/style\.scss}line{font-family:\0000320}}
 #generate-bbdd,
 #generate-anuncis {
-  padding-top: 15px; }
+  padding-top: 15px;
+  padding-bottom: 15px; }

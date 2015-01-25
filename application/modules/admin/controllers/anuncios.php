@@ -178,6 +178,7 @@ class Anuncios extends CI_Controller {
 	                                	'bbdd_id' => $idbd,
 	                                  	'path' => $file['full_path'], 
 	                                  	'filename' => $file['file_name']));
+	                                echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
 	                        }
 	                                            
          				exit;
@@ -213,13 +214,17 @@ class Anuncios extends CI_Controller {
 		                	else
 		                	{
 		                	//inserto la frase a bd
-		                	$this->anuncios_model->insertElement('sentence',array(
-							'sentence'=>$this->input->post('frase'),
-							'bbdd_id'=>$idbd,
-							'user_app'=>$this->flexi_auth->get_user_id()));
-		                		echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
+		                		$records = preg_split('/[\r\n]+/', $this->input->post('frase'), -1, PREG_SPLIT_NO_EMPTY);
+			                	foreach ($records as $frase) {
+			                	
+				                	$this->anuncios_model->insertElement('sentence',array(
+									'sentence'=>$frase,
+									'bbdd_id'=>$idbd,
+									'user_app'=>$this->flexi_auth->get_user_id()));
+				                		
+			                	}
+			                	echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
 		                	}
-		                
 		                }
 					exit;
 				}
