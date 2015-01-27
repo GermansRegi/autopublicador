@@ -18,10 +18,15 @@ class Social_users extends MY_Model {
 		$exist=$this->count_by(array('user_id'=>$user_id,'social_network'=>$socialnet));
 		return (0==$exist);
 	}
-	public function getUserappUsers($where)
+	public function getUserappUsers($where,$limit=0)
 	{
+		if($limit!=0)
+		{
+			return $this->limit(1)->get_many_by($where);	
+		}
 		return $this->get_many_by($where);
 	}
+	
 	
 }
 

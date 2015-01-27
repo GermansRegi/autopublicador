@@ -80,7 +80,7 @@
 				</div>    
 				<div class="form-group col-lg-12">
 					 <label class="control-label ">Cuentas:</label>
-					  <div class="">
+					  
 					<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					
 					<?php
@@ -120,7 +120,7 @@
 					}
 					?>      
 				</section>
-				</div>
+				
 				<section class="col-lg-12">
 						<input type='submit' name='publicar' class="btn btn-primary" value='Publicar'/>
 				</section>
@@ -136,10 +136,3 @@
  <?php echo $this->load->view('includes2/scripts');?>
 </body>
 </html>
-<script id="personTpl" type="text/template">
-<ul>
-{{#/data}}
-<li>{{id}}</li>
-{{#/data}}
-</ul>
-</script>

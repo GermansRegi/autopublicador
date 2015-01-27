@@ -68,6 +68,7 @@ class Facebook extends CI_Controller {
 		}
 		else
 		{
+
 			redirect('panel');
 		}
 
@@ -101,10 +102,18 @@ class Facebook extends CI_Controller {
 	    		return false;
 	    }
 	}
-	public function programar_facebook(){
+	public function ver_programacion($idprog=0)
+	{
+		if($idprog)
+		{
+			$this->load->model('programations');
+			$this->data['prog']=$this->programations->getById($idprog);
 
-			$this->load->model('social_user_accounts');
-		$this->load->model('social_users');
+			$this->load->view('facebook/ver_programacion',$this->data);
+		}
+	}
+	public function programar_facebook(){
+		$this->load->model('programations');
 		$this->form_validation->set_rules('ck_group_ap','Páginas','callback_checkSelected');
          	$this->form_validation->set_rules('link','Enlace','prep_url|valid_url');
          	$this->form_validation->set_rules('time', 'Hora', 'required');
@@ -134,6 +143,127 @@ class Facebook extends CI_Controller {
 
 						$this->load->library('form_validation_global');
 						$response=$this->form_validation_global->ErrorsPublicar($this->input->post());
+						if(isset($response['msg_errors']))
+						{
+							echo json_encode($response);
+							exit;
+						}
+						
+						else if(isset($response['table']))
+						{
+							if($response['table']=="basesdedatos")
+							{
+								$row=$this->bases_datos_model->getElements($response['content'],array("id"=>$response['idelement']));
+							}	
+							else
+							{	
+								$row=$this->anuncios_model->getElements($response['content'],array("id"=>$response['idelement']));
+							}
+							if($response['content']=='image')
+							{
+								
+								$data['path']=$row[0]->path;
+							}
+							elseif($response['content']=='link')
+							{
+								$data['link']=$row[0]->link;
+							}
+							else
+							{
+								$data['text']=$row[0]->sentence;
+							}
+
+						}
+						if(!$response)
+						{
+							if(isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")
+                                    {
+                                        
+                                       $array=array('image/jpg','image/jpeg','image/png','image/x-png','image/gif');
+                                       if(in_array($_FILES['imagen']['type'],$array))
+                                       {
+	                                       	if(!file_exists('upload/temporal'))
+		                                    {
+		                                        mkdir('upload/temporal');
+		                                    }
+		                                   $email=substr($this->flexi_auth->get_user_identity(),0,strpos($this->flexi_auth->get_user_identity(),'.'));
+		                                 //la pujo en una carpeta temporal ja que es publicara un cop i no cal guardarla
+		                                    $config['file_name']=$email.uniqid("Image_");
+		                                    $config['upload_path'] = 'upload/temporal/';
+		                                           
+		                                    $config['allowed_types'] = 'gif|jpg|png';
+		                                    $config['max_size'] = 8000; //in KB
+		                                    $config['is_image']=true;
+		   					     //la pujo al servidor
+		                                    $this->load->library('upload', $config);
+		                                    if (! $this->upload->do_upload('imagen'))
+		                                    {
+		                                      //  $upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
+
+		                                        echo json_encode(array('results'=>true,'error'=>$this->upload->display_errors_array()));        
+		                                       
+		                                    }
+		                                    else 
+		                                    {
+		                                        $file=$this->upload->data();
+		                                        $data['path']=$file['full_path'];
+		                                        $data['message']=$this->input->post('texto_facebook');
+		                                    }
+                                       }
+                                   
+                                   
+                                    }
+                                    else
+                                    {
+                                    	$data['text']=$this->input->post('texto_facebook');
+                                    	$data['link']=$this->input->post('link');
+                                    }
+
+			
+						}
+						$data['fecha']=strtotime($this->input->post('date').$this->input->post('time'));
+						if($this->input->post('fechaBorrado'))
+						{
+							if((int)$this->input->post('fechaBorrado')<1)
+							{
+								$segSum=$this->input->post('fechaBorrado')*100*60;
+								$data['fechaBorrado']=(int)$data['fecha']+$segSum;	
+							}
+							else 
+							{
+								$segSum=$this->input->post('fechaBorrado')*3600;
+								$data['fechaBorrado']=(int)$data['fecha']+$segSum;
+							}
+						}	
+						$data['state']='process';
+						
+						$group_ap=$this->input->post('ck_group_ap');
+						if(isset($group_ap['user']) )
+						foreach ($group_ap['user'] as $accountid) 
+						{
+							
+							$data['socialaccount']=$accountid;
+							$data['user_app']=$this->flexi_auth->get_user_id();
+							$data['type_socialaccount']='user';
+							$data['social_network']="fb";
+
+							$this->programations->insertNew($data);
+							
+
+						}
+						if(isset($group_ap['account']))
+						foreach ($group_ap['account'] as $accountid) 
+						{
+							$data['socialaccount']=$accountid;
+							$data['user_app']=$this->flexi_auth->get_user_id();
+							$data['type_socialaccount']='account';
+							$data['social_network']="fb";
+
+							$this->programations->insertNew($data);
+
+						}
+						 echo json_encode(array('msg_success'=>'La programación se ha realizado correctemente'));
+						
 					}
 				}
 			}
@@ -148,8 +278,21 @@ class Facebook extends CI_Controller {
 			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
-
-		
+			$programaciones=$this->programations->getAll(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+			foreach ($programaciones as $prog) {
+				if($prog->type_socialaccount=='account')
+				{
+					$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->socialaccount),1);
+					$prog->name=$acc[0]->name;
+				}
+				else
+				{
+					$user=$this->social_users->getUserAppUsers(array('idaccount'=>$prog->socialaccount),1);	
+					$prog->name=$user[0]->username;
+				}
+			
+			}
+			$this->data['programaciones']=$programaciones;
 			
 
 		$this->data['titlepage']="Programar Facebook ";
@@ -483,7 +626,7 @@ class Facebook extends CI_Controller {
 						if(isset($group_ap['user']) )
 						foreach ($group_ap['user'] as $accountid) 
 						{
-							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid));
+							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid),1);
 							$this->fblib->setSessionFromToken($user[0]->access_token);
 							$this->fblib->api_post('/'.$accountid.$urlfb,$params);
 
@@ -491,13 +634,13 @@ class Facebook extends CI_Controller {
 						if(isset($group_ap['account']))
 						foreach ($group_ap['account'] as $accountid) 
 						{
-							$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$accountid));
+							$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$accountid),1);
 							$this->fblib->setSessionFromToken($acc[0]->access_token);
 							$this->fblib->api_post('/'.$accountid.$urlfb,$params);
 							
 
 						}
-						 echo json_encode(array('msg_success'=>'La publicacion se ha realizado correctemente'));
+						 echo json_encode(array('msg_success'=>'La publicación se ha realizado correctemente'));
 					}
 
          			}
@@ -696,6 +839,7 @@ class Facebook extends CI_Controller {
 						//$this->flexi_auth->get_user_id()
 		}		
 	}
+	// canviar carpeta de compte de facebook
 	public function changeAccountFolder()
 	{
 		if($this->input->post())

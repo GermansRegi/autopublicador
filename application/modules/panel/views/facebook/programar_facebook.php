@@ -27,12 +27,16 @@ $arr=array("group","user","event","page")
 					<div class="form-group ">
 						<label class="col-lg-12" for="">Fecha y Hora</label>
 						<div class="col-lg-6">
-
+							<div class="input-group">
 							<input class='form-control' name='date' type="date">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							</div>
 						</div>
 						<div class="col-lg-6">
+							<div class="input-group">
 							<input class='form-control' name='time' type="time">
+							<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+							</div>
 						</div>
 					</div>
 					<div class="form-group ">
@@ -171,11 +175,43 @@ $arr=array("group","user","event","page")
 						</div>
 					</div>	
 					</form>
-			
+					<div>
+						<?php if(count($programaciones)>0)
+						{?>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<td>Cuenta</td><td>Fecha</td><td>	Fecha Borrado</td><td>Estado</td><td></td>
+								</tr>	
+							</thead>
+							<tbody>
+
+								<?php foreach ($programaciones as $prog) {
+								?>
+									<tr>
+									<td><?php echo $prog->name ?></td>
+									<td><?php echo date('Y-m-d h:i:s',$prog->fecha)?></td>
+									<td><?php echo (isset($prog->fechaBorrado)?date('Y-m-d h:i:s',$prog->fecha):'-')?></td>
+									<td><?php echo (($prog->state=='process')?"En proceso":'Terminado');?></td>
+									<td> <a href="<?php echo base_url()?>panel/facebook/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" >Ver </a><a data-id="<?php echo $prog->id; ?>" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a></td>
+
+									</tr>
+
+								<?php } ?>
+								
+
+							</tbody>
+						</table>
+						<?php
+						}
+						?>
+					</div>
+
+
 
 <?php
     echo $this->load->view('includes2/footer');
 ?>
  <?php echo $this->load->view('includes2/scripts');?>
 </body>
-</
+</html>

@@ -22,8 +22,12 @@ class Social_user_accounts extends MY_Model {
 		$res=$this->count_by($where);
 		return (1==$res);
 	}
-	public function getUserappAccounts($where)
+	public function getUserappAccounts($where,$limit=0)
 	{
+		if($limit!=0)
+		{
+			return $this->limit(1)->get_many_by($where);	
+		}
 		return $this->get_many_by($where);
 	}
 }

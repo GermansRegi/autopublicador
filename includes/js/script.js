@@ -1,15 +1,25 @@
 
 
 $(function(){
+$(document).on('click', '[data-toggle="ajaxModal"]',
+      function(e) {
+        $('#ajaxModal').remove();
+        e.preventDefault();
+        var $this = $(this)
+          , $remote = $this.data('remote') || $this.attr('href')
+          , $modal = $('<div class="modal fade" id="ajaxModal"><div class="modal-body"></div></div>');
+        $('body').append($modal);
+        $modal.modal();
+        $modal.load($remote);
+      })
 
-console.log($('#premiumnormal'));
 $("body").on('click','#premiumnormal',function(){
 		                    	//$("body").on('click','#premiumnormal',function() {
 		                    		console.log('pp');
 		                            $("#pagoplanp").show();
 		                            $(".box-plan").hide();
 		                        });
-
+	
 	
 })
 
