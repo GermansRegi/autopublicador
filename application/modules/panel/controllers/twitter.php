@@ -6,7 +6,7 @@ class Twitter extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('bases_datos_model');
-		$this->load->model('anuncios_model');
+
 		$this->load->model('social_users');		
 
 				// To load the CI benchmark and memory usage profiler - set 1==1.
@@ -83,41 +83,121 @@ class Twitter extends CI_Controller {
 	}
 	public function index()
 	{
+		$users=$this->social_users->getUserappUsers(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>'tw'));
+		$this->load->model('folders');
+		$this->data['folders']=$this->folders->get_many_by(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>"tw"));
+		$arraydata=array('folders'=>array(),'nofolder'=>array());
+
+		foreach ($this->data['folders'] as $key) {
+			
+			$arraydata['folders'][]=array('data'=>$key,'rows'=>array());
+			
+			
+		}
+		foreach ($users as $user) {
+			if(is_null($user->folder_id))
+			{
+				$arraydata['nofolder'][]=$user;
+			}
+			else
+			{
+				if(count($arraydata['folders'])!=0)
+					for($m=0;$m<count($arraydata['folders']);$m++)
+					{
+						//var_dump($arraydata[$key->type_account]['folders'][1]);
+						if($arraydata['folders'][$m]['data']->id==$user->folder_id)
+						$arraydata['folders'][$m]['rows'][]=$key;				
+					}
+			}
+		}
+		$this->data['titlepage']="Cuentas de twitter";
+
 		
+		$this->data['arraydata']=$arraydata;
+
+
+			
+		
+		$this->load->view('twitter/index',$this->data);
 	}
 	public function connectar_twitter()
 	{
 		$this->load->library("twitterlib",'','twtlib');
-		$resultuser=$this->twtlib->getSession();
-		if($resultuser!=false)
-		{
-			var_dump($resultuser);
-		}
-		else
-		{
-			$res=$this->twtlib->auth('panel/twitter/callback');
-			if(is_string($res))
-			{
-				redirect($res);
-			}
-		}
-
+			//$this->twtlib->reset_session();
+		$res=$this->twtlib->auth(base_url('panel/twitter/callback'));
+			
+		
 	}
 	public function callback()
 	{
 		$this->load->library("twitterlib",'','twtlib');
-		$res=$this->twtlib->checkcallback();
+		$res=$this->twtlib->checkresponse();
 		if(is_array($res))
 		{
-			// cal insertar dades a bd
+			$this->twtlib->setAccessToken($res);
+			$datauser=$this->twtlib->getUserdata();
+
+			if($this->social_users->notExists($datauser->id,'tw')==true)
+			{
+				echo $this->social_users->insertNew(array(
+				'user_id'=>$datauser->id,
+				'username'=>$datauser->name,
+				'social_network'=>'tw',
+				'img_profile'=>$datauser->profile_image_url,
+				'access_token'=>json_encode($res),
+				'user_app'=>$this->flexi_auth->get_user_id(),
+				'disabled'=>0));
+			}
+			else{
+				$this->social_users->update_by(
+				array(
+					'img_profile'=>$datauser->profile_image_url,
+					'access_token'=>json_encode($res),
+					'username'=>$datauser->name),
+				array('user_app'=>$this->flexi_auth->get_user_id(),
+					'user_id'=>$datauser->id));
+			}
+			
+			$this->data['titlepage']="Añadir cuentas";
 			$this->data['message']="success";
-			$this->load->view("twitter/anadir_cuentas");
+			$this->load->view("twitter/anadir_cuentas",$this->data);
 
 		}
 		else
 		{
+			$this->data['titlepage']="Añadir cuentas";
 			$this->data['message']="eror";
-			$this->load->view("twitter/anadir_cuentas");
+			$this->load->view("twitter/anadir_cuentas",$this->data);
+		}
+		
+	}
+	public function createFolder()
+	{
+		
+		if($this->input->post())
+		{
+			$this->form_validation->set_rules('name', 'Nombre', 'required');
+			
+			if($this->form_validation->run()==FALSE)
+			{
+				$errors = $this->form_validation->error_array();
+		                     echo json_encode(array('msg_errors'=>$errors));
+		           
+			}
+			else
+			{
+				$this->load->model("folders");
+				$arr=array(
+				"name"=>$this->input->post("name"),
+				"type"=>'user',
+				'user_app'=>$this->flexi_auth->get_user_id(),
+				"social_network"=>"tw"
+				);
+				if($this->folders->insert($arr)){
+					echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
+				}	
+			}
+		
 		}
 		
 	}

@@ -188,6 +188,7 @@
 		<script type="text/javascript">
 			var deletecontent_url='<?php echo base_url()?>panel/facebook/deletecontent';
 			var current_url='<?php echo base_url().$this->uri->uri_string();?>';
+			var createfolder_url=base_url+'panel/facebook/createFolder';
 		</script>
 		<?php
 		echo $this->load->view('includes2/footer');

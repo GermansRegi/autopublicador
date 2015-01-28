@@ -43,14 +43,16 @@
        	<script>
        	$(function(){
 		$("#msg_anadirpags").noty({text:'No se han añadido las cuentas seleccionadas',type:'error'})
+				})
 		</script>
-		})
+
+
        	<?php
        	}  ?>
 	             
 	             <script>
 	             $('body').delay(1000).queue(function(nxt){
-	             		location.href=base_url+'panel/facebook';
+	             		location.href=base_url+'panel/twitter';
 
 	             })
 	             </script>

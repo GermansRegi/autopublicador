@@ -393,7 +393,17 @@ class Facebook extends CI_Controller {
 				'access_token'=>$this->fblib->getSession()->getToken(),
 				'user_app'=>$this->flexi_auth->get_user_id(),
 				'disabled'=>0));
-			}			
+			}	
+			else
+			{
+				$this->social_users->update_by(
+				array(
+					'username'=>$this->user_fb['name'],
+					'access_token'=>$this->fblib->getSession()->getToken()),
+				array(
+					'user_app'=>$this->flexi_auth->get_user_id(),
+					'user_id'=>$this->user_fb['id']));
+			}		
 			$this->load->model("social_user_accounts");
 
 			$pages=array();
@@ -408,6 +418,11 @@ class Facebook extends CI_Controller {
                     {
                     	$pages[]=$val;
                     }
+                    else
+                    {
+                    	$this->social_user_accounts->update_by(array('access_token'=>$val->access_token,'name'=>$val->name),
+                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+                    }
                     
                }
                $groups=array();
@@ -421,7 +436,11 @@ class Facebook extends CI_Controller {
                     {
                     	$groups[]=$val;
                     }
-                    
+                    else
+                    {
+                    	$this->social_user_accounts->update_by(array('access_token'=>$this->fblib->getSession()->getToken(),'name'=>$val->name),
+                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+                    }
                }
                $events=array();
                $eventsFace=$this->fblib->api('/me/events');
@@ -434,6 +453,11 @@ class Facebook extends CI_Controller {
                     if($exist==false)
                     {
                     	$events[]=$val;
+                    }
+                    else
+                    {
+                    	$this->social_user_accounts->update_by(array('access_token'=>$this->fblib->getSession()->getToken(),'name'=>$val->name),
+                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
                     }
                     
                }

@@ -123,7 +123,7 @@
 	
 		$.ajax(
 			{
-				url:base_url+"panel/facebook/createFolder",
+				url:createfolder_url,
 				data:
 					$(this).serialize()
 					,
