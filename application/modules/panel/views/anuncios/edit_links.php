@@ -25,7 +25,7 @@
 
 	<section class="clearfix">
 		<form id="addcontent" method='post' action='<?php echo base_url(); ?>panel/anuncios/editar/<?php echo $anuncio->id; ?>'>
-			<section id='message'>      
+			<section class='message'>      
 			</section>	
 			<section class="col-sm-4">
 				<section class="form-group">

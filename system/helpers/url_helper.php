@@ -608,6 +608,14 @@ if ( ! function_exists('_parse_attributes'))
 		return $att;
 	}
 }
+if ( ! function_exists('redirect_js'))
+{
+	function redirect_js($uri = '', $method = 'location', $http_response_code = 302)
+	{
+		echo "<script> window.location.href='".$uri."'</script>";
+	}
+}
+
 
 
 /* End of file url_helper.php */

@@ -68,8 +68,13 @@ class Facebook extends CI_Controller {
 		}
 		else
 		{
-
-			redirect('panel');
+			if($this->input->is_ajax_request())
+			{
+				redirect_js(base_url().'panel');
+				exit;
+			}
+			else
+			redirect(base_url().'panel');
 		}
 
 		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
@@ -79,7 +84,7 @@ class Facebook extends CI_Controller {
 
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
-	
+		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 	}
 	function date_valid($date){
 	    $p=strtotime($_POST['date'].$_POST['time']);
@@ -109,7 +114,7 @@ class Facebook extends CI_Controller {
 			$this->load->model('programations');
 			$this->data['prog']=$this->programations->getById($idprog);
 
-			$this->load->view('facebook/ver_programacion',$this->data);
+			$this->load->view('common/ver_programacion',$this->data);
 		}
 	}
 	public function programar_facebook(){
@@ -278,7 +283,8 @@ class Facebook extends CI_Controller {
 			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
-			$programaciones=$this->programations->getAll(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+			$programaciones=$this->programations->getAll(array('social_network'=>"fb",'user_app'=>$this->flexi_auth->get_user_id()));
+	
 			foreach ($programaciones as $prog) {
 				if($prog->type_socialaccount=='account')
 				{
@@ -287,7 +293,7 @@ class Facebook extends CI_Controller {
 				}
 				else
 				{
-					$user=$this->social_users->getUserAppUsers(array('idaccount'=>$prog->socialaccount),1);	
+					$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->socialaccount),1);	
 					$prog->name=$user[0]->username;
 				}
 			
@@ -295,7 +301,7 @@ class Facebook extends CI_Controller {
 			$this->data['programaciones']=$programaciones;
 			
 
-		$this->data['titlepage']="Programar Facebook ";
+		$this->data['titlepage']="Programar Facebook";
 		$this->load->view("panel/facebook/programar_facebook",$this->data);
 	}
 	// llista les comptes de facebook  que te afegides l'usuarii de aplicacio
@@ -305,7 +311,7 @@ class Facebook extends CI_Controller {
 		$this->load->model("social_user_accounts");
 		$this->load->model("folders");
 		$this->data['user_accounts']=$this->social_user_accounts->getUserAppAccounts(array('user_app'=>$this->flexi_auth->get_user_id()));
-		$this->data['user_accounts']=array_merge($this->data['user_accounts'],$this->social_users->getUserAppUsers(array('user_app'=>$this->flexi_auth->get_user_id())));
+		$this->data['user_accounts']=array_merge($this->data['user_accounts'],$this->social_users->getUserAppUsers(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>'fb')));
 		$this->data['folders']=$this->folders->get_many_by(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>"fb"));
 		$this->data['user_accounts_view']=null;
 		$arraydata=array('page'=>array('folders'=>array(),'nofolder'=>array()),
@@ -682,81 +688,13 @@ class Facebook extends CI_Controller {
 			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
 
-			$this->data['titlepage']="Cuentas de facebook";
+			$this->data['titlepage']="Publicar facebook";
 			
 
 		$this->load->view('panel/facebook/publicar',$this->data);
 	}
 	// elimina un compte de facebook
-	public function deletecontent()
-	{
-		$this->load->model('social_user_accounts');
-		$this->load->model('social_users');
-		
-		if($this->input->get("is_folder")=="true"){
-			//var_dump($this->input->get("is_user"));
-			if($this->input->get("is_user")=="true")
-				$numaccount=$this->social_users->count_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-			else	
-				$numaccount=$this->social_user_accounts->count_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-			if($numaccount>0)
-			{
-				
-				echo json_encode(array("result"=>"delAccountsInFolder","idFolder"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-			}
-			else
-			{
-				$this->load->model("folders");
-				$this->folders->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-				echo json_encode(array("result"=>"ok","msg_success"=>'Carpeta eliminada correctamente '));
-			}
-
-		}
-		else
-		{	
-			if($this->input->get("is_user")=="true")
-				$this->social_users->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-			else	
-				$this->social_user_accounts->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-		echo json_encode(array("result"=>"ok","msg_success"=>'Cuenta eliminada correctamente '));
-		}
-	}
-	// elimina una carpeta i el seu contingut si en te 
-	public function deleteQuitFolderContent()
-	{
-		$this->load->model('social_user_accounts');
-		$this->load->model("social_users");
-		if($this->input->get("is_user")=="true")
-			$rows=$this->social_users->get_many_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-		else
-		$rows=$this->social_user_accounts->get_many_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-	//var_dump($rows);
-		if($this->input->get("type")=="quit")
-		{		
-			foreach ($rows as  $value) {
-			//	echo $value->id.$this->input->get("is_user");
-				if($this->input->get("is_user")=="true")
-			
-					 $this->social_users->update_by(array("folder_id"=>null),array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
-					//$this->social_users->getLasQuery();
-			
-				else
-					$this->social_user_accounts->update_by(array("folder_id"=>null),array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
-			}
-		}
-		else
-		{
-			foreach ($rows as  $value) {
-				if($this->input->get("is_user")=="true")
-					$this->social_users->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
-				else	
-					$this->social_user_accounts->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
-			}
-		}
-		$this->load->model("folders");
-		$this->folders->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-		echo json_encode(array("result"=>"ok","msg_success"=>'Cambios aplicados correctamente '));
-	}
+	
 	// crea una carpeta de facebook
 	public function createFolder()
 	{
@@ -788,105 +726,7 @@ class Facebook extends CI_Controller {
 		}
 		
 	}
-	// agafa els elements duna base de dades i els mostra
-	public function get_bbddElements($page=0)
-	{
-		if($this->input->post())
-		{
-			$config=$this->load->config("pagination");
-			$config["base_url"] = base_url() . "panel/facebook/get_bbddElements";
-			$this->load->library('pagination');
-			$page=($page!=0)?$page:0;
-			
-			
-			$config['per_page']=5;	
-			//$this->data['pager']=$this->pagination->create_links();
-		//	$config['page_query_strings']=true;
-			$idBBDD=$this->input->post("id");
-			$bbdd=$this->bases_datos_model->getById($idBBDD);
-			$email="";
-			if($bbdd[0]->is_admin==0)
-			{
-				$email=$this->flexi_auth->get_user_identity();
-			}
-			
-			$type=$bbdd[0]->content;
-			$bbddType=$this->bases_datos_model->getElements($type,array("bbdd_id"=>$idBBDD),$config['per_page'],$page);
-			//var_dump($bbddType);
-			$config['total_rows']=$this->bases_datos_model->countAllElements($type,array("bbdd_id"=>$idBBDD));
-			$config['page']=$page;
-			$config['uri_segment']=4;
-			//echo $this->uri->segment(4);
-			//el problema s k no ilumina el current page pk 
-			$this->pagination->initialize($config);
-			
-			$pager=$this->pagination->create_links();
-			//var_dump($pager);
-			echo json_encode(array('pager'=>$pager,"data"=>$bbddType,'content'=>$type,'folder'=>$email));
-						//$this->flexi_auth->get_user_id()
-		}		
-	}
-	// agafa els elements d'una base de dades anuncis
-	public function get_anuncisElements($page=0)
-	{
-		if($this->input->post())
-		{
-			$config=$this->load->config("pagination");
-			$config["base_url"] = base_url() . "panel/facebook/publicar";
-			$this->load->library('pagination');
-			$page=($page!=0)?$page:0;
-			
-			
-			$config['per_page']=5;	
-		
-			$idBBDD=$this->input->post("id");
-			$bbdd=$this->anuncios_model->getById($idBBDD);
-			$email="";
-			if($bbdd[0]->is_admin==0)
-			{
-				$email=$this->flexi_auth->get_user_identity();
-			}
-
-			$type=$bbdd[0]->content;
-			$bbddType=$this->anuncios_model->getElements($type,array("bbdd_id"=>$idBBDD),$config['per_page'],$page);
-			//var_dump($bbddType);
-			$config['total_rows']=$this->anuncios_model->countAllElements($type,array("bbdd_id"=>$idBBDD));
-			
-			$config['page']=$page;
-			$config['uri_segment']=4;
-			$this->pagination->initialize($config);
-			
-			$pager=$this->pagination->create_links();
-	//		$pager=$this->pagination->create_links();
-			//var_dump($pager);
-			echo json_encode(array('pager'=>$pager,"data"=>$bbddType,'content'=>$type,'folder'=>$email));
-						//$this->flexi_auth->get_user_id()
-		}		
-	}
-	// canviar carpeta de compte de facebook
-	public function changeAccountFolder()
-	{
-		if($this->input->post())
-		{
-			$idpage=$this->input->post('page');
-			$idfolder=$this->input->post('folder');
-			
-			if($idfolder=='null')
-			{
-					$idfolder=NULL;
-			}
-			$this->load->model('social_user_accounts');
-			if($this->input->post('isuser')=='true')
-			{
-				$this->social_users->update_by(array('folder_id'=>$idfolder),array('id'=>$idpage,'user_app'=>$this->flexi_auth->get_user_id()));
-			}	
-			else
-			{
-
-				$this->social_user_accounts->update_by(array('folder_id'=>$idfolder),array('id'=>$idpage,'user_app'=>$this->flexi_auth->get_user_id()));
-			}
-		}
-	}
+	// agafa els elements d
 }
 
 /* End of file facebook.php */

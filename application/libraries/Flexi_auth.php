@@ -351,7 +351,7 @@ class Flexi_auth extends Flexi_auth_lite
 
 			// Set email data.
 			$email_to = $user->{$this->CI->auth->database_config['user_acc']['columns']['email']};
-			$email_title = ' - Forgotten Password Verification';
+			$email_title = ' - Verificación de contraseña olvidada';
 
 			$user_data = array(
 				'user_id' => $user_id,
@@ -422,7 +422,7 @@ class Flexi_auth extends Flexi_auth_lite
 			{
 				// Set email data
 				$email_to = $user->{$this->CI->auth->database_config['user_acc']['columns']['email']};
-				$email_title = ' - New Password';
+				$email_title = ' - Nueva contraseñ<a href=""></a>';
 
 				$user_data = array(
 					'identity' => $identity,

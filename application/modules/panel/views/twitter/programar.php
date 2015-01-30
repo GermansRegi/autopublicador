@@ -34,7 +34,7 @@ $arr=array("group","user","event","page")
 						</div>
 						<div class="col-lg-6">
 							<div class="input-group">
-							<input class='form-control time' name='time' value="<?php echo date('H:i'); ?>" type="time">
+							<input class='form-control time' value="<?php echo date('H:i'); ?>" name='time' type="time">
 							<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
 							</div>
 						</div>
@@ -129,50 +129,26 @@ $arr=array("group","user","event","page")
 						     </div>
 						</div>
 						<div class="form-group col-lg-12">
-							<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-							
+						 <label class="control-label ">Cuentas:</label>
+					  
+							<section >
 							<?php
-							
-							$arraytypes=array(
-								array("name"=>"group","title"=>"Grupos"),
-								array("name"=>"user","title"=>"Usuarios"),
-								array("name"=>"page","title"=>"Páginas"),
-								array("name"=>"event","title"=>"Eventos"));
-							for($i=0;$i<count($arraytypes);$i++)
-							{
-								if(count($data[$arraytypes[$i]["name"]])>0)
-								{ 
-								?>
-									<section class="panel panel-default">
-										<section class="panel-heading" role="tab" id="headingOne<?php echo $i; ?>">
-											<h4 class="panel-title">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne<?php echo $i; ?>" aria-expanded="false" aria-controls="collapseOne<?php echo $i; ?>">
-													<?php echo $arraytypes[$i]['title']; ?>
-												</a>
-											</h4>
-										</section>
-										<section id="collapseOne<?php echo $i; ?>" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne<?php echo $i; ?>">
-											<section class="panel-body">
-											<?php
-											foreach($data[$arraytypes[$i]['name']] as $page)
+											foreach($users as $page)
 											{
-																	echo " <input type='checkbox' name='ck_group_ap[".(($arraytypes[$i]['name']=="user")?'user':'account')."][]' value='".(($arraytypes[$i]['name']=="user")?$page->user_id:$page->idaccount)."' />&nbsp;&nbsp;&nbsp; <span >".(($arraytypes[$i]['name']=="user")?$page->username:$page->name)."</span>&nbsp;&nbsp;<br>";
+												
+												echo " <input type='checkbox' name='ck_group_ap[]' value='".$page->user_id."' /> <span >".$page->username."</span><br>";
 											}
 											?>
-											</section>
-										</section>
-									</section>
-								<?php	
-								} 
-							}
-							?>      
+											
+						   
+						</section>
+				
+				
 						</div>
 						<section class="col-lg-12">
-								<input type='submit' name='publicar' class="btn btn-primary" value='Publicar'/>
+								<input type='submit' name='publicar' class="btn btn-primary" value='Enviar'/>
 						</section>
-						<div>
-							<p>Facebook no permite poner en una misma publicación imágenes y enlaces</p>
-						</div>
+						
 					</div>	
 					</form>
 					<div>
@@ -191,7 +167,7 @@ $arr=array("group","user","event","page")
 									<tr>
 									<td><?php echo $prog->name ?></td>
 									<td><?php echo date('Y-m-d h:i:s',$prog->fecha)?></td>
-									<td><?php echo (!empty($prog->fechaBorrado)?date('Y-m-d h:i:s',$prog->fechaBorrado):'-')?></td>
+									<td><?php echo (!empty($prog->fechaBorrado)?date('Y-m-d H:i:s',$prog->fechaBorrado):'-')?></td>
 									<td><?php echo (($prog->state=='process')?"En proceso":'Terminado');?></td>
 									<td> <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" >Ver </a><a data-id="<?php echo $prog->id; ?>" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a></td>
 

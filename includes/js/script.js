@@ -1,6 +1,13 @@
-
-
 $(function(){
+
+$('body').on('ajaxComplete',function(event,request,settings){
+    console.log('pp',request);
+    if (request.getResponseHeader('REQUIRES_AUTH') === '1'){
+       window.location = base_url+'panel';
+    };
+})
+
+
 $(document).on('click', '[data-toggle="ajaxModal"]',
       function(e) {
         $('#ajaxModal').remove();
@@ -145,6 +152,11 @@ if(idUploader){
 	{
 		
 		//$.notyfy.closeAll();
+		if(data.req_auth==1)
+		{
+			console.l
+			window.location.href=base_url+"panel";
+		}
 	    	if(data.msg_errors)
 		{	
 		     //$(id).html(showErrorsForm(data.msg_errors));

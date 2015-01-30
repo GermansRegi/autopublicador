@@ -64,8 +64,16 @@ class Anuncios extends CI_Controller {
 			{
 				$this->load->vars('privilege_user_app','prem');
 			}
-		}else
+		}
+		else
 		{
+			if($this->input->is_ajax_request())
+			{
+				echo json_encode(array('req_auth'=>1));
+				//redirect_js(base_url().'panel');
+				exit;
+			}
+			else
 			redirect(base_url().'panel');
 		}
 
@@ -76,15 +84,15 @@ class Anuncios extends CI_Controller {
 
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
-	
+		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 	}
 	public function index()
 	{
 
 		$res=$this->anuncios_model->getAll(array('user_app'=>$this->flexi_auth->get_user_id()));
-		$data['arbbdd']=$res;
-		$data['titlepage']="Anuncios"; 
-		$this->load->view('panel/anuncios/index',$data);
+		$this->data['arbbdd']=$res;
+		$this->data['titlepage']="Anuncios"; 
+		$this->load->view('panel/anuncios/index',$this->data);
 
 		
 
@@ -259,21 +267,25 @@ class Anuncios extends CI_Controller {
 		                	}
 		                	else
 		                	{
-		                	$records = preg_split('/[\r\n]+/', $this->input->post('frase'), -1, PREG_SPLIT_NO_EMPTY);
-			                	foreach ($records as $frase) {
+		           //     	$records = preg_split('/[\r\n]+/', $this->input->post('frase'), -1, PREG_SPLIT_NO_EMPTY);
+			        //        	foreach ($records as $frase) {
 			                	
 				                	$this->anuncios_model->insertElement('sentence',array(
-									'sentence'=>$frase,
+									'sentence'=>$this->input->post('frase'),
 									'bbdd_id'=>$idbd,
 									'user_app'=>$this->flexi_auth->get_user_id()));
 				                
-			                	}
+			          //      	}
 
 			                	echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
 			                }
 			                
 		                }
 					exit;
+				}
+				if($basededatos[0]->socialnetwork=='twt')
+				{
+					$this->data['maxlength']=140;	
 				}
 				$view='panel/anuncios/edit_sentences';
 			}

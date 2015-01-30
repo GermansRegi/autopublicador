@@ -19,27 +19,10 @@
 ?>
 
 
-<section class="page-head">
-  <section class="container">
-    <section class="row">
-      <section class="col-md-12">
-        <h2>Recuperación de contraseña</h2>
-        <h4>something goes here</h4>
-      </section>
-    </section>
-  </section>
-
-
-</section>
-
-<section class="content">
-  <section class="container">
-    <section class="row">
     <section class="col-md-6">
                   <section class="formy well">
                     <!-- Title -->
                      <h4 class="title">Introduzca su correo electrónico</h4>
-                      <p>&nbsp;</p>
                                   <section class="form">
 
                                       <!-- Login form (not working)-->
@@ -51,7 +34,7 @@
                                      <?php echo form_open("panel/forgotten_password",array('class'=>'form-horizontal','role'=>'form'));?>
 
                                          <section class="form-group">
- 											<label for="identity" class="col-lg-4 control-label">Correo electrónico</label>
+ 											<label for="identity" class="col-lg-5 control-label">Correo electrónico</label>
                                            <section class="col-lg-6	">
 
                                             <input type="text" id="identity" name="forgot_password_identity" value="" class="form-control"
@@ -69,44 +52,8 @@
                                          </section>
                                        </form>
                                       </section>
-                                      </section>
+                                   </section>
 
-
-    </section>
-  </section>
-</section>
-	<!-- Main Content --
-	<section class="content_wrap main_content_bg">
-		<section class="content clearfix">
-			<section class="col100">
-				<h2>Forgotten Password</h2>
-
-			<?php if (! empty($message)) { ?>
-				<section class="message">
-					<?php echo $message; ?>
-				</section>
-			<?php } ?>
-
-				<?php echo form_open(current_url());	?>
-					<section class="w100 frame">
-						<ul>
-							<li class="info_req">
-								<label for="identity">Email or Username:</label>
-								<input type="text" id="identity" name="forgot_password_identity" value="" class="tooltip_trigger"
-									title="Please enter either your email address or username defined during registration."
-								/>
-							</li>
-							<li>
-								<label for="submit">Send Email:</label>
-								<input type="submit" name="send_forgotten_password" id="submit" value="Submit" class="link_button large"/>
-								<small>Note: By default, this demo is set so that the password must be reset within 15 minutes of the 'forgotten password' email being sent.</small>
-							</li>
-						</ul>
-					</section>
-				<?php echo form_close();?>
-			</section>
-		</section>
-	</section>
 
 <?php
     echo $this->load->view('includes2/footer');

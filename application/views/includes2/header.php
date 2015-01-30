@@ -104,6 +104,6 @@
                 </section>
               </section>
               </section>
-			<div class="container">
+			<div class="container-main">
  				<div class="panel panel-default">
 					<div class="panel-body">

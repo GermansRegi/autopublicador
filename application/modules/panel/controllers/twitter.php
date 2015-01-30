@@ -5,7 +5,10 @@ class Twitter extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		
 		$this->load->model('bases_datos_model');
+		$this->load->model('anuncios_model');
+		$this->load->model('social_users');		
 
 		$this->load->model('social_users');		
 
@@ -68,8 +71,14 @@ class Twitter extends CI_Controller {
 		}
 		else
 		{
-
-			redirect('panel');
+			if($this->input->is_ajax_request())
+			{
+				redirect_js(base_url().'panel');
+				exit;
+			}
+			else
+			redirect(base_url().'panel');
+			
 		}
 
 		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
@@ -79,7 +88,8 @@ class Twitter extends CI_Controller {
 
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
-	
+		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
+
 	}
 	public function index()
 	{
@@ -171,6 +181,156 @@ class Twitter extends CI_Controller {
 		}
 		
 	}
+	public function checkSelected($str)
+	{
+
+		if ($str=='')
+
+		{
+			$this->form_validation->set_message('checkSelected', 'Debe seleccionar las cuentas donde publicar');
+			return FALSE;
+		}
+		else 
+		{
+			return TRUE;
+		}
+	}
+	
+	// permet publicar a facebook
+	public function publicar()
+	{
+		$this->load->model('social_user_accounts');
+		$this->load->model('social_users');
+		$this->form_validation->set_rules('ck_group_ap[]','Páginas','callback_checkSelected');
+         	$this->form_validation->set_rules('link','Enlace','prep_url|valid_url');
+         		
+		if($this->input->post())
+		{
+			
+         		
+
+         		if($this->form_validation->run()==false)
+         		{
+    			    $errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors));      
+
+         		}
+         		else
+         		{
+         			if($this->input->post('ck_group_ap'))
+         			{
+         				//var_dump($_FILES);
+         					//var_dump(($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && count($_FILES)==0));	//si  no ha introduit cap dada
+					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
+					{
+						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
+						exit;
+					}
+					else
+					{
+
+						$this->load->library('form_validation_global');
+						$response=$this->form_validation_global->ErrorsPublicar($this->input->post());
+						$row=null;
+						$file=false;
+						$urlfb="statuses/update";
+						if(isset($response['msg_errors']))
+						{
+							echo json_encode($response);
+							exit;
+						}
+						
+						else if(isset($response['table']))
+						{
+							if($response['table']=="basesdedatos")
+							{
+								$row=$this->bases_datos_model->getElements($response['content'],array("id"=>$response['idelement']));
+							}	
+							else
+							{	
+								$row=$this->anuncios_model->getElements($response['content'],array("id"=>$response['idelement']));
+							}
+							if($response['content']=='image')
+							{
+								$file=true;
+								$params['media']= $row[0]->path;
+							}
+							elseif($response['content']=='link')
+							{
+								$params['link']=$row[0]->link;
+							}
+							else
+							{
+								$params['status']=$row[0]->sentence;
+							}
+
+						}
+						if(!$response)
+						{
+							if(isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")
+                                    {
+                                        
+                                       $array=array('image/jpg','image/jpeg','image/png','image/x-png','image/gif');
+                                       if(in_array($_FILES['imagen']['type'],$array))
+                                       {
+	                                       	$file=true;
+	                                       	$params['media']=$_FILES['imagen']['tmp_name'];
+	                                       	$params['status']=$this->input->post('texto_facebook');
+                                       }
+                                        
+                                   
+                                    }
+                                    else
+                                    {
+                                    	$params['status']=$this->input->post('texto_facebook');
+                                    	$params['link']=$this->input->post('link');
+                                    }
+						}
+						//var_dump($params);
+						$this->load->library("twitterlib",'','twtlib');
+						$group_ap=$this->input->post('ck_group_ap');
+					
+						foreach ($group_ap as $accountid) 
+						{
+							
+							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid),1);
+							$this->twtlib->setAccessToken(json_decode($user[0]->access_token));
+							if($file)
+							{
+								$res=$this->twtlib->upload($params);
+							}
+							else
+							{
+								$res=$this->twtlib->post($urlfb,$params);
+							}	
+							var_dump($res);
+
+						}
+						
+						 echo json_encode(array('msg_success'=>'La publicación se ha realizado correctemente'));
+					}
+
+         			}
+         		}
+         		exit;
+		}
+
+		
+		
+		
+		
+		
+		
+			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+
+			$this->data['titlepage']="Publicar twitter";
+			
+
+		$this->load->view('panel/twitter/publicar',$this->data);
+	}
+	
 	public function createFolder()
 	{
 		
@@ -201,7 +361,192 @@ class Twitter extends CI_Controller {
 		}
 		
 	}
+		public function programar_twitter(){
+		$this->load->model('programations');
+		$this->form_validation->set_rules('ck_group_ap','Páginas','callback_checkSelected');
+         	$this->form_validation->set_rules('link','Enlace','prep_url|valid_url');
+         	$this->form_validation->set_rules('time', 'Hora', 'required');
+     	$this->form_validation->set_rules('date', 'Fecha y hora', 'required|callback_date_valid');
+		if($this->input->post())
+		{
+			
+         		if($this->form_validation->run()==false)
+         		{
+    			    $errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors));      
+
+         		}
+         		else
+         		{
+         			if($this->input->post('ck_group_ap'))
+         			{
+         				//var_dump($_FILES);
+         					//var_dump(($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && count($_FILES)==0));	//si  no ha introduit cap dada
+					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
+					{
+						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
+						exit;
+					}
+					else
+					{
+
+						$this->load->library('form_validation_global');
+						$response=$this->form_validation_global->ErrorsPublicar($this->input->post());
+						if(isset($response['msg_errors']))
+						{
+							echo json_encode($response);
+							exit;
+						}
+						
+						else if(isset($response['table']))
+						{
+							if($response['table']=="basesdedatos")
+							{
+								$row=$this->bases_datos_model->getElements($response['content'],array("id"=>$response['idelement']));
+							}	
+							else
+							{	
+								$row=$this->anuncios_model->getElements($response['content'],array("id"=>$response['idelement']));
+							}
+							if($response['content']=='image')
+							{
+								
+								$data['path']=$row[0]->path;
+							}
+							elseif($response['content']=='link')
+							{
+								$data['link']=$row[0]->link;
+							}
+							else
+							{
+								$data['text']=$row[0]->sentence;
+							}
+
+						}
+						if(!$response)
+						{
+							if(isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")
+                                    {
+                                        
+                                       $array=array('image/jpg','image/jpeg','image/png','image/x-png','image/gif');
+                                       if(in_array($_FILES['imagen']['type'],$array))
+                                       {
+	                                       	if(!file_exists('upload/temporal'))
+		                                    {
+		                                        mkdir('upload/temporal');
+		                                    }
+		                                   $email=substr($this->flexi_auth->get_user_identity(),0,strpos($this->flexi_auth->get_user_identity(),'.'));
+		                                 //la pujo en una carpeta temporal ja que es publicara un cop i no cal guardarla
+		                                    $config['file_name']=$email.uniqid("Image_");
+		                                    $config['upload_path'] = 'upload/temporal/';
+		                                           
+		                                    $config['allowed_types'] = 'gif|jpg|png';
+		                                    $config['max_size'] = 8000; //in KB
+		                                    $config['is_image']=true;
+		   					     //la pujo al servidor
+		                                    $this->load->library('upload', $config);
+		                                    if (! $this->upload->do_upload('imagen'))
+		                                    {
+		                                      //  $upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
+
+		                                        echo json_encode(array('results'=>true,'error'=>$this->upload->display_errors_array()));        
+		                                       
+		                                    }
+		                                    else 
+		                                    {
+		                                        $file=$this->upload->data();
+		                                        $data['path']=$file['full_path'];
+		                                        $data['text']=$this->input->post('texto_facebook');
+		                                    }
+                                       }
+                                   
+                                   
+                                    }
+                                    else
+                                    {
+                                    	$data['text']=$this->input->post('texto_facebook');
+                                    	$data['link']=$this->input->post('link');
+                                    }
+
+			
+						}
+						$data['fecha']=strtotime($this->input->post('date').$this->input->post('time'));
+						if($this->input->post('fechaBorrado'))
+						{
+							if((int)$this->input->post('fechaBorrado')<1)
+							{
+								$segSum=$this->input->post('fechaBorrado')*100*60;
+								$data['fechaBorrado']=(int)$data['fecha']+$segSum;	
+							}
+							else 
+							{
+								$segSum=$this->input->post('fechaBorrado')*3600;
+								$data['fechaBorrado']=(int)$data['fecha']+$segSum;
+							}
+						}	
+						$data['state']='process';
+						
+						$group_ap=$this->input->post('ck_group_ap');
+						
+						foreach ($group_ap as $accountid) 
+						{
+							
+							$data['socialaccount']=$accountid;
+							$data['user_app']=$this->flexi_auth->get_user_id();
+							$data['type_socialaccount']='user';
+							$data['social_network']="tw";
+
+							$this->programations->insertNew($data);
+							
+
+						}
+						 echo json_encode(array('msg_success'=>'La programación se ha realizado correctemente'));
+						
+					}
+				}
+			}
+			exit;
+		}
+		
+		$this->load->model('social_users');
+			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+			$programaciones=$this->programations->getAll(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+			foreach ($programaciones as $prog) {
+				
+					$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->socialaccount),1);	
+					$prog->name=$user[0]->username;
+			}
+			$this->data['programaciones']=$programaciones;
+			
+
+		$this->data['titlepage']="Programar twitter";
+		$this->load->view("panel/twitter/programar",$this->data);
+	}
+	function date_valid($date){
+	    $p=strtotime($_POST['date'].$_POST['time']);
+	    if($p)
+	    {
+		    	if($p<=time())
+		    	{
+		    		$this->form_validation->set_message('date_valid', 'Debe seleccionar una fecha y hora posterior a la actual');
+	    			return false;	
+		    	}
+		    	else
+		    	{
+		    		return true;
+		    	}
+	    	
+	    }
+	    else
+	    {
+	    		$this->form_validation->set_message('date_valid', 'Debe seleccionar una fecha y hora');
+	    		return false;
+	    }
+	}
 	
+
 
 }
 

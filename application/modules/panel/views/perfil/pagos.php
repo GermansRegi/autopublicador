@@ -16,12 +16,7 @@
 <body>
     <?php echo $this->load->view('includes2/header');
 ?>
-	<section class="container">
-	<section class='col-lg-12'>
-		<div class="col-lg-12 panel panel-default">
-			
-			<div class="panel panel-body">
-				<div class="row">
+				<div class="col-lg-12 clearfix">
 					<button class="btn btn-primary pull-right">Renovar</button>
 				</div>
 						<table class="table">
@@ -55,13 +50,7 @@
 			</tfoot>
 		</table>
 				
-			</div>
-		</div>		
-	</section></section>
-
-<?php var_dump($pays)?>
-
-
+	
 <?php
     echo $this->load->view('includes2/footer');
 ?>

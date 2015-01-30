@@ -17,18 +17,10 @@
 <body>
     <?php echo $this->load->view('includes2/header');
     ?>
-    
-<section class="content">
-  <section class="container">
-
-<!-- Pricing table -->
-                     <!-- Price details. Note down the class name before you edit. -->
-                     <section class="row">
-
                         <section class="col-md-6">
 
                            <!-- Pricing table #1. Class name "col-left" -->
-                           <section class="pricel center">
+                           <section class=" clearfix pricel center">
                                  <section class="phead-top">
                                     <!-- Title -->
                                     <h4>Gratuito</h4>
@@ -58,7 +50,7 @@
                         <section class="col-md-6">
 
                            <!-- Pricing table #3. Class name "col-left" -->
-                           <section class="pricel center">
+                           <section class=" clearfix pricel center">
                                  <section class="phead-top">
                                     <h4>Premium</h4>
                                  </section>
@@ -83,13 +75,11 @@
                               </section>
                            </section>
 
-                           <section class="clearfix"></section>
+                           
 
                         </section>
-                     </section>
+                     
 
-  </section>
-</section>
 <?php
     echo $this->load->view('includes2/footer');
 ?>

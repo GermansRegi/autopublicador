@@ -202,20 +202,24 @@ class Basesdedatos extends CI_Controller {
 		                	}
 		                	else
 		                	{
-		                	$records = preg_split('/[\r\n]+/', $this->input->post('frase'), -1, PREG_SPLIT_NO_EMPTY);
-		                	foreach ($records as $frase) {
+		           //     	$records = preg_split('/[\r\n]+/', $this->input->post('frase'), -1, PREG_SPLIT_NO_EMPTY);
+		             //   	foreach ($records as $frase) {
 		                	
 			                	$this->bases_datos_model->insertElement('sentence',array(
-								'sentence'=>$frase,
+								'sentence'=>$this->input->post('frase'),
 								'bbdd_id'=>$idbd,
 								'user_app'=>$this->flexi_auth->get_user_id()));
 			                		
-			                	}
+			          //      	}
 			                	echo json_encode(array('msg_success'=>'Datos guardados con éxito'));
 			                }
 		                
 		                }
 					exit;
+				}
+				if($basededatos[0]->socialnetwork=='twt')
+				{
+					$this->data['maxlenght']=140;	
 				}
 				$view='admin/basesdedatos/edit_sentences_basedatos';
 			}

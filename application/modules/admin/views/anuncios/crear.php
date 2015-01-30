@@ -58,7 +58,7 @@
 	      			<section class="form-group col-md-9">
 	      				<section class="col-sm-8 col-sm-offset-2">
 	             				<input id="addbbdd-btn" type="submit"  class="btn btn-primary" name='addnew' value='Crear'>
-	             				<input type='button' class="btn" id='cancel_crear_bbdd' value='Cancelar'>
+	<input type='button' class="btn" id='cancel_crear_bbdd' href="<?php echo base_url()?>admin/anuncios" value='Cancelar'>
 	             			</section>
 	     		     </section>      
 				</section>

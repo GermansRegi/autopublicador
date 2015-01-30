@@ -14,9 +14,22 @@
 //@import "jquery-ui-min.scss";
 //@import "style_public.scss";
 
-.container{
+
+.container-main{
 	margin-top:20px;
+	margin-left:auto;
+	margin-right:auto;
+	padding-left:15px;
+	padding-right:15px;
+
+	
+
+	
+	width:1170px;
+	max-width:1075px;
+
 }
+
 #generate-bbdd,
 #generate-anuncis{
 	padding-top:15px;

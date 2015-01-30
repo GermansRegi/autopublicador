@@ -1,4 +1,48 @@
+(function(){
+	    //Contador de caracteres
+	    console.log($('#tweet_txt').length>0)
+if($('#tweet_txt').length>0)
+{
+    init_contadorTa("tweet_txt","contadorTaComentario", 140);
+    function init_contadorTa(idtextarea, idcontador,max)
+    {
+        $("#"+idtextarea).keyup(function()
+        {
+            updateContadorTa(idtextarea, idcontador,max);
+        });
+        $("#"+idtextarea).change(function()
 
+        {
+            updateContadorTa(idtextarea, idcontador,max);
+        });
+    }
+    function updateContadorTa(idtextarea, idcontador,max)
+    {
+        var contador = $("#"+idcontador);
+        var ta =     $("#"+idtextarea);
+        contador.html("0/"+max+' car&aacute;cteres disponibles');
+        contador.html(ta.val().length+"/"+max +' car&aacute;cteres disponibles');
+        if(parseInt(ta.val().length)>max)
+        {
+            ta.val(ta.val().substring(0,max-1));
+            contador.html(max+"/"+max+' car&aacute;cteres disponibles');
+        }
+    }
+}
+	var now = new Date();
+ 
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+ 
+  
+
+   $('.date').val(today);
+  
+   //$('.time').val(now.getHours()+":"+now.getMinutes());
+   console.log("mmmm",now.getHours(),":",now.getMinutes());
+    }())
 	// event per eliminar contes i carpetes de xarxes socials
 	$("body").on("click",".deleteaccount",function(e){
 		e.preventDefault();
@@ -90,7 +134,7 @@
 	function onClickNoty(type,id,isUser)
 	{
 		$.ajax({
-			url:base_url+"panel/facebook/deleteQuitFolderContent",
+			url:base_url+"panel/commonsocial/deleteQuitFolderContent",
 			data:{"type":type,"id":id,"is_user":isUser},
 			dataType:"json",
 			type:"get",
@@ -156,7 +200,7 @@
 		var typeselect=$this.data('typeselect');
 		var id=$this.val();
 		$.ajax({
-			url:base_url+"panel/facebook/get_"+typeselect+"Elements",
+			url:base_url+"panel/commonsocial/get_"+typeselect+"Elements",
 			type:'post',
 			dataType:"json",		
 			data:{"id":id},
@@ -190,6 +234,7 @@
 			data:{"id":$('#select-anuncis').val()},
 			async:false,
 			success:function(data){
+
 				generate("generate-anuncis",data)
 			},
 		});
@@ -201,9 +246,11 @@
 	function generate(container,data)
 	{
 		var container_sub=container.substr(9,container.length);
-		console.log(container_sub);
-		$("#"+container).html("");
-		if(data.data.length==0){
+
+		$("#"+container).html('');
+		console.log($("#"+container));
+
+		if(data.data && data.data.length==0){
 			$("<p>Debe añadir contenido a la base de datos seleccionada.</p>").appendTo("#"+container)
 		}
 		else 
@@ -297,7 +344,7 @@
                     var isuser=p.find('.deleteaccount').data('user')
                     $.ajax(
                         {
-                            url:base_url+'panel/facebook/changeAccountFolder',
+                            url:base_url+'panel/commonsocial/changeAccountFolder',
                             data:{page:idpage,folder:'null',isuser:isuser},
                             type:'post',
                             dataType:'json',
@@ -325,7 +372,7 @@
                     
                     $.ajax(
                         {
-                            url:base_url+'panel/facebook/changeAccountFolder',
+                            url:base_url+'panel/commonsocial/changeAccountFolder',
                             data:{page:idpage,folder:idfolder,isuser:isuser},
                             type:'post',
                             dataType:'json',

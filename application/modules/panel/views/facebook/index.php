@@ -77,14 +77,14 @@
 				?>
 				<div role="tabpanel" class="tab-pane <?php echo (($i==0)? "active":""); ?>" id="<?php echo $arraytypes[$i]['name'];?>">	
 					<div class="panel  panel-default">
-						<div class="panel-heading"></div>
+						
 						<div class="panel-body">
 							<?php
 							if(count($arraydata[$arraytypes[$i]['name']]['nofolder'])>=0)
 							{		
 								?>
 								<div class="panel panel-default panel-accounts-nofolder">
-									<div class="panel-heading">Cuentas sin carpeta </div>
+									<div class="panel-heading"><?php echo $arraytypes[$i]['title']; ?> sin carpeta </div>
 
 									<div class="panel-body ">
 										<table class="table table-striped accounts">
@@ -122,19 +122,19 @@
 							{	
 
 								?>
-								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+								<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
 									<?php
 									foreach ($arraydata[$arraytypes[$i]['name']]['folders'] as $folder) {
 										?>
 										<div class="panel panel-default panel-accounts-folder">
 											<div class="panel-heading  " role="tab" id="headerfold<?php echo $folder['data']->id; ?>">
-												<h4 class=" clearfix panel-title">
-													<a data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">
+												<!--<h4 class=" clearfix panel-title">-->
+													<a  class="accordion-toggle clearfix" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">
 														<span><?php echo $folder['data']->name; ?> <span class="badge"> <?php echo count($folder['rows']); ?></span></span>
 														<div class="pull-right btn btn-danger deleteaccount"  data-user="<?php echo (($arraytypes[$i]['name']=="user")?'true':'false'); ?>" data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i></div>
 													</a>
 
-												</h4>
+												<!--</h4>-->
 											</div>
 											
 											<div id="fold<?php echo $folder['data']->id; ?>" data-idfolder='<?php echo $folder['data']->id; ?>' class="panel-collapse collapse" role="tabpanel" aria-labelledby="headerfold<?php echo $folder['data']->id; ?>">
@@ -186,7 +186,7 @@
 	</div>
 
 		<script type="text/javascript">
-			var deletecontent_url='<?php echo base_url()?>panel/facebook/deletecontent';
+			var deletecontent_url='<?php echo base_url()?>panel/commonsocial/deletecontent';
 			var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 			var createfolder_url=base_url+'panel/facebook/createFolder';
 		</script>

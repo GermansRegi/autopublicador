@@ -34,7 +34,8 @@
 					</div>
 
 					<div class="form-group">
-						<textarea placeholder="Frase" class="form-control" name='frase'></textarea>
+						<textarea placeholder="Frase" <?php  echo (isset($maxlenght)?"maxlenght='$maxlenght' id='tweet_txt'":''); ?> class="form-control" name='frase'></textarea>
+						<?php  echo (isset($maxlenght)?"<p id='contadorTaComentario'></p>":'')?>
 					</div>
 					<div class="form-group">
 

@@ -133,7 +133,7 @@ class Form_validation_global
                        }
                    }
                    // si seleccionen un element  d bbdd que es link
-                   else if($this->input->post('bbdd_link')) 
+                   else if($this->CI->input->post('bbdd_link')) 
                    {
                    		//si seleccionen un element de bbdd que es link i omplen el camp link
                        if($this->CI->input->post('bbdd_link') && $this->CI->input->post('link'))

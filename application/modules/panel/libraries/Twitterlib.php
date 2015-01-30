@@ -61,8 +61,11 @@ class Twitterlib
 
 	}
 	public function setAccessToken($access_token)
-	{
+	{	
+		if(is_array($access_token))
 		$this->twitter->setOauthToken($access_token['oauth_token'],$access_token['oauth_token_secret']);
+		elseif(is_object($access_token))
+		$this->twitter->setOauthToken($access_token->oauth_token,$access_token->oauth_token_secret);
 	}
 	public function getUserdata()
 	{
@@ -75,5 +78,57 @@ class Twitterlib
 		 {
 		 	return false;
 		 }
+	}
+	public function get($url,$params)
+	{
+		 $res=$this->twitter->get($url,array_merge($params));
+		 if($this->twitter->getLastHttpCode()==200)
+		 {
+		 	return $res;
+		 }
+		 else
+		 {
+		 	return false;
+		 }
+	}
+	public function post($url,$params)
+	{
+		 $res=$this->twitter->post($url,array_merge($params));
+		 if($this->twitter->getLastHttpCode()==200)
+		 {
+		 	return $res;
+		 }
+		 else
+		 {
+		 	return false;
+		 }
+	}
+	public function upload($params)
+	{
+		$result = $this->twitter->upload('media/upload', array('media' => $params['media']));
+		if(200==$this->twitter->getLastHttpCode())
+		{
+			if(isset($result->media_id_string))
+			{
+				$parameters = array('status' => @$params['status'], 'media_ids' => $result->media_id_string);
+				$result = $this->twitter->post('statuses/update', $parameters);	
+				if($this->twitter->getLastHttpCode()==200)
+				{
+					return $result;
+				}
+				else
+				{
+					return $resultnbb;
+				}
+			}
+			
+			
+			
+		}	
+		else
+		{
+		return false;
+		}
+        
 	}
 }

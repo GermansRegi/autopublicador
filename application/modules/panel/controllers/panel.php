@@ -31,7 +31,7 @@ class Panel extends CI_Controller {
 
 		// Load 'standard' flexi auth library by default.
 		$this->load->library('flexi_auth');
-
+		$this->data=null;
      	// Redirect users logged in via password (However, not 'Remember me' users, as they may wish to login properly).
 		if ($this->flexi_auth->is_logged_in_via_password() && uri_string() != 'panel/logout')
 		{
@@ -61,6 +61,7 @@ class Panel extends CI_Controller {
 			{
 				$this->load->vars('privilege_user_app','prem');
 			}
+			$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 		}
 		
 		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
@@ -69,7 +70,9 @@ class Panel extends CI_Controller {
 		//$this->load->vars('current_url', $this->uri->uri_to_assoc(1));
 
 		// Define a global variable to store data that is then used by the end view page.
-		$this->data = null;
+		
+		//$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
+
 	}
 
 	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++###
@@ -107,8 +110,8 @@ class Panel extends CI_Controller {
 	{
 		if($this->flexi_auth->is_logged_in())
 		{
-			$data['titlepage']="Bienvenido a su panel de usuario";
-			echo $this->load->view('index',$data);
+			$this->data['titlepage']="Bienvenido a su panel de usuario";
+			echo $this->load->view('index',$this->data);
 		}
 		else
 		$this->login();
@@ -214,7 +217,7 @@ class Panel extends CI_Controller {
 
 		// Get any status message that may have been set.
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-		$this->data['titlepage']="Registrese";
+		$this->data['titlepage']="Regístrese";
 		$this->load->view('demo/public_examples/register_view', $this->data);
 	}
 
@@ -285,7 +288,7 @@ class Panel extends CI_Controller {
 
 		// Get any status message that may have been set.
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-
+		$this->data['titlepage']="Recuperación de contraseña";
 		$this->load->view('demo/public_examples/forgot_password_view', $this->data);
 	}
 

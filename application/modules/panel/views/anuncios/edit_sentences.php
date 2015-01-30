@@ -27,12 +27,13 @@
 				<section>
 				<form id='addcontent' method='post' action='<?php echo base_url(); ?>panel/anuncios/editar/<?php echo $anuncio->id; ?>'>
 					<div class="col-lg-12">
-					<section id='message'>      
+					<section class='message'>      
 
 
 					</section>
 					<section class="form-group">
-						<textarea placeholder="Frase" class="form-control" name='frase'></textarea>
+						<textarea placeholder="Frase" <?php  echo (isset($maxlenght)?"maxlenght='$maxlenght' id='tweet_txt'")?> class="form-control" name='frase'></textarea>
+						<?php  echo (isset($maxlenght)?"<p id='contadorTaComentario'></p>")?>
 					</section>
 					<section class="form-group">
 

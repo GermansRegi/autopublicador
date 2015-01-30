@@ -18,22 +18,13 @@
 
 ?>
          
-
-            </section>
-            <section class="content">
-              <section class="container">
-                <section class="row">
-                <section class="col-md-12">
                 <section class="slider">
                 Slider
             </section>
 
             <section class="ultimos-articulos"></section>
 
-                    </section>
-                    </section>
-                </section>
-            </section>
+                    
 <?php
     echo $this->load->view('includes2/footer');
 ?>

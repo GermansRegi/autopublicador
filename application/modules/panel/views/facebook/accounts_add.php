@@ -7,7 +7,7 @@
 
     <meta charset="UTF-8" />
     <?php echo $this->load->view('includes2/head');?>
-
+	
 
 
 

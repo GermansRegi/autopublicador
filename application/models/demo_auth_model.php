@@ -228,7 +228,7 @@ class Demo_auth_model extends CI_Model {
 	{
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('forgot_password_identity', 'Identity (Email / Login)', 'required');
+		$this->form_validation->set_rules('forgot_password_identity', 'Correo eletrónico', 'required');
 
 		// Run the validation.
 		if ($this->form_validation->run())
@@ -240,7 +240,7 @@ class Demo_auth_model extends CI_Model {
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
 			// Redirect user.
-			redirect('auth');
+			redirect('panel');
 		}
 		else
 		{

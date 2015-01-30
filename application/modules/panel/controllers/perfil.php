@@ -62,6 +62,16 @@ class Perfil extends CI_Controller {
 				$this->load->vars('privilege_user_app','prem');
 			}
 		}
+		else
+		{
+			if($this->input->is_ajax_request())
+			{
+				redirect_js(base_url().'panel');
+				exit;
+			}
+			else
+			redirect(base_url().'panel');
+		}
 		
 		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
 		//$this->load->vars('base_url', base_url(). 'auth/');
@@ -70,11 +80,12 @@ class Perfil extends CI_Controller {
 
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
-	
+		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 	}
 	public function planes()
 	{
-		$this->load->view('panel/perfil/planes');
+		$this->data['titlepage']="Nuestros planes";
+		$this->load->view('perfil/planes',$this->data);
 	}
 	public function change_password()
 	{

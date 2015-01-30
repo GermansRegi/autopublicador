@@ -64,7 +64,7 @@
 													<td>
 														<a href="http://www.twitter.es/<?php echo $pagenofolder->user_id; ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
 														<a href="<?php echo base_url()?>panel/twitter/editar/$pagenofolder->id; ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
-														<a  data-id="<?php echo $pagenofolder->id ?>" class="btn btn-danger deleteaccount" data-type="false" data-social="fb"><i class="fa fa-trash-o"></i></a>
+														<a data-user='true' data-id="<?php echo $pagenofolder->id ?>" class="btn btn-danger deleteaccount" data-type="false" data-social="fb"><i class="fa fa-trash-o"></i></a>
 														
 													</td>
 												</tr>
@@ -77,25 +77,27 @@
 										</table>
 									</div>
 								</div>
+
 								<?php
 							}
+							
 							if(count($arraydata['folders'])>0)
 							{	
 
 								?>
-								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+								<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
 									<?php
 									foreach ($arraydata['folders'] as $folder) {
 										?>
 										<div class="panel panel-default panel-accounts-folder">
 											<div class="panel-heading  " role="tab" id="headerfold<?php echo $folder['data']->id; ?>">
-												<h4 class=" clearfix panel-title">
-													<a data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">
+												<!--<h4 class=" clearfix panel-title">-->
+													<a class="accordion-toggle clearfix" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">
 														<span><?php echo $folder['data']->name; ?> <span class="badge"> <?php echo count($folder['rows']); ?></span></span>
-														<div class="pull-right btn btn-danger deleteaccount"  data-user='true' data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i></div>
+														<div class="pull-right btn btn-danger deleteaccount"   data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i></div>
 													</a>
 
-												</h4>
+												<!--</h4>-->
 											</div>
 											
 											<div id="fold<?php echo $folder['data']->id; ?>" data-idfolder='<?php echo $folder['data']->id; ?>' class="panel-collapse collapse" role="tabpanel" aria-labelledby="headerfold<?php echo $folder['data']->id; ?>">
@@ -139,7 +141,7 @@
 				?>
 
 		<script type="text/javascript">
-			var deletecontent_url='<?php echo base_url()?>panel/twitter/deletecontent';
+			var deletecontent_url='<?php echo base_url()?>panel/commonsocial/deletecontent';
 			var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 			var createfolder_url=base_url+'panel/twitter/createfolder';
 		</script>

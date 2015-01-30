@@ -20,9 +20,7 @@
 
 
 
-<section class="content">
-  <section class="container">
-    <section class="row">
+
       <section class="col-md-6">
                   <!-- Some content -->
                   <h3 class="title">Regístrese hoy <span class="color">!!!</span></h3>
@@ -93,9 +91,6 @@
                 </section>
                 </section>
 
-    </section>
-  </section>
-</section>
 
 <?php
     echo $this->load->view('includes2/footer');
