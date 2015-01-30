@@ -64,8 +64,15 @@ class Basesdedatos extends CI_Controller {
 			{
 				$this->load->vars('privilege_user_app','prem');
 			}
-		}else
+		}
+		else
 		{
+			if($this->input->is_ajax_request())
+			{
+				redirect_js(base_url().'panel');
+				exit;
+			}
+			else
 			redirect(base_url().'panel');
 		}
 
@@ -76,15 +83,15 @@ class Basesdedatos extends CI_Controller {
 
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
-	
+		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 	}
 	public function index()
 	{
 
 		$res=$this->bases_datos_model->getAll(array('user_app'=>$this->flexi_auth->get_user_id()));
-		$data['arbbdd']=$res;
-		$data['titlepage']="Base de datos"; 
-		$this->load->view('panel/basesdedatos/index',$data);
+		$this->data['arbbdd']=$res;
+		$this->data['titlepage']="Base de datos"; 
+		$this->load->view('panel/basesdedatos/index',$this->data);
 
 		
 
