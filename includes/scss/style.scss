@@ -14,6 +14,14 @@
 //@import "jquery-ui-min.scss";
 //@import "style_public.scss";
 
+body{
+	height:100%;
+}
+main
+{
+	min-height:100%;
+	position:relative;
+}
 
 .container-main{
 	margin-top:20px;
@@ -24,12 +32,15 @@
 
 	
 
-	
+	padding-bottom:237px;
 	width:1170px;
 	max-width:1075px;
+	
 
 }
-
+footer{
+	height:237px;
+}
 #generate-bbdd,
 #generate-anuncis{
 	padding-top:15px;

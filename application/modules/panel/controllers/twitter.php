@@ -73,7 +73,8 @@ class Twitter extends CI_Controller {
 		{
 			if($this->input->is_ajax_request())
 			{
-				redirect_js(base_url().'panel');
+				echo json_encode(array('req_auth'=>1));
+				//redirect_js(base_url().'panel');
 				exit;
 			}
 			else
@@ -116,7 +117,7 @@ class Twitter extends CI_Controller {
 					{
 						//var_dump($arraydata[$key->type_account]['folders'][1]);
 						if($arraydata['folders'][$m]['data']->id==$user->folder_id)
-						$arraydata['folders'][$m]['rows'][]=$key;				
+						$arraydata['folders'][$m]['rows'][]=$user;				
 					}
 			}
 		}
@@ -304,10 +305,13 @@ class Twitter extends CI_Controller {
 								$res=$this->twtlib->post($urlfb,$params);
 							}	
 							var_dump($res);
-
-						}
+							if(is_array($res) && isset($res['error']))
+								echo json_encode(array('msg_errors'=>array('pp'=>$res['error'])));
+							else
+								echo json_encode(array('msg_success'=>'La publicación se ha realizado correctemente'));
+							}
 						
-						 echo json_encode(array('msg_success'=>'La publicación se ha realizado correctemente'));
+						 
 					}
 
          			}
@@ -467,10 +471,9 @@ class Twitter extends CI_Controller {
                                     	$data['text']=$this->input->post('texto_facebook');
                                     	$data['link']=$this->input->post('link');
                                     }
-
-			
 						}
-						$data['fecha']=strtotime($this->input->post('date').$this->input->post('time'));
+						date_default_timezone_set('UTC');
+						$data['fecha']=strtotime($this->input->post('date').$this->input->post('time'));	
 						if($this->input->post('fechaBorrado'))
 						{
 							if((int)$this->input->post('fechaBorrado')<1)
@@ -487,7 +490,7 @@ class Twitter extends CI_Controller {
 						$data['state']='process';
 						
 						$group_ap=$this->input->post('ck_group_ap');
-						
+										
 						foreach ($group_ap as $accountid) 
 						{
 							
@@ -508,6 +511,7 @@ class Twitter extends CI_Controller {
 			exit;
 		}
 		
+		
 		$this->load->model('social_users');
 			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
@@ -516,6 +520,7 @@ class Twitter extends CI_Controller {
 			foreach ($programaciones as $prog) {
 				
 					$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->socialaccount),1);	
+		
 					$prog->name=$user[0]->username;
 			}
 			$this->data['programaciones']=$programaciones;

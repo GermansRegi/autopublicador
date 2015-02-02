@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<a href="<?php echo base_url()?>panel/commonsocial/editar/$pagenofolder->id; ?>" data-toggle='ajaxModal' class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a><!DOCTYPE html>
 <html>
 <head>
 	<title>Autopublicador Social</title>
@@ -62,8 +62,8 @@
 														<?php echo $pagenofolder->username; ?>
 													</td>
 													<td>
-														<a href="http://www.twitter.es/<?php echo $pagenofolder->user_id; ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
-														<a href="<?php echo base_url()?>panel/twitter/editar/$pagenofolder->id; ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
+														<a href="http://www.twitter.es/<?php echo $pagenofolder->username; ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
+														<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo $pagenofolder->id ?>/u" data-toggle='ajaxModal' class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
 														<a data-user='true' data-id="<?php echo $pagenofolder->id ?>" class="btn btn-danger deleteaccount" data-type="false" data-social="fb"><i class="fa fa-trash-o"></i></a>
 														
 													</td>
@@ -94,7 +94,7 @@
 												<!--<h4 class=" clearfix panel-title">-->
 													<a class="accordion-toggle clearfix" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">
 														<span><?php echo $folder['data']->name; ?> <span class="badge"> <?php echo count($folder['rows']); ?></span></span>
-														<div class="pull-right btn btn-danger deleteaccount"   data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i></div>
+														<div class="pull-right btn btn-danger deleteaccount" data-user="true"   data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i></div>
 													</a>
 
 												<!--</h4>-->
@@ -106,13 +106,15 @@
 
 										<table class="table table-striped accounts">
 											<?php
+											
 												foreach ($folder['rows'] as $pagefolder) 
 												{
+
 											?>
 
 													<tr  class='folderrow'>
 														<td>
-															<img src="<?php echo $pagefolder->profile_image_url; ?>">
+															<img src="<?php echo $pagefolder->img_profile; ?>">
 
 														</td>
 														<td class="name">
@@ -120,8 +122,8 @@
 															<!--<?php// echo $pagefolder->name; ?>-->
 														</td>
 														<td>
-															<a href="https:/www.facebook.com/<?php echo ((!isset($pagefolder->idaccount))?$pagefolder->user_id:$pagefolder->idaccount);//$pagefolder->idaccount ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
-															<a href="<?php echo base_url()?>panel/twitter/editar/<?php echo ((!isset($pagefolder->idaccount))?$pagefolder->id:$pagefolder->idaccount);//$pagefolder->idaccount ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
+															<a href="https:/www.twitter.es/<?php echo $pagefolder->username;//$pagefolder->idaccount ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
+															<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo $pagefolder->id ?>/u" data-toggle='ajaxModal' class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
 														 	<a  data-user="true" data-id="<?php echo $pagefolder->id ?>" data-type="false" data-social="fb" class="btn btn-danger deleteaccount"><i class="fa fa-trash-o"></i></a>
 														</td>
 													</tr>

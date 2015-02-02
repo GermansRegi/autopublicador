@@ -228,7 +228,7 @@ class Anuncios extends CI_Controller {
 		                }
 					exit;
 				}
-				if($basededatos[0]->socialnetwork=='twt')
+				if($anuncio[0]->socialnetwork=='twt')
 				{
 					$this->data['maxlenght']=140;	
 				}

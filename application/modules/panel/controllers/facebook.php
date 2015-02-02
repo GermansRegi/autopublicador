@@ -70,11 +70,13 @@ class Facebook extends CI_Controller {
 		{
 			if($this->input->is_ajax_request())
 			{
-				redirect_js(base_url().'panel');
+				echo json_encode(array('req_auth'=>1));
+				//redirect_js(base_url().'panel');
 				exit;
 			}
 			else
 			redirect(base_url().'panel');
+
 		}
 
 		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
@@ -107,16 +109,7 @@ class Facebook extends CI_Controller {
 	    		return false;
 	    }
 	}
-	public function ver_programacion($idprog=0)
-	{
-		if($idprog)
-		{
-			$this->load->model('programations');
-			$this->data['prog']=$this->programations->getById($idprog);
-
-			$this->load->view('common/ver_programacion',$this->data);
-		}
-	}
+	
 	public function programar_facebook(){
 		$this->load->model('programations');
 		$this->form_validation->set_rules('ck_group_ap','Páginas','callback_checkSelected');
@@ -226,6 +219,7 @@ class Facebook extends CI_Controller {
 
 			
 						}
+						date_default_timezone_set('UTC');
 						$data['fecha']=strtotime($this->input->post('date').$this->input->post('time'));
 						if($this->input->post('fechaBorrado'))
 						{
@@ -274,6 +268,7 @@ class Facebook extends CI_Controller {
 			}
 			exit;
 		}
+		date_default_timezone_set('Europe/Madrid');
 		$this->load->model('social_user_accounts');
 		$this->load->model('social_users');
 			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
@@ -366,7 +361,9 @@ class Facebook extends CI_Controller {
 		}
 		
 		$this->data['titlepage']="Cuentas de facebook";
-
+		$this->load->library('Facebooklib','','fblib');	
+		$this->session->unset_userdata('fb_token');
+		$this->fblib->setSession();
 		
 		$this->data['arraydata']=$arraydata;
 		$this->load->view('panel/facebook/index',$this->data);
@@ -380,6 +377,7 @@ class Facebook extends CI_Controller {
 		$this->load->library('Facebooklib','','fblib');
 		if($this->fblib->getSession()==null)
 		{
+
 			redirect($this->fblib->login_url());
 
 		}
@@ -413,8 +411,10 @@ class Facebook extends CI_Controller {
 			$this->load->model("social_user_accounts");
 
 			$pages=array();
-
+			
 			$pagesFace=$this->fblib->api('/me/accounts');
+		
+			var_dump($pagesFace);
 			if(isset($pagesFace['data']) && count($pagesFace['data'])>0)
 			foreach($pagesFace['data'] as $val)
 	           {    
@@ -650,15 +650,18 @@ class Facebook extends CI_Controller {
                                     	$params['link']=$this->input->post('link');
                                     }
 						}
+						$res=array();
 						//var_dump($params);
 						 $this->load->library('Facebooklib','','fblib');
 						$group_ap=$this->input->post('ck_group_ap');
 						if(isset($group_ap['user']) )
+
 						foreach ($group_ap['user'] as $accountid) 
 						{
 							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid),1);
+							var_dump($user[0]->access_token);
 							$this->fblib->setSessionFromToken($user[0]->access_token);
-							$this->fblib->api_post('/'.$accountid.$urlfb,$params);
+							$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
 
 						}
 						if(isset($group_ap['account']))
@@ -666,11 +669,28 @@ class Facebook extends CI_Controller {
 						{
 							$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$accountid),1);
 							$this->fblib->setSessionFromToken($acc[0]->access_token);
-							$this->fblib->api_post('/'.$accountid.$urlfb,$params);
+							$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
+							
 							
 
 						}
-						 echo json_encode(array('msg_success'=>'La publicación se ha realizado correctemente'));
+						$errorflag=false;
+					
+						foreach($res as $error)
+						{
+
+							
+							if(isset($error['error']))
+							{
+								$errorflag=true;
+								break;
+							}
+							
+						}
+						if($errorflag==true)
+							echo json_encode(array('msg_errors'=>array('pp'=>'No se ha podido publicar correctamente en alguna de las cuentas seleccionadas')));
+						else
+							echo json_encode(array('msg_success'=>'Se ha publicado correctemente en las cuentas seleccionadas'));
 					}
 
          			}

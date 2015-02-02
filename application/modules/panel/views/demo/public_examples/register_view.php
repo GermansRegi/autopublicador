@@ -59,14 +59,14 @@
                          </section>
                        </section>
                        <section class="form-group">
-                          <label for="password" class="col-lg-4 control-label">Apellidos</label>
+                          <label for="register_last_name" class="col-lg-4 control-label">Apellidos</label>
                          <section class="col-lg-6">
 
                         	<input type="text" id="last_name" name="register_last_name" class="form-control" placeholder="Apellidos" value="<?php echo set_value('register_last_name');?>"/>
                          </section>
                        </section>
                        <section class="form-group">
-                        <label for="first_name" class="col-lg-4 control-label">Correo Electronico</label>
+                        <label for="first_name" class="col-lg-4 control-label">Correo Electrónico</label>
                        <!--  <?php echo lang('create_user_email_label', 'email');?> -->
                          <section class="col-lg-6">
                          <input type="text" id="email_address" class="form-control" placeholder="Correo electrónico" name="register_email_address" value="<?php echo set_value('register_email_address');?>" class="tooltip_trigger"

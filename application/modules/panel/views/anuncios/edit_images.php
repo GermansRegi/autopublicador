@@ -46,7 +46,7 @@
 		</section>
 
 		<section class="col-lg-6 text-right">
-			<input type="button" id="toggle" value="Marcar todo" class="btn btn-primary" >          	
+			<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >          	
 			<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 		</section>
 	</section>

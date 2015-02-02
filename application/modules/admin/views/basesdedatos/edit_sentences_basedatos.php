@@ -17,10 +17,7 @@
     <?php echo $this->load->view('includes2/header');
 
 ?>
-            
-
-			<section class="content">
-				<section class="container">
+     
 					
 
 					<section class='namebd'>
@@ -94,8 +91,7 @@
 				 } ?>
 			</section>
 			
-			</section>
-			</section>
+		
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>admin/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>';
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

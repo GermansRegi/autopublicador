@@ -9,7 +9,7 @@ class Twitterlib
 {
 	protected $twitter;
 	public $ci;
-
+	public $errors=array(34=>"La cuenta no existe",64=>"La cuenta esta suspendida",187=>"No puede publicar el mismo contenido repetidamente");
 	function __construct()
 	{
 		$this->ci =& get_instance();
@@ -81,54 +81,59 @@ class Twitterlib
 	}
 	public function get($url,$params)
 	{
-		 $res=$this->twitter->get($url,array_merge($params));
-		 if($this->twitter->getLastHttpCode()==200)
-		 {
-		 	return $res;
-		 }
-		 else
-		 {
-		 	return false;
-		 }
+		 $res=$this->twitter->get($url,$params);
+		if(isset($result->errors))
+			return array('error'=>$this->TRanlateAPIERROR($result->errors[0]->code));	
+		else
+		{
+			return $result;
+		}
 	}
 	public function post($url,$params)
 	{
-		 $res=$this->twitter->post($url,array_merge($params));
-		 if($this->twitter->getLastHttpCode()==200)
-		 {
-		 	return $res;
-		 }
-		 else
-		 {
-		 	return false;
-		 }
+		 $result=$this->twitter->post($url,array_merge($params));
+		var_dump($result);
+		if(isset($result->errors))
+			return array('error'=>$this->TRanlateAPIERROR($result->errors[0]->code));	
+		else
+		{
+			return $result;
+		}
 	}
 	public function upload($params)
 	{
 		$result = $this->twitter->upload('media/upload', array('media' => $params['media']));
-		if(200==$this->twitter->getLastHttpCode())
+		if(isset($result->media_id_string))
 		{
-			if(isset($result->media_id_string))
-			{
-				$parameters = array('status' => @$params['status'], 'media_ids' => $result->media_id_string);
-				$result = $this->twitter->post('statuses/update', $parameters);	
-				if($this->twitter->getLastHttpCode()==200)
-				{
-					return $result;
-				}
+			$parameters = array('status' => @$params['status'], 'media_ids' => $result->media_id_string);
+			$result = $this->twitter->post('statuses/update', $parameters);	
+
+				
+				if(isset($result->errors))
+					return array('error'=>$this->TRanlateAPIERROR($result->errors[0]->code));	
 				else
 				{
-					return $resultnbb;
-				}
-			}
-			
-			
-			
-		}	
+					return $result;
+				}	}
 		else
 		{
-		return false;
+			return array('error'=>$this->TRanlateAPIERROR());	
 		}
+			
+			
+			
+		
         
 	}
+	public function TRanlateAPIERROR($error=0)
+     {
+		if(array_key_exists($error, $this->errors))
+		{
+			return $this->errors[$error];
+		}		        
+		else
+		{
+			return 'Ha ocurrido un error al publicar contenido';
+		}
+     }
 }

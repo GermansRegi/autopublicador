@@ -56,15 +56,18 @@
 		<div class="content features-two">
 			<div class="container">
 				<div class="row">
+					<p class="text-center">
+						Elija el tipo de facturación
 
-					<div class="col-md-3">
-						<div class="feat-inner">
+					</p>
+					<div class="col-md-4">
+						<div class="text-center">
 							<!-- Font awesome icon -->
-							<i class="fa fa-envelope"></i>
+							
 							<!-- Title -->
 							<h4>Mensual 10€ (30 días)</h4>
 							<!-- Para -->
-							<p>Praesent at tellus porttitor nisl porttitor sagittis. Mauris in massa ligula, a tempor nulla. Ut tempus interdum mauris vel vehicula.  </p>
+							
 							<!-- Button -->
 							<div class="button">
 
@@ -91,11 +94,11 @@
 						</div>
 					</div>
 
-					<div class="col-md-3">
-						<div class="feat-inner">
-							<i class="fa fa-comments-o"></i>
+					<div class="col-md-4">
+						<div class="text-center">
+							
 							<h4>Trimestral 25 € (90 días)</h4>
-							<p>Praesent at tellus porttitor nisl porttitor sagittis. Mauris in massa ligula, a tempor nulla. Ut tempus interdum mauris vel vehicula.  </p>
+							
 							<div class="button">
 
 								<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
@@ -118,11 +121,11 @@
 						</div>
 					</div>
 
-					<div class="col-md-3">
-						<div class="feat-inner">
-							<i class="fa fa-thumbs-up"></i>
+					<div class="col-md-4">
+						<div class="text-center">
+							
 							<h4>Anual 90 €  (365 días)</h4>
-							<p>Praesent at tellus porttitor nisl porttitor sagittis. Mauris in massa ligula, a tempor nulla. Ut tempus interdum mauris vel vehicula.  </p>
+							
 							<div class="button">
 								<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 									<input type="hidden" name="cmd" value="_xclick" />
@@ -146,7 +149,11 @@
 						</div>
 					</div>  
 
-
+					<div class="col-lg-12 text-center">
+						<p>
+							<a class="closeplan btn btn-danger">Cancelar</a>
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>

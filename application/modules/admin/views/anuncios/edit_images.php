@@ -18,8 +18,7 @@
 
 ?>
             
-            <section class="content">
-              <section class="container">
+          
             		<section class='namebd'>
     <p>Inserte imágenes en: <span class='bold'> <?php echo $anuncio->name."</span> <span class='right'> Tiene ".$total." imágenes creadas. El máximo de imágenes son ".$this->config->item('max-images').".</span>";?></p>
 </section>
@@ -86,8 +85,7 @@ var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 
                     
                    
-                </section>
-            </section>
+                
 <?php
     echo $this->load->view('includes2/footer');
 ?>

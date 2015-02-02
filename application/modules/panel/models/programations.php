@@ -30,6 +30,7 @@ class Programations extends MY_Model {
 		return  $this->get_many_by($array);
     
 	}
+	
 }
 
 /* End of file programations.php */

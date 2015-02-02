@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
 
     <title>Autopublicador Social</title>
@@ -18,8 +19,7 @@
 
 ?>
 
-            <section class="content">
-			<section class="container">
+            
 				
 				<section class='namebd'>
 					<p>Inserte Enlaces en: <span class='bold'> <?php echo $bbdd->name."</span> <span class='right'> Tiene ".$total." enlaces creados. El máximo de enlaces son ".$this->config->item('max-no-images').".</span>";?></p>
@@ -94,8 +94,7 @@
 			</section>
 			
 
-			</section>
-		</section>
+			
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>admin/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>'
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

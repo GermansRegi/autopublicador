@@ -1,5 +1,6 @@
 
 <!DOCTYPE html>
+<html>
 <head>
 
     <title>Autopublicador Social</title>
@@ -22,7 +23,7 @@
 	?>
        
 >
-	<section class="container">
+	
 	<section class='row'>
     
         <p> Tienes     <?php echo count($arbbdd)?> bases de datos creadas.<a href="<?php echo base_url();?>admin/anuncios/crear">Crear nueva base de datos</a>
@@ -65,7 +66,7 @@
 	       ?>
 	    
 	    </section>
-	</section>
+	
        <script type="text/javascript">
 	var delete_url='<?php echo base_url()?>admin/basesdedatos/delete';
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

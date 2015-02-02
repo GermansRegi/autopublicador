@@ -1,11 +1,5 @@
 $(function(){
 
-$('body').on('ajaxComplete',function(event,request,settings){
-    console.log('pp',request);
-    if (request.getResponseHeader('REQUIRES_AUTH') === '1'){
-       window.location = base_url+'panel';
-    };
-})
 
 
 $(document).on('click', '[data-toggle="ajaxModal"]',
@@ -14,11 +8,11 @@ $(document).on('click', '[data-toggle="ajaxModal"]',
         e.preventDefault();
         var $this = $(this)
           , $remote = $this.data('remote') || $this.attr('href')
-          , $modal = $('<div class="modal fade" id="ajaxModal"><div class="modal-body"></div></div>');
-        $('body').append($modal);
-        $modal.modal();
-        $modal.load($remote);
-      })
+          , $modal = $('<div class="modal fade" id="ajaxModal"><div class="modal-dialog" id="myModal"><div class="modal-content"></div></div></div>');
+        $modal.find(".modal-content").load($remote);
+ 		$modal.modal();
+
+ 	})
 
 $("body").on('click','#premiumnormal',function(){
 		                    	//$("body").on('click','#premiumnormal',function() {
@@ -27,6 +21,12 @@ $("body").on('click','#premiumnormal',function(){
 		                            $(".box-plan").hide();
 		                        });
 	
+$("body").on('click','.closeplan',function(){
+		                    	//$("body").on('click','#premiumnormal',function() {
+		                    		console.log('pp');
+		                            $("#pagoplanp").hide();
+		                            $(".box-plan").show();
+		                        });
 	
 })
 

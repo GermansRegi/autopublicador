@@ -28,7 +28,7 @@ $arr=array("group","user","event","page")
 						<label class="col-lg-12" for="">Fecha y Hora</label>
 						<div class="col-lg-6">
 							<div class="input-group">
-							<input class='form-control date'  name='date' type="date">
+							<input class='form-control date' value="<?php echo date('Y-m-d'); ?>"  name='date' type="date">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							</div>
 						</div>
@@ -166,9 +166,9 @@ $arr=array("group","user","event","page")
 								?>
 									<tr>
 									<td><?php echo $prog->name ?></td>
-									<td><?php echo date('Y-m-d h:i:s',$prog->fecha)?></td>
-									<td><?php echo (!empty($prog->fechaBorrado)?date('Y-m-d H:i:s',$prog->fechaBorrado):'-')?></td>
-									<td><?php echo (($prog->state=='process')?"En proceso":'Terminado');?></td>
+									<td><?php echo date('d-m-Y H:i:s',$prog->fecha)?></td>
+									<td><?php echo (!empty($prog->fechaBorrado)?date('d-m-Y H:i:s',$prog->fechaBorrado):'-')?></td>
+									<td><?php echo (($prog->state=='process')?"En proceso":(($prog->state=='finished')?'Terminado':"No Comptletado"));?></td>
 									<td> <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" >Ver </a><a data-id="<?php echo $prog->id; ?>" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a></td>
 
 									</tr>
@@ -183,7 +183,10 @@ $arr=array("group","user","event","page")
 						?>
 					</div>
 
-
+<script type="text/javascript">
+	
+	var current_url='<?php echo base_url().$this->uri->uri_string();?>';
+</script>
 
 <?php
     echo $this->load->view('includes2/footer');

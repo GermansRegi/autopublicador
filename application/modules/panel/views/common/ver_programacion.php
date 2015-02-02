@@ -1,9 +1,7 @@
 
-<div class="modal-dialog" id="myModal">
-	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h4>Ver datos de la programacion #<?php echo $prog[0]->id."(".$prog[0]->state.")"; ?></h4>
+			<h4>Ver datos de la programacion #<?php echo $prog[0]->id." (".(($prog[0]->state=='process')?"En proceso":(($prog[0]->state=='finished')?'Terminado':"No Comptletado")).")"; ?></h4>
 		</div>
 		<div class="modal-body">
 			<div class="row">
@@ -55,14 +53,14 @@
 					<div class="col-lg-6">
 						<strong>Fecha y hora</strong>
 						<br>
-						<?php echo date('Y-m-d h:i:s',$prog[0]->fecha)?>
+						<?php echo date('d-m-Y H:i:s',$prog[0]->fecha)?>
 					</div>
 					<?php if(!empty($prog[0]->fechaBorrado) && $prog[0]->fechaBorrado!="")
 					{
 						?>
 						<div class="col-lg-6">
 								<strong>Fecha borrado</strong><br>
-								<?php echo date('Y-m-d h:i:s',$prog[0]->fechaBorrado)?>								
+								<?php echo date('d-m-Y H:i:s',$prog[0]->fechaBorrado)?>								
 						</div>
 					<?php
 					} ?>
@@ -86,6 +84,4 @@
 		<div class="modal-footer">
 	
 		</div>
-	</div>
-		
-</div>
+	

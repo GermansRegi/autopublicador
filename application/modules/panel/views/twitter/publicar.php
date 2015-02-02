@@ -14,7 +14,7 @@
     		?>
 			<div class="redbox">
     				<p>
-				Para poder publicar debe añadir como mínimo una página de facebook. Desde la opción <?php  echo '<a href="'.base_url().'social_connect/fb_connect">Conectar con Facebook</a>';?>
+				Para poder publicar debe añadir como mínimo una cuenta de twitter. Desde la opción <?php  echo '<a href="'.base_url().'panel/twitter/connectar_twitter">Conectar con Twitter</a>';?>
     				</p>
 			</div>
 		<?php

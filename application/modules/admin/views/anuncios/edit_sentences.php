@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
 
     <title>Autopublicador Social</title>
@@ -18,8 +19,7 @@
 
 ?>
             
-			<section class="content">
-				<section class="container">
+			
 					
 
 					<section class='namebd'>
@@ -93,8 +93,6 @@
 				 } ?>
 			</section>
 			
-			</section>
-			</section>
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>admin/anuncios/deletecontent/<?php echo $anuncio->id; ?>';
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

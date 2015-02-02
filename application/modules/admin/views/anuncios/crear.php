@@ -1,4 +1,5 @@
   <!DOCTYPE html>
+<html>
 <head>
 
     <title>Autopublicador Social</title>
@@ -18,8 +19,7 @@
     <?php echo $this->load->view('includes2/header');
 
 	?>
-	<section  id='crearbbdd' class="clearfix">
-        <section class="col-sm-5 col-sm-offset-4">
+	
 	      <form action="<?php echo base_url(); ?>admin/anuncios/crear" method="post" id="addbbdd" > 
 	        
 	         

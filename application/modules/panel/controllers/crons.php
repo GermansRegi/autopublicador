@@ -28,18 +28,19 @@ class Crons extends CI_Controller {
 
 
                     $params=array();
+                    $file=false;
                     //si hi ha path
                     if(isset($prog->path) && $prog->path!="")
                     {
+                    	$file=true;
                     	if($prog->social_network=='tw')
                     	{
-                    	    $params['media[]'] = "@{$prog->path}";
-                    	    $url='statuses/update_with_media';
-                    
+                    	    $params['media'] = $prog->path;
+                    	 	                    
                     	}
                     	else
                     	{
-	                        $params['source']="@".$prog->path;
+	                        $params['source']=$prog->path;
 	                        $url="/".$prog->socialaccount."/photos";
 	                   	}
                     }
@@ -67,32 +68,46 @@ class Crons extends CI_Controller {
                     {
                     	$this->load->library('Facebooklib','','fblib');
                     	$this->fblib->setSessionfromToken($account[0]->access_token);
-                    	try
-                    	{
                     		echo "url: ".$url."<br>";
                     		var_dump($params);
                     		$publicaciofb=$this->fblib->api_post($url,$params);
                     		$state='finished';
-
-                    	}
-                    	catch(Exception $e)
-                    	{
-
-                    		$state='nocomplete';
-                    	}
+                    		if(is_array($publicaciofb))
+                    		{
+                    			$state='nocomplete';
+                    		}
+                    
+                    }
+                    else
+                    {
+                    	$this->load->library('Twitterlib','','twtlib');
+					$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+					if($file)
+					{
+						$publicaciotw=$this->twtlib->upload($params);
+					}
+					else
+					{
+						$publicaciotw=$this->twtlib->post($urlfb,$params);
+					}	
+					if(isset($publicaciotw['error'])
+               		{
+               			$state='nocomplete';
+               		}
+                    
 
                     }
                    
                             
                	$id_publish='';
-                    if(isset($publicaciofb) && $state=="finished")
+                    if(is_object($publicaciofb) && $state=="finished")
                     {
                     	$id_publish=$responsefb['id'];
                         
                     }
-                    else if(isset($responsetw) && $state=="finished")
+                    else if(isset($publicaciotw['id_str']) && $state=="finished")
                     {
-                    	$id_publish=$responsetw->id_str;
+                    	$id_publish=$publicaciotw->id_str;
 
                     }
                     $this->programations->update_by(array('id_publish'=>$id_publish,'state'=>$state),array('id'=>$prog->id));

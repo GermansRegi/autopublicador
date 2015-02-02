@@ -48,7 +48,7 @@ var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 			</div>
 		
 				<div class="col-sm-6 text-right">
-	     <input type="button" id="toggle" value="Marcar todo" class="btn btn-primary" >           	
+	     <input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >           	
 	                	<input type="button" class="btn btn-danger deletemulti" value="Borrar">
 	              </div>
 			</div>

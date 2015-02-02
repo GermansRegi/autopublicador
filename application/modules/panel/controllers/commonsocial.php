@@ -1,7 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class CommonSocial extends CI_Controller {
-		public function __construct()
+	
+	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('bases_datos_model');
@@ -69,14 +70,17 @@ class CommonSocial extends CI_Controller {
 		{
 			if($this->input->is_ajax_request())
 			{
-				redirect_js(base_url().'panel');
+				echo json_encode(array('req_auth'=>1));
+				//redirect_js(base_url().'panel');
 				exit;
 			}
 			else
-			redirect(base_url().'panel');
-				}
-
+			redirect(base_url().'panel');				
+		}
+		
 	}
+
+	
 	public function index()
 	{
 			
@@ -85,6 +89,7 @@ class CommonSocial extends CI_Controller {
 	{
 		
 	}
+
 	public function deletecontent()
 	{
 		$this->load->model('social_user_accounts');
@@ -265,6 +270,44 @@ class CommonSocial extends CI_Controller {
 
 			$this->load->view('common/ver_programacion',$this->data);
 		}
+	}
+	public function delete_programation()
+	{
+		if($this->input->get('id'))
+		{
+			$this->load->model('programations');
+			$this->programations->delete_by(array('id'=>$this->input->get('id')));
+			echo json_encode(array("result"=>"ok","msg_success"=>'Programación eliminada correctamente '));
+			
+		}
+	}
+	public function editar($idaccount,$type='u')
+	{
+		
+		$this->load->model('autoprog_anuncios');
+		$this->load->model('autoprog_basededatos');
+		$this->load->model('social_users');
+		$this->load->model('social_user_accounts');
+		$array=array('fb'=>'face',"tw"=>'twt');
+			if($type=='u')
+			{
+				$acc=$this->social_users->getUserAppUsers(array('id'=>$idaccount),1);	
+				$acc[0]->type="user";
+				
+			}
+			else
+			{ 
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('id'=>$idaccount),1);
+				$acc[0]->type="account";
+			}	
+		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()));
+		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()));
+		$this->data['accountedit']=$acc[0];
+		$autoprog=$this->autoprog_basededatos->get_many_by(array('accountid'=>$idaccount,'type'=>$acc[0]->type));
+		$autoproganuncis=$this->autoprog_anuncios->get_many_by(array('accountid'=>$idaccount,'type'=>$acc[0]->type));
+		$this->data['conf_bbdd']=$autoprog[0];
+		$this->data['conf_anunci']=$autoproganuncis[0];
+		$this->load->view('common/editar_account',$this->data);
 	}
 	
 }

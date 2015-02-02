@@ -66,7 +66,8 @@ class Perfil extends CI_Controller {
 		{
 			if($this->input->is_ajax_request())
 			{
-				redirect_js(base_url().'panel');
+				echo json_encode(array('req_auth'=>1));
+				//redirect_js(base_url().'panel');
 				exit;
 			}
 			else

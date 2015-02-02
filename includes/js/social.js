@@ -29,20 +29,8 @@ if($('#tweet_txt').length>0)
         }
     }
 }
-	var now = new Date();
- 
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+})
 
-    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
- 
-  
-
-   $('.date').val(today);
-  
-   //$('.time').val(now.getHours()+":"+now.getMinutes());
-   console.log("mmmm",now.getHours(),":",now.getMinutes());
-    }())
 	// event per eliminar contes i carpetes de xarxes socials
 	$("body").on("click",".deleteaccount",function(e){
 		e.preventDefault();
@@ -73,7 +61,7 @@ if($('#tweet_txt').length>0)
 										dataType:"json",
 										success:function(data){
 											console.log(data);
-											
+									
 											if(data.idFolder){
 												var n=noty({
 
@@ -198,7 +186,7 @@ if($('#tweet_txt').length>0)
 	$("BODY").on("change",".generate-select",function(){
 		$this=$(this);
 		var typeselect=$this.data('typeselect');
-		var id=$this.val();
+		var id=$this.val();           
 		$.ajax({
 			url:base_url+"panel/commonsocial/get_"+typeselect+"Elements",
 			type:'post',
@@ -261,7 +249,7 @@ if($('#tweet_txt').length>0)
 				if(data.content=="sentence"){	
 					$('<span>'+data.data[i].sentence+'</span>').appendTo($("#"+container))}
 				else if(data.content=="image")
-					$('<img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'')+data.data[i].filename+'"/>').appendTo($("#"+container))
+					$('<img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'"/>').appendTo($("#"+container))
 				else
 					$('<span>'+data.data[i].text+'</span>').appendTo($("#"+container))
 			}	
@@ -271,7 +259,30 @@ if($('#tweet_txt').length>0)
 			}
 		}	
 	}
-
+	$('body').on('click','.deleteprog',function()
+	{
+		$this=$(this);
+		$this.data('id');
+          $.ajax(
+              {
+                  url:base_url+'panel/commonsocial/delete_programation',
+                  data:{id:$this.data('id')},
+                  type:'get',
+                  dataType:'json',
+                  success:function(data){
+                      
+             		  	var res=showResults(data,',','.message');
+					if(res){
+							$('body').delay(1000).queue(function( nxt ) {
+								document.location.href=current_url;
+								nxt();
+		                      }); 	
+						}
+                  }
+              }
+          );
+          
+	})
 	$('body').on('submit',"#programar",function(e){
 		e.preventDefault();
 		 var formdata =new FormData($(this)[0]);
@@ -290,7 +301,7 @@ if($('#tweet_txt').length>0)
 			{
 				var res=showResults(data,',','.message');
 				if(res){
-						$('body').delay(1000).queue(function( nxt ) {
+						$('body').delay(2000).queue(function( nxt ) {
 							document.location.href=current_url;
 							nxt();
 	                      }); 	
@@ -317,7 +328,7 @@ if($('#tweet_txt').length>0)
 			{
 				var res=showResults(data,',','.message');
 				if(res){
-						$('body').delay(1000).queue(function( nxt ) {
+						$('body').delay(2000).queue(function( nxt ) {
 							document.location.href=current_url;
 							nxt();
 	                      }); 	
@@ -341,7 +352,7 @@ if($('#tweet_txt').length>0)
                 drop:function(event,ui){
                     var idpage=$(ui.draggable).find('.deleteaccount').data('id');
                     var p=$(this)
-                    var isuser=p.find('.deleteaccount').data('user')
+                    var isuser=$(ui.draggable).find('.deleteaccount').data('user')
                     $.ajax(
                         {
                             url:base_url+'panel/commonsocial/changeAccountFolder',
@@ -350,7 +361,7 @@ if($('#tweet_txt').length>0)
                             dataType:'json',
                             complete:function(data){
                                 
-                            document.location.href=current_url;    
+                          document.location.href=current_url;    
                             }
                         }
                     );
@@ -366,9 +377,9 @@ if($('#tweet_txt').length>0)
                     var p=$(this)
                   
                     var idfolder=$(this).find('.panel-collapse').data('idfolder')
-                    var isuser=$(this).find('.deleteaccount').data('user');
+                    var isuser=$(ui.draggable).find('.deleteaccount').data('user');
                     var idpage=$(ui.draggable).find('.deleteaccount').data('id');
-                    console.log(idfolder,idpage,isuser);
+                    console.log(idfolder,idpage,isuser,'ppp');
                     
                     $.ajax(
                         {
