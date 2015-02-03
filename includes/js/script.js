@@ -1,16 +1,37 @@
 $(function(){
 
+$("body").on('click','#clearFile',function(e){
+  e.preventDefault();
+$("#filetoup").filestyle()
+/*
+  $("#filetoup").replaceWith();
+*/
+  $("#filetoup").val('');
+  $("#filetoup").next().find('input').val('')
 
+})
 
-$(document).on('click', '[data-toggle="ajaxModal"]',
-      function(e) {
-        $('#ajaxModal').remove();
-        e.preventDefault();
-        var $this = $(this)
+$(document).on('click', '[data-toggle="ajaxModal"]',function(e){
+       e.preventDefault();
+      var $this = $(this)
           , $remote = $this.data('remote') || $this.attr('href')
           , $modal = $('<div class="modal fade" id="ajaxModal"><div class="modal-dialog" id="myModal"><div class="modal-content"></div></div></div>');
-        $modal.find(".modal-content").load($remote);
- 		$modal.modal();
+       	 
+     
+        $.ajax({
+        	url:$remote,
+        	type:'get',
+        	dataType:'html',
+        	success:function(data){
+        	$modal.find(".modal-content").html(data); 	
+        	$modal.modal()
+        	}
+
+        
+
+        })
+       
+       
 
  	})
 

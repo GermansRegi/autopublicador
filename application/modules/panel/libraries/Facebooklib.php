@@ -31,7 +31,7 @@ class Facebooklib {
     // Use the same domain you set for the apps 'App Domains'
     // e.g. $helper = new FacebookRedirectLoginHelper( 'http://mydomain.com/redirect' );
     $this->helper = new FacebookRedirectLoginHelper( base_url().$this->ci->config->item('redirect_url', 'facebook') );
-    var_dump($this->ci->session->userdata('fb_token'));
+ //   var_dump($this->ci->session->userdata('fb_token'));
     if ( $this->ci->session->userdata('fb_token') ) {
       $this->session = new FacebookSession( $this->ci->session->userdata('fb_token') );
 
@@ -118,7 +118,7 @@ class Facebooklib {
 	      return $user;
  	}catch( Exception $e)
  	{
- 		var_dump($e);
+ 	
  		return array('error'=>$this->TRanlateAPIERROR($e->getHttpStatusCode()));
  	}
       // Get response as an array
@@ -167,7 +167,7 @@ class Facebooklib {
 	    		echo "pp";
 	    			$valid=true;
 				$perms=$this->api('/me/permissions');    		
-				var_dump($perms);
+	//			var_dump($perms);
 				foreach ($this->permissions as $perm) {
 					if(!array_key_exists($perm, $perms))
 					{
@@ -177,7 +177,7 @@ class Facebooklib {
 					
 
 				}
-				var_dump($valid);
+				//var_dump($valid);
 				return $valid;
 	    	}
 	    	return false;

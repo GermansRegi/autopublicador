@@ -1,4 +1,4 @@
-(function(){
+
 	    //Contador de caracteres
 	    console.log($('#tweet_txt').length>0)
 if($('#tweet_txt').length>0)
@@ -6,11 +6,11 @@ if($('#tweet_txt').length>0)
     init_contadorTa("tweet_txt","contadorTaComentario", 140);
     function init_contadorTa(idtextarea, idcontador,max)
     {
-        $("#"+idtextarea).keyup(function()
+        $('body').on('keyup',"#"+idtextarea,function()
         {
             updateContadorTa(idtextarea, idcontador,max);
         });
-        $("#"+idtextarea).change(function()
+        $('body').on('change',"#"+idtextarea,function()
 
         {
             updateContadorTa(idtextarea, idcontador,max);
@@ -29,7 +29,7 @@ if($('#tweet_txt').length>0)
         }
     }
 }
-})
+
 
 	// event per eliminar contes i carpetes de xarxes socials
 	$("body").on("click",".deleteaccount",function(e){
@@ -251,7 +251,7 @@ if($('#tweet_txt').length>0)
 				else if(data.content=="image")
 					$('<img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'"/>').appendTo($("#"+container))
 				else
-					$('<span>'+data.data[i].text+'</span>').appendTo($("#"+container))
+					$('<span><a href="'+data.data[i].link+'">'+data.data[i].text+'</a></span>').appendTo($("#"+container))
 			}	
 			if(data.pager!='')
 			{
@@ -333,7 +333,13 @@ if($('#tweet_txt').length>0)
 							nxt();
 	                      }); 	
 					}
+					else
+					{
+						$('#generate-bbdd').html('');
+						$("#generate-anuncis").html('');
+					}
 			}
+			
 		 })
 	})
 	  console.log($("table.accounts tr"));

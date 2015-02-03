@@ -1,4 +1,4 @@
-<a href="<?php echo base_url()?>panel/commonsocial/editar/$pagenofolder->id; ?>" data-toggle='ajaxModal' class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a><!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
 	<title>Autopublicador Social</title>

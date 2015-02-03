@@ -79,7 +79,9 @@ $arr=array("group","user","event","page")
 					<div class="form-group ">
 						<label class="col-lg-12"for="">Texto a programar</label>
 						<div class="col-lg-12">
-							<textarea name="texto_facebook" class='form-control' ></textarea>
+						
+				           <textarea maxlength="140" class='form-control' id="tweet_txt" name='texto_facebook'></textarea>
+				           <p id="contadorTaComentario"></p>
 						</div>
 					</div>
 					<div class="form-group">
@@ -162,13 +164,15 @@ $arr=array("group","user","event","page")
 							</thead>
 							<tbody>
 
-								<?php foreach ($programaciones as $prog) {
+								<?php 
+								$arrayStates=array('process'=>'En proceso','finished'=>"Terminado",'nocomplete'=>"No completado",'toerase'=>'Pendiente de borrar');
+								foreach ($programaciones as $prog) {
 								?>
 									<tr>
 									<td><?php echo $prog->name ?></td>
 									<td><?php echo date('d-m-Y H:i:s',$prog->fecha)?></td>
 									<td><?php echo (!empty($prog->fechaBorrado)?date('d-m-Y H:i:s',$prog->fechaBorrado):'-')?></td>
-									<td><?php echo (($prog->state=='process')?"En proceso":(($prog->state=='finished')?'Terminado':"No Comptletado"));?></td>
+									<td><?php echo $arrayStates[$prog->state]; ?>></td>
 									<td> <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" >Ver </a><a data-id="<?php echo $prog->id; ?>" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a></td>
 
 									</tr>

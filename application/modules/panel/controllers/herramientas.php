@@ -1,12 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Perfil extends CI_Controller {
+class Herramientas extends CI_Controller {
+		public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('social_users');		
 
-	    function __construct()
-    {
-        parent::__construct();
+		$this->load->model('social_user_accounts');
 
-		// To load the CI benchmark and memory usage profiler - set 1==1.
+				// To load the CI benchmark and memory usage profiler - set 1==1.
 		if (1==2)
 		{
 			$sections = array(
@@ -24,6 +26,7 @@ class Perfil extends CI_Controller {
  		$this->load->helper('url');
  		$this->load->helper('form');
  		$this->load->helper('language');
+ 		$this->load->library('form_validation');
 
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
@@ -43,7 +46,7 @@ class Perfil extends CI_Controller {
 			{
 				redirect(base_url().'admin');
 			}
-			else if( uri_string()=='panel')
+			else if( uri_string()=='facebook')
 			{
 
 				redirect(base_url().'panel/index');
@@ -72,8 +75,9 @@ class Perfil extends CI_Controller {
 			}
 			else
 			redirect(base_url().'panel');
+
 		}
-		
+
 		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
 		//$this->load->vars('base_url', base_url(). 'auth/');
 		//$this->load->vars('includes_dir', 'http://localhost:8888/flexi_auth/includes/');
@@ -83,55 +87,41 @@ class Perfil extends CI_Controller {
 		$this->data = null;
 		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 	}
-	public function planes()
-	{
-		$this->data['titlepage']="Nuestros planes";
-		$this->load->view('perfil/planes',$this->data);
-	}
-	public function change_password()
-	{
-		// If 'Update Password' form has been submitted, validate and then update the users password.
-		
-				$this->data['user'] = $this->flexi_auth->get_user_by_id_query();
 
-		// Set any returned status/error messages.
-		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-
-		$this->load->view('demo/public_examples/account_update_view', $this->data);
-	}
-	function index()
+	public function index()
 	{
-		// If 'Update Account' form has been submitted, update the user account details.
-		if ($this->input->post('update_account'))
-		{
-			$this->load->model('demo_auth_model');
-			$this->demo_auth_model->update_account();
-		}
-		if ($this->input->post('change_password'))
-		{
-			$this->load->model('demo_auth_model');
-			$this->demo_auth_model->change_password();
-		}
-		// Get users current data.
-		// This example does so via 'get_user_by_identity()', however, 'get_users()' using any other unqiue identifying column and value could also be used.
-		$this->data['user'] = $this->flexi_auth->get_user_by_id_query()->result();
-		
-		// Set any returned status/error messages.
-		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-		$this->data['titlepage']="Editar perfil";
-		$this->load->view('demo/public_examples/account_update_view', $this->data);
+		$this->data['titlepage']="Herramientas";		
+		$this->load->view('herramientas/index',$this->data);
 	}
-	function pagos()
+	public function limpiador_facebook()
 	{
-		$this->data['user'] = $this->flexi_auth->get_user_by_identity_row_array();
-		$this->load->model("payments");
-		$this->data["pays"]=$this->payments->getAllFromUser($this->flexi_auth->get_user_id());
+			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['data']['page']=$pages;
+			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['titlepage']="Limpiador de facebook";
 
-		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-		$this->data['titlepage']="Registro de pagos realizados";
-		$this->load->view('perfil/pagos', $this->data);	
+		$this->load->view('herramientas/limpiador_facebook',$this->data);
 	}
+	public function buscador_de_imagenes()
+	{
+
+	}
+	public function unfollow_twitter()
+	{
+
+	}
+	public function limpiador_twitter()
+	{
+
+	}
+	public function extractor_tweets()
+	{
+
+	}
+
 }
 
-/* End of file perfil.php */
-/* Location: ./application/modules/panel/controllers/perfil.php */
+/* End of file herramientas.php */
+/* Location: ./application/modules/panel/controllers/herramientas.php */

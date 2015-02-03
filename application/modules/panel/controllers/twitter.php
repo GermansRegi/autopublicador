@@ -262,12 +262,11 @@ class Twitter extends CI_Controller {
 							}
 							else
 							{
-								$params['status']=$row[0]->sentence;
+								$params['status1']=$row[0]->sentence;
 							}
 
 						}
-						if(!$response)
-						{
+						
 							if(isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")
                                     {
                                         
@@ -276,18 +275,18 @@ class Twitter extends CI_Controller {
                                        {
 	                                       	$file=true;
 	                                       	$params['media']=$_FILES['imagen']['tmp_name'];
-	                                       	$params['status']=$this->input->post('texto_facebook');
+	                                       	$params['status']=$this->input->post('texto_facebook').((isset($params['status1']) && $params['status1']!='')?$params['status1']:'');
                                        }
                                         
                                    
                                     }
-                                    else
-                                    {
-                                    	$params['status']=$this->input->post('texto_facebook');
-                                    	$params['link']=$this->input->post('link');
-                                    }
-						}
-						//var_dump($params);
+                    	      	$params['status']=$this->input->post('texto_facebook').((isset($params['status1']) && $params['status1']!='')?$params['status1']:'');
+                          	    	if(!isset($params['link']) || $params['link']=='')
+             		            	$params['status']=$this->input->post('link');
+	             		            else
+	             		            $params['status']=$params['link'];
+
+                              //var_dump($params);
 						$this->load->library("twitterlib",'','twtlib');
 						$group_ap=$this->input->post('ck_group_ap');
 					
@@ -304,7 +303,7 @@ class Twitter extends CI_Controller {
 							{
 								$res=$this->twtlib->post($urlfb,$params);
 							}	
-							var_dump($res);
+							
 							if(is_array($res) && isset($res['error']))
 								echo json_encode(array('msg_errors'=>array('pp'=>$res['error'])));
 							else
@@ -329,7 +328,7 @@ class Twitter extends CI_Controller {
 			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
 
-			$this->data['titlepage']="Publicar twitter";
+			$this->data['titlepage']="Publicar ahora en Twitter";
 			
 
 		$this->load->view('panel/twitter/publicar',$this->data);

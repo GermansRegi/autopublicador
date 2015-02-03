@@ -179,7 +179,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------
@@ -368,3 +368,28 @@ $config['facebook']['redirect_url'] = 'panel/facebook/registrar_facebook';
 $config['facebook']['permissions'] = array(
   'email','offline_access','manage_pages','user_groups','user_events','publish_stream','publish_actions'
 );
+$config['timezones']=array(
+	"-12"=>"Kwajalein(-12)",
+	"-11"=>"Pacific/Midway(-11)",
+	'-10'=>"Pacific/Honolulu(-10)",
+	'-9'=>"America/Anchorage(-9)",
+	'-8'=>"America/Los_Angeles(-8)",
+	'-7'=>"America/Denver(-7)",
+	'-6'=>"America/Monterrey(-6)",
+	'-5'=>"America/New_York(-5)",
+	'-4'=>"America/Caracas(-4)",
+	'-3'=>"America/Argentina/Buenos_Aires(-4)",
+	'-2'=>"Atlantic/South_Georgia(-2)",
+	'-1'=>"Atlantic/Azores(-1)",
+	'0'=>"Europe/London - UTC",
+	'1'=>"Europe/Madrid(+1)",
+	'2'=>"Europe/Minsk(+2)",
+	'3'=>"Europe/Moscow(+3)",
+	'4'=>"Asia/Muscat(+4)",
+	'5'=>"Asia/Yekaterinburg(+5)",
+	'6'=>"Asia/Dhaka(+6)",
+	'7'=>"Asia/Krasnoyarsk(+7)",
+	'8'=>"Asia/Brunei(+8)",
+	'9'=>"Asia/Seoul(+9)",
+	'10'=>"Australia/Canberra(+10)",
+	'11'=>"Asia/Magadan(+11)");

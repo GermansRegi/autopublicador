@@ -21,10 +21,10 @@ class Programations extends MY_Model {
 	{
 		return $this->get_by_id($id);
 	}
-	public function getProgramationsNow($array)
+	public function getProgramations($array)
 	{
 
-		//$array=array('truncate((fecha/60),0) '=>floor(time()/60));
+		
 
         //return  $this->get_many_by($array);
 		return  $this->get_many_by($array);

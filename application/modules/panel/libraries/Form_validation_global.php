@@ -16,6 +16,10 @@ class Form_validation_global
                        return array('msg_errors'=>array('pp'=>'No puede publicar contenido de anuncios y bases de datos a la vez'));
                        
                }
+               else
+               {
+               	return array('msg_errors'=>array('aa'=>'Debe seleccionar un elemento de bases de datos o un elemento de anuncios'));
+               }
           }
           //si nomes seleccionen algun element d'anuncis
           elseif($this->CI->input->post('anuncis'))
@@ -30,35 +34,31 @@ class Form_validation_global
                   
 
                } 
+               //elseif(($this->CI->input->post('bbdd_sentence')!='' || $this->CI->input->post('bbdd_image')!='' || $this->CI->input->post('bbdd_link')) && ($this->CI->input->post('texto_facebook')!='' || $this->CI->input->post('link')!='' || (isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="") ))
                //si selecciona algun element d'anuncis i entra algun altre camp
-               elseif(($this->CI->input->post('anuncis_sentence')!='' || $this->CI->input->post('anuncis_img')!='' || $this->CI->input->post('anuncis_link')!='') && ( $this->CI->input->post('texto_facebook')!='' || $this->CI->input->post('link')!='' || (isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")  ))
+               elseif((/*$this->CI->input->post('anuncis_sentence')!='' ||*/ $this->CI->input->post('anuncis_image')!='' || $this->CI->input->post('anuncis_link')!='') && ($this->CI->input->post('link')!='' || (isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")  ))
                {
-                   return  array('msg_errors'=>array('pp'=>'No puede publicar contenido de anuncios con texto, enlace o imágen'));
+                   return  array('msg_errors'=>array('pp'=>'No puede publicar contenido de anuncios con enlace o imagen'));
                    
                }
                //si algun element d'anuncis es seleccionat
-               elseif($this->CI->input->post('anuncis_sentence') || $this->CI->input->post('anuncis_link') || $this->CI->input->post('anuncis_img'))
+               elseif($this->CI->input->post('anuncis_sentence') || $this->CI->input->post('anuncis_link') || $this->CI->input->post('anuncis_image'))
                {
                	//si selecciona un element danuncis  que es text
                    if($this->CI->input->post('anuncis_sentence'))
                    {
                    		//si a mes de l'element danuncis de text, omplen el camp text
-                       if($this->CI->input->post('texto_facebook') && $this->CI->input->post('anuncis_sentence') )
-                       {
-                           return array('msg_errors'=>array('pp'=>'No puede publicar 2 textos a la vez'));      
-                          
-                       }    
-                       else
-                       {
+                       
+                       
                        		return array('table'=>'anuncios','content'=>'sentence','idelement'=>$this->CI->input->post('anuncis_sentence'));
                         	
-                       }
+                       
                    }
                    //si seleccionen un element danuncis que es imatge
-                   else if($this->CI->input->post('anuncis_img'))      
+                   else if($this->CI->input->post('anuncis_image'))      
                    {
                    		//si a mes de l'element d'anuncis imatge tambe seleccionen una imatge
-                       if($_FILES['image']['name']!='' && $this->CI->input->post('anuncis_image'))
+                       if($_FILES['imagen']['name']!='' && $this->CI->input->post('anuncis_image'))
                        {
                            return array('msg_errors'=>array('pp'=>'No puede publicar 2 imágenes a la vez'));      
                            
@@ -77,11 +77,20 @@ class Form_validation_global
                            return array('msg_errors'=>array('pp'=>'No puede publicar 2 enlaces a la vez'));      
                          
                        }
+                       else if($_FILES['imagen']['name']!='' && $this->CI->input->post('anuncis_link'))
+                       {
+                       	return array('msg_errors'=>array('aa'=>'No puede publicar una imagen y un link'));      
+                           
+                       }
                        else
                        {
                            return array('table'=>'anuncios','content'=>'link','idelement'=>$this->CI->input->post('anuncis_link'));
                        }
                    }   
+               }
+               else
+               {
+               	return array('msg_errors'=>array('aa'=>'Debe seleccionar un elemento de anuncios'));
                }
            }
            //si seleccionen una bbdd
@@ -95,9 +104,9 @@ class Form_validation_global
                    
                }
                // si seleccionen algun element de bbdd i omplen algun altre camp
-               elseif(($this->CI->input->post('bbdd_sentence')!='' || $this->CI->input->post('bbdd_image')!='') && ($this->CI->input->post('texto_facebook')!='' || $this->CI->input->post('link')!='' || (isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="") ))
+               elseif((/*($this->CI->input->post('bbdd_sentence')!='' ||*/ $this->CI->input->post('bbdd_image')!='') && ( $this->CI->input->post('link')!='' || (isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="") ))
                {
-                	return array('msg_errors'=>array('aa'=>'No puede publicar contenido de bases de datos con texto, enlace o imágen'));
+                	return array('msg_errors'=>array('aa'=>'No puede publicar contenido de bases de datos con enlace o imágen'));
               
                }
                //si seleccionen algun element de bbdd
@@ -106,17 +115,10 @@ class Form_validation_global
                    // si seleccionen un element de bbdd que es frase
                    if($this->CI->input->post('bbdd_sentence'))
                    {
-                   		//si seleccionen un element d bbdd que es frase, i omplen el camp text
-                       if($this->CI->input->post('bbdd_sentence') && $this->CI->input->post('texto_facebook'))
-                       {
-                           return array('msg_errors'=>array('aa'=>'No puede publicar 2 textos a la vez'));      
-                           
-                      
-                       }
-                       else
-                       {
-                       		return array('table'=>'basesdedatos','content'=>'sentence','idelement'=>$this->CI->input->post('bbdd_sentence'));
-                       }
+                   		
+                       
+                       return array('table'=>'basesdedatos','content'=>'sentence','idelement'=>$this->CI->input->post('bbdd_sentence'));
+                       
                    }
                    // si seleccionen un element de bbdd que es imatge
                    elseif($this->CI->input->post('bbdd_image'))
@@ -141,16 +143,24 @@ class Form_validation_global
                            return array('msg_errors'=>array('aa'=>'No puede publicar 2 enlaces a la vez'));      
                            
                        }
+                       else if($_FILES['imagen']['name']!='' && $this->CI->input->post('bbdd_link'))
+                       {
+                       	return array('msg_errors'=>array('aa'=>'No puede publicar una imagen y un link'));      
+                           
+                       }
                        else
                        {
-
-                           return array('table'=>'basesdedatos','content'=>'link','idelement'=>$this->CI->input->post('bbdd_link'));
+                       	return array('table'=>'basesdedatos','content'=>'link','idelement'=>$this->CI->input->post('bbdd_link'));
                        }
                    }   
                    
   
 
                
+               }
+               else
+               {
+               	return array('msg_errors'=>array('aa'=>'Debe seleccionar un elemento de bases de datos'));
                }
 
 

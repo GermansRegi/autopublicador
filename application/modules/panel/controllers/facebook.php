@@ -172,8 +172,7 @@ class Facebook extends CI_Controller {
 							}
 
 						}
-						if(!$response)
-						{
+						
 							if(isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")
                                     {
                                         
@@ -205,20 +204,19 @@ class Facebook extends CI_Controller {
 		                                    {
 		                                        $file=$this->upload->data();
 		                                        $data['path']=$file['full_path'];
-		                                        $data['message']=$this->input->post('texto_facebook');
+		                                        $data['text']=((isset($data['text']) && $data['text']!='')?$data['text'].$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
 		                                    }
                                        }
                                    
                                    
                                     }
-                                    else
-                                    {
-                                    	$data['text']=$this->input->post('texto_facebook');
+                                    	$data['text']=((isset($data['text']) && $data['text']!='')?$data['text'].$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
+                              		if(!isset($data['link']) || $data['link']=='')
                                     	$data['link']=$this->input->post('link');
-                                    }
+                                    
 
 			
-						}
+						
 						date_default_timezone_set('UTC');
 						$data['fecha']=strtotime($this->input->post('date').$this->input->post('time'));
 						if($this->input->post('fechaBorrado'))
@@ -296,7 +294,7 @@ class Facebook extends CI_Controller {
 			$this->data['programaciones']=$programaciones;
 			
 
-		$this->data['titlepage']="Programar Facebook";
+		$this->data['titlepage']="Programar publicación en Facebook";
 		$this->load->view("panel/facebook/programar_facebook",$this->data);
 	}
 	// llista les comptes de facebook  que te afegides l'usuarii de aplicacio
@@ -605,8 +603,9 @@ class Facebook extends CI_Controller {
 							exit;
 						}
 						
-						else if(isset($response['table']))
+						if(isset($response['table']))
 						{
+							
 							if($response['table']=="basesdedatos")
 							{
 								$row=$this->bases_datos_model->getElements($response['content'],array("id"=>$response['idelement']));
@@ -617,39 +616,43 @@ class Facebook extends CI_Controller {
 							}
 							if($response['content']=='image')
 							{
+
 								$urlfb="/photos";
 								$params['source']="@".$row[0]->path;
 							}
 							elseif($response['content']=='link')
 							{
 								$params['link']=$row[0]->link;
+
 							}
 							else
 							{
-								$params['message']=$row[0]->sentence;
+								$params['message1']=$row[0]->sentence;
 							}
 
 						}
-						if(!$response)
-						{
-							if(isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")
-                                    {
-                                        
-                                       $array=array('image/jpg','image/jpeg','image/png','image/x-png','image/gif');
-                                       if(in_array($_FILES['imagen']['type'],$array))
-                                       {
-                                       	$params['source']='@'.$_FILES['imagen']['tmp_name'];
-                                       	$params['message']=$this->input->post('texto_facebook');
-                                       }
-                                        $urlfb="/photos";    
+						/*if(!$response)
+						{*/
+						if(isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")
+                               {
                                    
-                                    }
-                                    else
-                                    {
-                                    	$params['message']=$this->input->post('texto_facebook');
-                                    	$params['link']=$this->input->post('link');
-                                    }
-						}
+                                  $array=array('image/jpg','image/jpeg','image/png','image/x-png','image/gif');
+                                  if(in_array($_FILES['imagen']['type'],$array))
+                                  {
+                                  	$params['source']='@'.$_FILES['imagen']['tmp_name'];
+
+                                  	$params['message']=$this->input->post('texto_facebook').((isset($params['message1']) && $params['message1']!='')?$params['message1']:'');
+                                  }
+                                   $urlfb="/photos";    
+                              
+                               }
+                               
+                               
+                               	$params['message']=$this->input->post('texto_facebook').((isset($params['message1']) && $params['message1']!='')?$params['message1']:'');
+                               	if(!isset($params['link']) || $params['link']=='')
+                               	$params['link']=$this->input->post('link');	
+                               
+						//}
 						$res=array();
 						//var_dump($params);
 						 $this->load->library('Facebooklib','','fblib');
@@ -659,7 +662,7 @@ class Facebook extends CI_Controller {
 						foreach ($group_ap['user'] as $accountid) 
 						{
 							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid),1);
-							var_dump($user[0]->access_token);
+							//var_dump($user[0]->access_token);
 							$this->fblib->setSessionFromToken($user[0]->access_token);
 							$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
 
@@ -708,7 +711,7 @@ class Facebook extends CI_Controller {
 			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
 
-			$this->data['titlepage']="Publicar facebook";
+			$this->data['titlepage']="Publicar ahora en Facebook";
 			
 
 		$this->load->view('panel/facebook/publicar',$this->data);

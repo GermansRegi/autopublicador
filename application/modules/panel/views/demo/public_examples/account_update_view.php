@@ -36,6 +36,30 @@
             	echo $gropu[0]->ugrp_name; ?>
             
       </section>
+      
+      
+      <section class="form-group">
+      	<label  class="label-form">Zona horaria</label>
+      	<select name="timezone_offset"  class="form-control">
+      	<?php
+	foreach($this->config->item('timezones') as $KEY=>$val) 
+       {
+          
+          if($user[0]->upro_timezone_offset==(real)$KEY
+          	)
+     	{
+     		ECHO "<OPTIOn selected='selected' value='$KEY'>$val</option>";	
+     	}
+     	else
+       		ECHO "<OPTIOn value='$KEY'>$val</option>";
+       	
+		}
+		?>  
+      
+      	?>
+      	</select>
+
+      </section>
         <section class="form-group">    
           
             <label class="label-form">Nombre</label>
@@ -44,7 +68,9 @@
 
 
 
-       <?php $country=array (
+       <?php 
+
+       $country=array (
   'AF' => 'Afganistan',
   'AX' => 'Åland-eilande',
   'AL' => 'Albanië',

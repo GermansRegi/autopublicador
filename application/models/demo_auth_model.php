@@ -340,6 +340,7 @@ class Demo_auth_model extends CI_Model {
 				'upro_city' => $this->input->post('update_city'),
 				'upro_address' => $this->input->post('update_address'),
 				'upro_country' => $this->input->post('update_country'),
+				'upro_timezone_offset'=>(double)$this->input->post('timezone_offset')
 				/*$this->flexi_auth->db_column('user_acc', 'email') => $this->input->post('update_email'),
 				$this->flexi_auth->db_column('user_acc', 'username') => $this->input->post('update_username')*/
 			);
