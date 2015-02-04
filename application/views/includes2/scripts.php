@@ -14,6 +14,7 @@
  
  
  <script  src="<?php echo base_url(); ?>includes/js/social.js"></script>
+ <script  src="<?php echo base_url(); ?>includes/js/app.js"></script>
 
    
    

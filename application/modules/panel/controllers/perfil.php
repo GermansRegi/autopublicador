@@ -131,6 +131,10 @@ class Perfil extends CI_Controller {
 		$this->data['titlepage']="Registro de pagos realizados";
 		$this->load->view('perfil/pagos', $this->data);	
 	}
+	public function pagocorrecto()
+	{
+		
+	}
 }
 
 /* End of file perfil.php */

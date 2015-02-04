@@ -1,6 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Crons extends CI_Controller {
+	
+	public function __construct()
+	{
+			parent::__construct();
+		$this->load->library('session');
+	}
 
 	public function index()
 	{
@@ -152,6 +158,168 @@ class Crons extends CI_Controller {
             	// posar estat finished en la programacio
             }
 	}
+
+	public function cronRssFeed()
+	{
+		$this->load->model('rss_model');
+
+		$this->load->model('social_user_accounts');
+		$this->load->model('social_users');
+		$rsss=$this->rss_model->get_all();
+		  //agafo totes les confguracions per publicar cada x tempsdel la bd
+		foreach ($rsss as $rss)
+		{
+			
+			
+			$rawFeed = file_get_contents($rss->url_rss);
+
+
+		                     //   var_dump($xml->channel->lastBuildDate[0]);
+			$md5Updaterssfeed=md5($rawFeed);
+
+			if(isset($rss->md5lastupdate) && $rss->md5lastupdate!="")
+			{
+
+				if($rss->md5lastupdate!=$md5Updaterssfeed)
+				{
+					try{
+						$xml = new SimpleXmlElement($rawFeed);
+					}catch(Exception $e)
+					{
+						continue;
+					}
+					$timeUpdateitem=strtotime($xml->channel->item->pubDate[0]);
+					$itemTopublish=$xml->channel->item;
+					foreach ($xml->channel->item  as $item) {
+
+						if(strtotime($item->pubDate[0])>$timeUpdateitem)
+						{
+							$timeUpdateitem=strtotime($item->pubDate[0]);
+							$itemTopublish=$item;
+						}
+					}
+					if($rss->perm_sentences!="")
+					{
+						$arrayPerm=explode(";",$rss->perm_sentences);
+						do{
+
+							$sentenceperm=array_rand($arrayPerm);
+						}while($arrayPerm[$sentenceperm]=='');
+
+					} 
+
+					log_message('info','publicador rss'.$timeUpdateitem.$itemTopublish->pubDate[0]);
+
+					log_message('info','link: '.$itemTopublish->link. " , ".$itemTopublish->link[0] );
+					$fbaccesstoken=array();
+					$arrayFb=json_decode($rss->ids_fb);
+					$arrayTw=json_decode($rss->ids_twt);
+					var_dump($arrayTw);
+					if(isset($sentenceperm))
+					{
+							$params['message']=$arrayPerm[$sentenceperm];
+					}
+					if(isset($arrayFb->user))
+					{
+						$this->load->library('Facebooklib','','fblib');
+						
+
+			
+						foreach ($arrayFb->user as $id) {
+							$user=$this->social_users->getUserappUsers(array('user_id'=>$id),1);
+							$fbaccesstoken[]=$user[0]->access_token;
+							$this->fblib->setSessionFromToken($user[0]->access_token);
+							var_dump($user[0]->access_token);
+							$params['link']=(string)$itemTopublish->link[0];
+							$resfb=$this->fblib->api_post('/'.$id."/feed",$params);
+							var_dump($resfb);
+
+						}
+
+					}
+
+					if(isset($arrayFb->account))
+					{
+						$this->load->library('Facebooklib','','fblib');
+						foreach ($arrayFb->account as $id) {
+							$user=$this->social_user_accounts->getUserappAccounts(array('idaccount'=>$id),1);
+							$this->fblib->setSessionFromToken($user[0]->access_token);
+							var_dump($user[0]->access_token);
+							$params['link']=(string)$itemTopublish->link[0];
+							$resfb=$this->fblib->api_post('/'.$id."/feed",$params);
+							var_dump($resfb);
+						}
+					}
+					
+					if(count($arrayTw)>0)
+					{
+
+						$this->load->library('Twitterlib','','twtlib');
+						foreach ($arrayTw as $id ) {
+								$user=$this->social_users->getUserappUsers(array('user_id'=>$id),1);
+							$fbaccesstoken[]=$user[0]->access_token;
+							$this->twtlib->setAccessToken(json_decode($user[0]->access_token));
+							var_dump($user[0]->access_token);
+							if(isset($params['message']))
+								$paramstw['status']=$params['message'].(string)$itemTopublish->link[0];
+							else
+								$paramstw['status']=(string)$itemTopublish->link[0];
+							$restw=$this->twtlib->post('statuses/update',$paramstw);
+							var_dump($restw);
+						}
+							
+					}
+				
+
+						/*		if($config->socialnet=='face')
+								{
+
+									$this->load->library('facebooklib','','fblib');
+						
+									if(isset($sentenceperm))
+									{
+										$publicacio=$this->publicarTextoFacebook(array('message'=>$arrayPerm[$sentenceperm],'link'=>(string)$itemTopublish->link[0],'access_token'=>$page[0]['access_token']), $page[0]['page_id'],$config->user_app);
+									}
+									else
+									{
+										$publicacio=$this->publicarTextoFacebook(array('link'=>(string)$itemTopublish->link[0],'access_token'=>$page[0]['access_token']), $page[0]['page_id'],$config->user_app);  
+									}
+
+
+								}
+								else
+								{
+									$usertw = $this->socialusers_model->getUsers(array('type' => 2, 'user_id' => $config->accountid), $config->user_app);
+									$this->session->set_userdata(array('tw_access_token'=>array(
+										'oauth_token'=>$usertw[0]['token']
+										,'oauth_token_secret'=>$usertw[0]['token_secret'])));
+									$this->session->set_userdata('tw_status','verified');
+		                                      //carrego la llibreria    
+									$this->load->library('twconnect');
+									if(isset($sentenceperm))
+									{
+										$this->publicarTextoTwitter(array('status'=>$arrayPerm[$sentenceperm].'  '.(string)$itemTopublish->link[0],'user_id'=>$usertw[0]['user_id']));                                                                                                
+									}
+									else
+									{
+										$this->publicarTextoTwitter(array('status'=>(string)$itemTopublish->link[0],'user_id'=>$usertw[0]['user_id']));                                                                                                
+									}
+								}*/
+							}
+					
+						}
+				$this->rss_model->update_by(array('md5lastupdate'=>$md5Updaterssfeed),
+							array('id'=>$rss->id,'user_app'=>$rss->user_app));
+				
+
+
+					}
+				}
+
+		
+
+
+    
 
 }
 

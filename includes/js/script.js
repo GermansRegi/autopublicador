@@ -181,7 +181,7 @@ if(idUploader){
 	    	if(data.msg_errors)
 		{	
 		     //$(id).html(showErrorsForm(data.msg_errors));
-		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error",2000);
+		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error",3000);
 			return false
 		}
 		else if(data.msg_success)
@@ -196,5 +196,3 @@ if(idUploader){
 	          return true;
 	     }
 	}
-
-	

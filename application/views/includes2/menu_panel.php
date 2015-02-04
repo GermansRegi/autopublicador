@@ -21,7 +21,7 @@
 					</ul>
                     </li>
 
-				<li> <a href="">RSS</a></li>
+				<li> <a href="<?php echo base_url() ?>panel/rss">RSS</a></li>
 		<?php if($privilege_user_app=='prem')
 		{
 			?>
