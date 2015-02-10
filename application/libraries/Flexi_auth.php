@@ -274,7 +274,7 @@ class Flexi_auth extends Flexi_auth_lite
 				'activation_token' => $activation_token
 			);
 			$template = $this->CI->auth->email_settings['email_template_directory'].$this->CI->auth->email_settings['email_template_activate'];
-
+			
 			if ($this->CI->flexi_auth_model->send_email($email_to, $email_title, $user_data, $template))
 			{
 				$this->CI->flexi_auth_model->set_status_message('activation_email_successful', 'config');
@@ -581,7 +581,7 @@ class Flexi_auth extends Flexi_auth_lite
 			{
 				// Set email data.
 				$email_to = $email;
-				$email_title = ' - Account Activation';
+				$email_title = ' - Activación de su cuenta';
 
 				$user_data = array(
 					'user_id' => $user_id,

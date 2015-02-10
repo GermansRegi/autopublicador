@@ -21,16 +21,15 @@ class Programations extends MY_Model {
 	{
 		return $this->get_by_id($id);
 	}
-	public function getProgramations($array)
+	public function getProgramationsNow($array)
 	{
 
-		
+		//$array=array('truncate((fecha/60),0) '=>floor(time()/60));
 
         //return  $this->get_many_by($array);
 		return  $this->get_many_by($array);
     
 	}
-	
 }
 
 /* End of file programations.php */

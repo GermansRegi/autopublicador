@@ -56,7 +56,6 @@ class Admin extends CI_Controller {
 	{
 		$this->inicio();
 	}
-	//paginia inicio
 	public function inicio()
 	{
 		$this->data['titlepage']="Bienvenido al panel de administración";

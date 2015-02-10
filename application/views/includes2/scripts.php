@@ -10,6 +10,7 @@
         <script src="<?php echo base_url(); ?>includes/js/jquery.cookie.js"></script>
     <script src="<?php echo base_url(); ?>includes/js/script.js"></script>
    <script  src="<?php echo base_url(); ?>includes/js/basesdedatos.js"></script>
+      <script  src="<?php echo base_url(); ?>includes/js/bootstrap-timepicker.min.js"></script>
  <script  src="<?php echo base_url(); ?>includes/js/jquery-ui.min.js"></script>
  
  

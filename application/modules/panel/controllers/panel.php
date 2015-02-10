@@ -51,13 +51,16 @@ class Panel extends CI_Controller {
 			}
 			
 			$this->load->vars('section_app','panel');
+			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk"))->result();	
 
 			if ($this->flexi_auth->is_privileged('acces user free'))
 			{
-				
+				if($guest[0]->guestPremium=="1")
+				$this->load->vars('privilege_user_app','prem');
+				else
 				$this->load->vars('privilege_user_app','free');
 			}
-			else if ($this->flexi_auth->is_privileged('acces user prem'))
+			else if ($this->flexi_auth->is_privileged('acces user prem') ) 
 			{
 				$this->load->vars('privilege_user_app','prem');
 			}
@@ -84,7 +87,7 @@ class Panel extends CI_Controller {
 	 * The 'demo_auth_model' file is not part of the flexi auth library, it is included to demonstrate how some of the functions of flexi auth can be used.
 	 *
 	 * These demos show working examples of how to implement some (most) of the functions available from the flexi auth library.
-	 * This particular controller 'auth', is used as the main login page, user registration, and for forgotten password requests.
+	 * This particular calculhmac(clent, data)ontroller 'auth', is used as the main login page, user registration, and for forgotten password requests.
 	 *
 	 * All demos are to be used as exactly that, a demonstation of what the library can do.
 	 * In a few cases, some of the examples may not be considered as 'Best practice' at implementing some features in a live environment.
@@ -110,7 +113,33 @@ class Panel extends CI_Controller {
 	{
 		if($this->flexi_auth->is_logged_in())
 		{
+			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_date_added"))->result();	
+			
+
+			if ($this->flexi_auth->is_privileged('acces user free'))
+			{
+				if($guest[0]->guestPremium=="1")
+				{
+					$datestart=new DateTime($guest[0]->uacc_date_added);
+					$datend=new DateTime('now');
+					$interval	=$datend->diff($datestart);
+						
+					$this->data['texto']="Esta usando la versión Le quedan ".$interval->days." días de versión premium gratuita";	
+				}								
+				
+				else
+				{
+					$this->data['aviso']="Esta usando la version gratuita, actualize a la version completa haciendo click <a href='".base_url().'panel/perfil/planes'."'> aquí.</a>";	
+				}
+				
+			}
+			else if ($this->flexi_auth->is_privileged('acces user prem') ) 
+			{
+
+				$this->data['texto']="Gracias por usar la versión completa, le quedan  x días. Renuévelo   <a href='".base_url().'panel/perfil/planes'."'> aquí.</a>";
+			}
 			$this->data['titlepage']="Bienvenido a su panel de usuario";
+
 			echo $this->load->view('index',$this->data);
 		}
 		else
@@ -416,7 +445,7 @@ class Panel extends CI_Controller {
 		}
 		curl_close($ch);
 		// inspect IPN validation result and act accordingly
-		log_message('error','paylapcooll');
+		log_message('error','ipn paypal res: '.$res);
 		if (strcmp ($res, "VERIFIED") == 0) {
 		    // The IPN is verified, process it:
 		    // check whether the payment_status is Completed
@@ -424,8 +453,7 @@ class Panel extends CI_Controller {
 		    // check that receiver_email is your Primary PayPal email
 		    // check that payment_amount/payment_currency are correct
 		    // process the notification
-
-		    // assign posted variables to local variables
+			
 		    $item_name = $_POST['item_name'];
 		    $item_number = $_POST['item_number'];
 		    $payment_status = $_POST['payment_status'];
@@ -434,38 +462,49 @@ class Panel extends CI_Controller {
 		    $txn_id = $_POST['txn_id'];
 		    $receiver_email = $_POST['receiver_email'];
 		    $payer_email = $_POST['payer_email'];
-		       $tipo_venta_aux = explode('-',$_POST['custom']);
+						$tipo_venta_aux = explode('-',$_POST['custom']);
+						var_dump($tipo_venta);
                             $tipo_venta = $tipo_venta_aux[0];
-                            $item_pagado = $tipo_venta_aux[1];
-
-
-                            $pago_valido = false;
+                            $user_id = $tipo_venta_aux[1];
+                            log_message('error','paylapcoolpppp'.$_POST['payment_status'].':'.($_POST['payment_status']==="Completed"));
+		    // assign posted variables to local variables
+			if($_POST['payment_status']==="Completed")
+			{
+				$this->load->model('payments');
+				
+				$exist=$this->payments->notExist(array('txn_id'=>$txn_id,'user_app'=>$user_id));
+				log_message('error','exist idnxt: '.$exist);
+				if($this->payments->notExist(array('txn_id'=>$txn_id,'user_app'=>$user_id)))
+				{
+					   $pago_valido = false;
 
                             // Verificamos en base de datos
                             switch($tipo_venta) {
                                     case 'mensual':
-                                    $add=30;
-                                           
-                                            $amount=10;   
-                                            break;
+                                   	 $add=30;
+                                         break;
                                     case 'trimestral':
                                     		$add=60;
-                                             $amount=25;        
-                                            break;
+                                             break;
                                     case 'anual':
                                            $add=365;
-                                        $amount=90;
+                                        
                                             break;
                             }
+ 	                      $res=$this->db->query('update user_accounts set uacc_group_fk=2 where user_app='.$user_id);
+ 	                      log_message('error','query result'.$res);
 
 
 
+				}
 
-		    // IPN message values depend upon the type of notification sent.
-		    // To loop through the &_POST array and print the NV pairs to the screen:
-		    foreach($_POST as $key => $value) {
-		      echo $key." = ". $value."<br>";
-		    }
+			}
+		       
+
+                         
+
+
+		    
 		} else if (strcmp ($res, "INVALID") == 0) {
 		    // IPN invalid, log for manual investigation
 		    echo "The response from IPN was: <b>" .$res ."</b>";
@@ -474,21 +513,34 @@ class Panel extends CI_Controller {
     function checkguestsUsuers()
     {
 
-    		$usersSendGuestNoty=$this->flexi_auth->get_users_query(array('uacc_email','upro_first_name',),array('guestPremium'=>1,'date_add(date(uacc_date_added),interval 5 day)='=>date('Y-m-d')))->result();
+    		$usersSendGuestNoty=$this->flexi_auth->get_users_query(array('uacc_email','upro_first_name'),array('guestPremium'=>1,'date_add(date(uacc_date_added),interval 5 day)='=>date('Y-m-d')))->result();
   		
-  		var_dump($usersSendGuestNoty);
+  		//var_dump($usersSendGuestNoty);
     		foreach ($usersSendGuestNoty as $user) {
-    			echo $user->uacc_email;
+    				
+
     				$email_to = $user->{$this->auth->database_config['user_acc']['columns']['email']};
+    				$data=array('user'=>$user,'daysleft'=>2,'type_plan'=>' premium gratuita ');
 				$email_title = ' - Aviso de caducidad de peridodo premium gratuito';
-				echo $email_to;
-    				echo $this->flexi_auth_model->send_email($email_to, $email_title);
+				
+    				$this->flexi_auth_model->send_email($email_to, $email_title,$data,'NotifyPlan.tpl.php');
 
        	}
 
 
-		$usersFinsishGuest=$this->flexi_auth->get_users_query(false,array('guestPremium'=>1,'date_add(uacc_date_added,interval 7 day)<='=>date('Y-m-d')))->result();
-//    		var_dump($usersFinsishGuest);
+		$usersFinsishGuest=$this->flexi_auth->get_users_query(array('user_app','uacc_email','upro_first_name'),array('guestPremium'=>1,'date_add(date(uacc_date_added),interval 7 day)='=>date('Y-m-d')))->result();
+		var_dump($usersFinsishGuest);
+		foreach ($usersFinsishGuest as $user) 
+		{
+    				
+    				$email_to = $user->{$this->auth->database_config['user_acc']['columns']['email']};
+    				$data=array('user'=>$user,'type_plan'=>' premium gratuito ');
+				$email_title = ' - Aviso de caducidad de peridodo premium gratuito';
+    				$this->flexi_auth_model->send_email($email_to, $email_title,$data,'finishplan.tpl.php');
+    				$this->flexi_auth->update_user($user->user_app,array('guestPremium'=>0));
+
+       	}
+
 
     	}
 

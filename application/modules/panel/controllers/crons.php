@@ -19,7 +19,7 @@ class Crons extends CI_Controller {
             $this->load->model('social_users');
             $this->load->model('social_user_accounts');
             echo "date now: " .date('d-m-Y H:i:s',time())."<br>";
-            date_default_timezone_set('London/Madrid');
+            //date_default_timezone_set('London/Madrid');
             //querey programaciones vto publish  by time
               $programaciones=$this->programations->getProgramationsNow(array('state'=>'process','truncate((fecha/60),0) '=>floor(time()/60)));
 

@@ -28,7 +28,8 @@
 																<td width="580">
 																	<section align="justify">
 																	<?php 
-																	echo $this->view->load($temlp);
+																	
+																	echo $this->load->view($view,$data);
 																	?>
 																	</section>
 																</td>

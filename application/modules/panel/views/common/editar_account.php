@@ -76,7 +76,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 								<strong>Frases permantentes</strong><br>
-								s<textarea  class="form-control" name="datos_frases_perm"><?php  echo nl2br($conf_bbdd->perm_sentences); ?></textarea>
+								<textarea  class="form-control" name="datos_frases_perm"><?php  echo nl2br($conf_bbdd->perm_sentences); ?></textarea>
 						</div>
 					</div>
 					<div class="row">

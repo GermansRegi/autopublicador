@@ -12,6 +12,10 @@ class Payments extends MY_Model {
 	{
 		return  $this->get_many_by(array("user_app"=>$id_user));
 	}
+	public function notExist($array=array())
+	{	
+		return (0==$this->count_by($array));
+	}
 
 }
 

@@ -11,6 +11,11 @@ $("#filetoup").filestyle()
 
 })
 
+ $('.time').timepicker({
+                minuteStep: 1,
+                showInputs: false,
+                disableFocus: true
+            });
 $(document).on('click', '[data-toggle="ajaxModal"]',function(e){
        e.preventDefault();
       var $this = $(this)

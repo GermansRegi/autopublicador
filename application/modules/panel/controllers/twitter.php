@@ -59,10 +59,15 @@ class Twitter extends CI_Controller {
 			
 			$this->load->vars('section_app','panel');
 
+			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk"))->result();	
 			if ($this->flexi_auth->is_privileged('acces user free'))
 			{
 				
+				if($guest[0]->guestPremium=="1")
+				$this->load->vars('privilege_user_app','prem');
+				else
 				$this->load->vars('privilege_user_app','free');
+			
 			}
 			else if ($this->flexi_auth->is_privileged('acces user prem'))
 			{

@@ -153,7 +153,7 @@ class Demo_auth_model extends CI_Model {
 				// Bear in mind, if registration has been set to require the user activates their account, they will already be receiving an activation email.
 				// Therefore sending an additional email welcoming the user may be deemed unnecessary.
 				$email_data = array('identity' => $email);
-				$this->flexi_auth->send_email($email, 'Welcome', 'registration_welcome.tpl.php', $email_data);
+				$this->flexi_auth->send_email($email, 'Bienvenido', 'registration_welcome.tpl.php', $email_data);
 				// Note: The 'registration_welcome.tpl.php' template file is located in the '../views/includes/email/' directory defined by the config file.
 
 				###+++++++++++++++++###
@@ -170,7 +170,7 @@ class Demo_auth_model extends CI_Model {
 				}
 
 				// Redirect user to login page
-				redirect('auth');
+				redirect('panel');
 			}
 		}
 

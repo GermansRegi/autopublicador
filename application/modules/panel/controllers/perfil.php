@@ -51,11 +51,19 @@ class Perfil extends CI_Controller {
 			}
 			
 			$this->load->vars('section_app','panel');
-
+			if(uri_string()=='panel/perfil/pagocorrecto')
+			{
+				
+			}
+			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk"))->result();	
 			if ($this->flexi_auth->is_privileged('acces user free'))
 			{
 				
+				if($guest[0]->guestPremium=="1")
+				$this->load->vars('privilege_user_app','prem');
+				else 
 				$this->load->vars('privilege_user_app','free');
+			
 			}
 			else if ($this->flexi_auth->is_privileged('acces user prem'))
 			{
@@ -133,7 +141,11 @@ class Perfil extends CI_Controller {
 	}
 	public function pagocorrecto()
 	{
-		
+		$user=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_by_id())->result();
+		var_dump($user);
+		$this->flexi_auth_model->set_login_sessions($user[0], TRUE);
+		$this->data['titlepage']="";
+		$this->load->view('perfil/pagocorrecto',$this->data);
 	}
 }
 

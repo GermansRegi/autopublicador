@@ -20,37 +20,69 @@
 
 	?>
 
+	<div class="box-plan">
+		<div class="col-md-6" >
 
-	<div class="col-md-6 col-md-offset-3 box-plan" >
+			<!-- Pricing table #3. Class name "col-left" -->
+			<div class="pricel center">
+				<div class="phead-top">
+					<h4>Premium</h4>
+				</div>
+				<div class="phead-bottom">
+					<p> 10 € </p>
+				</div>
+				<div class="arrow-down"></div>
+				<div class="plist">
+					<ul>
+						<li>Hasta 100 perfiles sociales de facebook y twiiter en una misma cuenta.</li>
+						<li>Autopublicación de bases de datos propias o internas cada 10 minutos.</li>
+						<li>Más de 5 bases de datos de imágenes de todas las temáticas.</li>
+						<li>Tus propios albumes de imágenes con hasta 2 mil imágenes en cada álbum.</li>
+						<li>Tus propias bases de datos de texto con hasta 5 mil frases por cada base de datos.</li>
+						<li>Programa todas las imágenes, textos o enlaces que quieras, y a la hora que prefieras.</li>
+						<li>Configurador de borrador automático con el tiempo que quieras.</li>
+					</ul>
+				</div>
+				<div class="pbutton button">  
+					<!-- button -->
+					<a id="premiumnormal">Contratar ahora!</a>
+				</div>
+			</div>
 
-		<!-- Pricing table #3. Class name "col-left" -->
-		<div class="pricel center">
-			<div class="phead-top">
-				<h4>Premium</h4>
-			</div>
-			<div class="phead-bottom">
-				<p> 10 € </p>
-			</div>
-			<div class="arrow-down"></div>
-			<div class="plist">
-				<ul>
-					<li>Hasta 100 perfiles sociales de facebook y twiiter en una misma cuenta.</li>
-					<li>Autopublicación de bases de datos propias o internas cada 10 minutos.</li>
-					<li>Más de 5 bases de datos de imágenes de todas las temáticas.</li>
-					<li>Tus propios albumes de imágenes con hasta 2 mil imágenes en cada álbum.</li>
-					<li>Tus propias bases de datos de texto con hasta 5 mil frases por cada base de datos.</li>
-					<li>Programa todas las imágenes, textos o enlaces que quieras, y a la hora que prefieras.</li>
-					<li>Configurador de borrador automático con el tiempo que quieras.</li>
-				</ul>
-			</div>
-			<div class="pbutton button">  
-				<!-- button -->
-				<a id="premiumnormal">Contratar ahora!</a>
-			</div>
+			<div class="clearfix"></div>                        
+			
 		</div>
 
-		<div class="clearfix"></div>                        
+		<section class="col-md-6">
 
+			<!-- Pricing table #1. Class name "col-left" -->
+			<section class=" clearfix pricel center">
+				<section class="phead-top">
+					<!-- Title -->
+					<h4>Gratuito</h4>
+				</section>
+				<section class="phead-bottom">
+					<!-- Price. Use the syntax correctly. -->
+					<p>0 € </p>
+				</section>
+				<section class="arrow-down"></section>
+				<section class="plist">
+					<!-- List -->
+					<ul>
+						<!-- List with tooltip. -->
+						<li>Hasta 3 perfiles sociales de facebook y twiiter en una misma cuenta. </li>
+						<li>Autopublicación de bases de datos internas.</li>
+						<li>Más de 5 bases de datos de imágenes de todas las temáticas.</li>
+
+					</ul>
+				</section>
+				<section class="pbutton button">
+					
+					
+				</section>
+			</section>
+
+		</section>
 	</div>
 	<div style="display:none;" id="pagoplanp">
 		<div class="content features-two">
@@ -159,7 +191,7 @@
 		</div>
 	</div>
 
-		                    
+	
 	<?php
     echo $this->load->view('includes2/footer');
 ?>

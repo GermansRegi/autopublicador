@@ -1737,7 +1737,7 @@ class Flexi_auth_model extends Flexi_auth_lite_model
 	 * @return bool
 	 * @author Rob Hussey / Filou Tschiemer
 	 */
-	private function set_login_sessions($user, $logged_in_via_password = FALSE)
+	public function set_login_sessions($user, $logged_in_via_password = FALSE)
 	{
 		if (!$user)
 		{
@@ -2306,9 +2306,12 @@ class Flexi_auth_model extends Flexi_auth_lite_model
 		{
 			$template = $this->auth->template_data['template'];
 		}
-
-		$message = $this->load->view($template, $data, TRUE);
-
+		//cho $this->auth->email_settings['email_template_directory'];
+		
+		//$message1 = $this->load->view($template, $data, TRUE);
+		
+		$message=$this->load->view($this->auth->email_settings['email_template_directory']."template.tpl.php",array('view'=>$template,'data'=>$data),true);
+		
 		$this->load->library('email');
 		$this->email->clear();
 		$this->email->initialize(array('mailtype' => $this->auth->email_settings['email_type']));
