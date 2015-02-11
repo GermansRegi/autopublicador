@@ -153,7 +153,7 @@ class Twitter extends CI_Controller {
 			$this->twtlib->setAccessToken($res);
 			$datauser=$this->twtlib->getUserdata();
 
-			if($this->social_users->notExists($datauser->id,'tw')==true)
+			if($this->social_users->notExists($datauser->id,'tw',$this->flexi_auth->get_user_by_id())==true)
 			{
 				echo $this->social_users->insertNew(array(
 				'user_id'=>$datauser->id,
@@ -530,7 +530,7 @@ class Twitter extends CI_Controller {
 			$this->data['programaciones']=$programaciones;
 			
 
-		$this->data['titlepage']="Programar twitter";
+		$this->data['titlepage']="Programar en twitter";
 		$this->load->view("panel/twitter/programar",$this->data);
 	}
 	function date_valid($date){

@@ -39,6 +39,10 @@ $(document).on('click', '[data-toggle="ajaxModal"]',function(e){
        
 
  	})
+$('body').on('hidden.bs.modal',"#ajaxModal", function () {
+    console.log('oo')
+    $(this).remove();
+});
 
 $("body").on('click','#premiumnormal',function(){
 		                    	//$("body").on('click','#premiumnormal',function() {

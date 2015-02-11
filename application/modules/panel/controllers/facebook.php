@@ -117,7 +117,7 @@ class Facebook extends CI_Controller {
 	
 	public function programar_facebook(){
 		$this->load->model('programations');
-		$this->form_validation->set_rules('ck_group_ap','Páginas','callback_checkSelected');
+		$this->form_validation->set_rules('ck_group_ap','Cuentas','callback_checkSelected');
          	$this->form_validation->set_rules('link','Enlace','prep_url|valid_url');
          	$this->form_validation->set_rules('time', 'Hora', 'required');
      	$this->form_validation->set_rules('date', 'Fecha y hora', 'required|callback_date_valid');
@@ -391,7 +391,7 @@ class Facebook extends CI_Controller {
 			
 			$this->user_fb=$this->fblib->api('/me');
 			//sino existeix l'usuari de facebook l'inserim
-			if($this->social_users->notExists($this->user_fb['id'],'fb')==true)
+			if($this->social_users->notExists($this->user_fb['id'],'fb',$this->flexi_auth->get_user_by_id())==true)
 			{
 				$this->social_users->insertNew(array(
 				'user_id'=>$this->user_fb['id'],

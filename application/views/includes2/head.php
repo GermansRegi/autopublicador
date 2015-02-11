@@ -6,7 +6,7 @@
 
 
 
-<link rel="stylesheet" href="<?php echo base_url(); ?>css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>includes/css/bootstrap-datetimepicker.min.css">
    <link rel="stylesheet" href="<?php echo base_url(); ?>includes/js/jquery.notyfy.css"> 
    <link rel="stylesheet" href="<?php echo base_url(); ?>includes/js/themes/default.css"> 
    <link rel="stylesheet" href="<?php echo base_url(); ?>includes/css/jquery-ui.min.css">

@@ -16,10 +16,11 @@
 <body>
 <?php $socialNamesAr=array('face'=>"Facebook","twt"=>"Twitter");$tradArray=array('sentence'=>"Texto",'image'=>'Imágenes','link'=>'Enlaces');
 ?>
-<?php echo $this->load->view('includes2/scripts');?>
+
     <?php echo $this->load->view('includes2/header');
 
 	?>
+	<?php echo $this->load->view('includes2/scripts');?>
      <div class="col-lg-12">
        	<div id="msg_anadirpags"></div>
        </div>

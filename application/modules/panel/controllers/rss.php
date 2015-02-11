@@ -111,7 +111,7 @@ class Rss extends CI_Controller {
 	}
 	public function crear()
 	{
-		$this->form_validation->set_rules('rss_url', 'Url', 'trim|required');
+		$this->form_validation->set_rules('rss_url', 'Url', 'trim|valid_url|required');
 		$this->form_validation->set_rules('rss_perm_sentences', 'Frases Permanentes', 'trim');
 		$this->form_validation->set_rules('ck_group_ap', 'Cuentas', 'callback_checkSelectedrss');
 

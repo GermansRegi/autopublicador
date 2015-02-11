@@ -22,7 +22,7 @@
 		else
 		{
 		?>
-			<form   action='<?php echo base_url()?>panel/herramientas/limpiador_facebook' method='post'>
+			<form  id='herramfb' action='<?php echo base_url()?>panel/herramientas/limpiador_facebook' method='post'>
 			   <div class="message"></div>
 			   <div class="col-lg-12">
 			   	Con esta herramienta podrás limpiar una cuenta de Facebook.
@@ -84,6 +84,7 @@
 				
 				<section class="col-lg-12">
 						<input type='submit' name='publicar' class="btn btn-primary" value='Limpiar'/>
+						<a class="btn btn-default" id='cancel_crear_bbdd' href="<?php echo base_url()?>panel/herramietas" >Cancelar</a>>
 				</section>
 				
 			</div>

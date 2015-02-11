@@ -1,4 +1,4 @@
-<form method="post" action="" >
+<form method="post" action="<?php echo $url ?>" >
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>
 		<h4 class="modal-title">Editando <?php echo (($accountedit->type=='user')?" el usuario":" la cuenta").": ".(($accountedit->type=='user')?$accountedit->username:$accountedit->name); ?></h4>
@@ -17,7 +17,8 @@
 					<div class="row">
 						<div class="col-sm-6"> 
 							<strong> Bases de datos</strong><br>
-							<select name="datos_asociard[]" multiple="" style="width:270px;" class="form-control">
+							<select name="datos[asociard][]" multiple="" style="width:270px;" class="form-control">
+								<option value="">Selecciona una opción</option>
 								 <?php foreach ($basesdedatos as $bd)
 			                         {
 			                                if(in_array($bd->id,  json_decode($conf_bbdd->ids))){
@@ -33,42 +34,22 @@
 						</div>
 						<div class="col-sm-6">
 							<strong>Frecuencia</strong><br>
-							<select name="dades[frecuencia]" class="form-control">
-											
+							<select name="datos[frecuencia]" class="form-control">
+								 <option  <?php echo ($conf_bbdd->frequency==0?"selected='selected'":"");?> value="0">Selecciona una opción</option>
+				                        <option <?php echo ($conf_bbdd->frequency==0.10?"selected='selected'":"");?> value="0.10">10 minutos</option>
+				                        <option <?php echo ($conf_bbdd->frequency==0.15?"selected='selected'":"");?> value="0.15">15 minutos</option>
+				                        <option <?php echo ($conf_bbdd->frequency==0.20?"selected='selected'":"");?>value="0.20">20 minutos</option>
+				                        <option <?php echo ($conf_bbdd->frequency==0.30?"selected='selected'":"");?>value="0.30">30 minutos</option>
+				                        <option <?php echo ($conf_bbdd->frequency==1?"selected='selected'":"");?>value="1">1 hora</option>
+				                        <option <?php echo ($conf_bbdd->frequency==2?"selected='selected'":"");?>value="2">2 horas</option>
+				                        <option <?php echo ($conf_bbdd->frequency==3?"selected='selected'":"");?>value="3">3 horas</option>
+				                        <option <?php echo ($conf_bbdd->frequency==4?"selected='selected'":"");?> value="4">4 horas</option>
+				                        <option <?php echo ($conf_bbdd->frequency==6?"selected='selected'":"");?>value="6">6 horas</option>
+				                        <option <?php echo ($conf_bbdd->frequency==12?"selected='selected'":"");?>value="12">12 horas</option>
+				                        <option <?php echo ($conf_bbdd->frequency==24?"selected='selected'":"");?>value="24">24 horas</option>			
 								
-								<?php
-
-								$str2="true";
-								$str="0.";
-								 for($i=15,$m=0;$i<24,$m<3;$m++,$i++){ 
-								 	?><option  <?php echo ((((int)$conf_bbdd->frequency)==(int)($m.$i))?"selected='selected'":""); ?> value="<?php echo $m.$i; ?>"> <?php echo $i."".(($m!="")?"minutos":"horas"); ?></option>
-									<?php
-								 	if($i==15)
-								 		$i=$i+5;
-								 	else if($i==20)
-								 		$i=$i+10;
-								 	else if($i==30)
-								 		$i=(($i/10)*3)+0.1;
-								 	else if($i==1 || $i==2 || $i==3)
-								 		$i=$i+1;
-								 	else if($i==4)
-								 		$i=$i+2;
-								 	else
-								 		$i=$i*2;
-								 	if($m=3)
-								 		$str="";
-								 		$str2="";	
-								 } ?>
-								<!---<option value="0.15">15 minutos</option>
-								<option value="0.20">20 minutos</option>
-								<option value="0.30">30 minutos</option>
-								<option value="1">1 horas</option>
-								<option value="2">2 horas</option>
-								<option value="3">3 horas</option>
-								<option value="4">4 horas</option>
-								<option value="6">6 horas</option>
-								<option value="12">12 horas</option>
-								<option value="24">24 horas</option>-->
+						
+							
 							</select>               
 						</div>
 					</div>
@@ -76,19 +57,28 @@
 					<div class="row">
 						<div class="col-sm-12">
 								<strong>Frases permantentes</strong><br>
-								<textarea  class="form-control" name="datos_frases_perm"><?php  echo nl2br($conf_bbdd->perm_sentences); ?></textarea>
+								<textarea  class="form-control" name="datos[frases_perm]"><?php  echo nl2br($conf_bbdd->perm_sentences); ?></textarea>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-12 text-center">
 							<strong>¿Qué días quieres publicar?</strong><br>
-							<input type="checkbox" name="datos_diasp[]" class="diasp" value="lunes" checked=""> Lunes
-							 <input type="checkbox" name="datos_diasp[]" class="diasp" value="martes" checked=""> Martes 
-							 <input type="checkbox" name="datos_diasp[]" class="diasp" value="miercoles" checked=""> Miercoles 
-							 <input type="checkbox" name="datos_diasp[]" class="diasp" value="jueves" checked=""> Jueves 
-							 <input type="checkbox" name="datos_diasp[]" class="diasp" value="viernes" checked=""> Viernes 
-							 <input type="checkbox" name="datos_diasp[]" class="diasp" value="sabado" checked=""> Sabado 
-							 <input type="checkbox" name="datos_diasp[]" class="diasp" value="domingo" checked=""> Domingo        
+							<?php 
+							$daysweelbd=json_decode($conf_bbdd->weekdays);
+						
+							$DAYS=array("lunes","martes","miércoles","jueves","viernes","sábado","domingo");
+							for($i=0;$i<count($DAYS);$i++){ 
+								$hies=false;
+							
+									
+
+									$hies=in_array($DAYS[$i],$daysweelbd);
+								
+																?>
+
+								<input type="checkbox" name="datos[diasp][]" class="diasp" value="<?php echo $DAYS[$i] ?>" <?php echo (($hies==true)?"checked='checked'":''); ?>/><?php echo ucfirst($DAYS[$i]); ?>
+							<?php } ?>
+						
 				         </div>
 
 						</div>
@@ -99,7 +89,7 @@
 								<div class="row">
 									<div class="col-sm-6">
 										<strong>De </strong><br>
-										<select name="datos_hora_inicio" class="form-control">
+										<select name="datos[hora_inicio]" class="form-control">
 											
 					                        <?php for($i=1;$i<25;$i++)
 					                        {
@@ -117,7 +107,7 @@
 								</div>
 								<div class="col-sm-6">
 									<strong> a </strong><br>
-									<select name="datos_hora_fin" class="form-control">
+									<select name="datos[hora_fin]" class="form-control">
 									
 					                        <?php for($i=1;$i<25;$i++)
 					                        {
@@ -141,7 +131,8 @@
 					<div class="row">
 						<div class="col-sm-4"> 
 							<strong> Bases de datos</strong><br>
-							<select name="anuncios_asociard"   class="form-control">
+							<select name="anuncios[asociard]"   class="form-control">
+								<option value="">Selecciona una opción</option>
 							            <?php foreach ($anuncios as $an)
 				                         {
 				                                if($an->id==$conf_anunci->ids){
@@ -157,81 +148,39 @@
 						</div>
 						<div class="col-sm-4">
 							<strong>Frecuencia</strong><br>
-							<select name="anuncios_frecuencia" class="form-control">
+							<select name="anuncios[frecuencia]" class="form-control">
 								
+								 <option  <?php echo ($conf_anunci->frequency==0?"selected='selected'":"");?> value="0">Selecciona una opción</option>
+				                        <option <?php echo ($conf_anunci->frequency==0.10?"selected='selected'":"");?> value="0.10">10 minutos</option>
+				                        <option <?php echo ($conf_anunci->frequency==0.15?"selected='selected'":"");?> value="0.15">15 minutos</option>
+				                        <option <?php echo ($conf_anunci->frequency==0.20?"selected='selected'":"");?>value="0.20">20 minutos</option>
+				                        <option <?php echo ($conf_anunci->frequency==0.30?"selected='selected'":"");?>value="0.30">30 minutos</option>
+				                        <option <?php echo ($conf_anunci->frequency==1?"selected='selected'":"");?>value="1">1 hora</option>
+				                        <option <?php echo ($conf_anunci->frequency==2?"selected='selected'":"");?>value="2">2 horas</option>
+				                        <option <?php echo ($conf_anunci->frequency==3?"selected='selected'":"");?>value="3">3 horas</option>
+				                        <option <?php echo ($conf_anunci->frequency==4?"selected='selected'":"");?> value="4">4 horas</option>
+				                        <option <?php echo ($conf_anunci->frequency==6?"selected='selected'":"");?>value="6">6 horas</option>
+				                        <option <?php echo ($conf_anunci->frequency==12?"selected='selected'":"");?>value="12">12 horas</option>
+				                        <option <?php echo ($conf_anunci->frequency==24?"selected='selected'":"");?>value="24">24 horas</option>			
 								
-								<?php
-
-								$str2="true";
-								$str="0.";
-								 for($i=15,$m=0;$i<24,$m>3;$m++,$i++){ 
-								 	?><option  <?php echo ((((int)$conf_anunci->frequency)==(int)($m.$i))?"selected='selected'":""); ?> value="<?php echo $m.$i; ?>"> <?php echo $i."".(($m!="")?"minutos":"horas"); ?></option>								<?php
-								 	if($i==15)
-								 		$i=$i+5;
-								 	else if($i==20)
-								 		$i=$i+10;
-								 	else if($i==30)
-								 		$i=(($i/10)*3)+0.1;
-								 	else if($i==1 || $i==2 || $i==3)
-								 		$i=$i+1;
-								 	else if($i==4)
-								 		$i=$i+2;
-								 	else
-								 		$i=$i*2;
-								 	if($m=3)
-								 		$str="";
-								 		$str2="";	
-								 } ?>
-								<!--<option value="0.15">15 minutos</option>
-								<option value="0.20">20 minutos</option>
-								<option value="0.30">30 minutos</option>
-								<option value="1">1 horas</option>
-								<option value="2">2 horas</option>
-								<option value="3">3 horas</option>
-								<option value="4">4 horas</option>
-								<option value="6">6 horas</option>
-								<option value="12">12 horas</option>
-								<option value="24">24 horas</option>
-									-->
 							</select>               
 						</div>
 						<div class="col-sm-4">
 							<strong>Frecuencia de borrado</strong><br>
-							<select name="anuncios_frecuencia" class="form-control">
-								<option  <?php echo (((int)$conf_anunci->frequency_erase==0)?"selected='selected'":"") ?> value="">Seleccionba una opcion</option>
-								<?php
-
-								$str2="true";
-								$str="0.";
-								 for($i=15,$m=0;$i<24,$m>3;$m++,$i++){ 
-								 	?><option  <?php echo ((((int)$conf_anunci->frequency_erase)==(int)($m.$i))?"selected='selected'":""); ?> value="<?php echo $m.$i; ?>"> <?php echo $i."".(($m!="")?"minutos":"horas"); ?></option>
-									<?php
-								 	if($i==15)
-								 		$i=$i+5;
-								 	else if($i==20)
-								 		$i=$i+10;
-								 	else if($i==30)
-								 		$i=(($i/10)*3)+0.1;
-								 	else if($i==1 || $i==2 || $i==3)
-								 		$i=$i+1;
-								 	else if($i==4)
-								 		$i=$i+2;
-								 	else
-								 		$i=$i*2;
-								 	if($m=3)
-								 		$str="";
-								 		$str2="";	
-								 } ?>
-								<!--<option value="0.15">15 minutos</option>
-								<option value="0.20">20 minutos</option>
-								<option value="0.30">30 minutos</option>
-								<option value="1">1 horas</option>
-								<option value="2">2 horas</option>
-								<option value="3">3 horas</option>
-								<option value="4">4 horas</option>
-								<option value="6">6 horas</option>
-								<option value="12">12 horas</option>
-								<option value="24">24 horas</option>-->
+							<select name="anuncios[frecuencia_borrado]" class="form-control">
+							 <option  <?php echo ($conf_anunci->frequency_erase==0?"selected='selected'":"");?> value="0">Selecciona una opción</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==0.10?"selected='selected'":"");?> value="0.10">10 minutos</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==0.15?"selected='selected'":"");?> value="0.15">15 minutos</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==0.20?"selected='selected'":"");?>value="0.20">20 minutos</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==0.30?"selected='selected'":"");?>value="0.30">30 minutos</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==1?"selected='selected'":"");?>value="1">1 hora</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==2?"selected='selected'":"");?>value="2">2 horas</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==3?"selected='selected'":"");?>value="3">3 horas</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==4?"selected='selected'":"");?> value="4">4 horas</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==6?"selected='selected'":"");?>value="6">6 horas</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==12?"selected='selected'":"");?>value="12">12 horas</option>
+				                        <option <?php echo ($conf_anunci->frequency_erase==24?"selected='selected'":"");?>value="24">24 horas</option>			
+								
 							</select>               
 						</div>
 					</div>
@@ -239,19 +188,24 @@
 					<div class="row">
 						<div class="col-sm-12">
 								<strong>Frases permantentes</strong><br>
-								<textarea class="form-control" name="anuncios_frases_perm"><?php  echo nl2br($conf_anunci->perm_sentences); ?></textarea>
+								<textarea class="form-control" name="anuncios[frases_perm]"><?php  echo nl2br($conf_anunci->perm_sentences); ?></textarea>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-12 text-center">
 							<strong>¿Qué días quieres publicar?</strong><br>
-							<input type="checkbox" name="anuncios_diasp[]" class="diasp" value="lunes" checked=""> Lunes 
-							<input type="checkbox" name="anuncios_diasp[]" class="diasp" value="martes" checked=""> Martes 
-							<input type="checkbox" name="anuncios_diasp[]" class="diasp" value="miercoles" checked=""> Miercoles 
-							<input type="checkbox" name="anuncios_diasp[]" class="diasp" value="jueves" checked=""> Jueves 
-							<input type="checkbox" name="anuncios_diasp[]" class="diasp" value="viernes" checked=""> Viernes 
-							<input type="checkbox" name="anuncios_diasp[]" class="diasp" value="sabado" checked=""> Sabado 
-							<input type="checkbox" name="anuncios_diasp[]" class="diasp" value="domingo" checked=""> Domingo
+							<?php 
+							$daysweel=json_decode($conf_anunci->weekdays);
+							
+							
+							$DAYS=array("lunes","martes","miércoles","jueves","viernes","sábado","domingo");
+							for($i=0;$i<count($DAYS);$i++){ 
+								$hies=false;
+								$hies=in_array($DAYS[$i],$daysweel);
+								?>
+							
+								<input type="checkbox" name="anuncios[diasp][]" class="diasp" value="<?php echo $DAYS[$i] ?>" <?php echo (($hies==true)?"checked='checked'":''); ?>/><?php echo ucfirst($DAYS[$i]); ?>
+							<?php } ?>
 						</div>
 
 					</div>
@@ -262,7 +216,7 @@
 							<div class="row">
 								<div class="col-sm-6">
 									<strong>De </strong><br>
-									<select name="anuncios_hora_inicio" class="form-control">
+									<select name="anuncios[hora_inicio]" class="form-control">
 										
 				                        <?php for($i=1;$i<25;$i++)
 				                        {
@@ -280,7 +234,7 @@
 								</div>
 								<div class="col-sm-6">
 									<strong> a </strong><br>
-									<select name="anuncios_hora_fin" class="form-control">
+									<select name="anuncios[hora_fin]" class="form-control">
 									
 					                        <?php for($i=1;$i<25;$i++)
 					                        {

@@ -34,8 +34,8 @@
 				<tr>
 				
 					<td><?php  echo $pays[$i]->account_email;//$pays[$i] ?></td>
-					<td><?php  echo $pays[$i]->id;//$pays[$i] ?></td>
-					<td><?php  echo $pays[$i]->date_pay;//$pays[$i] ?></td>
+					<td><?php  echo $pays[$i]->txn_id;//$pays[$i] ?></td>
+					<td><?php  echo date('d-m-Y H:i:s',strtotime($pays[$i]->date_pay));//$pays[$i] ?></td>
 					<td><?php  echo $pays[$i]->amount;//$pays[$i] ?></td>
 					<td><?php  echo $pays[$i]->type_prempay;//$pays[$i] ?></td>
 				</tr>

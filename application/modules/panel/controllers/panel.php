@@ -121,15 +121,16 @@ class Panel extends CI_Controller {
 				if($guest[0]->guestPremium=="1")
 				{
 					$datestart=new DateTime($guest[0]->uacc_date_added);
+					$datestart->modify("-7 day");
 					$datend=new DateTime('now');
-					$interval	=$datend->diff($datestart);
+					$interval	=$datestart->diff($datend);
 						
-					$this->data['texto']="Esta usando la versión Le quedan ".$interval->days." días de versión premium gratuita";	
+					$this->data['texto']="Esta usando la versión completa en periodo de prueba. Le quedan ".$interval->days." días de versión premium gratuita";	
 				}								
 				
 				else
 				{
-					$this->data['aviso']="Esta usando la version gratuita, actualize a la version completa haciendo click <a href='".base_url().'panel/perfil/planes'."'> aquí.</a>";	
+					$this->data['texto']="Esta usando la version gratuita, actualize a la version completa haciendo click <a href='".base_url().'panel/perfil/planes'."'> aquí.</a>";	
 				}
 				
 			}
@@ -492,7 +493,15 @@ class Panel extends CI_Controller {
                                             break;
                             }
  	                      $res=$this->db->query('update user_accounts set uacc_group_fk=2 where user_app='.$user_id);
- 	                      log_message('error','query result'.$res);
+ 	                      $res2=$this->payments->insert(array(
+ 	                      	'user_app'=>$user_id,
+ 	                      	'date_pay'=>date('Y-m-d H:i:s'),
+ 	                      	'amount'=>$payment_amount,
+ 	                      	'type_prempay'=>$tipo_venta,
+ 	                      	'txn_id'=>(string)$txn_id,
+ 	                      	'account_email'=>$payer_email));
+
+ 	                      log_message('error','query result'.$res."res insert payments:".$res2);
 
 
 

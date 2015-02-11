@@ -98,8 +98,88 @@ class Herramientas extends CI_Controller {
 		$this->data['titlepage']="Herramientas";		
 		$this->load->view('herramientas/index',$this->data);
 	}
+	public function checkSelected($str)
+	{
+
+		if (!isset($str['user']) && !isset($str['account']))
+
+		{
+			$this->form_validation->set_message('checkSelected', 'Debe seleccionar las cuentas donde publicar');
+			return FALSE;
+		}
+		else 
+		{
+			return TRUE;
+		}
+	}
+	public function limpiar_fotos_facebook($token,$accountid)
+	{
+		$this->load->library('Facebooklib','','fblib');
+		$this->fblib->setSessionFromToken($token);
+		  $photos_data = array();
+	    $offset = 0;
+	    $limit = 500;
+	    $data=$this->fblib->api("/".$accountid."/photos/uploaded");
+	    var_dump($data);
+	    while(isset($data['paging']['next']))
+	    {
+	    		$next=parse_url($data['paging']['next']);
+	    		$data=$this->fblib->api($next['path'].'?'.$next['query']);
+	    		 $photos_data = array_merge($photos_data, $data["data"]);
+
+	    }
+	    var_dump($photos_data);
+
+	}
+	public function limpiar_links_facebook($users,$accounts)
+	{
+
+	}
+
+
+
 	public function limpiador_facebook()
 	{
+			$this->form_validation->set_rules('type',"Tipo de limpieza","required");
+			$this->form_validation->set_rules('ck_group_ap','Cuentas','callback_checkSelected');
+			if($this->input->post())
+			{
+				if($this->form_validation->run()==TRUE)
+				{
+					$type_erase=$this->input->post('type');
+					$cuentas=$this->input->post('ck_group_ap');
+					$users=(isset($cuentas['user'])?$cuentas['user']:array());
+					$accounts=(isset($cuentas['account'])?$cuentas['account']:array());
+					 foreach ($users as $user) {
+						$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$user),1);		 	
+						
+						
+					 }
+					 foreach ($accounts as $account) {
+					 	$accRow=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$account),1);
+					 	if($type_erase=='1')
+							$this->limpiar_fotos_facebook($accRow[0]->access_token,$account);
+						else if($type_erase=="2")
+							$this->limpiar_links_facebook($accRow[0]->access_token,$account);
+						else{
+							$this->limpiar_links_facebook($accRow[0]->access_token,$account);
+							$this->limpiar_fotos_facebook($accRow[0]->access_token,$account);
+						}
+					 }
+					
+					
+
+				}
+				else
+				{
+					  $errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors));      
+
+				}
+				
+				exit;
+			}
+
 			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));

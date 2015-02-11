@@ -63,7 +63,7 @@
 													</td>
 													<td>
 														<a href="http://www.twitter.es/<?php echo $pagenofolder->username; ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
-														<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo $pagenofolder->id ?>/u" data-toggle='ajaxModal' class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
+														<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo $pagenofolder->user_id ?>/u" data-toggle='ajaxModal' class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
 														<a data-user='true' data-id="<?php echo $pagenofolder->id ?>" class="btn btn-danger deleteaccount" data-type="false" data-social="fb"><i class="fa fa-trash-o"></i></a>
 														
 													</td>
@@ -123,7 +123,7 @@
 														</td>
 														<td>
 															<a href="https:/www.twitter.es/<?php echo $pagefolder->username;//$pagefolder->idaccount ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
-															<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo $pagefolder->id ?>/u" data-toggle='ajaxModal' class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
+															<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo $pagefolder->user_id ?>/u" data-toggle='ajaxModal' class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
 														 	<a  data-user="true" data-id="<?php echo $pagefolder->id ?>" data-type="false" data-social="fb" class="btn btn-danger deleteaccount"><i class="fa fa-trash-o"></i></a>
 														</td>
 													</tr>

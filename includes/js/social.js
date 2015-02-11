@@ -42,9 +42,11 @@ if($('#tweet_txt').length>0)
 		var n=noty(
 				{
 					text:"Seguro que quiere eliminar la "+((is_folder===true)?"carpeta":"cuenta")+"?",
+
 					buttons:
 						[	
 							{
+								addCCass:"btn btn-primary",
 								text:"Cancelar",
 								onClick:function(notyfy){
 									notyfy.close()

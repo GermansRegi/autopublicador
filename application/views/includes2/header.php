@@ -7,7 +7,7 @@
             <section class="row">
            <?php if( isset($section_app) && $section_app=='panel')
      		{?>
-            <section class="col-sm-4">
+            <section class="col-sm-3">
             <?php }else{
             	?>
             	  <section class="col-sm-6">
@@ -42,7 +42,7 @@
             </section>
            <?php if( isset($section_app) && $section_app=='panel')
      		{?>
-            <section class="col-sm-8">
+            <section class="col-sm-9">
             <?php }else{
             	?>
             	  <section class="col-sm-6">

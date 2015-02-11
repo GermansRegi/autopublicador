@@ -102,7 +102,7 @@
 													</td>
 													<td>
 														<a href="https:/www.facebook.com/<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id:$pagenofolder->idaccount); ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
-														<a href="<?php echo base_url()?>panel/facebook/editar/<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->id:$pagenofolder->idaccount); ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
+														<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id.'/u':$pagenofolder->idaccount.'/a'); ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>
 														<a data-user="<?php echo ((!isset($pagenofolder->idaccount))?'true':'false') ?>" data-id="<?php echo $pagenofolder->id ?>" class="btn btn-danger deleteaccount" data-type="false" data-social="fb"><i class="fa fa-trash-o"></i></a>
 														
 													</td>
@@ -158,7 +158,7 @@
 												</td>
 												<td>
 													<a href="https:/www.facebook.com/<?php echo ((!isset($pagefolder->idaccount))?$pagefolder->user_id:$pagefolder->idaccount);//$pagefolder->idaccount ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
-													<a href="<?php echo base_url()?>panel/facebook/editar/<?php echo ((!isset($pagefolder->idaccount))?$pagefolder->id:$pagefolder->idaccount);//$pagefolder->idaccount ?>" class="btn btn-default btn-ms"> <i  class="fa fa-edit"></i></a>
+													<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo ((!isset($pagefolder->idaccount))?$pagefolder->user_id.'/u':$pagefolder->idaccount.'/a');//$pagefolder->idaccount ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>
 												 	<a  data-user="<?php echo ((!isset($pagefolder->idaccount))?'true':'false') ?>" data-id="<?php echo $pagefolder->id ?>" data-type="false" data-social="fb" class="btn btn-danger deleteaccount"><i class="fa fa-trash-o"></i></a>
 												</td>
 											</tr>

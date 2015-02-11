@@ -12,10 +12,10 @@ class Social_users extends MY_Model {
 	{
 		$this->insert($data);
 	}
-	public function notExists($user_id,$socialnet)
+	public function notExists($user_id,$socialnet,$user_app)
 	{
 		
-		$exist=$this->count_by(array('user_id'=>$user_id,'social_network'=>$socialnet));
+		$exist=$this->count_by(array('user_id'=>$user_id,'social_network'=>$socialnet,'user_app'=>$user_app));
 		return (0==$exist);
 	}
 	public function getUserappUsers($where,$limit=0)

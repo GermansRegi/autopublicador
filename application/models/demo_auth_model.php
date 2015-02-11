@@ -145,7 +145,7 @@ class Demo_auth_model extends CI_Model {
 			// #1. Specify the group ID for the user to be added to (i.e. 'Moderator' / 'Public'), the default is set via the config file.
 			// #2. Set whether to automatically activate the account upon registration, default is FALSE.
 			// Note: An account activation email will be automatically sent if auto activate is FALSE, or if an activation time limit is set by the config file.
-			$response = $this->flexi_auth->insert_user($email, $username, $password, $profile_data, 2, $instant_activate);
+			$response = $this->flexi_auth->insert_user($email, $username, $password, $profile_data, 1, $instant_activate);
 
 			if ($response)
 			{

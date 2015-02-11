@@ -281,7 +281,7 @@ class CommonSocial extends CI_Controller {
 			
 		}
 	}
-	public function editar($idaccount,$type='u')
+	public function editar($idaccount,$type)
 	{
 		
 		$this->load->model('autoprog_anuncios');
@@ -291,15 +291,40 @@ class CommonSocial extends CI_Controller {
 		$array=array('fb'=>'face',"tw"=>'twt');
 			if($type=='u')
 			{
-				$acc=$this->social_users->getUserAppUsers(array('id'=>$idaccount),1);	
+				$acc=$this->social_users->getUserAppUsers(array('user_id'=>$idaccount),1);	
 				$acc[0]->type="user";
 				
 			}
 			else
 			{ 
-				$acc=$this->social_user_accounts->getUserAppAccounts(array('id'=>$idaccount),1);
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$idaccount),1);
 				$acc[0]->type="account";
+				$acc[0]->social_network='fb';
 			}	
+		if($this->input->post())
+		{
+			var_dump($this->input->post());
+			$datos=$this->input->post('datos');
+			$this->autoprog_basededatos->update_by(array(
+				'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
+				'frequency'=>$datos['frecuencia'],
+				'time_start'=>$datos['hora_inicio'],
+				'time_end'=>$datos['hora_fin'],
+				"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
+				'perm_sentences'=>$datos['frases_perm']),array('accountid'=>$idaccount,'type'=>$acc[0]->type));
+			$anuncios=$this->input->post('anuncios');
+			$this->autoprog_anuncios->update_by(array(
+				'ids'=>$anuncios['asociard'],
+				'frequency'=>$anuncios['frecuencia'],
+				'frequency_erase'=>$anuncios['frecuencia_borrado'],
+				'time_start'=>$anuncios['hora_inicio'],
+				"weekdays"=>(isset($anuncios['diasp'])?json_encode($anuncios['diasp']):'[]'),
+				'time_end'=>$anuncios['hora_fin'],
+				'perm_sentences'=>$anuncios['frases_perm']),array('accountid'=>$idaccount,'type'=>$acc[0]->type));
+			
+		}
+		
+		$this->data['url']=base_url(uri_string());
 		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()));
 		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()));
 		$this->data['accountedit']=$acc[0];
