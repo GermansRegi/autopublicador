@@ -16,6 +16,7 @@ class Facebooklib {
   var $ci;
   var $helper;
   var $session;
+  var $helperjs;
   var $permissions;
 
   public function __construct() {
@@ -30,6 +31,7 @@ class Facebooklib {
     // Create the login helper and replace REDIRECT_URI with your URL
     // Use the same domain you set for the apps 'App Domains'
     // e.g. $helper = new FacebookRedirectLoginHelper( 'http://mydomain.com/redirect' );
+   // $this->helperjs=new FacebookJavascriptLoginHelper
     $this->helper = new FacebookRedirectLoginHelper( base_url().$this->ci->config->item('redirect_url', 'facebook') );
  //   var_dump($this->ci->session->userdata('fb_token'));
     if ( $this->ci->session->userdata('fb_token') ) {

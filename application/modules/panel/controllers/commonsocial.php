@@ -116,10 +116,23 @@ class CommonSocial extends CI_Controller {
 		}
 		else
 		{	
+		
+			$this->load->model('autoprog_basededatos');
+			$this->load->model('autoprog_anuncios');	
 			if($this->input->get("is_user")=="true")
+			{	
+				$acc=$this->social_users->getUserAppUsers(array('id'=>$this->input->get("id")),1);
+				$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->user_id));
+				$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->user_id));
 				$this->social_users->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+			}
 			else	
+			{
+					$acc=$this->social_user_accounts->getUserappAccounts(array('id'=>$this->input->get("id")),1);
+					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->idaccount));
+					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->idaccount));
 				$this->social_user_accounts->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+			}
 		echo json_encode(array("result"=>"ok","msg_success"=>'Cuenta eliminada correctamente '));
 		}
 	}
@@ -147,11 +160,24 @@ class CommonSocial extends CI_Controller {
 		}
 		else
 		{
+			$this->load->model('autoprog_basededatos');
+			$this->load->model('autoprog_anuncios');
 			foreach ($rows as  $value) {
 				if($this->input->get("is_user")=="true")
+				{	
+					$acc=$this->social_users->getUserAppUsers(array('id'=>$value->id),1);
+					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->user_id));
+					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->user_id));
 					$this->social_users->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
+				}
 				else	
+				{
+					$acc=$this->social_user_accounts->getUserappAccounts(array('id'=>$value->id),1);
+					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->idaccount));
+					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->idaccount));
+
 					$this->social_user_accounts->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
+				}
 			}
 		}
 		$this->load->model("folders");
@@ -281,6 +307,18 @@ class CommonSocial extends CI_Controller {
 			
 		}
 	}
+	public function checkhours($str)
+	{
+		if($str['hora_inicio']>=$str['hora_fin'])
+		{
+			$this->form_validation->set_message('checkhours', 'La hora de inicio debe ser anterior a la hora final');
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 	public function editar($idaccount,$type)
 	{
 		
@@ -301,12 +339,21 @@ class CommonSocial extends CI_Controller {
 				$acc[0]->type="account";
 				$acc[0]->social_network='fb';
 			}	
+			$this->form_validation->set_rules('datos', 'Horas de publicación', 'callback_checkhours');
+			$this->form_validation->set_rules('anuncios', 'Horas de publicación', 'callback_checkhours');
+
 		if($this->input->post())
 		{
-			var_dump($this->input->post());
+			if($this->form_validation->run()==TRUE)
+			{
+
+
+
 			$datos=$this->input->post('datos');
+			
 			$this->autoprog_basededatos->update_by(array(
 				'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
+				'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
 				'frequency'=>$datos['frecuencia'],
 				'time_start'=>$datos['hora_inicio'],
 				'time_end'=>$datos['hora_fin'],
@@ -316,12 +363,21 @@ class CommonSocial extends CI_Controller {
 			$this->autoprog_anuncios->update_by(array(
 				'ids'=>$anuncios['asociard'],
 				'frequency'=>$anuncios['frecuencia'],
+				'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
 				'frequency_erase'=>$anuncios['frecuencia_borrado'],
 				'time_start'=>$anuncios['hora_inicio'],
 				"weekdays"=>(isset($anuncios['diasp'])?json_encode($anuncios['diasp']):'[]'),
 				'time_end'=>$anuncios['hora_fin'],
 				'perm_sentences'=>$anuncios['frases_perm']),array('accountid'=>$idaccount,'type'=>$acc[0]->type));
-			
+				echo json_encode(array('msg_success'=>'Datos guardados correctamente'));
+			}
+			else
+			{
+
+    			    $errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors)); 
+			}
+			exit;
 		}
 		
 		$this->data['url']=base_url(uri_string());

@@ -1,9 +1,9 @@
 
 	    //Contador de caracteres
-	    console.log($('#tweet_txt').length>0)
+	    
 if($('#tweet_txt').length>0)
 {
-    init_contadorTa("tweet_txt","contadorTaComentario", 140);
+    
     function init_contadorTa(idtextarea, idcontador,max)
     {
         $('body').on('keyup',"#"+idtextarea,function()
@@ -28,6 +28,7 @@ if($('#tweet_txt').length>0)
             contador.html(max+"/"+max+' car&aacute;cteres disponibles');
         }
     }
+    init_contadorTa("tweet_txt","contadorTaComentario", 140);
 }
 
 
@@ -38,7 +39,7 @@ if($('#tweet_txt').length>0)
 		$this.data("social")
 		var isUser=Boolean($this.data("user"));
 		var is_folder=Boolean($this.data("type"));
-		console.log(is_folder);
+	
 		var n=noty(
 				{
 					text:"Seguro que quiere eliminar la "+((is_folder===true)?"carpeta":"cuenta")+"?",
@@ -62,8 +63,7 @@ if($('#tweet_txt').length>0)
 										type:'get',
 										dataType:"json",
 										success:function(data){
-											console.log(data);
-									
+																				
 											if(data.idFolder){
 												var n=noty({
 
@@ -143,8 +143,8 @@ if($('#tweet_txt').length>0)
 	}
 	// event per mostrar i amagar el formulari 
 	$("body").on("click",".showHide",function(){
-		console.log($(this).parent().next().is(":hidden"),$(this).next().is(":visible"))
-	console.log($(this).next());
+		
+	
 		if($(this).parent().next().is(":hidden"))
 			$(this).parent().next().removeClass("hidden");
 
@@ -224,7 +224,7 @@ if($('#tweet_txt').length>0)
 			data:{"id":$('#select-anuncis').val()},
 			async:false,
 			success:function(data){
-
+				
 				generate("generate-anuncis",data)
 			},
 		});
@@ -238,7 +238,7 @@ if($('#tweet_txt').length>0)
 		var container_sub=container.substr(9,container.length);
 
 		$("#"+container).html('');
-		console.log($("#"+container));
+	//	console.log($("#"+container));
 
 		if(data.data && data.data.length==0){
 			$("<p>Debe añadir contenido a la base de datos seleccionada.</p>").appendTo("#"+container)
@@ -247,20 +247,32 @@ if($('#tweet_txt').length>0)
 		{
 			for(i=0;i<data.data.length;i++)
 			{
-				$('<input type="checkbox" name="'+container_sub+'_'+data.content+'" value="'+data.data[i].id+'"/>').appendTo($("#"+container))
+				$('<input  class="chb" type="checkbox" name="'+container_sub+'_'+data.content+'" value="'+data.data[i].id+'"/>').appendTo($("#"+container))
 				if(data.content=="sentence"){	
 					$('<span>'+data.data[i].sentence+'</span>').appendTo($("#"+container))}
 				else if(data.content=="image")
 					$('<img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'"/>').appendTo($("#"+container))
 				else
 					$('<span><a href="'+data.data[i].link+'">'+data.data[i].text+'</a></span>').appendTo($("#"+container))
+
 			}	
+			
+			$("#"+container).on('click',"input[name='"+container_sub+"_"+data.content+"']",function() {
+					
+					  var  $uniqe=$(this).siblings('input')
+					//var $unique=$("input[name='bbdd_img'],input[name='bbdd_sentence']",'#content-user');s
+					    $uniqe.removeAttr('checked');
+					    $(this).attr('checked', true);
+					});
 			if(data.pager!='')
 			{
 				$(data.pager).appendTo($("#"+container))
+
 			}
 		}	
+
 	}
+
 	$('body').on('click','.deleteprog',function()
 	{
 		$this=$(this);
@@ -285,6 +297,33 @@ if($('#tweet_txt').length>0)
           );
           
 	})
+	$('body').on('submit',"#periodicas",function(e){
+		e.preventDefault();
+		 var formdata =new FormData($(this)[0]);
+		 var url=$(this).attr('action');
+		 $.ajax({
+		 	url:url,
+		 	dataType:'json',
+		 	type:'post',
+		 	data:formdata,
+		 	async:false,
+		 	processData:false,
+			async:false,
+			cache:false,
+			contentType:false,
+			success:function(data)
+			{
+				var res=showResults(data,',','.messagemodal');
+				if(res){
+						$('body').delay(2000).queue(function( nxt ) {
+							$("#ajaxModal").modal('hide');
+							nxt();
+	                      }); 	
+					}
+			}
+		 })
+	})
+
 	$('body').on('submit',"#programar",function(e){
 		e.preventDefault();
 		 var formdata =new FormData($(this)[0]);
@@ -313,6 +352,7 @@ if($('#tweet_txt').length>0)
 	})
 
 	$('body').on('submit',"#publicarahora",function(e){
+		var $btn=$(this).find('input:submit');
 		e.preventDefault();
 		 var formdata =new FormData($(this)[0]);
 		 var url=$(this).attr('action');
@@ -326,12 +366,16 @@ if($('#tweet_txt').length>0)
 			async:false,
 			cache:false,
 			contentType:false,
+			beforeSend:function(e){
+				$btn.button('loading');
+			},
 			success:function(data)
 			{
+				$btn.button('reset');
 				var res=showResults(data,',','.message');
 				if(res){
 						$('body').delay(2000).queue(function( nxt ) {
-							document.location.href=current_url;
+						///	document.location.href=current_url;
 							nxt();
 	                      }); 	
 					}
@@ -344,7 +388,7 @@ if($('#tweet_txt').length>0)
 			
 		 })
 	})
-	  console.log($("table.accounts tr"));
+	  
            $(".accounts tbody tr","body").draggable({
             handle:'td.name',
             revert:'invalid',
@@ -387,7 +431,7 @@ if($('#tweet_txt').length>0)
                     var idfolder=$(this).find('.panel-collapse').data('idfolder')
                     var isuser=$(ui.draggable).find('.deleteaccount').data('user');
                     var idpage=$(ui.draggable).find('.deleteaccount').data('id');
-                    console.log(idfolder,idpage,isuser,'ppp');
+                 
                     
                     $.ajax(
                         {

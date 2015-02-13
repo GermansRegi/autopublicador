@@ -67,7 +67,7 @@ $(function(){
 			success:function(data){
 
 				var res=showResults(data,',','.message');
-				console.log(res);
+				
 				if(res!=false)
 				setTimeout(function(){location.href=editUrl+'/'+data.idcreated},1500)
 
@@ -111,10 +111,10 @@ $(function(){
 		})
 
 	})
-	console.log($("#toogle"));
+
 	$("body").on('click','#toggle',function()
 	{
-		console.log("ssssss0");
+	
 		var checkboxes = document.getElementsByName('hk_group_bf[]');
         var button = document.getElementById('toggle');
         if(button.value == 'Marcar todos'){

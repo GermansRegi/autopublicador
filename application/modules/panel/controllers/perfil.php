@@ -55,7 +55,11 @@ class Perfil extends CI_Controller {
 			{
 				
 			}
-			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk"))->result();	
+			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk",'upro_timezone_offset'))->result();	
+			$timezones=$this->config->item('timezones');
+			echo date_default_timezone_get();
+			date_default_timezone_set($timezones[$guest[0]->upro_timezone_offset]);
+
 			if ($this->flexi_auth->is_privileged('acces user free'))
 			{
 				
@@ -120,6 +124,8 @@ class Perfil extends CI_Controller {
 			$this->load->model('demo_auth_model');
 			$this->demo_auth_model->change_password();
 		}
+		$user=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_by_id())->result();
+
 		// Get users current data.
 		// This example does so via 'get_user_by_identity()', however, 'get_users()' using any other unqiue identifying column and value could also be used.
 		$this->data['user'] = $this->flexi_auth->get_user_by_id_query()->result();
@@ -142,7 +148,7 @@ class Perfil extends CI_Controller {
 	public function pagocorrecto()
 	{
 		$user=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_by_id())->result();
-		var_dump($user);
+		
 		$this->flexi_auth_model->set_login_sessions($user[0], TRUE);
 		$this->data['titlepage']="";
 		$this->load->view('perfil/pagocorrecto',$this->data);

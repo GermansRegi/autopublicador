@@ -1,10 +1,10 @@
-<form method="post" action="<?php echo $url ?>" >
+<form method="post" id="periodicas" action="<?php echo $url ?>" >
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>
 		<h4 class="modal-title">Editando <?php echo (($accountedit->type=='user')?" el usuario":" la cuenta").": ".(($accountedit->type=='user')?$accountedit->username:$accountedit->name); ?></h4>
 	</div>
 	<div class="modal-body">
-		<div id="resultsave">
+		<div class="messagemodal">
 			
 		</div>
 		<ul class="nav nav-tabs nav-justified"> 
@@ -50,8 +50,17 @@
 								
 						
 							
-							</select>               
+							</select> 
+							<?php if($conf_bbdd->socialnetwork=='fb'){
+								?>
+
+							<br>
+							<strong>Repetir publicación</strong>
+							<input type='checkbox' name='datos[repetir]' <?php  (($conf_bbdd->repeat==1)?"checked='checked'":''); ?>/>
+							<?php }?>
+
 						</div>
+
 					</div>
 					<br>
 					<div class="row">
@@ -144,7 +153,15 @@
 				                           
 				                        }?>
 								
-							</select>                
+							</select>       
+													<?php if($conf_bbdd->socialnetwork=='fb'){
+								?>
+
+							
+							<strong>Repetir publicación</strong>
+							<input type='checkbox' name='anuncios[repetir]' <?php   (($conf_anunci->repeat==1)?"checked='checked'":''); ?>/>
+							<?php }?>
+         
 						</div>
 						<div class="col-sm-4">
 							<strong>Frecuencia</strong><br>
@@ -182,14 +199,18 @@
 				                        <option <?php echo ($conf_anunci->frequency_erase==24?"selected='selected'":"");?>value="24">24 horas</option>			
 								
 							</select>               
+
 						</div>
+							
 					</div>
 					<br>
 					<div class="row">
 						<div class="col-sm-12">
 								<strong>Frases permantentes</strong><br>
 								<textarea class="form-control" name="anuncios[frases_perm]"><?php  echo nl2br($conf_anunci->perm_sentences); ?></textarea>
+
 						</div>
+
 					</div>
 					<div class="row">
 						<div class="col-sm-12 text-center">

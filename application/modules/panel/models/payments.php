@@ -16,6 +16,11 @@ class Payments extends MY_Model {
 	{	
 		return (0==$this->count_by($array));
 	}
+	public function getLastPayment($array=array())
+	{
+		$this->_database->select('max(date_pay) as last, type_prempay,  id');
+		return $this->get_many_by($array);
+	}
 
 }
 

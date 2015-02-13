@@ -95,7 +95,7 @@
 				</section>
 				
 				<section class="col-lg-12">
-						<input type='submit' name='publicar' class="btn btn-primary" value='Publicar'/>
+						<input type='submit' name='publicar' data-loading-text="Publicando..." class="btn btn-primary" value='Publicar' autocomplete="off" />
 				</section>
 				
 			</div>

@@ -11,11 +11,21 @@ $("#filetoup").filestyle()
 
 })
 
- $('.time').timepicker({
+ $('#time').timepicker({
                 minuteStep: 1,
                 showInputs: false,
-                disableFocus: true
+                disableFocus: true,
+                showMeridian:false,
+               defaultTime:$('#time').val()
             });
+ 
+ $(".date").datepicker({ language: 'es',
+		todayBtn: true,
+		todayHighlight: true,
+		format: 'dd-mm-yyyy',
+
+		});
+ 
 $(document).on('click', '[data-toggle="ajaxModal"]',function(e){
        e.preventDefault();
       var $this = $(this)
@@ -170,7 +180,7 @@ if(idUploader){
 	    	}
 	    	else
 		{
-	    	//	console.log(elem,$(elem));
+	    		console.log(elem,$(elem));
 	    		$(elem).noty({
 	  		text:text,type:type	,dismissQueue:false,timeout:seg,maxVisible:1
 			});

@@ -136,9 +136,18 @@ class Panel extends CI_Controller {
 			}
 			else if ($this->flexi_auth->is_privileged('acces user prem') ) 
 			{
+				$this->load->model("payments");
+				$pays=$this->payments->getLastPayment(array("user_app"=>$this->flexi_auth->get_user_id(),"finished"=>0));
+				var_dump($pays);
+				$datestart=new DateTime($pays[0]->last);
+				$arrayName = array('mensual' =>30 ,"trimestral"=>90,"anual"=>365 );
+				$datestart->modify('+'.$arrayName[$pays[0]->type_prempay]." day");
 
-				$this->data['texto']="Gracias por usar la versión completa, le quedan  x días. Renuévelo   <a href='".base_url().'panel/perfil/planes'."'> aquí.</a>";
+				$datend=new DateTime('now');
+				$interval	=$datestart->diff($datend);
+				$this->data['texto']="Gracias por usar la versión completa, le quedan  ".$interval->days." días. Renuévelo   <a href='".base_url().'panel/perfil/planes'."'> aquí.</a>";
 			}
+
 			$this->data['titlepage']="Bienvenido a su panel de usuario";
 
 			echo $this->load->view('index',$this->data);
@@ -464,7 +473,7 @@ class Panel extends CI_Controller {
 		    $receiver_email = $_POST['receiver_email'];
 		    $payer_email = $_POST['payer_email'];
 						$tipo_venta_aux = explode('-',$_POST['custom']);
-						var_dump($tipo_venta);
+						//var_dump($tipo_venta);
                             $tipo_venta = $tipo_venta_aux[0];
                             $user_id = $tipo_venta_aux[1];
                             log_message('error','paylapcoolpppp'.$_POST['payment_status'].':'.($_POST['payment_status']==="Completed"));
@@ -480,26 +489,50 @@ class Panel extends CI_Controller {
 					   $pago_valido = false;
 
                             // Verificamos en base de datos
-                            switch($tipo_venta) {
-                                    case 'mensual':
-                                   	 $add=30;
-                                         break;
-                                    case 'trimestral':
-                                    		$add=60;
-                                             break;
-                                    case 'anual':
-                                           $add=365;
-                                        
-                                            break;
-                            }
+                            
+ 	                      $user=$this->flexi_auth->get_user_by_id_query($user_id)->result();
+ 	                       
+ 	                      if($user[0]->uacc_group_fk==2)
+ 	                      {
+ 	               			$lastPayemnt=$this->payments->getLastPayment(array('user_app'=>$user[0]->user_app));
+ 	               			$timezones=$this->config->item('timezones');
+ 	               			$datenow=new Datetime('now');
+ 	               			$datepayment=Datetime::createFromFormat('Y-m-d',$lastPayemnt[0]->last);
+
+ 	               			
+
+ 	               			$datediff=$datenow->diff($datepayment);
+ 	               			log_message('error','datefidd'.$datepayment->format('Y-m-d')." ". $datediff->days);
+							$datenow2=new Datetime('now');
+							$datenow2->modify("+".abs($datediff->days)." day");
+	 	                      $res2=$this->payments->insert(array(	
+	 	                      	'user_app'=>$user_id,
+	 	                      	'date_pay'=>$datenow2->format('Y-m-d'),
+	 	                      	'amount'=>$payment_amount,
+	 	                      	'type_prempay'=>$tipo_venta,
+	 	                      	'txn_id'=>(string)$txn_id,
+	 	                      	'account_email'=>$payer_email,'finished'=>0));
+
+ 	                      	 	
+ 	                      }	
+ 	                      else
+ 	                      {
+ 	                      	  $res2=$this->payments->insert(array(
+	 	                      	'user_app'=>$user_id,
+	 	                      	'date_pay'=>date('Y-m-d'),
+	 	                      	'amount'=>$payment_amount,
+	 	                      	'type_prempay'=>$tipo_venta,
+	 	                      	'txn_id'=>(string)$txn_id,
+	 	                      	'account_email'=>$payer_email,'finished'=>0));
+
+
+ 	                      }
+ 	                      
+
  	                      $res=$this->db->query('update user_accounts set uacc_group_fk=2 where user_app='.$user_id);
- 	                      $res2=$this->payments->insert(array(
- 	                      	'user_app'=>$user_id,
- 	                      	'date_pay'=>date('Y-m-d H:i:s'),
- 	                      	'amount'=>$payment_amount,
- 	                      	'type_prempay'=>$tipo_venta,
- 	                      	'txn_id'=>(string)$txn_id,
- 	                      	'account_email'=>$payer_email));
+ 	                      	
+
+
 
  	                      log_message('error','query result'.$res."res insert payments:".$res2);
 
@@ -519,40 +552,7 @@ class Panel extends CI_Controller {
 		    echo "The response from IPN was: <b>" .$res ."</b>";
 		}
     }
-    function checkguestsUsuers()
-    {
-
-    		$usersSendGuestNoty=$this->flexi_auth->get_users_query(array('uacc_email','upro_first_name'),array('guestPremium'=>1,'date_add(date(uacc_date_added),interval 5 day)='=>date('Y-m-d')))->result();
-  		
-  		//var_dump($usersSendGuestNoty);
-    		foreach ($usersSendGuestNoty as $user) {
-    				
-
-    				$email_to = $user->{$this->auth->database_config['user_acc']['columns']['email']};
-    				$data=array('user'=>$user,'daysleft'=>2,'type_plan'=>' premium gratuita ');
-				$email_title = ' - Aviso de caducidad de peridodo premium gratuito';
-				
-    				$this->flexi_auth_model->send_email($email_to, $email_title,$data,'NotifyPlan.tpl.php');
-
-       	}
-
-
-		$usersFinsishGuest=$this->flexi_auth->get_users_query(array('user_app','uacc_email','upro_first_name'),array('guestPremium'=>1,'date_add(date(uacc_date_added),interval 7 day)='=>date('Y-m-d')))->result();
-		var_dump($usersFinsishGuest);
-		foreach ($usersFinsishGuest as $user) 
-		{
-    				
-    				$email_to = $user->{$this->auth->database_config['user_acc']['columns']['email']};
-    				$data=array('user'=>$user,'type_plan'=>' premium gratuito ');
-				$email_title = ' - Aviso de caducidad de peridodo premium gratuito';
-    				$this->flexi_auth_model->send_email($email_to, $email_title,$data,'finishplan.tpl.php');
-    				$this->flexi_auth->update_user($user->user_app,array('guestPremium'=>0));
-
-       	}
-
-
-    	}
-
+    
 }
 
 /* End of file auth.php */

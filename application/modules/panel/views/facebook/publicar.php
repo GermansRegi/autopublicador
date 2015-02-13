@@ -122,7 +122,7 @@
 				</section>
 				
 				<section class="col-lg-12">
-						<input type='submit' name='publicar' class="btn btn-primary" value='Publicar'/>
+						<input type='submit' name='publicar' data-loading-text="Publicando..." autocomplete="off"  class="btn btn-primary" value='Publicar'/>
 				</section>
 				<div>
 					<p>Facebook no permite poner en una misma publicación imágenes y enlaces</p>

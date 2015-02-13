@@ -1,7 +1,8 @@
 
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h4>Ver datos de la programacion #<?php echo $prog[0]->id." (".(($prog[0]->state=='process')?"En proceso":(($prog[0]->state=='finished')?'Terminado':"No Comptletado")).")"; ?></h4>
+			<?php $arrayStates=array('process'=>'En proceso','finished'=>"Terminado",'finisherase'=>'Terminado','nocomplete'=>"No completado",'toerase'=>'Pendiente de borrar'); ?>
+			<h4>Ver datos de la programacion #<?php echo $prog[0]->id." (".$arrayStates[$prog[0]->state].")"; ?></h4>
 		</div>
 		<div class="modal-body">
 			<div class="row">
@@ -64,12 +65,18 @@
 						</div>
 					<?php
 					} ?>
-					<?php if(isset($prog[0]->id_publish_to_erase) && $prog[0]->id_publish_to_erase!="")
+					<?php if(isset($prog[0]->id_publish) && $prog[0]->id_publish!="" && $prog[0]->state!='finisherase')
 					{
 						?>
 						<div class="col-lg-6">
 								<strong>Fecha borrado</strong><br>
-								<?php echo "<a href='http://www.facebook.com/".$prog[0]->socialaccount."/".$prog[0]->id_publish_to_erase."' >Url de la publiación</a>";?>						
+								<?php if($prog[0]->social_network=='fb')
+								$url="http://www.facebook.com/";
+								else
+									$url="http://www.twitter.com/".$prog[0]->socialaccount."/status/";
+								?>
+
+								<?php echo "<a target='_blank' href='".$url.$prog[0]->id_publish."' >Url de la publiación</a>";?>						
 						</div>
 					<?php
 					} ?>

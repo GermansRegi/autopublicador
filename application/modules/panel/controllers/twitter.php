@@ -59,7 +59,10 @@ class Twitter extends CI_Controller {
 			
 			$this->load->vars('section_app','panel');
 
-			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk"))->result();	
+			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk",'upro_timezone_offset'))->result();	
+			$timezones=$this->config->item('timezones');
+			$this->session->set_userdata('timezone',$timezones[$guest[0]->upro_timezone_offset]);
+
 			if ($this->flexi_auth->is_privileged('acces user free'))
 			{
 				
@@ -163,6 +166,18 @@ class Twitter extends CI_Controller {
 				'access_token'=>json_encode($res),
 				'user_app'=>$this->flexi_auth->get_user_id(),
 				'disabled'=>0));
+					$this->load->model('autoprog_anuncios');
+				$this->load->model('autoprog_basededatos');
+				$this->autoprog_basededatos->insertNew(array(
+					'accountid'=>	$datauser->id,
+					'user_app'=>$this->flexi_auth->get_user_id(),
+					'type'=>'user','socialnetwork'=>'tw',
+					'weekdays'=>'[]'));
+				$this->autoprog_anuncios->insertNew(array(
+					'accountid'=>$datauser->id,
+					'user_app'=>$this->flexi_auth->get_user_id(),
+					'type'=>'user','socialnetwork'=>'tw',
+					'weekdays'=>'[]'));
 			}
 			else{
 				$this->social_users->update_by(
@@ -476,8 +491,11 @@ class Twitter extends CI_Controller {
                                     	$data['link']=$this->input->post('link');
                                     }
 						}
-						date_default_timezone_set('UTC');
-						$data['fecha']=strtotime($this->input->post('date').$this->input->post('time'));	
+							$fecha=DateTime::createFromFormat('d-m-Y H:i:s',date('d-m-Y H:i:s',strtotime($this->input->post('date').$this->input->post('time'))));
+						$fecha->setTimeZone(new DateTimeZone('Europe/Berlin'));
+
+
+						$data['fecha']=strtotime($fecha->format('Y-m-d H:i:s'));
 						if($this->input->post('fechaBorrado'))
 						{
 							if((int)$this->input->post('fechaBorrado')<1)
@@ -534,10 +552,16 @@ class Twitter extends CI_Controller {
 		$this->load->view("panel/twitter/programar",$this->data);
 	}
 	function date_valid($date){
-	    $p=strtotime($_POST['date'].$_POST['time']);
-	    if($p)
+		$fecha2=DateTime::createFromFormat('d-m-Y G:i',$this->input->post('date').$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
+		//$fecha2->setTimeZone(new DatetimeZone($this->session->userdata('timezone')));	    
+
+	    if($fecha2)
 	    {
-		    	if($p<=time())
+	    		$fecha=new DateTime('now',new DatetimeZone($this->session->userdata('timezone')));
+	    		
+	    		
+	    	
+		    	if(floor($fecha->format('U')/60)>floor($fecha2->format('U')/60))
 		    	{
 		    		$this->form_validation->set_message('date_valid', 'Debe seleccionar una fecha y hora posterior a la actual');
 	    			return false;	

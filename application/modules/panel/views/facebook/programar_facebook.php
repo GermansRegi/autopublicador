@@ -27,14 +27,20 @@ $arr=array("group","user","event","page")
 					<div class="form-group ">
 						<label class="col-lg-12" for="">Fecha y Hora</label>
 						<div class="col-lg-6">
-							<div class="input-group">
-							<input class='form-control date' value="<?PHP echo date('Y-m-d'); ?>" name='date' type="date">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<?php
+								$fecha=new DateTime('now',new DatetimeZone($this->session->userdata('timezone')));
+					
+									
+						 ?>
+							<div class="input-group date">
+							<input class='form-control' value="<?php echo $fecha->format('d-m-Y'); ?>" name='date' type="text">
+							<span class="input-group-addon"><i class="fa fa-th"></i></span>
 							</div>
 						</div>
 						<div class="col-lg-6">
-							<div class=" bootstrap-timepicker  input-group">
-							<input class='form-control time' name='time'  type="text">
+						
+							<div class=" bootstrap-timepicker input-group">
+							<input class='form-control' id="time" value="<?php echo $fecha->format('G:i'); ?>" name='time'  type="text">
 							<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
 							</div>
 						</div>
@@ -175,7 +181,7 @@ $arr=array("group","user","event","page")
 						</div>
 					</div>	
 					</form>
-					<div>
+					<div class="col-lg-12">
 						<?php if(count($programaciones)>0)
 						{?>
 						<table class="table table-striped">
@@ -186,13 +192,20 @@ $arr=array("group","user","event","page")
 							</thead>
 							<tbody>
 
-								<?php foreach ($programaciones as $prog) {
+								<?php
+								$arrayStates=array('process'=>'En proceso','finished'=>"Terminado",'finisherase'=>'Terminado','nocomplete'=>"No completado",'toerase'=>'Pendiente de borrar'); 
+								foreach ($programaciones as $prog) {
 								?>
 									<tr>
 									<td><?php echo $prog->name ?></td>
-									<td><?php echo date('d-m-Y H:i:s',$prog->fecha)?></td>
+									<td><?php 
+
+									$fecha=DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s',$prog->fecha),new DateTimezone($this->session->userdata('timezone')));
+							
+
+									echo $fecha->format('d-m-Y H:i:s');?></td>
 									<td><?php echo (!empty($prog->fechaBorrado)?date('d-m-Y H:i:s',$prog->fechaBorrado):'-')?></td>
-									<td><?php echo (($prog->state=='process')?"En proceso":(($prog->state=='finished')?'Terminado':"No Comptletado"));?></td>
+									<td><?php echo $arrayStates[$prog->state]; ?></td>
 									<td> <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" >Ver </a><a data-id="<?php echo $prog->id; ?>" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a></td>
 
 									</tr>

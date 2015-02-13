@@ -132,6 +132,7 @@ class MY_Model extends CI_Model {
     {
     	return $this->_database->last_query();
     }
+    
 }
 /* End of file MY_Model.php */
 /* Location: ./application/core/MY_Model.php */

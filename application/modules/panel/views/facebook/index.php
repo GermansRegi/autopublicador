@@ -194,5 +194,26 @@
 		echo $this->load->view('includes2/footer');
 		?>
 		<?php echo $this->load->view('includes2/scripts');?>
+		 <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '672117342900527',
+          xfbml      : true,
+          version    : 'v2.2',
+          cookie:  true,
+          scope:'email,offline_access'
+        });
+  //      FB.login(function(){}, {scope: 'email,offline_access,publish_actions'});
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/es_ES/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+		<div class=" fb_reset" id="fb-root"></div>
 	</body>
 </html>

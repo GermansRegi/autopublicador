@@ -8,8 +8,14 @@
    <script  src="<?php echo base_url(); ?>includes/js/bootstrap-filestyle.min.js"></script>
     <script src="<?php echo base_url(); ?>includes/js/jquery.noty.packaged.min.js"></script>
         <script src="<?php echo base_url(); ?>includes/js/jquery.cookie.js"></script>
+        <script src="<?php echo base_url(); ?>includes/js/bootstrap-datepicker.min.js"></script>
+        <script src="<?php echo base_url(); ?>includes/locales/bootstrap-datepicker.es.min.js"></script>
+
+
     <script src="<?php echo base_url(); ?>includes/js/script.js"></script>
    <script  src="<?php echo base_url(); ?>includes/js/basesdedatos.js"></script>
+
+
       <script  src="<?php echo base_url(); ?>includes/js/bootstrap-timepicker.min.js"></script>
  <script  src="<?php echo base_url(); ?>includes/js/jquery-ui.min.js"></script>
  

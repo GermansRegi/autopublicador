@@ -56,7 +56,11 @@ class Facebook extends CI_Controller {
 			
 			$this->load->vars('section_app','panel');
 
-			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk"))->result();	
+			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk",'upro_timezone_offset'))->result();	
+			$timezones=$this->config->item('timezones');
+			$this->session->set_userdata('timezone',$timezones[$guest[0]->upro_timezone_offset]);
+			//date_default_timezone_set($timezones[$guest[0]->upro_timezone_offset]);
+
 			if ($this->flexi_auth->is_privileged('acces user free'))
 			{
 				
@@ -94,10 +98,16 @@ class Facebook extends CI_Controller {
 		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 	}
 	function date_valid($date){
-	    $p=strtotime($_POST['date'].$_POST['time']);
-	    if($p)
+		$fecha2=DateTime::createFromFormat('d-m-Y G:i',$this->input->post('date').$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
+		//$fecha2->setTimeZone(new DatetimeZone($this->session->userdata('timezone')));	    
+
+	    if($fecha2)
 	    {
-		    	if($p<=time())
+	    		$fecha=new DateTime('now',new DatetimeZone($this->session->userdata('timezone')));
+	    		
+	    		
+	    	
+		    	if(floor($fecha->format('U')/60)>floor($fecha2->format('U')/60))
 		    	{
 		    		$this->form_validation->set_message('date_valid', 'Debe seleccionar una fecha y hora posterior a la actual');
 	    			return false;	
@@ -116,6 +126,9 @@ class Facebook extends CI_Controller {
 	}
 	
 	public function programar_facebook(){
+		$user=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_by_id())->result();
+		$timezones=$this->config->item('timezones');
+		
 		$this->load->model('programations');
 		$this->form_validation->set_rules('ck_group_ap','Cuentas','callback_checkSelected');
          	$this->form_validation->set_rules('link','Enlace','prep_url|valid_url');
@@ -222,8 +235,14 @@ class Facebook extends CI_Controller {
 
 			
 						
-						date_default_timezone_set('UTC');
-						$data['fecha']=strtotime($this->input->post('date').$this->input->post('time'));
+					
+
+						$fecha=DateTime::createFromFormat('d-m-Y H:i:s',date('d-m-Y H:i:s',strtotime($this->input->post('date').$this->input->post('time'))));
+						$fecha->setTimeZone(new DateTimeZone('Europe/Berlin'));
+
+
+						$data['fecha']=strtotime($fecha->format('Y-m-d H:i:s'));
+
 						if($this->input->post('fechaBorrado'))
 						{
 							if((int)$this->input->post('fechaBorrado')<1)
@@ -271,7 +290,8 @@ class Facebook extends CI_Controller {
 			}
 			exit;
 		}
-		date_default_timezone_set('Europe/Madrid');
+		
+		
 		$this->load->model('social_user_accounts');
 		$this->load->model('social_users');
 			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
@@ -364,9 +384,9 @@ class Facebook extends CI_Controller {
 		}
 		
 		$this->data['titlepage']="Cuentas de facebook";
-		$this->load->library('Facebooklib','','fblib');	
+		//$this->load->library('Facebooklib','','fblib');	
 		$this->session->unset_userdata('fb_token');
-		$this->fblib->setSession();
+		//$this->fblib->setSession();
 		
 		$this->data['arraydata']=$arraydata;
 		$this->load->view('panel/facebook/index',$this->data);
@@ -380,16 +400,18 @@ class Facebook extends CI_Controller {
 		$this->load->library('Facebooklib','','fblib');
 		if($this->fblib->getSession()==null)
 		{
-
 			redirect($this->fblib->login_url());
+			
 
 		}
 		else
 		{
 			
-			$user=$this->user_fb=$this->fblib->api('/me');
-			
+			$this->fblib->getSession()->getLongLivedSession();
+	//		var_dump($user);
 			$this->user_fb=$this->fblib->api('/me');
+			
+	///		var_dump($this->user_fb);
 			//sino existeix l'usuari de facebook l'inserim
 			if($this->social_users->notExists($this->user_fb['id'],'fb',$this->flexi_auth->get_user_by_id())==true)
 			{
@@ -400,6 +422,19 @@ class Facebook extends CI_Controller {
 				'access_token'=>$this->fblib->getSession()->getToken(),
 				'user_app'=>$this->flexi_auth->get_user_id(),
 				'disabled'=>0));
+				$this->load->model('autoprog_anuncios');
+				$this->load->model('autoprog_basededatos');
+				$this->autoprog_basededatos->insertNew(array(
+					'accountid'=>	$this->user_fb['id'],
+					'user_app'=>$this->flexi_auth->get_user_id(),
+					'type'=>'user','socialnetwork'=>'fb',
+					'weekdays'=>'[]'));
+				$this->autoprog_anuncios->insertNew(array(
+					'accountid'=>$this->user_fb['id'],
+					'user_app'=>$this->flexi_auth->get_user_id(),
+					'type'=>'user','socialnetwork'=>'fb',
+					'weekdays'=>'[]'));
+		
 			}	
 			else
 			{
@@ -417,12 +452,12 @@ class Facebook extends CI_Controller {
 			
 			$pagesFace=$this->fblib->api('/me/accounts');
 		
-			var_dump($pagesFace);
+		//	var_dump($pagesFace);
 			if(isset($pagesFace['data']) && count($pagesFace['data'])>0)
 			foreach($pagesFace['data'] as $val)
 	           {    
 				
-	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user['id'],'type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
                     if(in_array('ADMINISTER',$val->perms) && $exist==false)
                     {
                     	$pages[]=$val;
@@ -440,7 +475,7 @@ class Facebook extends CI_Controller {
 			foreach($groupsFace['data'] as $val)
 	           {    
 				
-	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user['id'],'type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
                     if($exist==false)
                     {
                     	$groups[]=$val;
@@ -458,7 +493,7 @@ class Facebook extends CI_Controller {
 			foreach($eventsFace['data'] as $val)
 	           {    
 				
-	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user['id'],'type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
                     if($exist==false)
                     {
                     	$events[]=$val;
@@ -476,36 +511,13 @@ class Facebook extends CI_Controller {
 			$this->data['groups']=$groups;
 				
 
-			
-			$this->data['titlepage']="Añadir cuentas de facebook";
-			
+	//		var_dump($this->session->all_userdata());
+			$this->data['titlepage']="Añadir cuentas de facebook de: ".$this->user_fb['name'];
+				
 			$this->load->view('panel/facebook/accounts_add',$this->data);
 		}
 
 	}
-	// funcio callback de x connectar a facebook
-	public function registrar_facebook()
-	{
-		$this->load->library('Facebooklib','','fblib');
-		if($this->fblib->getSession()!=null)
-		{
-
-			$this->user_fb=$this->fblib->api('/me');
-			//sino existeix l'usuari de facebook l'inserim
-			if($this->social_users->notExists($this->user_fb['id'],'fb')==true)
-			{
-				$this->social_users->insertNew(array(
-				'user_id'=>$this->user_fb['id'],
-				'username'=>$this->user_fb['name'],
-				'social_network'=>'fb',
-				'access_token'=>$this->fblib->getSession()->getToken(),
-				'user_app'=>$this->flexi_auth->get_user_id(),
-				'disabled'=>0));
-			}
-			redirect('panel/facebook/connectar_facebook');
-
-		}
-	}	
 	//afegeix les comptes seleccionades per usuari
 	public function anadir_paginas()
 	{
@@ -528,6 +540,8 @@ class Facebook extends CI_Controller {
 							}
 					}
 					$this->load->model("social_user_accounts");
+					$this->load->model('autoprog_anuncios');
+					$this->load->model('autoprog_basededatos');
 					foreach ($arrayPagesSelected as $page) {
 						unset($page['checked']);
 						if($type=="group" || $type=="event"){
@@ -536,7 +550,17 @@ class Facebook extends CI_Controller {
 						$page['idaccount']=$page['id'];	
 						unset($page['id']);
 						$infoadd=array('user_app'=>$this->flexi_auth->get_user_id(),"type_account"=>$type,'id_social_user'=>$this->user_fb['id']);
-						$this->social_user_accounts->insertNew(array_merge($page,$infoadd));
+						$this->autoprog_basededatos->insertNew(array(
+							'accountid'=>$page['idaccount'],
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							'type'=>'account','socialnetwork'=>'fb',
+							'weekdays'=>'[]'));
+						$this->autoprog_anuncios->insertNew(array(
+							'accountid'=>$page['idaccount'],
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							'type'=>'account','socialnetwork'=>'fb',
+							'weekdays'=>'[]'));
+							$this->social_user_accounts->insertNew(array_merge($page,$infoadd));
 					}
 				}
 			}
@@ -546,6 +570,7 @@ class Facebook extends CI_Controller {
 		{
 			$this->data['message']='error';
 		}
+		
 		$this->data['titlepage']="";
 		$this->load->view("panel/facebook/anadir_paginas",$this->data);
 		

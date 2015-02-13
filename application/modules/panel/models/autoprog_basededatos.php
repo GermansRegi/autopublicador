@@ -7,6 +7,10 @@ class Autoprog_basededatos extends MY_Model {
 			parent::__construct();
 			$this->setTable("autoprogramacions_bbdd");
 		}		
+		public function insertNew($array=array())
+		{
+			return $this->insert($array);
+		}
 
 }
 
