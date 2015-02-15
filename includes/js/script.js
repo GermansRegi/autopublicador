@@ -25,7 +25,10 @@ $("#filetoup").filestyle()
 		format: 'dd-mm-yyyy',
 
 		});
- 
+ $(document).on('click','.nav-tabs li a',function(e){
+		e.preventDefault();
+	    $(this).tab("show");
+	});
 $(document).on('click', '[data-toggle="ajaxModal"]',function(e){
        e.preventDefault();
       var $this = $(this)

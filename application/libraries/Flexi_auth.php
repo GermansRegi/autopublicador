@@ -422,7 +422,7 @@ class Flexi_auth extends Flexi_auth_lite
 			{
 				// Set email data
 				$email_to = $user->{$this->CI->auth->database_config['user_acc']['columns']['email']};
-				$email_title = ' - Nueva contraseñ<a href=""></a>';
+				$email_title = ' - Nueva contraseña';
 
 				$user_data = array(
 					'identity' => $identity,

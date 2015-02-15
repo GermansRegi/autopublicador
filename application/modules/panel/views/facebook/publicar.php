@@ -125,7 +125,7 @@
 						<input type='submit' name='publicar' data-loading-text="Publicando..." autocomplete="off"  class="btn btn-primary" value='Publicar'/>
 				</section>
 				<div>
-					<p>Facebook no permite poner en una misma publicación imágenes y enlaces</p>
+					<p>Facebook no permite publicar en una misma publicación imágenes y enlaces</p>
 				</div>
 			</div>
 			</div>

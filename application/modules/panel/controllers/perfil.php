@@ -56,9 +56,9 @@ class Perfil extends CI_Controller {
 				
 			}
 			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk",'upro_timezone_offset'))->result();	
-			$timezones=$this->config->item('timezones');
-			echo date_default_timezone_get();
-			date_default_timezone_set($timezones[$guest[0]->upro_timezone_offset]);
+		
+		
+		
 
 			if ($this->flexi_auth->is_privileged('acces user free'))
 			{

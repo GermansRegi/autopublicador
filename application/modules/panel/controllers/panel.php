@@ -138,7 +138,8 @@ class Panel extends CI_Controller {
 			{
 				$this->load->model("payments");
 				$pays=$this->payments->getLastPayment(array("user_app"=>$this->flexi_auth->get_user_id(),"finished"=>0));
-				var_dump($pays);
+				
+								
 				$datestart=new DateTime($pays[0]->last);
 				$arrayName = array('mensual' =>30 ,"trimestral"=>90,"anual"=>365 );
 				$datestart->modify('+'.$arrayName[$pays[0]->type_prempay]." day");

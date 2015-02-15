@@ -779,6 +779,55 @@ class Facebook extends CI_Controller {
 		}
 		
 	}
+	public function prog_periodicas()
+	{
+		$this->load->model('autoprog_basededatos');
+		$this->load->model('autoprog_anuncios');
+		$this->load->model('social_user_accounts');
+		$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'fb'));
+		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'fb'));
+		foreach ($programacionesbbdd as $prog) {
+			if($prog->type=='account')
+			{
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid),1);
+				$prog->name=$acc[0]->name;
+			}
+			else
+			{
+				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid),1);	
+				$prog->name=$user[0]->username;
+			}
+		
+		}
+		foreach ($programacionesanuncios as $prog) {
+			if($prog->type=='account')
+			{
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid),1);
+				$prog->name=$acc[0]->name;
+			}
+			else
+			{
+				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid),1);	
+				$prog->name=$user[0]->username;
+			}
+		
+		}
+
+		$this->data['autoprog']['basededatos']=$programacionesbbdd;
+		$this->data['autoprog']['anuncios']=$programacionesanuncios;
+			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id(),'configured'=>0));
+			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id(),'configured'=>0));
+			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id(),'configured'=>0));
+			$this->data['data']['page']=$pages;
+			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id(),'configured'=>0));
+			
+
+
+		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'	=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->data['titlepage']="Prgramaciones periodicas facebook";
+		$this->load->view('facebook/autoprog',$this->data);		
+	}
 	// agafa els elements d
 }
 

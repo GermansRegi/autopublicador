@@ -26,20 +26,20 @@ $lang['account_creation_insufficient_data']			= 'Datos insuficientes para crear 
 // Password
 $lang['password_invalid']							= "El campo %s no es válido.";
 $lang['password_change_successful'] 	 	 		= 'La contraseña ha sido cambiada con éxito.';
-$lang['password_change_unsuccessful'] 	  	 		= 'Su contraseña no coincide con nuestros registros.';
+$lang['password_change_unsuccessful'] 	  	 		= 'La contraseña actual que ha introducido no coincide con su contraseña.';
 $lang['password_token_invalid']  					= 'Su contraseña token presentado no es válida o ha expirado.';
-$lang['email_new_password_successful']				= 'Una nueva contraseña ha sido enviada por correo electrónico.';
-$lang['email_forgot_password_successful']	 		= 'Un correo electrónico ha sido enviado para restablecer su contraseña.';
+$lang['email_new_password_successful']				= 'Le hemos enviado nueva contraseña por correo electrónico.';
+$lang['email_forgot_password_successful']	 		= 'Le hemos envado un correo electrónico ha sido enviado para restablecer su contraseña.';
 $lang['email_forgot_password_unsuccessful']  		= 'No se ha podido restablecer la contraseña.';
 
 // Activation
-$lang['activate_successful']						= 'La cuenta ha sido activada.';
+$lang['activate_successful']						= 'Su cuenta ha sido activada.';
 $lang['activate_unsuccessful']						= 'No se puede activar la cuenta.';
 $lang['deactivate_successful']						= 'La cuenta ha sido desactivada.';
 $lang['deactivate_unsuccessful']					= 'No puede desactivar la cuenta.';
-$lang['activation_email_successful'] 	 			= 'Revise el correo subministrado para activar su cuenta.';
+$lang['activation_email_successful'] 	 			= 'Revise el correo electrónico que le hemos enviado para activar su cuenta.';
 $lang['activation_email_unsuccessful']  	 		= 'No se puede enviar correo electrónico de activación.';
-$lang['account_requires_activation'] 				= 'Su cuenta tiene que ser activado por correo electrónico.';
+$lang['account_requires_activation'] 				= 'Tiene que activar su cuenta a través del correo electrónico que le hemos enviado.';
 $lang['account_already_activated'] 					= 'Su cuenta ya ha sido activada.';
 $lang['email_activation_email_successful']			= 'Un correo electrónico ha sido enviado para activar su nueva dirección de correo electrónico.';
 $lang['email_activation_email_unsuccessful']		= 'No se puede enviar un correo electrónico para activar su nueva dirección de correo electrónico.';

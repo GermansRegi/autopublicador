@@ -8,6 +8,7 @@
 						<li><a href="<?php echo base_url(); ?>panel/facebook">Cuentas</a></li>
 						<li><a href="<?php echo base_url(); ?>panel/facebook/publicar">Publicar ahora</a></li>
 						<li><a href="<?php echo base_url(); ?>panel/facebook/programar_facebook">Programar</a></li>
+						<li><a href="<?php echo base_url(); ?>panel/facebook/prog_peridicas">Programaciones periodicas</a></li>
 					</ul>
 			
                

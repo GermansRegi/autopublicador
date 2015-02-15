@@ -30,10 +30,10 @@
 					<div class="col-lg-7">
 						<select name="type" class="select form-control">
 							<option value="">Selecciona un tipo</option>
-							<option value="event">Event</option>
-							<option value="user">Usuario</option>
-							<option value="group">Grupo</option>
-							<option value="page">Página</option>
+							<option value="event">Eventos</option>
+							<option value="user">Usuarios</option>
+							<option value="group">Grupos</option>
+							<option value="page">Páginas</option>
 						</select>
 					</div>
 				</div>
@@ -102,7 +102,7 @@
 													</td>
 													<td>
 														<a href="https:/www.facebook.com/<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id:$pagenofolder->idaccount); ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
-														<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id.'/u':$pagenofolder->idaccount.'/a'); ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>
+														<!--<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id.'/u':$pagenofolder->idaccount.'/a'); ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>-->
 														<a data-user="<?php echo ((!isset($pagenofolder->idaccount))?'true':'false') ?>" data-id="<?php echo $pagenofolder->id ?>" class="btn btn-danger deleteaccount" data-type="false" data-social="fb"><i class="fa fa-trash-o"></i></a>
 														
 													</td>
@@ -158,7 +158,7 @@
 												</td>
 												<td>
 													<a href="https:/www.facebook.com/<?php echo ((!isset($pagefolder->idaccount))?$pagefolder->user_id:$pagefolder->idaccount);//$pagefolder->idaccount ?>" target="_blank" class="btn btn-default btn-ms"><i  class="fa fa-eye"></i></a>
-													<a href="<?php echo base_url()?>panel/commonsocial/editar/<?php echo ((!isset($pagefolder->idaccount))?$pagefolder->user_id.'/u':$pagefolder->idaccount.'/a');//$pagefolder->idaccount ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>
+													
 												 	<a  data-user="<?php echo ((!isset($pagefolder->idaccount))?'true':'false') ?>" data-id="<?php echo $pagefolder->id ?>" data-type="false" data-social="fb" class="btn btn-danger deleteaccount"><i class="fa fa-trash-o"></i></a>
 												</td>
 											</tr>

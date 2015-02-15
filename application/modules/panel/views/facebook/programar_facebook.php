@@ -177,7 +177,7 @@ $arr=array("group","user","event","page")
 								<input type='submit' name='publicar' class="btn btn-primary" value='Publicar'/>
 						</section>
 						<div>
-							<p>Facebook no permite poner en una misma publicación imágenes y enlaces</p>
+							<p>Facebook no permite publicar en una misma publicación imágenes y enlaces</p>
 						</div>
 					</div>	
 					</form>

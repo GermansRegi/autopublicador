@@ -176,6 +176,10 @@ if($('#tweet_txt').length>0)
 			});	
 		return false;
 	});
+	$(document).on('click','.nav-tabs a',function(e){
+		e.preventDefault();
+	    $(this).tab("show");
+	});
 	// events per obrir tabs en cuentas  d facebook
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 		var target = $(e.target).attr("href") // activated currTab
