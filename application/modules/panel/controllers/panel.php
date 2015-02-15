@@ -121,7 +121,7 @@ class Panel extends CI_Controller {
 				if($guest[0]->guestPremium=="1")
 				{
 					$datestart=new DateTime($guest[0]->uacc_date_added);
-					$datestart->modify("-7 day");
+					$datestart->modify("+8 day");
 					$datend=new DateTime('now');
 					$interval	=$datestart->diff($datend);
 						
@@ -137,16 +137,18 @@ class Panel extends CI_Controller {
 			else if ($this->flexi_auth->is_privileged('acces user prem') ) 
 			{
 				$this->load->model("payments");
-				$pays=$this->payments->getLastPayment(array("user_app"=>$this->flexi_auth->get_user_id(),"finished"=>0));
-				
+				$pays=$this->payments->getLastPaymentFinish(array("user_app"=>$this->flexi_auth->get_user_id(),"finished"=>0));
+				if(count($pays)==1)				
+				{
 								
-				$datestart=new DateTime($pays[0]->last);
-				$arrayName = array('mensual' =>30 ,"trimestral"=>90,"anual"=>365 );
-				$datestart->modify('+'.$arrayName[$pays[0]->type_prempay]." day");
+					$datestart=new DateTime($pays[0]->last);
+					
+					
 
-				$datend=new DateTime('now');
-				$interval	=$datestart->diff($datend);
-				$this->data['texto']="Gracias por usar la versión completa, le quedan  ".$interval->days." días. Renuévelo   <a href='".base_url().'panel/perfil/planes'."'> aquí.</a>";
+					$datend=new DateTime('now');
+					$interval	=$datestart->diff($datend);
+					$this->data['texto']="Gracias por usar la versión completa, le quedan  ".$interval->days." días. Renuévelo   <a href='".base_url().'panel/perfil/planes'."'> aquí.</a>";
+				}
 			}
 
 			$this->data['titlepage']="Bienvenido a su panel de usuario";
@@ -490,12 +492,23 @@ class Panel extends CI_Controller {
 					   $pago_valido = false;
 
                             // Verificamos en base de datos
-                            
+                             
  	                      $user=$this->flexi_auth->get_user_by_id_query($user_id)->result();
- 	                       
+ 	                      switch($tipo_venta) {
+                                    case 'mensual':
+                                   	 $add=30;
+                                         break;
+                                    case 'trimestral':
+                                    		$add=60;
+                                             break;
+                                    case 'anual':
+                                           $add=365;
+                                        
+                                            break;
+                            } 
  	                      if($user[0]->uacc_group_fk==2)
  	                      {
- 	               			$lastPayemnt=$this->payments->getLastPayment(array('user_app'=>$user[0]->user_app));
+ 	               			$lastPayemnt=$this->payments->getLastPaymentFinish(array('user_app'=>$user[0]->user_app));
  	               			$timezones=$this->config->item('timezones');
  	               			$datenow=new Datetime('now');
  	               			$datepayment=Datetime::createFromFormat('Y-m-d',$lastPayemnt[0]->last);
@@ -503,12 +516,15 @@ class Panel extends CI_Controller {
  	               			
 
  	               			$datediff=$datenow->diff($datepayment);
+
  	               			log_message('error','datefidd'.$datepayment->format('Y-m-d')." ". $datediff->days);
 							$datenow2=new Datetime('now');
-							$datenow2->modify("+".abs($datediff->days)." day");
+							$datenow2->modify("+".(abs($datediff->days)+$add)." day");
+
 	 	                      $res2=$this->payments->insert(array(	
 	 	                      	'user_app'=>$user_id,
-	 	                      	'date_pay'=>$datenow2->format('Y-m-d'),
+	 	                      	'date_pay'=>date('Y-m-d'),
+	 	                      	'date_finish'=>$datenow2->format('Y-m-d'),
 	 	                      	'amount'=>$payment_amount,
 	 	                      	'type_prempay'=>$tipo_venta,
 	 	                      	'txn_id'=>(string)$txn_id,
@@ -518,9 +534,14 @@ class Panel extends CI_Controller {
  	                      }	
  	                      else
  	                      {
+
+ 	                      		$datenow=new Datetime('now');
+ 	                      		$datenow->modify('+'.$add." day");
+
  	                      	  $res2=$this->payments->insert(array(
 	 	                      	'user_app'=>$user_id,
 	 	                      	'date_pay'=>date('Y-m-d'),
+	 	                      	'date_finish'=>$datenow->format('Y-m-d'),
 	 	                      	'amount'=>$payment_amount,
 	 	                      	'type_prempay'=>$tipo_venta,
 	 	                      	'txn_id'=>(string)$txn_id,

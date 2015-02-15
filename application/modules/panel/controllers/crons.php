@@ -70,7 +70,7 @@ class Crons extends CI_Controller {
     				
 
     				$email_to = $user->{$this->auth->database_config['user_acc']['columns']['email']};
-    				$data=array('user'=>$user,'daysleft'=>5,'type_plan'=>' premium gratuita ');
+    				$data=array('user'=>$user,'daysleft'=>2,'type_plan'=>' premium gratuita ');
 				$email_title = ' - Aviso de caducidad de peridodo premium gratuito';
 				
     				$this->flexi_auth_model->send_email($email_to, $email_title,$data,'NotifyPlan.tpl.php');
@@ -95,48 +95,40 @@ class Crons extends CI_Controller {
     	}
     	    	public function checkPremuiumUsers()
     	    	{
-    			$usersSendPremiumNoty=$this->flexi_auth->get_users_query(array('uacc_email','user_app','upro_first_name'),array('guestPremium'=>0))->result();
-
+    			$usersSendPremiumNoty=$this->flexi_auth->get_users_query(array('uacc_email','user_app','upro_first_name'),array('guestPremium'=>0,'uacc_group_fk'=>2))->result();
     			$this->load->model('payments');
     	  		
     	  		//var_dump($usersSendGuestNoty);
-    	    		foreach ($usersSendGuestNoty as $user) {
+    	    		foreach ($usersSendPremiumNoty as $user) {
     	    				$days=0;
-    	    				$lastPayemnt=$this->payments->getLastPayment(array('user_app'=>$user->user_app,'finished'=>0));
-    	    				$datenow=new Datetime('now');
-    	     			$datepayment=Datetime::createFromFormat('Y-m-d',$lastPayemnt[0]->last);
-    	     			switch($lastPayemnt[0]->type_prempay) {
-    	                                    case 'mensual':
-    	                                   	 $add=30;
-    	                                         break;
-    	                                    case 'trimestral':
-    	                                    		$add=60;
-    	                                             break;
-    	                                    case 'anual':
-    	                                           $add=365;
-    	                                        
-    	                                            break;
-    	                            }
-    	                    $datepayment->modify('+'.$add.' day');        
-    	     			$datediff=$datenow->diff($datepayment);
-    	     			if($daydiff->days==5)
-    	     			{
-    	     				$email_to = $user->{$this->auth->database_config['user_acc']['columns']['email']};
-    		    				$data=array('user'=>$user,'daysleft'=>5,'type_plan'=>' premium '.$lastPayemnt[0]->type_prempay);
-    						$email_title = ' - Aviso de caducidad de peridodo premium';
-    						
-    		    				$this->flexi_auth_model->send_email($email_to, $email_title,$data,'NotifyPlan.tpl.php');
-    	     			}
-    	     			else if($daydiff->days==0)
-    	     			{
-    	     				$email_to = $user->{$this->auth->database_config['user_acc']['columns']['email']};
-    		    				$data=array('user'=>$user,'type_plan'=>' premium '.$lastPayemnt[0]->type_prempay);
-    						$email_title = ' - Aviso de caducidad de peridodo premium';
-    		    				$this->flexi_auth_model->send_email($email_to, $email_title,$data,'finishplan.tpl.php');
-    		    				$this->payments->update_by(array('finished'=>1),array('id'=>$lastPayemnt[0]->id));
-    	     			}
-
-    	     			
+    	    				
+    	    				$lastPayemnt=$this->payments->getLastPaymentFinish(array('user_app'=>(int)$user->user_app,'finished'=>0));
+    	    				if(count($lastPayemnt)==1)
+    	    				{
+	    	    				$datenow=new Datetime('now');
+	    	     			$datepayment=new Datetime($lastPayemnt[0]->last);
+	    	     			echo $datepayment->format('Y-m-d');
+	    	                    echo $datenow->format('Y-m-d');
+	    	     			$datediff=$datepayment->diff($datenow);
+	    	     			echo $datediff->days."<br>";
+	    	     			if($datediff->days==5)
+	    	     			{
+	    	     				$email_to = $user->{$this->auth->database_config['user_acc']['columns']['email']};
+	    		    				$data=array('user'=>$user,'daysleft'=>5,'type_plan'=>' premium '.$lastPayemnt[0]->type_prempay);
+	    						$email_title = ' - Aviso de caducidad de peridodo premium';
+	    						
+	    		    				$this->flexi_auth_model->send_email($email_to, $email_title,$data,'NotifyPlan.tpl.php');
+	    	     			}
+	    	     			else if($datediff->days==0)
+	    	     			{
+	    	     				$email_to = $user->{$this->auth->database_config['user_acc']['columns']['email']};
+	    		    				$data=array('user'=>$user,'type_plan'=>' premium '.$lastPayemnt[0]->type_prempay);
+	    						$email_title = ' - Aviso de caducidad de peridodo premium';
+	    		    				$this->flexi_auth_model->send_email($email_to, $email_title,$data,'finishplan.tpl.php');
+	    		    				$this->payments->update_by(array('finished'=>1),array('id'=>$lastPayemnt[0]->id));
+	    		    				$res=$this->db->query('update user_accounts set uacc_group_fk=1 where user_app='.$user->user_app);
+	    	     			}
+					}    	     			
     	    				
     	    				
 
@@ -410,9 +402,9 @@ class Crons extends CI_Controller {
 
 					} 
 
-					log_message('info','publicador rss'.$timeUpdateitem.$itemTopublish->pubDate[0]);
+					log_message('error','publicador rss'.$timeUpdateitem.$itemTopublish->pubDate[0]);
 
-					log_message('info','link: '.$itemTopublish->link. " , ".$itemTopublish->link[0] );
+					log_message('error','link: '.$itemTopublish->link. " , ".$itemTopublish->link[0] );
 					$fbaccesstoken=array();
 					$arrayFb=json_decode($rss->ids_fb);
 					$arrayTw=json_decode($rss->ids_twt);
@@ -521,7 +513,112 @@ class Crons extends CI_Controller {
 		
 
 
-    
+    public function cronAutoProgAnuncis()
+    {
+    	 $array=array('Monday'=>'lunes',
+                'Tuesday'=>'martes',
+                'Wednesday'=>'miércoles',
+                'Thursday'=>'jueves',
+                'Friday'=>'viernes',
+                'Saturday'=>'sábado',
+                'Sunday'=>'domingo');
+
+    		$this->load->model('autoprog_anuncios');
+    		$autoprogs=$this->autoprog_anuncios->get_all();
+    		if(count($autoprogs)>0)
+    		{
+    			foreach ($autoprogs as $prog) 
+    			{
+    				$horaactual=date('H');
+            		if($horaactual=='00')
+            			$horaactual=24;
+            		if ($horaactual >= $prog->time_start && $horaactual <= $prog->time_end) 
+            		{
+            			if (in_array($array[date('l')], json_decode($prog->weekdays))) 
+            			{
+            				if ($prog->estic_dins == 0) 
+            				{
+            					$this->autoprog_anuncios->update_by(array('date' => time(), 'estic_dins' => 1), array('accountid' => $prog->accountid, 'id' => $prog->id));
+            				}
+            				else
+            				{
+            					$freq = (float) $prog->frequency;
+            					if (isset($freq) && $freq != 0.0)
+            						{
+            							if ($freq < 1) {
+            								$freq = $freq * 100;
+///                                                $resta=(date('i')-date('i',$config->fecha));
+            								echo "min<br/>";
+            							} else {
+            								$freq = $freq * 60;
+            								
+            								echo "horas <br/>";
+            							}
+            							$resta=(time()-$prog->date)/60;                                         
+            							log_message('error', $prog->accountid."accountid abans de mirar si puc publicar");
+            							log_message('error', "miro minuts i intervals, estic dins val 1, la frequencia ara val ".$freq. " i la resta val ".round($resta)." minuts fecha ".date('i',$prog->date)."minuts ara". date('i'));
+                                            //aixro surt refresca lla pag de xivatos
+            							echo date('H:i:s') . "<br>";
+            							echo "frequencia: ".$freq."<br>";;
+            							echo "hora de inici de les publicacions ( a la k sha guardat el formulari config )".date(' Y-m-d H:i:s', $prog->date) . "<br>";
+            							
+            							echo $prog->accountid."<br/>";
+            							echo "resta  minuts que han passat desde k sha guardat el formulari: ".round($resta)."<br/>";
+                                            //faig la resta dels minuts dara amb els k hi han a bd
+                                            //ii faig el modul amb la frequencia 
+
+                                            //si son les 12:13, 
+                                            //a bd tinc les 10:13
+                                           //vol dir k tinc un 0 %15 E=0ugie fes una cosa, posa xivatoss a tots els if
+            							
+            							if (round($resta)%$freq==0)
+            							{
+            								log_message('error',"puc publicar!");
+            								if(isset($prog->ids))
+            								{
+            									$this->load->model('social_user_accounts');
+            									$this->load->model('social_users');
+            									if($prog->type='account')
+            									{
+            										$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid),1);
+											
+											}
+											else
+											{
+												$acc=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid),1);	
+											
+											}
+											$this->load->model('anuncios_model');
+											$array=array('fb'=>'face',"tw"=>'twt');
+											$anunci=$this->anuncios_model->getAll(array('socialnetwork'=>$array[$prog->socialnetwork],'id'=>$prog->ids));
+											var_dump($anunci);
+											$elements=$this->anuncios_model->getElements($anunci[0]->content,array('bbdd_id'=>$anunci[0]->id));
+											var_dump($elements);
+											if($anunci[0]->content=='image')
+											{
+
+											}
+											else if($anunci[0]->content=='link')
+											{
+
+											}
+											else
+											{
+
+											}
+
+
+
+            								}
+            							}
+            						}
+            				}
+            			}
+            		}
+	    		}
+
+    		}
+    	}	
 
 }
 

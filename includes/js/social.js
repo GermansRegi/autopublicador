@@ -121,6 +121,30 @@ if($('#tweet_txt').length>0)
 
 	})
 	//
+$("body").on("click",".deleteautoprog",function(){
+	var $this=$(this);
+	var prog=$this.data("prog-id")
+	var account=$this.data("account-id");
+	var type=$this.data("type-prog");
+	if(confirm("Seguro que quiere eliminar a autoprogramación?"))
+	$.ajax({
+		type:'post',
+		dataType:"json",
+		url:base_url+"panel/commonsocial/deleteAutoProg",
+		data:{prog:prog,type:type,account:account},
+		success:function(data){
+			var res=showResults(data,',','.message');
+					if(res){
+							$('body').delay(1000).queue(function( nxt ) {
+								document.location.href=current_url;
+								nxt();
+		                      }); 	
+						}
+
+		}
+
+	})
+})
 	function onClickNoty(type,id,isUser)
 	{
 		$.ajax({
@@ -301,6 +325,33 @@ if($('#tweet_txt').length>0)
           );
           
 	})
+	$('body').on('submit',"#periodicasmultiple",function(e){
+		e.preventDefault();
+		 var formdata =new FormData($(this)[0]);
+		 var url=$(this).attr('action');
+		 $.ajax({
+		 	url:url,
+		 	dataType:'json',
+		 	type:'post',
+		 	data:formdata,
+		 	async:false,
+		 	processData:false,
+			async:false,
+			cache:false,
+			contentType:false,
+			success:function(data)
+			{
+				var res=showResults(data,',','.message');
+				if(res){
+						$('body').delay(2000).queue(function( nxt ) {
+								document.location.href=current_url;
+							nxt();
+	                      }); 	
+					}
+			}
+		 })
+	})
+
 	$('body').on('submit',"#periodicas",function(e){
 		e.preventDefault();
 		 var formdata =new FormData($(this)[0]);

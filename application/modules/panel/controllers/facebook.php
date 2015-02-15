@@ -422,19 +422,7 @@ class Facebook extends CI_Controller {
 				'access_token'=>$this->fblib->getSession()->getToken(),
 				'user_app'=>$this->flexi_auth->get_user_id(),
 				'disabled'=>0));
-				$this->load->model('autoprog_anuncios');
-				$this->load->model('autoprog_basededatos');
-				$this->autoprog_basededatos->insertNew(array(
-					'accountid'=>	$this->user_fb['id'],
-					'user_app'=>$this->flexi_auth->get_user_id(),
-					'type'=>'user','socialnetwork'=>'fb',
-					'weekdays'=>'[]'));
-				$this->autoprog_anuncios->insertNew(array(
-					'accountid'=>$this->user_fb['id'],
-					'user_app'=>$this->flexi_auth->get_user_id(),
-					'type'=>'user','socialnetwork'=>'fb',
-					'weekdays'=>'[]'));
-		
+
 			}	
 			else
 			{
@@ -779,11 +767,127 @@ class Facebook extends CI_Controller {
 		}
 		
 	}
+	public function checkhours($str)
+	{
+		if($str['hora_inicio']>=$str['hora_fin'])
+		{
+			$this->form_validation->set_message('checkhours', 'La hora de inicio debe ser anterior a la hora final');
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 	public function prog_periodicas()
 	{
 		$this->load->model('autoprog_basededatos');
 		$this->load->model('autoprog_anuncios');
 		$this->load->model('social_user_accounts');
+		
+		if($this->input->post('datos'))
+		{
+			$this->form_validation->set_rules('datos', 'Horas de publicación', 'callback_checkhours');		
+			
+			if($this->form_validation->run()===TRUE)
+			{
+				$datos=$this->input->post('datos');
+				if(isset($datos['user']))
+				{
+					foreach($datos['user'] as $id)
+					{
+						$this->autoprog_basededatos->insertNew(array(
+						'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
+						'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
+						'frequency'=>$datos['frecuencia'],
+						'socialnetwork'=>'fb',
+						'time_start'=>$datos['hora_inicio'],
+						'time_end'=>$datos['hora_fin'],
+						"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
+						'perm_sentences'=>$datos['frases_perm'],'accountid'=>$id,'type'=>'user'));
+						
+					}
+				}
+				if(isset($datos['account']))
+				{
+					foreach ($datos['account'] as $id) {
+						$this->autoprog_basededatos->insertNew(array(
+						'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
+						'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
+						'socialnetwork'=>'fb',
+						'frequency'=>$datos['frecuencia'],
+						'time_start'=>$datos['hora_inicio'],
+						'time_end'=>$datos['hora_fin'],
+						"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
+						'perm_sentences'=>$datos['frases_perm'],'accountid'=>$id,'type'=>'account'));
+				
+					}	
+				}
+		
+			}
+			else
+			{
+				$errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors)); 
+			
+			}
+			exit;	
+		}
+		
+		if($this->input->post('anuncios'))
+		{
+			
+			$this->form_validation->set_rules('anuncios', 'Horas de publicación', 'callback_checkhours');
+			if($this->form_validation->run()===TRUE)
+			{
+				$anuncios=$this->input->post('anuncios');
+				if(isset($anuncios['user']))
+				{
+					foreach($anuncios['user'] as $id)
+					{
+						$this->autoprog_anuncios->insertNew(array(
+						'ids'=>$anuncios['asociard'],
+						'frequency'=>$anuncios['frecuencia'],
+						'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
+						'socialnetwork'=>'fb',
+						'frequency_erase'=>$anuncios['frecuencia_borrado'],
+						'time_start'=>$anuncios['hora_inicio'],
+						"weekdays"=>(isset($anuncios['diasp'])?json_encode($anuncios['diasp']):'[]'),
+						'time_end'=>$anuncios['hora_fin'],
+						'perm_sentences'=>$anuncios['frases_perm'],'accountid'=>$id,'type'=>'user'));
+				
+					}
+				}
+				if(isset($anuncios['account']))
+				{
+					foreach($anuncios['account'] as $id)
+					{
+						$this->autoprog_anuncios->insertNew(array(
+						'ids'=>$anuncios['asociard'],
+						'socialnetwork'=>'fb',
+						'frequency'=>$anuncios['frecuencia'],
+						'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
+						'frequency_erase'=>$anuncios['frecuencia_borrado'],
+						'time_start'=>$anuncios['hora_inicio'],
+						"weekdays"=>(isset($anuncios['diasp'])?json_encode($anuncios['diasp']):'[]'),
+						'time_end'=>$anuncios['hora_fin'],
+						'perm_sentences'=>$anuncios['frases_perm'],'accountid'=>$id,'type'=>'account'));
+				
+					}
+				}
+
+		
+		
+			}
+			else
+			{
+				$errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors)); 
+			
+			}
+			exit;	
+		}
+		
 		$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'fb'));
 		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'fb'));
 		foreach ($programacionesbbdd as $prog) {

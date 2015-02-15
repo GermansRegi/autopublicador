@@ -22,7 +22,7 @@ $arr=array("group","user","event","page")
 	?>
       
 
-	<form method="post" id="periodicasmultiple" action="<?php echo base_url()?>panel/facebook/prog_periodicas" >
+	<form method="post" id="periodicasmultiple" action="<?php echo base_url()?>panel/twitter/prog_periodicas" >
 		<div class="message">
 			
 		</div>
@@ -71,9 +71,6 @@ $arr=array("group","user","event","page")
 							
 							</select> 
 							
-							<br>
-							<strong>Repetir publicación</strong>
-							<input type='checkbox' name='datos[repetir]' />
 							
 
 						</div>
@@ -145,46 +142,16 @@ $arr=array("group","user","event","page")
 						</div>
 						<div class="col-lg-9">
 							<label class="control-label ">Cuentas:</label>
-							  
-							<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-									
-									<?php
-									
-									$arraytypes=array(
-										array("name"=>"group","title"=>"Grupos"),
-										array("name"=>"user","title"=>"Usuarios"),
-										array("name"=>"page","title"=>"Páginas"),
-										array("name"=>"event","title"=>"Eventos"));
-									for($i=0;$i<count($arraytypes);$i++)
+					  
+								<section >
+								<?php
+									foreach($users as $page)
 									{
-										if(count($data[$arraytypes[$i]["name"]])>0)
-										{ 
-										?>
-											<section class="panel panel-default">
-												<section class="panel-heading" role="tab" id="headingOne<?php echo $i; ?>">
-													<h4 class="panel-title">
-														<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne<?php echo $i; ?>" aria-expanded="false" aria-controls="collapseOne<?php echo $i; ?>">
-															<?php echo $arraytypes[$i]['title']; ?>
-														</a>
-													</h4>
-												</section>
-												<section id="collapseOne<?php echo $i; ?>" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne<?php echo $i; ?>">
-													<section class="panel-body">
-													<?php
-													foreach($data[$arraytypes[$i]['name']] as $page)
-													{
-														
-														echo " <input type='checkbox' name='datos[".(($arraytypes[$i]['name']=="user")?'user':'account')."][]' value='".(($arraytypes[$i]['name']=="user")?$page->user_id:$page->idaccount)."' />&nbsp;&nbsp;&nbsp; <span >".(($arraytypes[$i]['name']=="user")?$page->username:$page->name)."</span>&nbsp;&nbsp;<br>";
-													}
-													?>
-													</section>
-												</section>
-											</section>
-										<?php	
-										} 
+										
+										echo " <input type='checkbox' name='datos[user][]' value='".$page->user_id."' /> <span >".$page->username."</span><br>";
 									}
-									?>      
-							</section>
+									?>
+									
 						</div>
 						
 					</div>
@@ -192,7 +159,7 @@ $arr=array("group","user","event","page")
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<td>Autoprogramaciones </td><td></td>
+									<td>Programaciones periodicas de bases de datos </td><td></td>
 								</tr>
 							</thead>
 							<tbody>
@@ -202,7 +169,7 @@ $arr=array("group","user","event","page")
 									echo "<td>".$prog->name."</td>";
 									?>
 									<td><a href="<?php echo base_url()?>panel/commonsocial/editar_basesdedatos/<?php echo $prog->accountid.(($prog->type=='user')?'/u':'/a').'/'.$prog->id; ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>
-										<a  class="btn btn-danger deleteautoprog" data-account-id="<?php echo $prog->accountid?>" data-type-prog='basededatos' data-prog-id="<?php  echo $prog->id; ?>" btn-ms" > <i  class="fa fa-trash-o"></i></a>
+										<a  class="btn btn-danger deleteautoprog" data-account-id="<?php echo $prog->accountid?>" data-type-prog='basededatos' data-prog-id="<?php  echo $prog->id; ?>"  > <i  class="fa fa-trash-o"></i></a>
 									</td>
 									<?php
 									echo "</tr>";
@@ -231,8 +198,7 @@ $arr=array("group","user","event","page")
 							</select>       
 										
 							
-							<strong>Repetir publicación</strong>
-							<input type='checkbox' name='anuncios[repetir]' />
+							
 						
 	    
 						</div>
@@ -340,47 +306,18 @@ $arr=array("group","user","event","page")
 							<input type="submit" name='anuncios[enviar]' value="Guardar bases de  anuncios" class="btn btn-primary">
 						</div>
 						<div class="col-lg-9">
-							<label class="control-label ">Cuentas:</label>
-							  
-							<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-									
-									<?php
-									
-									$arraytypes=array(
-										array("name"=>"group","title"=>"Grupos"),
-										array("name"=>"user","title"=>"Usuarios"),
-										array("name"=>"page","title"=>"Páginas"),
-										array("name"=>"event","title"=>"Eventos"));
-									for($i=0;$i<count($arraytypes);$i++)
+							 <label class="control-label ">Cuentas:</label>
+					  
+								<section >
+								<?php
+									foreach($users as $page)
 									{
-										if(count($data[$arraytypes[$i]["name"]])>0)
-										{ 
-										?>
-											<section class="panel panel-default">
-												<section class="panel-heading" role="tab" id="headingOne<?php echo $i; ?>">
-													<h4 class="panel-title">
-														<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne<?php echo $i; ?>" aria-expanded="false" aria-controls="collapseOne<?php echo $i; ?>">
-															<?php echo $arraytypes[$i]['title']; ?>
-														</a>
-													</h4>
-												</section>
-												<section id="collapseOne<?php echo $i; ?>" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne<?php echo $i; ?>">
-													<section class="panel-body">
-													<?php
-													foreach($data[$arraytypes[$i]['name']] as $page)
-													{
-														
-														echo " <input type='checkbox' name='anuncios[".(($arraytypes[$i]['name']=="user")?'user':'account')."][]' value='".(($arraytypes[$i]['name']=="user")?$page->user_id:$page->idaccount)."' />&nbsp;&nbsp;&nbsp; <span >".(($arraytypes[$i]['name']=="user")?$page->username:$page->name)."</span>&nbsp;&nbsp;<br>";
-													}
-													?>
-													</section>
-												</section>
-											</section>
-										<?php	
-										} 
+										
+										echo " <input type='checkbox' name='anuncios[user][]' value='".$page->user_id."' /> <span >".$page->username."</span><br>";
 									}
-									?>      
-							</section>
+									?>
+									
+				   
 						</div>
 						
 					</div>
@@ -388,7 +325,7 @@ $arr=array("group","user","event","page")
 						<table class="table table-striped">
 					<thead>
 						<tr>
-							<td>Cuenta</td><td></td>
+							<td>Programaciones periodicas de anuncios</td><td></td>
 						</tr>
 					</thead>
 					<tbody>

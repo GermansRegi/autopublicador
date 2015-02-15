@@ -173,9 +173,7 @@ class CommonSocial extends CI_Controller {
 				else	
 				{
 					$acc=$this->social_user_accounts->getUserappAccounts(array('id'=>$value->id),1);
-					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->idaccount));
-					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->idaccount));
-
+				
 					$this->social_user_accounts->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
 				}
 			}
@@ -319,11 +317,11 @@ class CommonSocial extends CI_Controller {
 			return true;
 		}
 	}
-	public function editar($idaccount,$type)
+	public function editar_anuncios($idaccount,$type,$id)
 	{
 		
 		$this->load->model('autoprog_anuncios');
-		$this->load->model('autoprog_basededatos');
+		
 		$this->load->model('social_users');
 		$this->load->model('social_user_accounts');
 		$array=array('fb'=>'face',"tw"=>'twt');
@@ -335,11 +333,12 @@ class CommonSocial extends CI_Controller {
 			}
 			else
 			{ 
+				
 				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$idaccount),1);
 				$acc[0]->type="account";
 				$acc[0]->social_network='fb';
 			}	
-			$this->form_validation->set_rules('datos', 'Horas de publicación', 'callback_checkhours');
+			
 			$this->form_validation->set_rules('anuncios', 'Horas de publicación', 'callback_checkhours');
 
 		if($this->input->post())
@@ -348,18 +347,7 @@ class CommonSocial extends CI_Controller {
 			{
 
 
-
-			$datos=$this->input->post('datos');
-			
-			$this->autoprog_basededatos->update_by(array(
-				'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
-				'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
-				'frequency'=>$datos['frecuencia'],
-				'time_start'=>$datos['hora_inicio'],
-				'time_end'=>$datos['hora_fin'],
-				"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
-				'perm_sentences'=>$datos['frases_perm']),array('accountid'=>$idaccount,'type'=>$acc[0]->type));
-			$anuncios=$this->input->post('anuncios');
+			$anuncios=$this->input->post("anuncios");
 			$this->autoprog_anuncios->update_by(array(
 				'ids'=>$anuncios['asociard'],
 				'frequency'=>$anuncios['frecuencia'],
@@ -381,16 +369,97 @@ class CommonSocial extends CI_Controller {
 		}
 		
 		$this->data['url']=base_url(uri_string());
-		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()));
+		
 		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()));
 		$this->data['accountedit']=$acc[0];
-		$autoprog=$this->autoprog_basededatos->get_many_by(array('accountid'=>$idaccount,'type'=>$acc[0]->type));
-		$autoproganuncis=$this->autoprog_anuncios->get_many_by(array('accountid'=>$idaccount,'type'=>$acc[0]->type));
-		$this->data['conf_bbdd']=$autoprog[0];
+		
+		$autoproganuncis=$this->autoprog_anuncios->get_many_by(array('accountid'=>$idaccount,'type'=>$acc[0]->type,'id'=>$id));
+		
 		$this->data['conf_anunci']=$autoproganuncis[0];
-		$this->load->view('common/editar_account',$this->data);
+		$this->load->view('common/editar_account_anuncis',$this->data);
 	}
-	
+	public function editar_basesdedatos($idaccount,$type,$id)
+	{
+		
+		
+		$this->load->model('autoprog_basededatos');
+		$this->load->model('social_users');
+		$this->load->model('social_user_accounts');
+		$array=array('fb'=>'face',"tw"=>'twt');
+			if($type=='u')
+			{
+				$acc=$this->social_users->getUserAppUsers(array('user_id'=>$idaccount),1);	
+				$acc[0]->type="user";
+				
+			}
+			else
+			{ 
+				
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$idaccount),1);
+				$acc[0]->type="account";
+				$acc[0]->social_network='fb';
+			}	
+			$this->form_validation->set_rules('datos', 'Horas de publicación', 'callback_checkhours');
+			
+
+		if($this->input->post())
+		{
+			if($this->form_validation->run()==TRUE)
+			{
+
+
+
+			$datos=$this->input->post('datos');
+			
+			$this->autoprog_basededatos->update_by(array(
+				'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
+				'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
+				'frequency'=>$datos['frecuencia'],
+				'time_start'=>$datos['hora_inicio'],
+				'time_end'=>$datos['hora_fin'],
+				"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
+				'perm_sentences'=>$datos['frases_perm']),array('accountid'=>$idaccount,'type'=>$acc[0]->type));
+			echo json_encode(array('msg_success'=>'Datos guardados correctamente'));
+
+			}
+			else
+			{
+
+    			    $errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors)); 
+			}
+			exit;
+		}
+		
+		$this->data['url']=base_url(uri_string());
+		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()));
+		
+		$this->data['accountedit']=$acc[0];
+		$autoprog=$this->autoprog_basededatos->get_many_by(array('accountid'=>$idaccount,'type'=>$acc[0]->type,'id'=>$id));
+		
+		$this->data['conf_bbdd']=$autoprog[0];
+		
+		$this->load->view('common/editar_account_basesdedades',$this->data);
+	}
+	public function deleteAutoProg() 
+	{
+		if($this->input->post("type"))
+		{
+			$type=$this->input->post("type");
+			$account=$this->input->post("account");
+			$prog=$this->input->post("prog");
+			$this->load->model('autoprog_basededatos');
+			$this->load->model('autoprog_anuncios');
+			if($type=="anuncios")
+				$flag=$this->autoprog_anuncios->delete_by(array('accountid'=>$account,"id"=>$prog));
+			else
+				$flag=$this->autoprog_basededatos->delete_by(array('accountid'=>$account,"id"=>$prog));
+			if($flag)
+			echo json_encode(array('msg_success'=>'Datos eliminados correctamente'));
+			else
+				echo json_encode(array('msg_errors'=>array('pp'=>'Error al eliminar los datos')));
+		}
+	}
 }
 
 /* End of file commonactions.php */

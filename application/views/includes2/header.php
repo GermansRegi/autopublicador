@@ -1,5 +1,6 @@
 <script>
-	var base_url='<?php echo base_url()?>'
+	var base_url='<?php echo base_url()?>';
+	var current_url='<?php echo base_url(uri_string())?>';
 </script>
     <main id="container">
         <header>
