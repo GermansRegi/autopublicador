@@ -54,6 +54,7 @@ $arr=array("group","user","event","page")
 							<strong>Frecuencia</strong><br>
 							<select name="datos[frecuencia]" class="form-control">
 								<option  value="0">Selecciona una opción</option>
+								<option  value="0.02">2 minutos</option>
 								<option  value="0.10">10 minutos</option>
 								<option value="0.15">15 minutos</option>
 								<option value="0.20">20 minutos</option>
@@ -207,6 +208,7 @@ $arr=array("group","user","event","page")
 							<select name="anuncios[frecuencia]" class="form-control">
 								
 								<option  value="0">Selecciona una opción</option>
+								<option  value="0.02">2 minutos</option>
 								<option  value="0.10">10 minutos</option>
 								<option value="0.15">15 minutos</option>
 								<option value="0.20">20 minutos</option>
@@ -225,6 +227,7 @@ $arr=array("group","user","event","page")
 							<strong>Frecuencia de borrado</strong><br>
 							<select name="anuncios[frecuencia_borrado]" class="form-control">
 							 <option  value="0">Selecciona una opción</option>
+							 	<option  value="0.02">2 minutos</option>
 								<option  value="0.10">10 minutos</option>
 								<option value="0.15">15 minutos</option>
 								<option value="0.20">20 minutos</option>

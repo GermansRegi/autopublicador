@@ -8864,3 +8864,9 @@ footer {
 #generate-anuncis {
   padding-top: 15px;
   padding-bottom: 15px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/style\.scss}line{font-family:\0000353}}
+.bg-dagner-dark-error-message {
+  background-color: #ce8383;
+  color: white;
+  font-weight: bold; }

@@ -210,7 +210,7 @@ if(idUploader){
 		{      
 			
 		     //$(id).html(showSuccessForm(data.msg_success))
-		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",4000);
+		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",false);
 		     if(data.idcreated)
 			{
 		  		return data.idcreated

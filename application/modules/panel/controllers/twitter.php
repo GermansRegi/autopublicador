@@ -581,9 +581,10 @@ class Twitter extends CI_Controller {
 	}
 	public function checkhours($str)
 	{
+		
 		if($str['hora_inicio']>=$str['hora_fin'])
 		{
-			$this->form_validation->set_message('checkhours', 'La hora de inicio debe ser anterior a la hora final');
+			
 			return false;
 		}
 		else
@@ -591,81 +592,87 @@ class Twitter extends CI_Controller {
 			return true;
 		}
 	}
+
 	public function prog_periodicas()
 	{
 		$this->load->model('autoprog_basededatos');
 		$this->load->model('autoprog_anuncios');
 		$this->load->model('social_user_accounts');
 		
-		if($this->input->post('datos'))
+		if($this->input->post())
 		{
-			$this->form_validation->set_rules('datos', 'Horas de publicación', 'callback_checkhours');		
-			
-			if($this->form_validation->run()===TRUE)
+
+			$datos=$this->input->post('datos');
+			$anuncios=$this->input->post('anuncios');
+			if(isset($datos['enviar']))
 			{
-				$datos=$this->input->post('datos');
-				if(isset($datos['user']))
+				if($this->checkhours($datos))
 				{
-					foreach($datos['user'] as $id)
-					{
-						$this->autoprog_basededatos->insertNew(array(
-						'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
-						'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
-						'socialnetwork'=>'tw',
-						'frequency'=>$datos['frecuencia'],
-						'time_start'=>$datos['hora_inicio'],
-						'time_end'=>$datos['hora_fin'],
-						"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
-						'perm_sentences'=>$datos['frases_perm'],'accountid'=>$id,'type'=>'user'));
-						
-					}
-				}
 				
-			}
-			else
-			{
-				$errors = $this->form_validation->error_array();
-                   echo json_encode(array('msg_errors'=>$errors)); 
-			
-			}
-			exit;	
-		}
-		
-		if($this->input->post('anuncios'))
-		{
-			
-			$this->form_validation->set_rules('anuncios', 'Horas de publicación', 'callback_checkhours');
-			if($this->form_validation->run()===TRUE)
-			{
-				$anuncios=$this->input->post('anuncios');
-				if(isset($anuncios['user']))
-				{
-					foreach($anuncios['user'] as $id)
+					if(isset($datos['user']))
 					{
-						$this->autoprog_anuncios->insertNew(array(
-						'ids'=>$anuncios['asociard'],
-						'frequency'=>$anuncios['frecuencia'],
-						'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
-						'socialnetwork'=>'tw',
-						'frequency_erase'=>$anuncios['frecuencia_borrado'],
-						'time_start'=>$anuncios['hora_inicio'],
-						"weekdays"=>(isset($anuncios['diasp'])?json_encode($anuncios['diasp']):'[]'),
-						'time_end'=>$anuncios['hora_fin'],
-						'perm_sentences'=>$anuncios['frases_perm'],'accountid'=>$id,'type'=>'user'));
-				
+						foreach($datos['user'] as $id)
+						{
+							$this->autoprog_basededatos->insertNew(array(
+							'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
+							'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
+							'socialnetwork'=>'tw',
+							'frequency'=>$datos['frecuencia'],
+							'time_start'=>$datos['hora_inicio'],
+							'time_end'=>$datos['hora_fin'],
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
+							'perm_sentences'=>$datos['frases_perm'],'accountid'=>$id,'type'=>'user'));
+							
+						}
 					}
-				}
+					
 				
 
-		
-		
+				}
+				else
+				{
+					
+	                   echo json_encode(array('msg_errors'=>array('pp'=>'La hora de inicio debe ser anterior a la hora final'))); 
+				
+				}
 			}
 			else
 			{
-				$errors = $this->form_validation->error_array();
-                   echo json_encode(array('msg_errors'=>$errors)); 
+				if($this->checkhours($anuncios))
+				{
+					
+					if(isset($anuncios['user']))
+					{
+						foreach($anuncios['user'] as $id)
+						{
+							$this->autoprog_anuncios->insertNew(array(
+							'ids'=>$anuncios['asociard'],
+							'frequency'=>$anuncios['frecuencia'],
+							'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
+							'socialnetwork'=>'tw',
+							'frequency_erase'=>$anuncios['frecuencia_borrado'],
+							'time_start'=>$anuncios['hora_inicio'],
+							"weekdays"=>(isset($anuncios['diasp'])?json_encode($anuncios['diasp']):'[]'),
+							'time_end'=>$anuncios['hora_fin'],
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							'perm_sentences'=>$anuncios['frases_perm'],'accountid'=>$id,'type'=>'user'));
+					
+						}
+					}
+					
+
 			
+			
+				}
+				else
+				{
+					
+	                    echo json_encode(array('msg_errors'=>array('pp'=>'La hora de inicio debe ser anterior a la hora final'))); 
+				
+				}	
 			}
+
 			exit;	
 		}
 		

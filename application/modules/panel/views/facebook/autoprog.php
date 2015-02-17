@@ -21,7 +21,7 @@ $arr=array("group","user","event","page")
 
 	?>
       
-
+	
 	<form method="post" id="periodicasmultiple" action="<?php echo base_url()?>panel/facebook/prog_periodicas" >
 		<div class="message">
 			
@@ -54,6 +54,7 @@ $arr=array("group","user","event","page")
 							<strong>Frecuencia</strong><br>
 							<select name="datos[frecuencia]" class="form-control">
 								<option  value="0">Selecciona una opción</option>
+								<option  value="0.02">2 minutos</option>
 								<option  value="0.10">10 minutos</option>
 								<option value="0.15">15 minutos</option>
 								<option value="0.20">20 minutos</option>
@@ -202,7 +203,7 @@ $arr=array("group","user","event","page")
 									echo "<td>".$prog->name."</td>";
 									?>
 									<td><a href="<?php echo base_url()?>panel/commonsocial/editar_basesdedatos/<?php echo $prog->accountid.(($prog->type=='user')?'/u':'/a').'/'.$prog->id; ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>
-										<a  class="btn btn-danger deleteautoprog" data-account-id="<?php echo $prog->accountid?>" data-type-prog='basededatos' data-prog-id="<?php  echo $prog->id; ?>" btn-ms" > <i  class="fa fa-trash-o"></i></a>
+										<a  class="btn btn-danger deleteautoprog" data-account-id="<?php echo $prog->accountid?>" data-type-prog='basededatos' data-prog-id="<?php  echo $prog->id; ?>"> <i  class="fa fa-trash-o"></i></a>
 									</td>
 									<?php
 									echo "</tr>";
@@ -241,6 +242,7 @@ $arr=array("group","user","event","page")
 							<select name="anuncios[frecuencia]" class="form-control">
 								
 								<option  value="0">Selecciona una opción</option>
+								<option  value="0.02">2 minutos</option>
 								<option  value="0.10">10 minutos</option>
 								<option value="0.15">15 minutos</option>
 								<option value="0.20">20 minutos</option>
@@ -259,6 +261,7 @@ $arr=array("group","user","event","page")
 							<strong>Frecuencia de borrado</strong><br>
 							<select name="anuncios[frecuencia_borrado]" class="form-control">
 							 <option  value="0">Selecciona una opción</option>
+							 	<option  value="0.02">2 minutos</option>
 								<option  value="0.10">10 minutos</option>
 								<option value="0.15">15 minutos</option>
 								<option value="0.20">20 minutos</option>
@@ -405,22 +408,16 @@ $arr=array("group","user","event","page")
 						}
 						?>
 					</tbody>
-			</table>			
+					</table>			
 					</div>
 				</div> 
 			</div>
 		</div>
 
 	
-		<div class="col-lg-12">
-		</div>
-
 	</form>
 	
-		<div class="col-lg-6">
-			
-		</div>
-
+	
 
 
 <?php

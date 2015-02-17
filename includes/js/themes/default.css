@@ -84,7 +84,7 @@
 /* Type: Error */
 .notyfy_error{
 	background-color: red;
-	border-color: darkred;
+	border-color: #ae4d4d;
 	color: #FFF;
 }
 
@@ -93,7 +93,7 @@
 }
 
 .notyfy_error .notyfy_buttons{
-	border-top: 1px solid darkred;
+	border-top: 1px solid #ae4d4d;
 }
 
 /* Type: Information */

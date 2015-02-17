@@ -47,8 +47,10 @@
                       <p>&nbsp;</p>
                                   <section class="form">
 							<?php if (! empty($message)) { ?>
-										<section id="infoMessage">
+										<section class=" panel bg-dagner" id="infoMessage">
+											<div class="text-center panel-heading bg-danger bg-dagner-dark-error-message">
 											<?php echo $message; ?>
+											</div>
 										</section>
 									<?php } ?>
                                       <form class="form-horizontal" action='<?php echo base_url()?>panel/login' method="post" role="form">

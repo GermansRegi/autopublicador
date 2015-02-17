@@ -43,10 +43,12 @@
                     <!-- Title -->
                      <h4 class="title">Crear una nueva cuenta</h4>
             <p>&nbsp;</p>
-                                  <section class="form">
+                                  <section  class="form">
                           	<?php if (! empty($message)) { ?>
-									<section id="infoMessage">
+									<section class=" panel bg-dagner" id="infoMessage">
+									<div class="text-center panel-heading bg-danger bg-dagner-dark-error-message">
 								<?php echo $message; ?>
+									</div>
 								</section>
 						<?php } ?>                   <!-- Register form (not working)-->
                       <?php echo form_open("panel/register_account",array('class'=>'form-horizontal','role'=>'form'));?>

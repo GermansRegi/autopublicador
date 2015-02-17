@@ -32,8 +32,8 @@
 
 					</section>
 					<section class="form-group">
-						<textarea placeholder="Frase" <?php  echo (isset($maxlenght)?"maxlenght='$maxlenght' id='tweet_txt'")?> class="form-control" name='frase'></textarea>
-						<?php  echo (isset($maxlenght)?"<p id='contadorTaComentario'></p>")?>
+						<textarea placeholder="Frase" <?php  echo (isset($maxlength)?"maxlenght='$maxlength' id='tweet_txt'":'')?> class="form-control" name='frase'></textarea>
+						<?php  echo (isset($maxlength)?"<p id='contadorTaComentario'></p>":'')?>
 					</section>
 					<section class="form-group">
 

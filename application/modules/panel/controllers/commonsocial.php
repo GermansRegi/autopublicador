@@ -356,7 +356,7 @@ class CommonSocial extends CI_Controller {
 				'time_start'=>$anuncios['hora_inicio'],
 				"weekdays"=>(isset($anuncios['diasp'])?json_encode($anuncios['diasp']):'[]'),
 				'time_end'=>$anuncios['hora_fin'],
-				'perm_sentences'=>$anuncios['frases_perm']),array('accountid'=>$idaccount,'type'=>$acc[0]->type));
+				'perm_sentences'=>$anuncios['frases_perm']),array('accountid'=>$idaccount,'type'=>$acc[0]->type,'user_app'=>$this->flexi_auth->get_user_id()));
 				echo json_encode(array('msg_success'=>'Datos guardados correctamente'));
 			}
 			else
@@ -418,7 +418,7 @@ class CommonSocial extends CI_Controller {
 				'time_start'=>$datos['hora_inicio'],
 				'time_end'=>$datos['hora_fin'],
 				"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
-				'perm_sentences'=>$datos['frases_perm']),array('accountid'=>$idaccount,'type'=>$acc[0]->type));
+				'perm_sentences'=>$datos['frases_perm']),array('accountid'=>$idaccount,'type'=>$acc[0]->type,'user_app'=>$this->flexi_auth->get_user_id()));
 			echo json_encode(array('msg_success'=>'Datos guardados correctamente'));
 
 			}

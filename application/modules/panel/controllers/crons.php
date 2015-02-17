@@ -578,7 +578,7 @@ class Crons extends CI_Controller {
             								{
             									$this->load->model('social_user_accounts');
             									$this->load->model('social_users');
-            									if($prog->type='account')
+            									if($prog->type=='account')
             									{
             										$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid),1);
 											
@@ -588,23 +588,90 @@ class Crons extends CI_Controller {
 												$acc=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid),1);	
 											
 											}
+											var_dump($acc);
 											$this->load->model('anuncios_model');
+											$this->load->model("autoprog_publicadas");
 											$array=array('fb'=>'face',"tw"=>'twt');
 											$anunci=$this->anuncios_model->getAll(array('socialnetwork'=>$array[$prog->socialnetwork],'id'=>$prog->ids));
 											var_dump($anunci);
+											$sentenceperm=false;
+											if($prog->perm_sentences!="")
+			                                            {
+
+			                                              $arrayPerm=explode(";",$prog->perm_sentences);
+			                                                do{
+			                                                
+			                                                $sentenceperm=array_rand($arrayPerm);
+			                                              }while($arrayPerm[$sentenceperm]=='');
+			                                                
+			                                            }
 											$elements=$this->anuncios_model->getElements($anunci[0]->content,array('bbdd_id'=>$anunci[0]->id));
-											var_dump($elements);
-											if($anunci[0]->content=='image')
-											{
-
+											if($prog->repeat==0){
+												do{
+													$numRandom=array_rand($elements);
+													$trobat=$this->autoprog_publicadas->findOne(array('user_app'=>$prog->user_app,"bd_id"=>$anunci[0]->id,"element_id"=>$elements[$numRandom]->id,"account_id"=>$prog->accountid,"type_bd"=>'anuncio',"content"=>$anunci[0]->content));
+												}while($trobat==true);
 											}
-											else if($anunci[0]->content=='link')
+											else
+												$numRandom=array_rand($elements);
+
+											var_dump($elements[$numRandom]);
+											var_dump($prog->repeat);
+											if($prog->socialnetwork=='fb')
 											{
 
+												if($anunci[0]->content=='image')
+												{
+
+												}
+												else if($anunci[0]->content=='link')
+												{
+
+												}
+												else
+												{
+
+												}	
 											}
 											else
 											{
+												$file=false;
+												if($anunci[0]->content=='image')
+												{
+													$file=true;
+													$params['media']= $elements[$numRandom]->path;
+			
+												}
+												else if($anunci[0]->content=='link')
+												{
+													$link=$elements[$numRandom]->link;
+													
+												}
+												else
+												{
+													$text=$elements[$numRandom]->sentence;
+												}	
+												if($sentenceperm)
+												{
+													$params['status']=$arrayPerm[$sentenceperm].(isset($text)?$text:'').(isset($link)?$link:'');
+												}
+												else
+												{
+													$params['status']=(isset($text)?$text:'').(isset($link)?$link:'');
+												}
+												$this->load->library("twitterlib",'','twtlib');
 
+												$this->twtlib->setAccessToken(json_decode($acc[0]->access_token));
+												if($file)
+												{
+													$res=$this->twtlib->upload($params);
+												}
+												else
+												{
+													$res=$this->twtlib->post('statuses/update',$params);
+												}	
+												   $this->autoprog_publicadas->insert(array('content'=>$anunci[0]->content,'type_bd'=>'anuncio','account_id'=>$prog->accountid,'bd_id'=>$prog->ids,
+                                                    'element_id'=>$elements[$numRandom]->id,'user_app'=>$prog->user_app));
 											}
 
 
