@@ -29,7 +29,7 @@
 					<strong>Frecuencia</strong><br>
 					<select name="datos[frecuencia]" class="form-control">
 						 <option  <?php echo ($conf_bbdd->frequency==0?"selected='selected'":"");?> value="0">Selecciona una opción</option>
-						 <option <?php echo ($conf_anunci->frequency==0.02?"selected='selected'":"");?> value="0.02">2 minutos</option>
+						 <option <?php echo ($conf_bbdd->frequency==0.02?"selected='selected'":"");?> value="0.02">2 minutos</option>
 		                        <option <?php echo ($conf_bbdd->frequency==0.10?"selected='selected'":"");?> value="0.10">10 minutos</option>
 		                        <option <?php echo ($conf_bbdd->frequency==0.15?"selected='selected'":"");?> value="0.15">15 minutos</option>
 		                        <option <?php echo ($conf_bbdd->frequency==0.20?"selected='selected'":"");?>value="0.20">20 minutos</option>
@@ -50,7 +50,7 @@
 
 					<br>
 					<strong>Repetir publicación</strong>
-					<input type='checkbox' name='datos[repetir]' <?php  (($conf_bbdd->repeat==1)?"checked='checked'":''); ?>/>
+					<input type='checkbox' name='datos[repetir]' <?php echo (($conf_bbdd->repeat==1)?"checked='checked'":''); ?>/>
 					<?php }?>
 
 				</div>

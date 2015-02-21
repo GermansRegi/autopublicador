@@ -117,23 +117,62 @@ class Herramientas extends CI_Controller {
 		$this->load->library('Facebooklib','','fblib');
 		$this->fblib->setSessionFromToken($token);
 		  $photos_data = array();
-	    $offset = 0;
-	    $limit = 500;
-	    $data=$this->fblib->api("/".$accountid."/photos/uploaded");
-	    var_dump($data);
-	    while(isset($data['paging']['next']))
+	    $offset=0;
+	    $limit=50;	
+	    $data=$this->fblib->api("/".$accountid."/photos/uploaded",array('limit'=>$limit,'offset'=>$offset));
+	    
+	   	//$until=$data['data'][count($data['data'])]->
+	   	while(count($data["data"])>0) {
+	   		$photos_data = array_merge($photos_data, $data["data"]);
+		    $offset += $limit;
+		    $data = $this->fblib->api("/".$accountid."/photos/uploaded",array('limit'=>$limit,'offset'=>$offset));
+		    echo $offset;	
+		    
+		}
+
+	    
+	    if(count($photos_data)>0)
 	    {
-	    		$next=parse_url($data['paging']['next']);
-	    		$data=$this->fblib->api($next['path'].'?'.$next['query']);
-	    		 $photos_data = array_merge($photos_data, $data["data"]);
-
-	    }
-	    var_dump($photos_data);
-
+		    
+		    foreach ($photos_data as $photo) {
+		    	
+		    	$res=$this->fblib->api('/'.$photo->id,null,'DELETE');
+		    	
+		    }
+		    
+		}
 	}
-	public function limpiar_links_facebook($users,$accounts)
+	public function limpiar_links_facebook($token,$accountid)
 	{
-
+		$this->load->library('Facebooklib','','fblib');
+		$this->fblib->setSessionFromToken($token);
+	  $links_data = array();
+	    $offset=0;
+	    $limit=50;	
+	    $data=$this->fblib->api("/".$accountid."/links",array('limit'=>$limit,'offset'=>$offset));
+	    
+	   	//$until=$data['data'][count($data['data'])]->
+	   	while(isset($data["data"])) {
+	   		$links_data = array_merge($links_data, $data["data"]);
+		    $offset += $limit;
+		    $data = $this->fblib->api("/".$accountid."/links",array('limit'=>$limit,'offset'=>$offset));
+		    
+		    
+		    
+		}
+		var_dump($links_data);
+	    
+	    if(count($links_data)>0)
+	    {
+		    
+		    foreach ($links_data as $link) {
+		    	
+		    	$res=$this->fblib->api('/'.$link->id,null,'DELETE');
+		    	
+		    }
+		    
+		}
+	
 	}
 
 
@@ -185,25 +224,34 @@ class Herramientas extends CI_Controller {
 			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['page']=$pages;
 			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['titlepage']="Limpiador de facebook";
+			$this->data['titlepage']="Herramientas - Limpiador de facebook";
 
 		$this->load->view('herramientas/limpiador_facebook',$this->data);
 	}
 	public function buscador_de_imagenes()
 	{
-
+		$this->data['basesdedatos']=$this->bases_datos_model->get_all(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->load->view('herramientas/buscador_imagenes',$this->data);	
 	}
 	public function unfollow_twitter()
 	{
-
+		$this->data['titlepage']="Herramientas - Unfollow twitter";
+		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->load->view('herramientas/unfollow_twitter',$this->data);		
 	}
 	public function limpiador_twitter()
 	{
-
+		$this->data['titlepage']="Herramientas - Limpiador de twitter";
+		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->load->view('herramientas/limpiador_twitter',$this->data);		
+	
 	}
 	public function extractor_tweets()
 	{
-
+		$this->data['titlepage']="Herramientas - Limpiador de twitter";
+		$this->data['basesdedatos']=$this->bases_datos_model->get_all(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->load->view('herramientas/extractor_twitter',$this->data);		
+	
 	}
 
 }

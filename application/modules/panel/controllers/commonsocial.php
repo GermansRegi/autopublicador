@@ -317,6 +317,12 @@ class CommonSocial extends CI_Controller {
 			return true;
 		}
 	}
+	/**
+	 * [editar_anuncios editar autoprgramacio d'anuncis associada a id]
+	 * @param  [type] $idaccount compte de xarxa social a editar
+	 * @param  [type] $type      variable que defineix si el compte dexarxa social es account o user
+	 * @param  [type] $id        identificador de  la autoprogramació
+	 */
 	public function editar_anuncios($idaccount,$type,$id)
 	{
 		
@@ -325,34 +331,66 @@ class CommonSocial extends CI_Controller {
 		$this->load->model('social_users');
 		$this->load->model('social_user_accounts');
 		$array=array('fb'=>'face',"tw"=>'twt');
+			// sagafo el registre del compte de xarxa social
+			// si es un usuari
 			if($type=='u')
 			{
 				$acc=$this->social_users->getUserAppUsers(array('user_id'=>$idaccount),1);	
 				$acc[0]->type="user";
 				
 			}
+			/// si es una compte
 			else
 			{ 
 				
 				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$idaccount),1);
 				$acc[0]->type="account";
+				// si es un compte de xarxa social segur que es de facebook
 				$acc[0]->social_network='fb';
 			}	
-			
+			//validacions formulari
 			$this->form_validation->set_rules('anuncios', 'Horas de publicación', 'callback_checkhours');
 
 		if($this->input->post())
 		{
+			//si el formulari es valid
 			if($this->form_validation->run()==TRUE)
 			{
 
 
 			$anuncios=$this->input->post("anuncios");
+				// si ha omplert el camp per permetre que un element es publiqui repetidament 
+				if(isset($anuncios['repetir']))
+				{
+					
+					/// agafo la base de dades seleccionada
+					$this->load->library('form_validation_global');
+					$this->form_validation_global->validateSaveAutoProg($anuncios['asociard'],'anuncios',$this->flexi_auth->get_user_id());
+
+					
+				}
+				//si no han omplert el camp pk un element es publiqui repetidament 
+				else
+				{
+					//elimino  lespubllicacions fetes  d'aquella base de ddaes.
+						$bbdd=$this->anuncios_model->getById($anuncios['asociard']);
+						$this->load->model('autoprog_publicadas');
+						$this->autoprog_publicadas->delete_by(array(
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							'bd_id'=>$bbdd[0]->id,
+							'content'=>$bbdd[0]->content,
+							'type_bd'=>'anuncios',
+							'account_id'=>$idaccount,
+							'autoprog_id'=>$id));
+							
+				}
+				// actualitzo les dades de la autoprogramacio
 			$this->autoprog_anuncios->update_by(array(
 				'ids'=>$anuncios['asociard'],
+				'date'=>time(),
 				'frequency'=>$anuncios['frecuencia'],
-				'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
-				'frequency_erase'=>$anuncios['frecuencia_borrado'],
+				'repeat'=>(isset($anuncios['repetir'])?1:0),
+				'frequency_erase'=>(isset($anuncios['frecuencia_borrado'])?$anuncios['frecuencia_borrado']:0),
 				'time_start'=>$anuncios['hora_inicio'],
 				"weekdays"=>(isset($anuncios['diasp'])?json_encode($anuncios['diasp']):'[]'),
 				'time_end'=>$anuncios['hora_fin'],
@@ -361,7 +399,7 @@ class CommonSocial extends CI_Controller {
 			}
 			else
 			{
-
+				// si el formulari no es valid mostro els errors
     			    $errors = $this->form_validation->error_array();
                    echo json_encode(array('msg_errors'=>$errors)); 
 			}
@@ -369,15 +407,22 @@ class CommonSocial extends CI_Controller {
 		}
 		
 		$this->data['url']=base_url(uri_string());
-		
-		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()));
+		//agafo les bases de dades d'anuncis
+		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>$array[$acc[0]->social_network]));
 		$this->data['accountedit']=$acc[0];
-		
+		// agafo les dades de la programacio a editar
 		$autoproganuncis=$this->autoprog_anuncios->get_many_by(array('accountid'=>$idaccount,'type'=>$acc[0]->type,'id'=>$id));
 		
 		$this->data['conf_anunci']=$autoproganuncis[0];
 		$this->load->view('common/editar_account_anuncis',$this->data);
 	}
+	/**
+	 * [editar_basesdedatos editar les dades duna autopgrogramacio de base de dades asociada a id]
+	 * @param  [type] $idaccount compte de xarxa social a editar
+	 * @param  [type] $type      variable que defineix si el compte dexarxa social es account o user
+	 * @param  [type] $id        identificador de  la autoprogramació
+	 
+	 */
 	public function editar_basesdedatos($idaccount,$type,$id)
 	{
 		
@@ -399,22 +444,47 @@ class CommonSocial extends CI_Controller {
 				$acc[0]->type="account";
 				$acc[0]->social_network='fb';
 			}	
+			// validacions per  formulari
 			$this->form_validation->set_rules('datos', 'Horas de publicación', 'callback_checkhours');
 			
-
+			// si arriba peticio post
 		if($this->input->post())
 		{
+			//si el formulari es valid
 			if($this->form_validation->run()==TRUE)
 			{
 
-
-
-			$datos=$this->input->post('datos');
+				$datos=$this->input->post('datos');
+				// si  el checkbox per permetre publicacions repetides repeticons 
+				if(isset($datos['repetir']))
+				{
+					$this->load->library('form_validation_global');
+					$this->form_validation_global->validateSaveAutoProg($datos['asociard'],'datos',$this->flexi_auth->get_user_id());
+				}
+				else
+				{
+					// sino han omplert el checkbox de publicacions repetides
+					// esborro totes les publicacions fetes per  la compte
+					foreach ($datos['asociard'] as $value) {
+						$bbdd=$this->bases_datos_model->getById($value);
+						$this->load->model('autoprog_publicaiones');
+						$this->autoprog_publicaiones->delete_by(array(
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							'bd_id'=>$bbdd[0]->id,
+							'content'=>$bbdd[0]->content,
+							'type_bd'=>'datos',
+							'account_id'=>$accountid,
+							'autoprog_id'=>$id));
+					}
+					
+				}
 			
+			// actualitzo les dades de la autoprogramacio
 			$this->autoprog_basededatos->update_by(array(
 				'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
-				'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
+				'repeat'=>(isset($datos['repetir'])?1:0),
 				'frequency'=>$datos['frecuencia'],
+				'date'=>time(),
 				'time_start'=>$datos['hora_inicio'],
 				'time_end'=>$datos['hora_fin'],
 				"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
@@ -424,7 +494,7 @@ class CommonSocial extends CI_Controller {
 			}
 			else
 			{
-
+				//si el formulari no es valid mostro els errors
     			    $errors = $this->form_validation->error_array();
                    echo json_encode(array('msg_errors'=>$errors)); 
 			}
@@ -432,15 +502,21 @@ class CommonSocial extends CI_Controller {
 		}
 		
 		$this->data['url']=base_url(uri_string());
-		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()));
+		// agafo les bases de dades de usuari i de administrador
+		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>$array[$acc[0]->social_network],'user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>$array[$acc[0]->social_network]));
 		
 		$this->data['accountedit']=$acc[0];
+		// agafo les dades de la autoprogramacio a editar
 		$autoprog=$this->autoprog_basededatos->get_many_by(array('accountid'=>$idaccount,'type'=>$acc[0]->type,'id'=>$id));
 		
 		$this->data['conf_bbdd']=$autoprog[0];
 		
 		$this->load->view('common/editar_account_basesdedades',$this->data);
 	}
+	/**
+	 * [deleteAutoProg permet eliminar una autoprogramacio]
+	 * @return [type] [description]
+	 */
 	public function deleteAutoProg() 
 	{
 		if($this->input->post("type"))
@@ -450,10 +526,18 @@ class CommonSocial extends CI_Controller {
 			$prog=$this->input->post("prog");
 			$this->load->model('autoprog_basededatos');
 			$this->load->model('autoprog_anuncios');
+			// si es de tipus anunci
 			if($type=="anuncios")
+			{
 				$flag=$this->autoprog_anuncios->delete_by(array('accountid'=>$account,"id"=>$prog));
+			}
+			//si es de base de dades
 			else
+			{
 				$flag=$this->autoprog_basededatos->delete_by(array('accountid'=>$account,"id"=>$prog));
+			}
+			// elimino les publicacions fetes per la compte de l'autoprogramacio
+			$this->autoprog_publiaciones->delete_by(array('user_app'=>$this->flexi_auth->get_user_id(),'account_id'=>$account,'autoprog_id'=>$prog));
 			if($flag)
 			echo json_encode(array('msg_success'=>'Datos eliminados correctamente'));
 			else

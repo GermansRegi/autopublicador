@@ -84,7 +84,7 @@
 				
 				<section class="col-lg-12">
 						<input type='submit' name='publicar' class="btn btn-primary" value='Limpiar'/>
-						<a class="btn btn-default" id='cancel_crear_bbdd' href="<?php echo base_url()?>panel/herramietas" >Cancelar</a>>
+						<a class="btn btn-default" id='cancel_crear_bbdd' href="<?php echo base_url()?>panel/herramietas" >Cancelar</a>
 				</section>
 				
 			</div>

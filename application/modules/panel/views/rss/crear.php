@@ -90,7 +90,9 @@
 			 							</section>
 			 							<section class="form-group col-md-9">
 			 								<section class="col-sm-9 col-sm-offset-4">
-			 									<input id="addbbdd-btn" type="submit"  class="btn btn-primary" name='addnew' value='Crear'>
+			 									<input id="addbbdd-btn" type="submit"  class="btn btn-primary ladda-button" data-style="expand-right" name='addnew' value='Crear'>
+			 										<span class="ladda-label">Crear</span>
+			 									</input>
 			 									<a  class="btn btn-default" id='cancel_crear_bbdd' href="<?php echo base_url()?>panel/rss">Cancelar'</a>
 			 								</section>
 			 							</section>      

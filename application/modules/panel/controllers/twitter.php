@@ -345,8 +345,8 @@ class Twitter extends CI_Controller {
 		
 		
 			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
 
 			$this->data['titlepage']="Publicar ahora en Twitter";
 			
@@ -536,8 +536,8 @@ class Twitter extends CI_Controller {
 		
 		$this->load->model('social_users');
 			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
 			$programaciones=$this->programations->getAll(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 			foreach ($programaciones as $prog) {
 				
@@ -584,7 +584,7 @@ class Twitter extends CI_Controller {
 		
 		if($str['hora_inicio']>=$str['hora_fin'])
 		{
-			
+			$this->form_validation->set_message('checkhours', 'La hora de inicio de ser anterior a la hora final');
 			return false;
 		}
 		else
@@ -599,83 +599,84 @@ class Twitter extends CI_Controller {
 		$this->load->model('autoprog_anuncios');
 		$this->load->model('social_user_accounts');
 		
-		if($this->input->post())
+		if($this->input->post('datos'))
 		{
 
-			$datos=$this->input->post('datos');
-			$anuncios=$this->input->post('anuncios');
-			if(isset($datos['enviar']))
-			{
-				if($this->checkhours($datos))
-				{
-				
-					if(isset($datos['user']))
-					{
-						foreach($datos['user'] as $id)
-						{
-							$this->autoprog_basededatos->insertNew(array(
-							'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
-							'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
-							'socialnetwork'=>'tw',
-							'frequency'=>$datos['frecuencia'],
-							'time_start'=>$datos['hora_inicio'],
-							'time_end'=>$datos['hora_fin'],
-							'user_app'=>$this->flexi_auth->get_user_id(),
-							"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
-							'perm_sentences'=>$datos['frases_perm'],'accountid'=>$id,'type'=>'user'));
-							
-						}
-					}
-					
-				
 
-				}
-				else
+			$this->form_validation->set_rules('datos[frecuencia]','Frequencia','required');
+			$this->form_validation->set_rules('datos[user]','Cuentas','callback_checkSelected');
+			$this->form_validation->set_rules('datos[asociard][]','Bases de datos','required');
+			$this->form_validation->set_rules('datos','Horas de publicación','callback_checkhours');
+			if($this->form_validation->run()==TRUE)
+			{
+
+				$datos=$this->input->post('datos');
+				if(isset($datos['user']))
 				{
-					
-	                   echo json_encode(array('msg_errors'=>array('pp'=>'La hora de inicio debe ser anterior a la hora final'))); 
-				
+					foreach($datos['user'] as $id)
+					{
+						$this->autoprog_basededatos->insertNew(array(
+						'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
+						'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
+						'socialnetwork'=>'tw',
+						'frequency'=>$datos['frecuencia'],
+						'time_start'=>$datos['hora_inicio'],
+						'time_end'=>$datos['hora_fin'],
+						'user_app'=>$this->flexi_auth->get_user_id(),
+						"weekdays"=>(isset($datos['diasp'])?json_encode($datos['diasp']):'[]'),
+						'perm_sentences'=>$datos['frases_perm'],'accountid'=>$id,'type'=>'user'));
+						
+					}
 				}
+				
+			
+
+			}
+
+			else
+			{
+
+					$errors = $this->form_validation->error_array();
+                     echo json_encode(array('msg_errors'=>$errors));
+			}
+			exit;
+		}
+		else if($this->input->post('anuncios'))
+		{
+
+			$this->form_validation->set_rules('anuncios[frecuencia]','Frequencia','required');
+			$this->form_validation->set_rules('anuncios[user]','Cuentas','callback_checkSelected');
+			$this->form_validation->set_rules('anuncios[asociard]','Bases de datos','required');
+			$this->form_validation->set_rules('anuncios','Horas de publicación','callback_checkhours');
+			if($this->form_validation->run()==TRUE)
+			{
+				$anuncios=$this->input->post('anuncios');
+				if(isset($anuncios['user']))
+				{
+					foreach($anuncios['user'] as $id)
+					{
+						$this->autoprog_anuncios->insertNew(array(
+						'ids'=>$anuncios['asociard'],
+						'frequency'=>$anuncios['frecuencia'],
+						'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
+						'socialnetwork'=>'tw',
+						'frequency_erase'=>(isset($anuncios['frecuencia_borrado'])?$anuncios['frecuencia_borrado']:0),
+						'time_start'=>$anuncios['hora_inicio'],
+						"weekdays"=>(isset($anuncios['diasp'])?json_encode($anuncios['diasp']):'[]'),
+						'time_end'=>$anuncios['hora_fin'],
+						'user_app'=>$this->flexi_auth->get_user_id(),
+						'perm_sentences'=>$anuncios['frases_perm'],'accountid'=>$id,'type'=>'user'));
+					}
+				}
+
 			}
 			else
 			{
-				if($this->checkhours($anuncios))
-				{
-					
-					if(isset($anuncios['user']))
-					{
-						foreach($anuncios['user'] as $id)
-						{
-							$this->autoprog_anuncios->insertNew(array(
-							'ids'=>$anuncios['asociard'],
-							'frequency'=>$anuncios['frecuencia'],
-							'repeat'=>(isset($datos['repeat'])?$datos['repeat']:0),
-							'socialnetwork'=>'tw',
-							'frequency_erase'=>$anuncios['frecuencia_borrado'],
-							'time_start'=>$anuncios['hora_inicio'],
-							"weekdays"=>(isset($anuncios['diasp'])?json_encode($anuncios['diasp']):'[]'),
-							'time_end'=>$anuncios['hora_fin'],
-							'user_app'=>$this->flexi_auth->get_user_id(),
-							'perm_sentences'=>$anuncios['frases_perm'],'accountid'=>$id,'type'=>'user'));
-					
-						}
-					}
-					
-
-			
-			
-				}
-				else
-				{
-					
-	                    echo json_encode(array('msg_errors'=>array('pp'=>'La hora de inicio debe ser anterior a la hora final'))); 
-				
-				}	
+						$errors = $this->form_validation->error_array();
+                     echo json_encode(array('msg_errors'=>$errors));
 			}
-
 			exit;	
 		}
-		
 		$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'tw'));
 		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'tw'));
 		foreach ($programacionesbbdd as $prog) {
@@ -710,9 +711,9 @@ class Twitter extends CI_Controller {
 		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 
 
-		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()));
-		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()));
-		$this->data['titlepage']="Prgramaciones periodicas twitter";
+		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+		$this->data['titlepage']="Prgramaciones periódicas twitter";
 		$this->load->view('twitter/autoprog',$this->data);		
 	}
 

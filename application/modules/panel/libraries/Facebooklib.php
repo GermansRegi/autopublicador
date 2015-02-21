@@ -138,7 +138,7 @@ class Facebooklib {
        * Retrieve User’s Profile Information
        */
       // Graph API to request user data
-      $request =  new FacebookRequest( $this->session, $method, $path ) ;
+      $request =  new FacebookRequest( $this->session, $method, $path ,$params) ;
       $response=$request->execute();
 
       // Get response as an array

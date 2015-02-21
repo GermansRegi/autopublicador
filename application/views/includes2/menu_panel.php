@@ -8,7 +8,7 @@
 						<li><a href="<?php echo base_url(); ?>panel/facebook">Cuentas</a></li>
 						<li><a href="<?php echo base_url(); ?>panel/facebook/publicar">Publicar ahora</a></li>
 						<li><a href="<?php echo base_url(); ?>panel/facebook/programar_facebook">Programar</a></li>
-						<li><a href="<?php echo base_url(); ?>panel/facebook/prog_periodicas">Programaciones periodicas</a></li>
+						<li><a href="<?php echo base_url(); ?>panel/facebook/prog_periodicas">Programaciones periódicas</a></li>
 					</ul>
 			
                
@@ -19,7 +19,7 @@
 						<li><a href="<?php echo base_url(); ?>panel/twitter">Cuentas</a></li>
 						<li><a href="<?php echo base_url(); ?>panel/twitter/publicar">Publicar ahora</a></li>
 						<li><a href="<?php echo base_url(); ?>panel/twitter/programar_twitter">Programar</a></li>
-						<li><a href="<?php echo base_url(); ?>panel/twitter/prog_periodicas">Programaciones periodicas</a></li>
+						<li><a href="<?php echo base_url(); ?>panel/twitter/prog_periodicas">Programaciones periódicas</a></li>
 					</ul>
                     </li>
 

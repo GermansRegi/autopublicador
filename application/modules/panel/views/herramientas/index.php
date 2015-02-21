@@ -22,6 +22,9 @@
 <div class="col-lg-3">
 	<a href='<?php echo base_url()?>panel/herramientas/limpiador_facebook'>Limpiador de facebook</a>
 </div>
+<div class="col-lg-3">
+    <a href='<?php echo base_url()?>panel/herramientas/unfollow_twitter'>Unfollow de twitter</a>
+</div>
 
 	             
 <?php

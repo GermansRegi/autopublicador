@@ -127,23 +127,25 @@ $("body").on("click",".deleteautoprog",function(){
 	var account=$this.data("account-id");
 	var type=$this.data("type-prog");
 	if(confirm("Seguro que quiere eliminar a autoprogramación?"))
-	$.ajax({
-		type:'post',
-		dataType:"json",
-		url:base_url+"panel/commonsocial/deleteAutoProg",
-		data:{prog:prog,type:type,account:account},
-		success:function(data){
-			var res=showResults(data,',','.message');
-					if(res){
-							$('body').delay(1000).queue(function( nxt ) {
-								document.location.href=current_url;
-								nxt();
-		                      }); 	
-						}
+	{
+		$.ajax({
+			type:'post',
+			dataType:"json",
+			url:base_url+"panel/commonsocial/deleteAutoProg",
+			data:{prog:prog,type:type,account:account},
+			success:function(data){
+				var res=showResults(data,',','.message');
+						if(res){
+								$('body').delay(1000).queue(function( nxt ) {
+									document.location.href=current_url;
+									nxt();
+			                      }); 	
+							}
 
-		}
+			}
 
-	})
+		})
+	}
 })
 	function onClickNoty(type,id,isUser)
 	{
@@ -327,20 +329,18 @@ $("body").on("click",".deleteautoprog",function(){
 	})
 	$('body').on('submit',"#periodicasmultiple",function(e){
 		e.preventDefault();
+			var $btn=$(this).find('input:submit');
 		 var formdata =new FormData($(this)[0]);
 		 var url=$(this).attr('action');
-		 $.ajax({
+		 makeajax({
 		 	url:url,
 		 	dataType:'json',
 		 	type:'post',
 		 	data:formdata,
-		 	async:false,
-		 	processData:false,
-			async:false,
-			cache:false,
-			contentType:false,
+		 	
 			success:function(data)
 			{
+				$btn.button('reset');
 				var res=showResults(data,',','.message');
 				if(res){
 						$('body').delay(2000).queue(function( nxt ) {
@@ -349,25 +349,22 @@ $("body").on("click",".deleteautoprog",function(){
 	                      }); 	
 					}
 			}
-		 })
+		 },$btn)
 	})
 
 	$('body').on('submit',"#periodicas",function(e){
 		e.preventDefault();
+			var $btn=$(this).find('input:submit');
 		 var formdata =new FormData($(this)[0]);
 		 var url=$(this).attr('action');
-		 $.ajax({
+		 makeajax({
 		 	url:url,
 		 	dataType:'json',
 		 	type:'post',
 		 	data:formdata,
-		 	async:false,
-		 	processData:false,
-			async:false,
-			cache:false,
-			contentType:false,
-			success:function(data)
+		 	success:function(data)
 			{
+				
 				var res=showResults(data,',','.messagemodal');
 				if(res){
 						$('body').delay(2000).queue(function( nxt ) {
@@ -376,25 +373,22 @@ $("body").on("click",".deleteautoprog",function(){
 	                      }); 	
 					}
 			}
-		 })
+		 },$btn)
 	})
 
 	$('body').on('submit',"#programar",function(e){
 		e.preventDefault();
+		var $btn=$(this).find('input:submit');
 		 var formdata =new FormData($(this)[0]);
 		 var url=$(this).attr('action');
-		 $.ajax({
+		 makeajax({
 		 	url:url,
 		 	dataType:'json',
 		 	type:'post',
 		 	data:formdata,
-		 	async:false,
-		 	processData:false,
-			async:false,
-			cache:false,
-			contentType:false,
 			success:function(data)
 			{
+				
 				var res=showResults(data,',','.message');
 				if(res){
 						$('body').delay(2000).queue(function( nxt ) {
@@ -403,27 +397,36 @@ $("body").on("click",".deleteautoprog",function(){
 	                      }); 	
 					}
 			}
-		 })
+		 },$btn)
 	})
-
-	$('body').on('submit',"#publicarahora",function(e){
-		var $btn=$(this).find('input:submit');
-		e.preventDefault();
-		 var formdata =new FormData($(this)[0]);
-		 var url=$(this).attr('action');
-		 $.ajax({
-		 	url:url,
-		 	dataType:'json',
-		 	type:'post',
-		 	data:formdata,
-		 	async:false,
+	Ladda.bind('input[type=submit]')
+	function makeajax(obj,l)
+	{
+		objajax= $.extend({		 	
+			async:false,
 		 	processData:false,
 			async:false,
 			cache:false,
 			contentType:false,
 			beforeSend:function(e){
-				$btn.button('loading');
+		///		l.start()
 			},
+			complete:function(e){
+				//l.stop()
+			}},obj)
+		$.ajax(objajax);
+	}
+	$('body').on('submit',"#publicarahora",function(e){
+		var $btn=$(this).find('input:submit');
+		e.preventDefault();
+		 var formdata =new FormData($(this)[0]);
+		 var url=$(this).attr('action');
+		 makeajax({
+		 	url:url,
+		 	dataType:'json',
+		 	type:'post',
+		 	data:formdata,
+
 			success:function(data)
 			{
 				$btn.button('reset');
@@ -441,7 +444,7 @@ $("body").on("click",".deleteautoprog",function(){
 					}
 			}
 			
-		 })
+		 },$btn)
 	})
 	  
            $(".accounts tbody tr","body").draggable({

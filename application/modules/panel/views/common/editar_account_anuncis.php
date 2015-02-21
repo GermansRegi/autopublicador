@@ -25,11 +25,12 @@
 					
 				</select>       
 					<?php if($conf_anunci->socialnetwork=='fb'){
+						
 					?>
 
 				
 				<strong>Repetir publicación</strong>
-				<input type='checkbox' name='anuncios[repetir]' <?php   (($conf_anunci->repeat==1)?"checked='checked'":''); ?>/>
+				<input type='checkbox' name='anuncios[repetir]' <?php  echo (($conf_anunci->repeat==1)?"checked='checked'":''); ?>/>
 				<?php }?>
 
 			</div>
@@ -57,7 +58,7 @@
 				<strong>Frecuencia de borrado</strong><br>
 				<select name="anuncios[frecuencia_borrado]" class="form-control">
 				 <option  <?php echo ($conf_anunci->frequency_erase==0?"selected='selected'":"");?> value="0">Selecciona una opción</option>
-				 <option <?php echo ($conf_anunci->frequency==0.02?"selected='selected'":"");?> value="0.02">2 minutos</option>
+				 <option <?php echo ($conf_anunci->frequency_erase==0.02?"selected='selected'":"");?> value="0.02">2 minutos</option>
 	                        <option <?php echo ($conf_anunci->frequency_erase==0.10?"selected='selected'":"");?> value="0.10">10 minutos</option>
 	                        <option <?php echo ($conf_anunci->frequency_erase==0.15?"selected='selected'":"");?> value="0.15">15 minutos</option>
 	                        <option <?php echo ($conf_anunci->frequency_erase==0.20?"selected='selected'":"");?>value="0.20">20 minutos</option>

@@ -34,6 +34,7 @@ class MY_Model extends CI_Model {
         $this->_database->where($where[0]);
         if(isset($where[1]))
      	$this->_database->or_where($where[1]);
+
         return $this->get_all();
     }
 
@@ -131,6 +132,10 @@ class MY_Model extends CI_Model {
     public function getLasQuery()
     {
     	return $this->_database->last_query();
+    }
+    public function getsqlquery($sql)
+    {
+    		$this->_database->quert($sql);
     }
     
 }

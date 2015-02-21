@@ -10,8 +10,8 @@ class Autoprog_publicadas extends MY_Model {
 	}
 	public function findOne($where=array())
 	{
-		$res=$this->count_by($where);
-		return (1==$res);		
+		return $this->get_many_by($where);
+		
 	}
 
 }

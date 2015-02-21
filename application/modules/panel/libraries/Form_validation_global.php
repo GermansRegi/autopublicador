@@ -179,7 +179,60 @@ class Form_validation_global
                                    
 			 
 	}
-	
+  public function validateSaveAutoProg($bdid,$var_name,$user_app)
+  {
+
+      if($var_name=='anuncios')
+      {
+          $this->CI->load->model('anuncios_model');
+            $bbdd=$this->CI->anuncios_model->getById($bdid);
+          // si es de tipus sentences
+          if($bbdd[0]->content=='sentence')
+          {
+            // agafo els elements de la base de dades seleccionada
+            $elementsText=$this->CI->anuncios_model->getElements($bbdd[0]->content,array('bbdd_id'=>$bbdd[0]->id,'user_app'=>$user_app));
+            // si nomès hi ha un element mostro  error
+            if(count($elementsText)==1)
+               {
+                     echo json_encode(array('msg_errors'=>array('pp'=>"Ha seleccionado una base de datos de texto que contiene un elemento no se permite publicar repetidas veces el mismo elemento")));
+                     exit;
+               }
+            }
+      }
+      else
+      {
+          $this->CI->load->model('bases_datos_model');
+          $numbdtext=0;
+          foreach ($bdid as $value){
+            # code...
+          
+            $bbdd=$this->CI->bases_datos_model->getById($value);
+            if($bbdd[0]->content=='sentence')
+            {
+              $numbdtext++;
+               $bdtext=$bbdd;
+            }
+          }
+          //si hnhi hauna 
+          if($numbdtext==1)
+          {
+            //agafo els elements de la  base de dades
+            $elementsText=$this->CI->bases_datos_model->getElements('sentence',array('bbdd_id'=>$bdtext[0]->id,'user_app'=>$user_app));
+            //si nomes hi ha un ellement
+            if(count($elementsText)==1)
+            {
+                        //mostro error
+                           echo json_encode(array('msg_errors'=>array('pp'=>"Ha seleccionado una base de datos de texto que contiene un elemento no se permite publicar repetidas veces el mismo elemento")));        
+                           exit;
+            }
+
+
+          }
+
+      }
+
+
+  }
 
 }
 

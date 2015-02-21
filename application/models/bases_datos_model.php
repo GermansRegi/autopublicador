@@ -30,18 +30,10 @@ class Bases_datos_model extends MY_Model {
 			return $this->get_all();
 
 	}
-	public function getAllWithAdmin($where=array())
+	public function getAllWithAdmin($where=array(),$where2=array())
 	{
 	
-		if(count($where)>0)
-		{
-			
-		return	$this->get_many_by($where,array('is_admin'=>1));
-	
-		}	
-		else
-			return $this->get_by();
-
+		return $this->_database->where('(user_app='.$where['user_app']."  and  socialnetwork='".$where['socialnetwork']."') || (is_admin=".$where2['is_admin']." and socialnetwork='".$where2['socialnetwork']."') ")->get($this->_table)->result();
 	}
 	public function insertNew($data)
 	{
