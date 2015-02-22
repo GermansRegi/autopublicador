@@ -18,7 +18,7 @@
   <body>
 
   	<?php echo $this->load->view('includes2/header');
-
+	$arraytypes=array("user","Usuario","group"=>"Grupo","page"=>"Página","event"=>"Evento")
 
 ?>
 	<div>
@@ -37,7 +37,7 @@
 					<tr>
 						<td><img src="http://graph.facebook.com/v2.2/<?php echo $acc->idaccount; ?>/picture?width=50&height=50"></td>
 						<td><?php echo $acc->name; ?></td>
-						<td><?php echo $acc->type_account; ?></td>
+						<td><?php echo $arraytypes[$acc->type_account]; ?></td>
 					</tr>
 
 					<?php

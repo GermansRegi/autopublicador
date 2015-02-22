@@ -47,14 +47,15 @@ if($('#tweet_txt').length>0)
 					buttons:
 						[	
 							{
-								addCCass:"btn btn-primary",
+								addClass:"btn btn-primary",
 								text:"Cancelar",
 								onClick:function(notyfy){
-									notyfy.close()
+									notyfy.closeAll()
 								}
 							},
 							{
 								text:"Acceptar",
+								addClass:"btn-danger",
 								onClick:function(notyfyparent)
 								{
 									$.ajax({url:deletecontent_url,
@@ -72,7 +73,7 @@ if($('#tweet_txt').length>0)
 														addClass:"btn btn-primary",
 														text:"Ubicar el contenido fuera de la carpeta",
 														onClick:function(notyfy){
-														notyfy.close()
+														notyfy.closeAll()
 														onClickNoty("quit",data.idFolder,isUser);
 														
 														
@@ -84,7 +85,7 @@ if($('#tweet_txt').length>0)
 														addClass:"btn btn-danger",
 														text:"Eliminar el contenido",
 														onClick:function(notyfy){
-														notyfy.close()		
+														notyfy.closeAll()		
 														onClickNoty("delete",data.idFolder,isUser);
 														//document.location.href=current_url;
 														
@@ -109,7 +110,7 @@ if($('#tweet_txt').length>0)
 												//document.location.href=current_url;									
 											}
 											
-											notyfyparent.close()			
+											notyfyparent.closeAll()			
 										}
 									})									
 								}
@@ -268,6 +269,7 @@ $("body").on("click",".deleteautoprog",function(){
 		var container_sub=container.substr(9,container.length);
 
 		$("#"+container).html('');
+
 	//	console.log($("#"+container));
 
 		if(data.data && data.data.length==0){
@@ -396,6 +398,10 @@ $("body").on("click",".deleteautoprog",function(){
 							nxt();
 	                      }); 	
 					}
+						$('#generate-bbdd').html('');
+						$("#generate-anuncis").html('');
+						$(".generate-select").val('');	
+					
 			}
 		 },$btn)
 	})
@@ -437,11 +443,12 @@ $("body").on("click",".deleteautoprog",function(){
 							nxt();
 	                      }); 	
 					}
-					else
-					{
+					
+					
 						$('#generate-bbdd').html('');
 						$("#generate-anuncis").html('');
-					}
+						$(".generate-select").val('');
+					
 			}
 			
 		 },$btn)

@@ -188,7 +188,7 @@ class CommonSocial extends CI_Controller {
 		if($this->input->post('id'))
 		{
 			$config=$this->load->config("pagination");
-			$config["base_url"] = base_url() . "panel/facebook/get_bbddElements";
+			$config["base_url"] = base_url() . "panel/commonsocial/get_bbddElements";
 			$this->load->library('pagination');
 			$page=($page!=0)?$page:0;
 			
@@ -228,7 +228,7 @@ class CommonSocial extends CI_Controller {
 		if($this->input->post('id'))
 		{
 			$config=$this->load->config("pagination");
-			$config["base_url"] = base_url() . "panel/facebook/publicar";
+			$config["base_url"] = base_url() . "panel/commonsocial/get_anuncisElements";
 			$this->load->library('pagination');
 			$page=($page!=0)?$page:0;
 			

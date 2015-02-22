@@ -22,7 +22,15 @@
 						<div class="col-lg-6">
 								<strong>Imagen</strong><br>
 
-								<?php $posuser=strpos($prog[0]->path,'@');
+								<?php
+								if(strpos($prog[0]->path,'temporal')!=false) 
+								{
+									$pos=strpos($prog[0]->path,'upload');	
+									$imgsrc= substr($prog[0]->path,$pos );
+								}
+								else
+								{
+									$posuser=strpos($prog[0]->path,'@');
 									echo $posuser;
 									if($posuser)
 									{
@@ -37,7 +45,9 @@
 										$imgsrc= substr($prog[0]->path,$pos );
 									}
 
-									echo "<img width='200' src='".base_url().$imgsrc."'>";
+									
+								}
+								echo "<img width='200' src='".base_url().$imgsrc."'>";
 									?>								
 						</div>
 					<?php
@@ -69,7 +79,7 @@
 					{
 						?>
 						<div class="col-lg-6">
-								<strong>Fecha borrado</strong><br>
+								
 								<?php if($prog[0]->social_network=='fb')
 								$url="http://www.facebook.com/";
 								else

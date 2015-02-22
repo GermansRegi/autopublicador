@@ -156,7 +156,7 @@ class Crons extends CI_Controller {
 			$timezones=$this->config->item('timezones');
 			
 			$datenow=new Datetime('now', new Datetimezone($timezones[$guest[0]->upro_timezone_offset]));
-			$fecha=DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s',$prog->fecha),new DateTimezone($timezones[$guest[0]->upro_timezone_offset]));
+			$fecha=DateTime::createFromFormat('U',$prog->fecha,new DateTimezone($timezones[$guest[0]->upro_timezone_offset]));
 			echo "id: ".$prog->id."<br>";
 			echo "date now: ".$datenow->format('Y-m-d H:i:s')."<br>";
 			echo "dateprog: ".$fecha->format('Y-m-d H:i:s')."<br>";
@@ -182,39 +182,38 @@ class Crons extends CI_Controller {
 				$params=array();
 				$file=false;
 	                    //si hi ha path
-				if(isset($prog->path) && $prog->path!="")
-				{
-					$file=true;
-					if($prog->social_network=='tw')
-					{
-						$params['media'] = $prog->path;
-
-					}
-
-					else
-					{
-						$params['source']=$prog->path;
+            	if($prog->social_network=='tw')
+            	{
+            		if(isset($prog->path) &&  $prog->path!="")
+            		{
+            			$file=true;
+            			$params['media'] = $prog->path;	
+            		}
+            		if(isset($prog->link)  && $prog->link)
+            		{
+            			$link=" ".$prog->link;
+            		}
+            		$params['status']=((isset($prog->text) && $prog->text!="")?$prog->text:'').(isset($link)?$link:'');
+            		$url='statuses/update';
+            	}
+            	else
+            	{
+            		$url="/".$prog->socialaccount."/feed";
+            		if(isset($prog->link)  && $prog->link)
+            		{
+            			$link=" ".$prog->link;
+            		}
+            		$params['message']=$prog->text.(isset($link)?$link:'');
+            		if(isset($prog->path) && $prog->path!="")
+            		{
+            			$params['source']='@'.$prog->path;
 						$url="/".$prog->socialaccount."/photos";
-					}
-				}
-				else 
-				{
-					if($prog->social_network=='tw')
-					{
-						$url='statuses/update';
-						$params['status']=$prog->text;
-					}
-					else
-					{
-						$url="/".$prog->socialaccount."/feed";	
-						$params['message']=$prog->text;
-					}
-
-				}
-				if(isset($prog->link) && $prog->link!="")
-				{
-					$params['link']=$prog->link;
-				}
+            		}	
+            		
+            		
+				
+            	}          
+				
 				$publicaciofb=null;
 				$publicaciotw=null;
 
@@ -326,7 +325,7 @@ class Crons extends CI_Controller {
 				else
 					$account=$this->social_user_accounts->getUserappAccounts(array('idaccount'=>$prog->socialaccount,'user_app'=>$prog->user_app),1);
 				
-				$response=$this->deletePublishFromSocial($prog->id_publish,$account[0],$prog->socialnetwork);
+				$response=$this->deletePublishFromSocial($prog->id_publish,$account[0],$prog->social_network);
 				if(is_array($response) && isset($response['success']))
 				{
 					$this->programations->update_by(array('state'=>'finisherase'),array('id'=>$prog->id));	
@@ -357,8 +356,8 @@ class Crons extends CI_Controller {
 		                     //   var_dump($xml->channel->lastBuildDate[0]);
 			$md5Updaterssfeed=md5($rawFeed);
 
-			if(isset($rss->md5lastupdate) && $rss->md5lastupdate!="")
-			{
+			echo $rss->md5lastupdate."<br>";
+			echo $md5Updaterssfeed;
 
 				if($rss->md5lastupdate!=$md5Updaterssfeed)
 				{
@@ -449,13 +448,12 @@ class Crons extends CI_Controller {
 						}
 
 					}
-
 				}
-
-			}
-			else	
 				$this->rss_model->update_by(array('md5lastupdate'=>$md5Updaterssfeed),
 					array('id'=>$rss->id,'user_app'=>$rss->user_app));
+				
+
+			
 		}
 	}
 

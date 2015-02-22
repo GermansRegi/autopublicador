@@ -21,10 +21,7 @@
     <?php echo $this->load->view('includes2/header');
 
 	?>
-       
->
-	
-	<section class='row'>
+    	<section class='row'>
     
         <p> Tienes     <?php echo count($arbbdd)?> bases de datos creadas.<a href="<?php echo base_url();?>admin/anuncios/crear">Crear nueva base de datos</a>
         </p>

@@ -96,7 +96,7 @@ class Basesdedatos extends CI_Controller {
 
 		$res=$this->bases_datos_model->getAll(array('user_app'=>$this->flexi_auth->get_user_id()));
 		$this->data['arbbdd']=$res;
-		$this->data['titlepage']="Base de datos"; 
+		$this->data['titlepage']="Bases de datos"; 
 		$this->load->view('panel/basesdedatos/index',$this->data);
 
 		
@@ -286,7 +286,7 @@ class Basesdedatos extends CI_Controller {
 				$view='panel/basesdedatos/edit_links_basedatos';
 			}
 			
-				$this->data['titlepage']="Editar base de datos: ".$basededatos[0]->name; 
+				$this->data['titlepage']="Bases de datos - Editar base de datos: ".$basededatos[0]->name; 
 			$this->load->view($view,$this->data);		
 		}
 		else 
@@ -356,7 +356,7 @@ class Basesdedatos extends CI_Controller {
 		
 			exit;	
 		}
-			$this->data['titlepage']='Crear base de datos';
+			$this->data['titlepage']='Bases de datos - Crear base de datos';
 			$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
 			$this->load->view('panel/basesdedatos/crear',$this->data);
 			

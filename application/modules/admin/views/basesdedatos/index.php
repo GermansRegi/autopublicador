@@ -42,6 +42,7 @@
 	    </tr>
 	    
 	    <?php
+
 	            
 	    foreach($arbbdd as $bbdd)
 	    {

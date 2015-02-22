@@ -23,7 +23,7 @@ class Bases_datos_model extends MY_Model {
 
 	public function getAll($where=array())
 	{
-	
+		var_dump($where);
 		if(count($where)>0)
 			return $this->get_many_by($where);
 		else

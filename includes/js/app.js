@@ -1,7 +1,7 @@
 $(function(){
 	$('body').on('submit',"#addrss",function(e){
 		e.preventDefault()
-			//var $btn=Ladda.create($(this).find('input:submit')[0])
+			var $btn//=Ladda.create($(this).find('input:submit')[0])
 		 var formdata =new FormData($(this)[0]);
 		var url=$(this).attr('action');
 			 

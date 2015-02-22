@@ -136,7 +136,7 @@ class Rss extends CI_Controller {
 			exit;
 
 		}
-		$this->data['titlepage']="Crear fuente RSS";
+		$this->data['titlepage']="RSS - Crear fuente";
 		$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));

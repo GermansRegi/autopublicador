@@ -106,10 +106,11 @@ class Facebook extends CI_Controller {
 	    		$fecha=new DateTime('now',new DatetimeZone($this->session->userdata('timezone')));
 	    		
 	    		
-	    	
-		    	if(floor($fecha->format('U')/60)>floor($fecha2->format('U')/60))
+	    		$diff=(($fecha2->format('U')-$fecha->format('U'))/60);
+	    		
+		    	if($diff<=1)
 		    	{
-		    		$this->form_validation->set_message('date_valid', 'Debe seleccionar una fecha y hora posterior a la actual');
+		    		$this->form_validation->set_message('date_valid', 'Debe seleccionar una fecha y hora posteriores');
 	    			return false;	
 		    	}
 		    	else
@@ -283,7 +284,7 @@ class Facebook extends CI_Controller {
 							$this->programations->insertNew($data);
 
 						}
-						 echo json_encode(array('msg_success'=>'La programación se ha realizado correctemente'));
+						 echo json_encode(array('msg_success'=>'La programación se ha realizado correctamente'));
 						
 					}
 				}
@@ -413,7 +414,8 @@ class Facebook extends CI_Controller {
 			
 	///		var_dump($this->user_fb);
 			//sino existeix l'usuari de facebook l'inserim
-			if($this->social_users->notExists($this->user_fb['id'],'fb',$this->flexi_auth->get_user_by_id())==true)
+			$exist=$this->social_users->Exists($this->user_fb['id'],'fb',$this->flexi_auth->get_user_id());
+			if($exist==false)
 			{
 				$this->social_users->insertNew(array(
 				'user_id'=>$this->user_fb['id'],
@@ -426,6 +428,7 @@ class Facebook extends CI_Controller {
 			}	
 			else
 			{
+			
 				$this->social_users->update_by(
 				array(
 					'username'=>$this->user_fb['name'],
@@ -659,14 +662,14 @@ class Facebook extends CI_Controller {
                                   {
                                   	$params['source']='@'.$_FILES['imagen']['tmp_name'];
 
-                                  	$params['message']=$this->input->post('texto_facebook').((isset($params['message1']) && $params['message1']!='')?$params['message1']:'');
+                                  	$params['message']=$this->input->post('texto_facebook')." ".((isset($params['message1']) && $params['message1']!='')?$params['message1']:'');
                                   }
                                    $urlfb="/photos";    
                               
                                }
                                
                                
-                               	$params['message']=$this->input->post('texto_facebook').((isset($params['message1']) && $params['message1']!='')?$params['message1']:'');
+                               	$params['message']=$this->input->post('texto_facebook')." ".((isset($params['message1']) && $params['message1']!='')?$params['message1']:'');
                                	if(!isset($params['link']) || $params['link']=='')
                                	$params['link']=$this->input->post('link');	
                                
@@ -711,7 +714,7 @@ class Facebook extends CI_Controller {
 						if($errorflag==true)
 							echo json_encode(array('msg_errors'=>array('pp'=>'No se ha podido publicar correctamente en alguna de las cuentas seleccionadas')));
 						else
-							echo json_encode(array('msg_success'=>'Se ha publicado correctemente en las cuentas seleccionadas'));
+							echo json_encode(array('msg_success'=>'Se ha publicado correctamente en las cuentas seleccionadas'));
 					}
 
          			}

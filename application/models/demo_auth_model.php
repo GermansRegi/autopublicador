@@ -101,6 +101,13 @@ class Demo_auth_model extends CI_Model {
 	 * Create a new user account.
 	 * Then if defined via the '$instant_activate' var, automatically log the user into their account.
 	 */
+	private  function accept_terms(){
+		if(isset($_POST['register_terms_and_conditions'])) return true;
+		else{
+		 $this->form_validation->set_message('register_terms_and_conditions','Por favor accepta los términos i las condiciones');
+			return false;
+		}
+	}
 	function register_account()
 	{
 		$this->load->library('form_validation');
@@ -113,7 +120,7 @@ class Demo_auth_model extends CI_Model {
 //			array('field' => 'register_phone_number', 'label' => 'Phone Number', 'rules' => 'required'),
 //			array('field' => 'register_newsletter', 'label' => 'Newsletter', 'rules' => 'integer'),
 			array('field' => 'register_email_address', 'label' => 'Correo electrónico', 'rules' => 'required|valid_email|identity_available'),
-			//array('field' => 'register_username', 'label' => 'Username', 'rules' => 'required|min_length[4]|identity_available'),
+			array('field' => 'register_terms_and_conditions', 'label' => 'Términos i Condiciones', 'rules' => 'required|callback_accept_terms'),
 			array('field' => 'register_password', 'label' => 'Contraseña', 'rules' => 'required|min_length[8]|validate_password'),
 			array('field' => 'register_confirm_password', 'label' => 'Confirmación contraseña', 'rules' => 'required|matches[register_password]')
 		);

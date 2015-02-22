@@ -39,8 +39,8 @@ $arr=array("group","user","event","page")
 						</div>
 						<div class="col-lg-6">
 						
-							<div class=" bootstrap-timepicker input-group">
-							<input class='form-control' id="time" value="<?php echo $fecha->format('G:i'); ?>" name='time'  type="text">
+							<div class=" input-group" id="time">
+							<input class='form-control'  value="<?php echo $fecha->format('G:i'); ?>" name='time'  type="text">
 							<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
 							</div>
 						</div>

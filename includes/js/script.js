@@ -16,8 +16,12 @@ $("#filetoup").filestyle()
                 showInputs: false,
                 disableFocus: true,
                 showMeridian:false,
-               defaultTime:$('#time').val()
+               defaultTime:$('#time').find('input').val()
             });
+ $('#time').timepicker().on('changeTime.timepicker', function(e) {
+ 		$('#time').find('input').val(e.time.value);
+    
+    });
  
  $(".date").datepicker({ language: 'es',
 		todayBtn: true,
@@ -210,7 +214,7 @@ if(idUploader){
 		{      
 			
 		     //$(id).html(showSuccessForm(data.msg_success))
-		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",false);
+		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",3000);
 		     if(data.idcreated)
 			{
 		  		return data.idcreated

@@ -61,8 +61,8 @@ class Usuarios extends CI_Controller {
 			$this->load->model('anuncios_model');
 			$this->load->model('bases_datos_model');
 			$user=$this->flexi_auth->get_user_by_id_query($iduser,array('uacc_email'))->result();
-			$this->data['bbdd']=$this->anuncios_model->getAll(array('user_app'=>$iduser));
-			$this->data['anuncios']=$this->bases_datos_model->getAll(array('user_app'=>$iduser));
+			$this->data['bbdd']=$this->bases_datos_model->get_many_by(array('user_app'=>$iduser));
+			$this->data['anuncios']=$this->anuncios_model->getAll(array('user_app'=>$iduser));
 
 			$this->data['titlepage']="Bases de datos del usuario: ".$user[0]->uacc_email;
 			$this->load->view('users/basesdedatos',$this->data);	

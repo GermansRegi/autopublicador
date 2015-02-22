@@ -147,7 +147,7 @@ class Anuncios extends CI_Controller {
 		
 			exit;	
 		}
-			$this->data['titlepage']="Crear base de datos de anuncios";
+			$this->data['titlepage']="Anuncios - Crear base de datos";
 			$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
 			$this->load->view('panel/anuncios/crear',$this->data);
 			
@@ -331,7 +331,7 @@ class Anuncios extends CI_Controller {
 					
 				$view='panel/anuncios/edit_links';
 			}
-			$this->data['titlepage']="Editar base de datos de anuncios: ".$anuncio[0]->name;
+			$this->data['titlepage']="Anuncios - Editar base de datos : ".$anuncio[0]->name;
 			$this->load->view($view,$this->data);		
 		}
 		else 
