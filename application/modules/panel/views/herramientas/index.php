@@ -26,6 +26,9 @@
     <a href='<?php echo base_url()?>panel/herramientas/unfollow_twitter'>Unfollow de twitter</a>
 </div>
 
+<div class="col-lg-3">
+    <a href='<?php echo base_url()?>panel/herramientas/limpiador_twitter'>Limpiador de twitter</a>
+</div>
 	             
 <?php
     echo $this->load->view('includes2/footer');

@@ -399,7 +399,7 @@ $("body").on("click",".deleteautoprog",function(){
 			}
 		 },$btn)
 	})
-	Ladda.bind('input[type=submit]')
+	
 	function makeajax(obj,l)
 	{
 		objajax= $.extend({		 	

@@ -191,8 +191,15 @@ class Herramientas extends CI_Controller {
 					$accounts=(isset($cuentas['account'])?$cuentas['account']:array());
 					 foreach ($users as $user) {
 						$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$user),1);		 	
-						
-						
+						if($type_erase=='1')
+							$this->limpiar_fotos_facebook($userRow[0]->access_token,$user);
+						else if($type_erase=="2")
+							$this->limpiar_links_facebook($userRow[0]->access_token,$user);
+						else{
+							$this->limpiar_links_facebook($userRow[0]->access_token,$user);
+							$this->limpiar_fotos_facebook($userRow[0]->access_token,$user);
+						}
+
 					 }
 					 foreach ($accounts as $account) {
 					 	$accRow=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$account),1);
@@ -235,12 +242,87 @@ class Herramientas extends CI_Controller {
 	}
 	public function unfollow_twitter()
 	{
+		if($this->input->post())
+		{
+			$users=$this->input->post('user');
+			foreach ($users as $userid) {
+				$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$userid),1);		 	
+				$this->makeUnFollow($userRow[0]->access_token,$userid);
+			}
+			exit;
+		}
 		$this->data['titlepage']="Herramientas - Unfollow twitter";
 		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('herramientas/unfollow_twitter',$this->data);		
 	}
+	public function deleteTwits($token,$user_id)
+	{
+		$this->load->library('Twitterlib','','twtlib');
+		echo $token;
+		$this->twtlib->setAccessToken(json_decode($token));
+		$max_id=0;
+		$count = 200;
+		$full_friends = array();
+		$statuses = $this->twtlib->get("statuses/user_timeline",array('count'=>$count,'user_id'=>$user_id));
+		do {
+			
+			
+			$max_id=$statuses[count($statuses)-1]->id;
+		       
+		       $statuses = $this->twtlib->get("statuses/user_timeline",array('count'=>$count,'user_id'=>$user_id,'max_id'=>$max_id));
+		    	
+		       $full_friends=array_merge($statuses, $full_friends);
+		  } while (count($statuses) > 0);
+		  echo count($full_friends);
+		  //var_dump($statuses);
+		  /*foreach ($full_friends as $friend) {
+
+			$follows = $this->twtlib->post("friendships/destroy",array('user_id'=>$friend));		  	
+			var_dump($follows);
+		  }*/
+	}
+	
+	public function makeUnFollow($token,$user_id)
+	{
+		$this->load->library('Twitterlib','','twtlib');
+		echo $token;
+		$this->twtlib->setAccessToken(json_decode($token));
+		$e = 1;
+		$cursor = -1;
+		$full_friends = array();
+		do {
+
+		$follows = $this->twtlib->get("friends/ids",array('cursor'=>$cursor,'user_id'=>$user_id));
+
+		$foll_array = (array)$follows;
+
+		  foreach ($foll_array['ids'] as $key => $val) {
+
+		        $full_friends[$e] = $val;
+		        $e++; 
+		  }
+		       $cursor = $follows->next_cursor;
+
+		  } while ($cursor > 0);
+		  var_dump($full_friends);
+		  foreach ($full_friends as $friend) {
+
+			$follows = $this->twtlib->post("friendships/destroy",array('user_id'=>$friend));		  	
+			var_dump($follows);
+		  }
+	}
 	public function limpiador_twitter()
 	{
+		if($this->input->post())
+		{
+			$users=$this->input->post('user');
+			foreach ($users as $userid) {
+				$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$userid),1);		 	
+				$this->deleteTwits($userRow[0]->access_token,$userid);
+			}
+				
+			exit;
+		}
 		$this->data['titlepage']="Herramientas - Limpiador de twitter";
 		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('herramientas/limpiador_twitter',$this->data);		
@@ -248,7 +330,7 @@ class Herramientas extends CI_Controller {
 	}
 	public function extractor_tweets()
 	{
-		$this->data['titlepage']="Herramientas - Limpiador de twitter";
+		$this->data['titlepage']="Herramientas - Extractor de twitter";
 		$this->data['basesdedatos']=$this->bases_datos_model->get_all(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('herramientas/extractor_twitter',$this->data);		
 	

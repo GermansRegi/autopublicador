@@ -81,7 +81,7 @@ class Twitterlib
 	}
 	public function get($url,$params)
 	{
-		 $res=$this->twitter->get($url,$params);
+		 $result=$this->twitter->get($url,$params);
 		if(isset($result->errors))
 			return array('error'=>$this->TRanlateAPIERROR($result->errors[0]->code));	
 		else
