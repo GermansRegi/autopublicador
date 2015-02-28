@@ -107,7 +107,7 @@
 									<input type="hidden" name="cmd" value="_xclick" />
 									<input type="hidden" name="business" value="eugeniregiprove@gmail.com" />
 									<input type="hidden" name="quantity" value="1" />
-									<input type="hidden" name="item_name" value="pago menusal autopublicador social" />
+									<input type="hidden" name="item_name" value="PAGO MENUSAL AUTOPUBLICADOR SOCIAL" />
 
 									<input type="hidden" name="amount" value="10.00" />
 									<input type="hidden" name="custom" value="mensual-<?php echo $this->flexi_auth->get_user_id(); ?>"/>
@@ -116,7 +116,7 @@
 									<input type="hidden" name="rm" value="2"/>
 
 
-									<input type="hidden" name="cancel_return" value="<?php echo base_url(); ?>pagar/errordepago">
+									<input type="hidden" name="cancel_return" value="<?php echo base_url(); ?>panel/perfil/errordepago">
 
 									<input type="submit" value="Pagar" class="btn btn-primary"/>
 
@@ -137,14 +137,14 @@
 									<input type="hidden" name="cmd" value="_xclick" />
 									<input type="hidden" name="business" value="eugeniregiprove@gmail.com" />
 									<input type="hidden" name="quantity" value="1" />
-									<input type="hidden" name="item_name" value="pago trimestral autopublicador social" />
+									<input type="hidden" name="item_name" value="PAGO TRIMESTRAL AUTOPUBLICADOR SOCIAL" />
 
 									<input type="hidden" name="amount" value="25.00" />
 									<input type="hidden" name="currency_code" value="EUR"/>
 									<input type="hidden" name="custom" value="trimestral-<?php echo $this->flexi_auth->get_user_id(); ?>"/>
 
 
-									<input type="hidden" name="cancel_return" value="<?php echo base_url(); ?>pagar/errordepago"/>
+									<input type="hidden" name="cancel_return" value="<?php echo base_url(); ?>panel/perfil/errordepago"/>
 
 									<input type="submit" value="Pagar" class="btn btn-primary"/>
 								</form>
@@ -163,7 +163,7 @@
 									<input type="hidden" name="cmd" value="_xclick" />
 									<input type="hidden" name="business" value="eugeniregiprove@gmail.com" />
 									<input type="hidden" name="quantity" value="1" />
-									<input type="hidden" name="item_name" value="pago anual autopublicador social" />
+									<input type="hidden" name="item_name" value="PAGO ANUAL AUTOPUBLICADOR SOCIAL" />
 
 									<input type="hidden" name="amount" value="90.00" />
 
@@ -173,7 +173,7 @@
 
 
 
-									<input type="hidden" name="cancel_return" value="<?php echo base_url(); ?>pagar/errordepago"/>
+									<input type="hidden" name="cancel_return" value="<?php echo base_url(); ?>panel/perfil/errordepago"/>
 									<input type="submit" value="Pagar" class="btn btn-primary"/>
 								</form>
 

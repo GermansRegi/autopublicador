@@ -89,7 +89,37 @@ class CommonSocial extends CI_Controller {
 	{
 		
 	}
+	public function Ondeletehaveprog($id,$isuser)
+	{
+		$this->load->model('programations');
+		$this->load->model('autoprog_basededatos');
+		$this->load->model('autoprog_anuncios');
+		
+		if($isuser=='true')
+		{
+				$acc=$this->social_users->getUserAppUsers(array('id'=>$id));
+				$prog=$this->programations->count_by(array('socialaccount'=>$acc[0]->user_id,'state'=>'process','user_app'=>$this->flexi_auth->get_user_id()));
+				$prog=$prog+$this->autoprog_basededatos->count_by(array('accountid'=>$acc[0]->user_id,'user_app'=>$this->flexi_auth->get_user_id()));
+				$prog=$prog+$this->autoprog_anuncios->count_by(array('accountid'=>$acc[0]->user_id,'user_app'=>$this->flexi_auth->get_user_id()));
+				if($prog>0)
+				return true;
+				else 
+				return false;
+		}
+		else
+		{
+				$acc=$this->social_user_accounts->getUserappAccounts(array('id'=>$id));
+				$prog=$this->programations->count_by(array('socialaccount'=>$acc[0]->idaccount,'state'=>'process','user_app'=>$this->flexi_auth->get_user_id()));
+				$prog=$prog+$this->autoprog_basededatos->count_by(array('accountid'=>$acc[0]->idaccount,'user_app'=>$this->flexi_auth->get_user_id()));
 
+				$prog=$prog+$this->autoprog_anuncios->count_by(array('accountid'=>$acc[0]->idaccount,'user_app'=>$this->flexi_auth->get_user_id()));
+				if($prog>0)
+				return true;
+				else 
+				return false;
+
+		}
+	}
 	public function deletecontent()
 	{
 		$this->load->model('social_user_accounts');
@@ -97,13 +127,18 @@ class CommonSocial extends CI_Controller {
 		
 		if($this->input->get("is_folder")=="true"){
 			//var_dump($this->input->get("is_user"));
+				
 			if($this->input->get("is_user")=="true")
+			{
 				$numaccount=$this->social_users->count_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+
+			}
 			else	
+			{
 				$numaccount=$this->social_user_accounts->count_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+			}
 			if($numaccount>0)
 			{
-				
 				echo json_encode(array("result"=>"delAccountsInFolder","idFolder"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
 			}
 			else
@@ -115,27 +150,42 @@ class CommonSocial extends CI_Controller {
 
 		}
 		else
-		{	
-		
-			$this->load->model('autoprog_basededatos');
-			$this->load->model('autoprog_anuncios');	
-			if($this->input->get("is_user")=="true")
-			{	
-				$acc=$this->social_users->getUserAppUsers(array('id'=>$this->input->get("id")),1);
-				$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->user_id));
-				$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->user_id));
-				$this->social_users->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-			}
-			else	
+		{	if($this->input->get('askHaveProg'))
 			{
-					$acc=$this->social_user_accounts->getUserappAccounts(array('id'=>$this->input->get("id")),1);
-					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->idaccount));
-					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->idaccount));
-				$this->social_user_accounts->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+				if($this->Ondeletehaveprog($this->input->get('id'),$this->input->get("is_user")))
+				{
+					echo json_encode(array('haveProg'=>true));
+					exit;
+				}
 			}
-		echo json_encode(array("result"=>"ok","msg_success"=>'Cuenta eliminada correctamente '));
+			$this->load->model('programations');
+			$this->load->model('autoprog_basededatos');
+			$this->load->model('autoprog_anuncios');
+			if($this->input->get("is_user")=="true")
+			{
+					$acc=$this->social_users->getUserAppUsers(array('id'=>$this->input->get("id")));
+					$this->programations->delete_by(array('socialaccount'=>$acc[0]->user_id,'user_app'=>$this->flexi_auth->get_user_id()));
+					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->user_id,'user_app'=>$this->flexi_auth->get_user_id()));
+					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->user_id,'user_app'=>$this->flexi_auth->get_user_id()));
+					
+					$this->social_users->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
+					
+					echo json_encode(array("result"=>"ok","msg_success"=>'Datos eliminados correctamente'));
+			}
+			else
+			{		$acc=$this->social_user_accounts->getUserappAccounts(array('id'=>$this->input->get('id')));
+					$this->programations->delete_by(array('socialaccount'=>$acc[0]->idaccount,'user_app'=>$this->flexi_auth->get_user_id()));
+					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->idaccount,'user_app'=>$this->flexi_auth->get_user_id()));
+
+					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->idaccount,'user_app'=>$this->flexi_auth->get_user_id()));
+				
+					$this->social_user_accounts->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));	
+					echo json_encode(array("result"=>"ok","msg_success"=>'Datos eliminados correctamente '));
+			}
+
 		}
 	}
+	
 	public function deleteQuitFolderContent()
 	{
 		$this->load->model('social_user_accounts');
@@ -144,7 +194,7 @@ class CommonSocial extends CI_Controller {
 			$rows=$this->social_users->get_many_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
 		else
 		$rows=$this->social_user_accounts->get_many_by(array("folder_id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-	//var_dump($rows);
+
 		if($this->input->get("type")=="quit")
 		{		
 			foreach ($rows as  $value) {
@@ -157,30 +207,50 @@ class CommonSocial extends CI_Controller {
 				else
 					$this->social_user_accounts->update_by(array("folder_id"=>null),array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
 			}
+			echo json_encode(array("result"=>"ok","msg_success"=>'Cambios aplicados correctamente '));
 		}
 		else
-		{
+		{	
+			if($this->input->get('askHaveProg'))
+			{
+				foreach ($rows as $account) 
+				{
+					if($this->Ondeletehaveprog($account->id,$this->input->get("is_user")))
+					{
+						echo json_encode(array('haveProg'=>true));
+						exit;
+					}
+				}	
+			}
+			$this->load->model('programations');
 			$this->load->model('autoprog_basededatos');
 			$this->load->model('autoprog_anuncios');
-			foreach ($rows as  $value) {
+
+			foreach ($rows as  $value) 
+			{
 				if($this->input->get("is_user")=="true")
 				{	
 					$acc=$this->social_users->getUserAppUsers(array('id'=>$value->id),1);
-					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->user_id));
-					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->user_id));
+					$this->programations->delete_by(array('socialaccount'=>$acc[0]->user_id,'user_app'=>$this->flexi_auth->get_user_id()));
+					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->user_id,'user_app'=>$this->flexi_auth->get_user_id()));
+					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->user_id,'user_app'=>$this->flexi_auth->get_user_id()));
 					$this->social_users->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
 				}
 				else	
 				{
 					$acc=$this->social_user_accounts->getUserappAccounts(array('id'=>$value->id),1);
-				
+					$this->programations->delete_by(array('socialaccount'=>$acc[0]->idaccount,'user_app'=>$this->flexi_auth->get_user_id()));
+					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->accountid,'user_app'=>$this->flexi_auth->get_user_id()));
+					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->accountid,'user_app'=>$this->flexi_auth->get_user_id()));
 					$this->social_user_accounts->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
 				}
 			}
+			echo json_encode(array("result"=>"ok","msg_success"=>'Cambios aplicados correctamente '));
 		}
 		$this->load->model("folders");
 		$this->folders->delete_by(array("id"=>$this->input->get("id"),'user_app'=>$this->flexi_auth->get_user_id()));
-		echo json_encode(array("result"=>"ok","msg_success"=>'Cambios aplicados correctamente '));
+
+		
 	}
 	// agafa els elements duna base de dades i els mostra
 	public function get_bbddElements($page=0)
@@ -335,7 +405,7 @@ class CommonSocial extends CI_Controller {
 			// si es un usuari
 			if($type=='u')
 			{
-				$acc=$this->social_users->getUserAppUsers(array('user_id'=>$idaccount),1);	
+				$acc=$this->social_users->getUserAppUsers(array('user_id'=>$idaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);	
 				$acc[0]->type="user";
 				
 			}
@@ -343,12 +413,15 @@ class CommonSocial extends CI_Controller {
 			else
 			{ 
 				
-				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$idaccount),1);
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$idaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);
 				$acc[0]->type="account";
 				// si es un compte de xarxa social segur que es de facebook
 				$acc[0]->social_network='fb';
 			}	
 			//validacions formulari
+			$this->form_validation->set_rules('anuncios[frecuencia]','Frecuencia','required');
+			$this->form_validation->set_rules('anuncios[socialacc]','Cuentas','callback_checkSelected');
+			$this->form_validation->set_rules('anuncios[asociard]','Bases de datos','required');	
 			$this->form_validation->set_rules('anuncios', 'Horas de publicación', 'callback_checkhours');
 
 		if($this->input->post())
@@ -433,18 +506,21 @@ class CommonSocial extends CI_Controller {
 		$array=array('fb'=>'face',"tw"=>'twt');
 			if($type=='u')
 			{
-				$acc=$this->social_users->getUserAppUsers(array('user_id'=>$idaccount),1);	
+				$acc=$this->social_users->getUserAppUsers(array('user_id'=>$idaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);	
 				$acc[0]->type="user";
 				
 			}
 			else
 			{ 
 				
-				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$idaccount),1);
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$idaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);
 				$acc[0]->type="account";
 				$acc[0]->social_network='fb';
 			}	
 			// validacions per  formulari
+			$this->form_validation->set_rules('datos[frecuencia]','Frecuencia','required');
+			$this->form_validation->set_rules('datos[socialacc]','Cuentas','callback_checkSelected');
+			$this->form_validation->set_rules('datos[asociard][]','Bases de datos','required');
 			$this->form_validation->set_rules('datos', 'Horas de publicación', 'callback_checkhours');
 			
 			// si arriba peticio post
@@ -467,13 +543,13 @@ class CommonSocial extends CI_Controller {
 					// esborro totes les publicacions fetes per  la compte
 					foreach ($datos['asociard'] as $value) {
 						$bbdd=$this->bases_datos_model->getById($value);
-						$this->load->model('autoprog_publicaiones');
-						$this->autoprog_publicaiones->delete_by(array(
+						$this->load->model('autoprog_publicadas');
+						$this->autoprog_publicadas->delete_by(array(
 							'user_app'=>$this->flexi_auth->get_user_id(),
 							'bd_id'=>$bbdd[0]->id,
 							'content'=>$bbdd[0]->content,
 							'type_bd'=>'datos',
-							'account_id'=>$accountid,
+							'account_id'=>$idaccount,
 							'autoprog_id'=>$id));
 					}
 					
@@ -526,6 +602,7 @@ class CommonSocial extends CI_Controller {
 			$prog=$this->input->post("prog");
 			$this->load->model('autoprog_basededatos');
 			$this->load->model('autoprog_anuncios');
+			$this->load->model('autoprog_publicadas');
 			// si es de tipus anunci
 			if($type=="anuncios")
 			{
@@ -537,9 +614,9 @@ class CommonSocial extends CI_Controller {
 				$flag=$this->autoprog_basededatos->delete_by(array('accountid'=>$account,"id"=>$prog));
 			}
 			// elimino les publicacions fetes per la compte de l'autoprogramacio
-			$this->autoprog_publiaciones->delete_by(array('user_app'=>$this->flexi_auth->get_user_id(),'account_id'=>$account,'autoprog_id'=>$prog));
+			$this->autoprog_publicadas->delete_by(array('user_app'=>$this->flexi_auth->get_user_id(),'account_id'=>$account,'autoprog_id'=>$prog));
 			if($flag)
-			echo json_encode(array('msg_success'=>'Datos eliminados correctamente'));
+				echo json_encode(array('msg_success'=>'Datos eliminados correctamente'));
 			else
 				echo json_encode(array('msg_errors'=>array('pp'=>'Error al eliminar los datos')));
 		}

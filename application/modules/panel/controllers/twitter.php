@@ -129,7 +129,7 @@ class Twitter extends CI_Controller {
 					}
 			}
 		}
-		$this->data['titlepage']="Cuentas de twitter";
+		$this->data['titlepage']="Twitter - Cuentas";
 
 		
 		$this->data['arraydata']=$arraydata;
@@ -155,8 +155,8 @@ class Twitter extends CI_Controller {
 		{
 			$this->twtlib->setAccessToken($res);
 			$datauser=$this->twtlib->getUserdata();
-
-			if($this->social_users->notExists($datauser->id,'tw',$this->flexi_auth->get_user_by_id())==true)
+			$exist=$this->social_users->Exists($datauser->id,'tw',$this->flexi_auth->get_user_id());
+			if($exist==false)
 			{
 				echo $this->social_users->insertNew(array(
 				'user_id'=>$datauser->id,
@@ -189,14 +189,14 @@ class Twitter extends CI_Controller {
 					'user_id'=>$datauser->id));
 			}
 			
-			$this->data['titlepage']="Añadir cuentas";
+			$this->data['titlepage']="Twitter - Añadir cuentas";
 			$this->data['message']="success";
 			$this->load->view("twitter/anadir_cuentas",$this->data);
 
 		}
 		else
 		{
-			$this->data['titlepage']="Añadir cuentas";
+			$this->data['titlepage']="Twitter - Añadir cuentas";
 			$this->data['message']="eror";
 			$this->load->view("twitter/anadir_cuentas",$this->data);
 		}
@@ -313,7 +313,7 @@ class Twitter extends CI_Controller {
 						foreach ($group_ap as $accountid) 
 						{
 							
-							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid),1);
+							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
 							$this->twtlib->setAccessToken(json_decode($user[0]->access_token));
 							if($file)
 							{
@@ -327,7 +327,7 @@ class Twitter extends CI_Controller {
 							if(is_array($res) && isset($res['error']))
 								echo json_encode(array('msg_errors'=>array('pp'=>$res['error'])));
 							else
-								echo json_encode(array('msg_success'=>'La publicación se ha realizado correctemente'));
+								echo json_encode(array('msg_success'=>'La publicación se ha realizado correctamente'));
 							}
 						
 						 
@@ -348,7 +348,7 @@ class Twitter extends CI_Controller {
 			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
 			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
 
-			$this->data['titlepage']="Publicar ahora en Twitter";
+			$this->data['titlepage']="Twitter - Publicar ahora";
 			
 
 		$this->load->view('panel/twitter/publicar',$this->data);
@@ -525,7 +525,7 @@ class Twitter extends CI_Controller {
 							
 
 						}
-						 echo json_encode(array('msg_success'=>'La programación se ha realizado correctemente'));
+						 echo json_encode(array('msg_success'=>'La programación se ha creado correctamente'));
 						
 					}
 				}
@@ -538,17 +538,17 @@ class Twitter extends CI_Controller {
 			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
 			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
-			$programaciones=$this->programations->getAll(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+			$programaciones=$this->programations->get_many_by(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 			foreach ($programaciones as $prog) {
 				
-					$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->socialaccount),1);	
+					$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->socialaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);	
 		
 					$prog->name=$user[0]->username;
 			}
 			$this->data['programaciones']=$programaciones;
 			
 
-		$this->data['titlepage']="Programar en twitter";
+		$this->data['titlepage']="Twitter - Programar publicación";
 		$this->load->view("panel/twitter/programar",$this->data);
 	}
 	function date_valid($date){
@@ -603,7 +603,7 @@ class Twitter extends CI_Controller {
 		{
 
 
-			$this->form_validation->set_rules('datos[frecuencia]','Frequencia','required');
+			$this->form_validation->set_rules('datos[frecuencia]','Frecuencia','required');
 			$this->form_validation->set_rules('datos[user]','Cuentas','callback_checkSelected');
 			$this->form_validation->set_rules('datos[asociard][]','Bases de datos','required');
 			$this->form_validation->set_rules('datos','Horas de publicación','callback_checkhours');
@@ -629,7 +629,7 @@ class Twitter extends CI_Controller {
 					}
 				}
 				
-			
+			echo json_encode(array('msg_success'=>'Programaciones periódicas creadas con éxito en las cuentas seleccionadas'));
 
 			}
 
@@ -644,7 +644,7 @@ class Twitter extends CI_Controller {
 		else if($this->input->post('anuncios'))
 		{
 
-			$this->form_validation->set_rules('anuncios[frecuencia]','Frequencia','required');
+			$this->form_validation->set_rules('anuncios[frecuencia]','Frecuencia','required');
 			$this->form_validation->set_rules('anuncios[user]','Cuentas','callback_checkSelected');
 			$this->form_validation->set_rules('anuncios[asociard]','Bases de datos','required');
 			$this->form_validation->set_rules('anuncios','Horas de publicación','callback_checkhours');
@@ -668,7 +668,7 @@ class Twitter extends CI_Controller {
 						'perm_sentences'=>$anuncios['frases_perm'],'accountid'=>$id,'type'=>'user'));
 					}
 				}
-
+echo json_encode(array('msg_success'=>'Programaciones periódicas creadas con éxito en las cuentas seleccionadas'));
 			}
 			else
 			{
@@ -677,17 +677,17 @@ class Twitter extends CI_Controller {
 			}
 			exit;	
 		}
-		$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'tw'));
-		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'tw'));
+		$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		foreach ($programacionesbbdd as $prog) {
 			if($prog->type=='account')
 			{
-				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid),1);
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
 				$prog->name=$acc[0]->name;
 			}
 			else
 			{
-				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid),1);	
+				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);	
 				$prog->name=$user[0]->username;
 			}
 		
@@ -695,12 +695,12 @@ class Twitter extends CI_Controller {
 		foreach ($programacionesanuncios as $prog) {
 			if($prog->type=='account')
 			{
-				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid),1);
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount,'=>$prog->accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
 				$prog->name=$acc[0]->name;
 			}
 			else
 			{
-				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid),1);	
+				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);	
 				$prog->name=$user[0]->username;
 			}
 		
@@ -713,7 +713,7 @@ class Twitter extends CI_Controller {
 
 		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
 		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
-		$this->data['titlepage']="Prgramaciones periódicas twitter";
+		$this->data['titlepage']="Twitter - Programaciones periódicas";
 		$this->load->view('twitter/autoprog',$this->data);		
 	}
 

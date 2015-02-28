@@ -94,7 +94,7 @@ class Basesdedatos extends CI_Controller {
 	public function index()
 	{
 
-		$res=$this->bases_datos_model->getAll(array('user_app'=>$this->flexi_auth->get_user_id()));
+		$res=$this->bases_datos_model->get_many_by(array('user_app'=>$this->flexi_auth->get_user_id()));
 		$this->data['arbbdd']=$res;
 		$this->data['titlepage']="Bases de datos"; 
 		$this->load->view('panel/basesdedatos/index',$this->data);

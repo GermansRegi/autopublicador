@@ -97,7 +97,7 @@ class Perfil extends CI_Controller {
 	}
 	public function planes()
 	{
-		$this->data['titlepage']="Nuestros planes";
+		$this->data['titlepage']="Perfil - Nuestros planes";
 		$this->load->view('perfil/planes',$this->data);
 	}
 	public function change_password()
@@ -132,7 +132,7 @@ class Perfil extends CI_Controller {
 		
 		// Set any returned status/error messages.
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-		$this->data['titlepage']="Editar perfil";
+		$this->data['titlepage']="Perfil - Editar perfil";
 		$this->load->view('demo/public_examples/account_update_view', $this->data);
 	}
 	function pagos()
@@ -142,7 +142,7 @@ class Perfil extends CI_Controller {
 		$this->data["pays"]=$this->payments->getAllFromUser($this->flexi_auth->get_user_id());
 
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-		$this->data['titlepage']="Registro de pagos realizados";
+		$this->data['titlepage']="Perfil - Registro de pagos realizados";
 		$this->load->view('perfil/pagos', $this->data);	
 	}
 	public function pagocorrecto()
@@ -150,8 +150,13 @@ class Perfil extends CI_Controller {
 		$user=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_by_id())->result();
 		
 		$this->flexi_auth_model->set_login_sessions($user[0], TRUE);
-		$this->data['titlepage']="";
+		$this->data['titlepage']="Perfil - Pagos";
 		$this->load->view('perfil/pagocorrecto',$this->data);
+	}
+	public function errordepago()
+	{
+		$this->data['titlepage']="Perfil - Pagos";
+		$this->load->view('perfil/errordepago',$this->data);	
 	}
 }
 

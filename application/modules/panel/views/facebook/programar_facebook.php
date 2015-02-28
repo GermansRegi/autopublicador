@@ -40,7 +40,7 @@ $arr=array("group","user","event","page")
 						<div class="col-lg-6">
 						
 							<div class=" input-group" id="time">
-							<input class='form-control'  value="<?php echo $fecha->format('G:i'); ?>" name='time'  type="text">
+							<input class='form-control'  value="<?php echo $fecha->format('H:i'); ?>" name='time'  type="text">
 							<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
 							</div>
 						</div>
@@ -200,11 +200,20 @@ $arr=array("group","user","event","page")
 									<td><?php echo $prog->name ?></td>
 									<td><?php 
 
-									$fecha=DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s',$prog->fecha),new DateTimezone($this->session->userdata('timezone')));
-							
+									$fecha=new DateTime("@".$prog->fecha);
+									$fecha->setTimezone(new DateTimezone($this->session->userdata('timezone')));
+									if(!empty($prog->fechaBorrado))
+									{
+										$fechaB=new DateTime("@".$prog->fechaBorrado);
+										$fechaB->setTimezone(new DatetimeZone($this->session->userdata('timezone')));
+									}
+									else
+									{
+										$fechaB=null;
+									}
 
 									echo $fecha->format('d-m-Y H:i:s');?></td>
-									<td><?php echo (!empty($prog->fechaBorrado)?date('d-m-Y H:i:s',$prog->fechaBorrado):'-')?></td>
+									<td><?php echo (isset($fechaB)?$fechaB->format('d-m-Y H:i:s'):'-')?></td>
 									<td><?php echo $arrayStates[$prog->state]; ?></td>
 									<td> <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" >Ver </a><a data-id="<?php echo $prog->id; ?>" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a></td>
 

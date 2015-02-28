@@ -40,7 +40,7 @@ if($('#tweet_txt').length>0)
 		var isUser=Boolean($this.data("user"));
 		var is_folder=Boolean($this.data("type"));
 	
-		var n=noty(
+		var np=noty(
 				{
 					text:"Seguro que quiere eliminar la "+((is_folder===true)?"carpeta":"cuenta")+"?",
 
@@ -50,17 +50,17 @@ if($('#tweet_txt').length>0)
 								addClass:"btn btn-primary",
 								text:"Cancelar",
 								onClick:function(notyfy){
-									notyfy.closeAll()
+									notyfy.close()
 								}
 							},
 							{
 								text:"Acceptar",
-								addClass:"btn-danger",
+								addClass:"btn btn-danger",
 								onClick:function(notyfyparent)
 								{
 									$.ajax({url:deletecontent_url,
 										async:false,
-										data:{"is_folder":is_folder,"id":$this.data("id"),"is_user":isUser},
+										data:{"is_folder":is_folder,"id":$this.data("id"),"is_user":isUser,'askHaveProg':1},
 										type:'get',
 										dataType:"json",
 										success:function(data){
@@ -73,7 +73,7 @@ if($('#tweet_txt').length>0)
 														addClass:"btn btn-primary",
 														text:"Ubicar el contenido fuera de la carpeta",
 														onClick:function(notyfy){
-														notyfy.closeAll()
+														notyfy.close()
 														onClickNoty("quit",data.idFolder,isUser);
 														
 														
@@ -85,7 +85,7 @@ if($('#tweet_txt').length>0)
 														addClass:"btn btn-danger",
 														text:"Eliminar el contenido",
 														onClick:function(notyfy){
-														notyfy.closeAll()		
+														notyfy.close()		
 														onClickNoty("delete",data.idFolder,isUser);
 														//document.location.href=current_url;
 														
@@ -94,10 +94,17 @@ if($('#tweet_txt').length>0)
 												})	
 			
 											}
+											else if(data.haveProg)
+											{
+													NotyHaveProgAccount($this.data("id"),isUser);
+											
+												
+											
+												
+												//document.location.href=current_url;									
+											}
 											else
 											{
-
-											
 													var res=showResults(data,',',null);
 													if(res){
 														$('body').delay(1000).queue(function( nxt ) {
@@ -105,12 +112,9 @@ if($('#tweet_txt').length>0)
 															nxt();
 									                      }); 	
 													}						
-											
-												
-												//document.location.href=current_url;									
 											}
 											
-											notyfyparent.closeAll()			
+											notyfyparent.close()			
 										}
 									})									
 								}
@@ -135,20 +139,118 @@ $("body").on("click",".deleteautoprog",function(){
 			url:base_url+"panel/commonsocial/deleteAutoProg",
 			data:{prog:prog,type:type,account:account},
 			success:function(data){
-				var res=showResults(data,',','.message');
-						if(res){
+				
 								$('body').delay(1000).queue(function( nxt ) {
 									document.location.href=current_url;
 									nxt();
 			                      }); 	
-							}
+							
 
 			}
 
 		})
 	}
 })
+	function NotyHaveProgAccount(id,isUser)
+	{
+		var npp=noty({
+
+						text:'Si elimina esta cuenta se eliminaran las programaciones pendientes en ella, desea coninuar?',
+						buttons:[{
+							addClass:"btn btn-primary",
+							text:"Si",
+							onClick:function(notyfy){
+							notyfy.close()
+							onClicHaveProgAccount(id,isUser);
+							
+							
+							
+							}
+						}
+						,
+						{
+							addClass:"btn btn-danger",
+							text:"No",
+							onClick:function(notyfy){
+							notyfy.close()		
+							
+							
+							
+							}
+						}]
+									})	
+			
+	}
+	function onClicHaveProgAccount(id,isUser)
+	{
+		$.ajax({url:deletecontent_url,
+				async:false,
+				data:{"is_folder":false,"id":id,"is_user":isUser},
+				type:'get',
+				dataType:"json",
+				success:function(data){
+					var res=showResults(data,',',null);
+					if(res){
+						$('body').delay(1000).queue(function( nxt ) {
+							document.location.href=current_url;
+							nxt();
+	                      }); 	
+					}						
+			
+			}})
+	}
 	function onClickNoty(type,id,isUser)
+	{
+		$.ajax({
+			url:base_url+"panel/commonsocial/deleteQuitFolderContent",
+			data:{"type":type,"id":id,"is_user":isUser,'askHaveProg':1},
+			dataType:"json",
+			type:"get",
+			success:function(data){
+				if(data.haveProg && type=="delete")
+				{
+					var npp=noty({
+
+						text:'Si elimina esta carpeta se eliminaran las programaciones pendientes en las cuentas que contiene, desea coninuar?',
+						buttons:[{
+							addClass:"btn btn-primary",
+							text:"Si",
+							onClick:function(notyfy){
+							notyfy.close()
+							OnclickHaveProgInFolder(type,id,isUser);
+							
+							
+							
+							}
+						}
+						,
+						{
+							addClass:"btn btn-danger",
+							text:"No",
+							onClick:function(notyfy){
+							notyfy.close()		
+							
+							
+							
+							}
+						}]
+									})	
+							
+				}
+				else
+				{
+						var res=showResults(data,',',null);
+						if(res){
+							$('body').delay(1000).queue(function( nxt ) {
+								document.location.href=current_url;
+								nxt();
+		                      }); 	
+						}
+				}					
+			}
+		});
+	}
+	function OnclickHaveProgInFolder(type,id,isUser)
 	{
 		$.ajax({
 			url:base_url+"panel/commonsocial/deleteQuitFolderContent",
@@ -164,7 +266,6 @@ $("body").on("click",".deleteautoprog",function(){
 								nxt();
 		                      }); 	
 						}
-									
 			}
 		});
 	}
@@ -281,11 +382,11 @@ $("body").on("click",".deleteautoprog",function(){
 			{
 				$('<input  class="chb" type="checkbox" name="'+container_sub+'_'+data.content+'" value="'+data.data[i].id+'"/>').appendTo($("#"+container))
 				if(data.content=="sentence"){	
-					$('<span>'+data.data[i].sentence+'</span>').appendTo($("#"+container))}
+					$('<span>'+data.data[i].sentence+'</span><br>').appendTo($("#"+container))}
 				else if(data.content=="image")
 					$('<img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'"/>').appendTo($("#"+container))
 				else
-					$('<span><a href="'+data.data[i].link+'">'+data.data[i].text+'</a></span>').appendTo($("#"+container))
+					$('<span><a href="'+data.data[i].link+'">'+data.data[i].text+'</a></span><br>').appendTo($("#"+container))
 
 			}	
 			

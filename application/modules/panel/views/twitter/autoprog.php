@@ -54,7 +54,7 @@ $arr=array("group","user","event","page")
 							<div class="col-sm-6">
 								<strong>Frecuencia</strong><br>
 								<select name="datos[frecuencia]" class="form-control">
-									<option  value="0">Selecciona una opción</option>
+									<option  value="">Selecciona una opción</option>
 									<option  value="0.02">2 minutos</option>
 									<option  value="0.10">10 minutos</option>
 									<option value="0.15">15 minutos</option>
@@ -96,7 +96,7 @@ $arr=array("group","user","event","page")
 									
 																	?>
 
-									<input type="checkbox" name="datos[diasp][]" class="diasp" value="<?php echo $DAYS[$i] ?>"/> <?php echo ucfirst($DAYS[$i]); ?>
+									<input type="checkbox" checked="checked" name="datos[diasp][]" class="diasp" value="<?php echo $DAYS[$i] ?>"/> <?php echo ucfirst($DAYS[$i]); ?>
 								<?php } ?>
 							
 					         </div>
@@ -210,7 +210,7 @@ $arr=array("group","user","event","page")
 								<strong>Frecuencia</strong><br>
 								<select name="anuncios[frecuencia]" class="form-control">
 									
-									<option  value="0">Selecciona una opción</option>
+									<option  value="">Selecciona una opción</option>
 									<option  value="0.02">2 minutos</option>
 									<option  value="0.10">10 minutos</option>
 									<option value="0.15">15 minutos</option>
@@ -229,7 +229,7 @@ $arr=array("group","user","event","page")
 							<div class="col-sm-4">
 								<strong>Frecuencia de borrado</strong><br>
 								<select name="anuncios[frecuencia_borrado]" class="form-control">
-								 <option  value="0">Selecciona una opción</option>
+								 <option  value="">Selecciona una opción</option>
 								 	<option  value="0.02">2 minutos</option>
 									<option  value="0.10">10 minutos</option>
 									<option value="0.15">15 minutos</option>
@@ -268,7 +268,7 @@ $arr=array("group","user","event","page")
 								for($i=0;$i<count($DAYS);$i++){ 
 									?>
 								
-									<input type="checkbox" name="anuncios[diasp][]" class="diasp" value="<?php echo $DAYS[$i] ?>"/> <?php echo ucfirst($DAYS[$i]); ?>
+									<input type="checkbox" checked="checked" name="anuncios[diasp][]" class="diasp" value="<?php echo $DAYS[$i] ?>"/> <?php echo ucfirst($DAYS[$i]); ?>
 								<?php } ?>
 							</div>
 
@@ -351,15 +351,8 @@ $arr=array("group","user","event","page")
 			</div>
 
 	
-		<div class="col-lg-12">
 		</div>
-
-	
-	
-		<div class="col-lg-6">
-			
-		</div>
-
+		
 
 
 <?php

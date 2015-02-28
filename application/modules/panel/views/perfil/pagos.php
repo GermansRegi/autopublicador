@@ -17,7 +17,7 @@
     <?php echo $this->load->view('includes2/header');
 ?>
 				<div class="col-lg-12 clearfix">
-					<button class="btn btn-primary pull-right">Renovar</button>
+					<a class="btn btn-primary pull-right" href="<?php echo base_url() ?>panel/perfil/planes">Renovar</a>
 				</div>
 						<table class="table">
 			<thead>

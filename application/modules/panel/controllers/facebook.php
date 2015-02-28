@@ -237,12 +237,14 @@ class Facebook extends CI_Controller {
 			
 						
 					
+                       	//echo date_default_timezone_get();
+						$fecha=DateTime::createFromFormat('d-m-Y H:i',$this->input->post('date')." ".$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
+						//echo $fecha->format('d-m-y H:i');
 
-						$fecha=DateTime::createFromFormat('d-m-Y H:i:s',date('d-m-Y H:i:s',strtotime($this->input->post('date').$this->input->post('time'))));
-						$fecha->setTimeZone(new DateTimeZone('Europe/Berlin'));
+						$fecha->setTimezone(new DateTimeZone('Europe/London'));
+						//echo $fecha->format('d-m-y H:i');
 
-
-						$data['fecha']=strtotime($fecha->format('Y-m-d H:i:s'));
+						$data['fecha']=$fecha->format('U');
 
 						if($this->input->post('fechaBorrado'))
 						{
@@ -284,7 +286,7 @@ class Facebook extends CI_Controller {
 							$this->programations->insertNew($data);
 
 						}
-						 echo json_encode(array('msg_success'=>'La programación se ha realizado correctamente'));
+						 echo json_encode(array('msg_success'=>'La programación se ha creado correctamente'));
 						
 					}
 				}
@@ -302,17 +304,17 @@ class Facebook extends CI_Controller {
 			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
 			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
-			$programaciones=$this->programations->getAll(array('social_network'=>"fb",'user_app'=>$this->flexi_auth->get_user_id()));
+			$programaciones=$this->programations->get_many_by(array('social_network'=>"fb",'user_app'=>$this->flexi_auth->get_user_id()));
 	
 			foreach ($programaciones as $prog) {
 				if($prog->type_socialaccount=='account')
 				{
-					$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->socialaccount),1);
+					$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->socialaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);
 					$prog->name=$acc[0]->name;
 				}
 				else
 				{
-					$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->socialaccount),1);	
+					$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->socialaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);	
 					$prog->name=$user[0]->username;
 				}
 			
@@ -320,7 +322,7 @@ class Facebook extends CI_Controller {
 			$this->data['programaciones']=$programaciones;
 			
 
-		$this->data['titlepage']="Programar publicación en Facebook";
+		$this->data['titlepage']="Facebook - Programar publicación";
 		$this->load->view("panel/facebook/programar_facebook",$this->data);
 	}
 	// llista les comptes de facebook  que te afegides l'usuarii de aplicacio
@@ -384,7 +386,7 @@ class Facebook extends CI_Controller {
 			}
 		}
 		
-		$this->data['titlepage']="Cuentas de facebook";
+		$this->data['titlepage']="Facebook - Cuentas";
 		//$this->load->library('Facebooklib','','fblib');	
 		$this->session->unset_userdata('fb_token');
 		//$this->fblib->setSession();
@@ -503,7 +505,7 @@ class Facebook extends CI_Controller {
 				
 
 	//		var_dump($this->session->all_userdata());
-			$this->data['titlepage']="Añadir cuentas de facebook de: ".$this->user_fb['name'];
+			$this->data['titlepage']="Facebook - Añadir cuentas de: ".$this->user_fb['name'];
 				
 			$this->load->view('panel/facebook/accounts_add',$this->data);
 		}
@@ -541,7 +543,7 @@ class Facebook extends CI_Controller {
 						$page['idaccount']=$page['id'];	
 						unset($page['id']);
 						$infoadd=array('user_app'=>$this->flexi_auth->get_user_id(),"type_account"=>$type,'id_social_user'=>$this->user_fb['id']);
-						$this->autoprog_basededatos->insertNew(array(
+			/*			$this->autoprog_basededatos->insertNew(array(
 							'accountid'=>$page['idaccount'],
 							'user_app'=>$this->flexi_auth->get_user_id(),
 							'type'=>'account','socialnetwork'=>'fb',
@@ -550,7 +552,7 @@ class Facebook extends CI_Controller {
 							'accountid'=>$page['idaccount'],
 							'user_app'=>$this->flexi_auth->get_user_id(),
 							'type'=>'account','socialnetwork'=>'fb',
-							'weekdays'=>'[]'));
+							'weekdays'=>'[]'));*/
 							$this->social_user_accounts->insertNew(array_merge($page,$infoadd));
 					}
 				}
@@ -562,7 +564,7 @@ class Facebook extends CI_Controller {
 			$this->data['message']='error';
 		}
 		
-		$this->data['titlepage']="";
+		$this->data['titlepage']="Facebook - Añadir cuentas";
 		$this->load->view("panel/facebook/anadir_paginas",$this->data);
 		
 	}
@@ -682,7 +684,7 @@ class Facebook extends CI_Controller {
 
 						foreach ($group_ap['user'] as $accountid) 
 						{
-							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid),1);
+							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
 							//var_dump($user[0]->access_token);
 							$this->fblib->setSessionFromToken($user[0]->access_token);
 							$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
@@ -691,7 +693,7 @@ class Facebook extends CI_Controller {
 						if(isset($group_ap['account']))
 						foreach ($group_ap['account'] as $accountid) 
 						{
-							$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$accountid),1);
+							$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
 							$this->fblib->setSessionFromToken($acc[0]->access_token);
 							$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
 							
@@ -732,7 +734,7 @@ class Facebook extends CI_Controller {
 			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
 			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
 
-			$this->data['titlepage']="Publicar ahora en Facebook";
+			$this->data['titlepage']="Facebook - Publicar ahora";
 			
 
 		$this->load->view('panel/facebook/publicar',$this->data);
@@ -793,7 +795,7 @@ class Facebook extends CI_Controller {
 			$datos=$this->input->post('datos');
 			/*if($this->checkhours($datos))
 			{*/
-				$this->form_validation->set_rules('datos[frecuencia]','Frequencia','required');
+				$this->form_validation->set_rules('datos[frecuencia]','Frecuencia','required');
 				$this->form_validation->set_rules('datos[socialacc]','Cuentas','callback_checkSelected');
 				$this->form_validation->set_rules('datos[asociard][]','Bases de datos','required');
 				$this->form_validation->set_rules('datos','Horas de publicación','callback_checkhours');
@@ -825,7 +827,7 @@ class Facebook extends CI_Controller {
 					}
 					if(isset($datos['socialacc']['account']))
 					{
-						foreach ($datos['account'] as $id) {
+						foreach ($datos['socialacc']['account'] as $id) {
 							$this->autoprog_basededatos->insertNew(array(
 							'ids'=>(isset($datos['asociard'])?json_encode($datos['asociard']):'[]'),
 							'repeat'=>(isset($datos['repetir'])?1:0),
@@ -839,6 +841,7 @@ class Facebook extends CI_Controller {
 							'perm_sentences'=>$datos['frases_perm'],'accountid'=>$id,'type'=>'account'));
 						}
 					}
+					echo json_encode(array('msg_success'=>'Programaciones periódicas creadas con éxito en las cuentas seleccionadas'));
 				}
 				else
 				{
@@ -858,7 +861,7 @@ class Facebook extends CI_Controller {
 			$anuncios=$this->input->post('anuncios');
 			/*if($this->checkhours($anuncios))
 			{*/
-				$this->form_validation->set_rules('anuncios[frecuencia]','Frequencia','required');
+				$this->form_validation->set_rules('anuncios[frecuencia]','Frecuencia','required');
 				$this->form_validation->set_rules('anuncios[socialacc]','Cuentas','callback_checkSelected');
 				$this->form_validation->set_rules('anuncios[asociard]','Bases de datos','required');
 				$this->form_validation->set_rules('anuncios','Horas de publicación','callback_checkhours');
@@ -908,6 +911,7 @@ class Facebook extends CI_Controller {
 					
 						}
 					}
+					     echo json_encode(array('msg_success'=>'Programaciones periódicas creadas con éxito en las cuentas seleccionadas'));
 				}
 				else
 				{
@@ -925,17 +929,17 @@ class Facebook extends CI_Controller {
 					exit;	
 		}
 		
-		$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'fb'));
-		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'fb'));
+		$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
 		foreach ($programacionesbbdd as $prog) {
 			if($prog->type=='account')
 			{
-				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid),1);
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
 				$prog->name=$acc[0]->name;
 			}
 			else
 			{
-				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid),1);	
+				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);	
 				$prog->name=$user[0]->username;
 			}
 		
@@ -943,12 +947,12 @@ class Facebook extends CI_Controller {
 		foreach ($programacionesanuncios as $prog) {
 			if($prog->type=='account')
 			{
-				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid),1);
+				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
 				$prog->name=$acc[0]->name;
 			}
 			else
 			{
-				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid),1);	
+				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);	
 				$prog->name=$user[0]->username;
 			}
 		
@@ -966,7 +970,7 @@ class Facebook extends CI_Controller {
 
 		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'	=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
 		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
-		$this->data['titlepage']="Prgramaciones periódicas facebook";
+		$this->data['titlepage']="Facebook - Programaciones periódicas";
 		$this->load->view('facebook/autoprog',$this->data);		
 	}
 	// agafa els elements d

@@ -155,8 +155,10 @@ class Crons extends CI_Controller {
 			$guest=$this->flexi_auth->get_user_by_id_query($prog->user_app,array('upro_timezone_offset'))->result();	
 			$timezones=$this->config->item('timezones');
 			
-			$datenow=new Datetime('now', new Datetimezone($timezones[$guest[0]->upro_timezone_offset]));
-			$fecha=DateTime::createFromFormat('U',$prog->fecha,new DateTimezone($timezones[$guest[0]->upro_timezone_offset]));
+			$datenow=new Datetime('now');
+			$datenow->setTimezone(new Datetimezone($timezones[$guest[0]->upro_timezone_offset]));
+			$fecha=new DateTime("@".$prog->fecha);
+			$fecha->setTimezone(new DateTimezone($timezones[$guest[0]->upro_timezone_offset]));
 			echo "id: ".$prog->id."<br>";
 			echo "date now: ".$datenow->format('Y-m-d H:i:s')."<br>";
 			echo "dateprog: ".$fecha->format('Y-m-d H:i:s')."<br>";
@@ -305,8 +307,10 @@ class Crons extends CI_Controller {
 			$guest=$this->flexi_auth->get_user_by_id_query($prog->user_app,array('upro_timezone_offset'))->result();	
 			$timezones=$this->config->item('timezones');
 			
-			$datenow=new Datetime('now', new Datetimezone($timezones[$guest[0]->upro_timezone_offset]));
-			$fecha=DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s',$prog->fechaBorrado),new DateTimezone($timezones[$guest[0]->upro_timezone_offset]));
+			$datenow=new Datetime('now');
+			$datenow->setTimezone(new Datetimezone($timezones[$guest[0]->upro_timezone_offset]));
+			$fecha=new DateTime("@".$prog->fechaBorrado);
+			$fecha->setTimezone(new DateTimezone($timezones[$guest[0]->upro_timezone_offset]));
 			echo "id: ".$prog->id."<br>";
 			echo "date now: ".$datenow->format('Y-m-d H:i:s')."<br>";
 			echo "dateprog: ".$fecha->format('Y-m-d H:i:s')."<br>";
@@ -468,13 +472,18 @@ class Crons extends CI_Controller {
 			'Friday'=>'viernes',
 			'Saturday'=>'sábado',
 			'Sunday'=>'domingo');
-
-		$horaactual=date('H');
+		$guest=$this->flexi_auth->get_user_by_id_query($prog->user_app,array('upro_timezone_offset'))->result();	
+			$timezones=$this->config->item('timezones');
+			
+			$datenow=new Datetime('now');
+			$datenow->setTimezone(new Datetimezone($timezones[$guest[0]->upro_timezone_offset]));
+			
+		$horaactual=$datenow->format('H');
 		if($horaactual=='00')
 			$horaactual=24;
 		if ($horaactual >= $prog->time_start && $horaactual <= $prog->time_end) 
 		{
-			if (in_array($array[date('l')], json_decode($prog->weekdays))) 
+			if (in_array($array[$datenow->format('l')], json_decode($prog->weekdays))) 
 			{
 				return true;
 			}
@@ -624,13 +633,22 @@ class Crons extends CI_Controller {
 								$freq = $feq * 60;
 								echo "horas <br/>";
 							}
-							$resta=(time()-$prog->date)/60;                                         
+							$guest=$this->flexi_auth->get_user_by_id_query($prog->user_app,array('upro_timezone_offset'))->result();	
+							$timezones=$this->config->item('timezones');
+							
+							$datenow=new Datetime('now');
+							$datenow->setTimezone(new Datetimezone($timezones[$guest[0]->upro_timezone_offset]));
+							$dateProg=new Datetime("@".$prog->date);
+							$dateProg->setTimezone(new Datetimezone($timezones[$guest[0]->upro_timezone_offset]));
+							
+							$resta=($datenow->format('U')-$dateProg->format('U'))/60;                                         
+
 							log_message('error', $prog->accountid."accountid abans de mirar si puc publicar");
 							log_message('error', "miro minuts i intervals, estic dins val 1, la frequencia ara val ".$freq. " i la resta val ".round($resta)." minuts fecha ".date('i',$prog->date)."minuts ara". date('i'));
                                   //aixro surt refresca lla pag de xivatos
-							echo date('H:i:s') . "<br>";
+							echo $datenow->format('d-m-Y H:i:s') . "<br>";
 							echo "frequencia: ".$freq."<br>";;
-							echo "hora de inici de les publicacions ( a la k sha guardat el formulari config )".date(' Y-m-d H:i:s', $prog->date) . "<br>";
+							echo "hora de inici de les publicacions ( a la k sha guardat el formulari config )".$dateProg->format('Y-m-d H:i:s') . "<br>";
 							echo $prog->accountid."<br/>";
 							//echo "resta  minuts que han passat desde k sha guardat el formulari: ".round($resta);
 							if (round($resta)%$freq==0)

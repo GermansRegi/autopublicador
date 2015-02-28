@@ -92,12 +92,20 @@ class Herramientas extends CI_Controller {
 		$this->data = null;
 		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 	}
-
+	/**
+	 * [index mostra els links a les diferents eines proporcionades]
+	 * @return [type] [description]
+	 */
 	public function index()
 	{
 		$this->data['titlepage']="Herramientas";		
 		$this->load->view('herramientas/index',$this->data);
 	}
+	/**
+	 * [checkSelected funcio per validar si usuari ha seleccionat comptes]
+	 * @param  [type] $str [description]
+	 * @return [type]      [description]
+	 */
 	public function checkSelected($str)
 	{
 
@@ -112,6 +120,12 @@ class Herramientas extends CI_Controller {
 			return TRUE;
 		}
 	}
+	/**
+	 * [limpiar_fotos_facebook esborra totes les  publicacions que son foto de facebook  en un id de compte]
+	 * @param  [type] $token     [accestoken del compte de facebook]
+	 * @param  [type] $accountid identificador del compte de faceboook
+	 * @return [type]            [description]
+	 */
 	public function limpiar_fotos_facebook($token,$accountid)
 	{
 		$this->load->library('Facebooklib','','fblib');
@@ -130,7 +144,7 @@ class Herramientas extends CI_Controller {
 		    
 		}
 
-	    
+	    //si hi ha fotos les esborro
 	    if(count($photos_data)>0)
 	    {
 		    
@@ -142,6 +156,12 @@ class Herramientas extends CI_Controller {
 		    
 		}
 	}
+	/**
+	 * [limpiar_links_facebook esborrar els li]
+	 * @param  [type] $token     [description]
+	 * @param  [type] $accountid [description]
+	 * @return [type]            [description]
+	 */
 	public function limpiar_links_facebook($token,$accountid)
 	{
 		$this->load->library('Facebooklib','','fblib');
@@ -161,12 +181,13 @@ class Herramientas extends CI_Controller {
 		    
 		}
 		var_dump($links_data);
-	    
+	    //si hi ha  links esborro els que no apunten a www.facebook.com
 	    if(count($links_data)>0)
 	    {
 		    
 		    foreach ($links_data as $link) {
-		    	
+		    	$parts=parse_url($link->link);
+		    	if($part['host']!='www.facebook.com')
 		    	$res=$this->fblib->api('/'.$link->id,null,'DELETE');
 		    	
 		    }
@@ -176,7 +197,10 @@ class Herramientas extends CI_Controller {
 	}
 
 
-
+	/**
+	 * [limpiador_facebook accio de formulari que esborra publicacions dun o varis comptes de facebook]
+	 * @return [type] [description]
+	 */
 	public function limpiador_facebook()
 	{
 			$this->form_validation->set_rules('type',"Tipo de limpieza","required");
@@ -188,7 +212,9 @@ class Herramientas extends CI_Controller {
 					$type_erase=$this->input->post('type');
 					$cuentas=$this->input->post('ck_group_ap');
 					$users=(isset($cuentas['user'])?$cuentas['user']:array());
+
 					$accounts=(isset($cuentas['account'])?$cuentas['account']:array());
+					//per cada compte de tipus usuari
 					 foreach ($users as $user) {
 						$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$user),1);		 	
 						if($type_erase=='1')
@@ -201,6 +227,7 @@ class Herramientas extends CI_Controller {
 						}
 
 					 }
+					 //per cada compte de tipus conta
 					 foreach ($accounts as $account) {
 					 	$accRow=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$account),1);
 					 	if($type_erase=='1')
@@ -225,7 +252,7 @@ class Herramientas extends CI_Controller {
 				
 				exit;
 			}
-
+			//carrego les dades dels diferents comptes i usuaris de facebook de laplicacio
 			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
@@ -240,6 +267,10 @@ class Herramientas extends CI_Controller {
 		$this->data['basesdedatos']=$this->bases_datos_model->get_all(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('herramientas/buscador_imagenes',$this->data);	
 	}
+	/**
+	 * [unfollow_twitter accio de formulari que permet deixar de seguir als usuaris de twitter de l'aplicacio]
+	 * @return [type] [description]
+	 */
 	public function unfollow_twitter()
 	{
 		if($this->input->post())
@@ -255,31 +286,38 @@ class Herramientas extends CI_Controller {
 		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('herramientas/unfollow_twitter',$this->data);		
 	}
+	/**
+	 * [deleteTwits funcio que permet a  un usuari de twitter deixr de seguir a tots els seus seguidors]
+	 * @param  [type] $token   [acccestoken]
+	 * @param  [type] $user_id id de usuari de twittr
+	 * @return [type]          [description]
+	 */
 	public function deleteTwits($token,$user_id)
 	{
 		$this->load->library('Twitterlib','','twtlib');
-		echo $token;
+		
 		$this->twtlib->setAccessToken(json_decode($token));
 		$max_id=0;
 		$count = 200;
+		$allcount=0;
 		$full_friends = array();
 		$statuses = $this->twtlib->get("statuses/user_timeline",array('count'=>$count,'user_id'=>$user_id));
 		do {
 			
 			
 			$max_id=$statuses[count($statuses)-1]->id;
-		       
+		       $allcount=$allcount+$count;
 		       $statuses = $this->twtlib->get("statuses/user_timeline",array('count'=>$count,'user_id'=>$user_id,'max_id'=>$max_id));
 		    	
 		       $full_friends=array_merge($statuses, $full_friends);
-		  } while (count($statuses) > 0);
-		  echo count($full_friends);
-		  //var_dump($statuses);
-		  /*foreach ($full_friends as $friend) {
+		  } while ($allcount<3800);
+		  
+		 
+		  foreach ($full_friends as $friend) {
 
-			$follows = $this->twtlib->post("friendships/destroy",array('user_id'=>$friend));		  	
-			var_dump($follows);
-		  }*/
+			$follows = $this->twtlib->post("statuses/destroy",array('id'=>$friend->id));		  	
+			
+		  }
 	}
 	
 	public function makeUnFollow($token,$user_id)
@@ -328,10 +366,59 @@ class Herramientas extends CI_Controller {
 		$this->load->view('herramientas/limpiador_twitter',$this->data);		
 	
 	}
+	public function getTwitts($account,$number,$inclrt,$bbdd)
+    {
+
+    		$usertw = $this->social_users->getUserAppUsers(array('user_app'=>$this->flexi_auth->get_user_id()));
+        	$this->load->library('Twitterlib','','twtlib');
+        
+			$this->twtlib->setAccessToken(json_decode($usertw[0]->access_token));
+		
+                               // carrego els acces_tokens permanents a la sessio de twitter
+                //carrego la llibreria    
+            
+          $params=array();
+          
+                    $twits=$this->twtlib->get('search/tweets',array('q'=>"@".$account.(($inclrt==1)?' -filter:retweets':''),'count'=>$number));    	                   
+
+    		
+    		foreach ($twits->statuses as $twit) {
+    			echo "<br>".$twit->text;
+    			      $this->bases_datos_model->insertElement('sentence',array(
+                                'bbdd_id' =>$bbdd ,
+                                'sentence' => $twit->text,
+                                'user_app' => $this->flexi_auth->get_user_id()));
+
+    			
+    		}
+    		
+    			
+    		     
+    }
+  
 	public function extractor_tweets()
 	{
+		$this->load->model('bases_datos_model');
+		if($this->input->post())
+		{	
+			$this->form_validation->set_rules('asociard','Bases de datos', 'required');
+			$this->form_validation->set_rules('nameacount','Nombre de la cuenta','required');
+			if($this->form_validation->run()===TRUE)
+			{
+				$this->getTwitts($this->input->post('nameacount'),$this->input->post('qt'),$this->input->post('inclrt'),$this->input->post('asociard'));
+				 echo json_encode(array('msg_success'=>'Tweets guardados correctaments'));
+			}
+			else
+			{
+				    $errors = $this->form_validation->error_array();
+		             echo json_encode(array('msg_errors'=>$errors));
+		           
+			}			
+		
+			exit;
+		}
 		$this->data['titlepage']="Herramientas - Extractor de twitter";
-		$this->data['basesdedatos']=$this->bases_datos_model->get_all(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->data['basesdedatos']=$this->bases_datos_model->get_many_by(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id(),'content'=>'sentence'));
 		$this->load->view('herramientas/extractor_twitter',$this->data);		
 	
 	}

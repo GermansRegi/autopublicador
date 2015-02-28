@@ -45,6 +45,10 @@
 	foreach($this->config->item('timezones') as $KEY=>$val) 
        {
           
+
+          $timezone=new DateTimeZone($val);
+          $offset=($timezone->getOffset(new Datetime)/3600);
+          $val=$val." (".($offset<0?$offset:'+'.$offset).")";
           if($user[0]->upro_timezone_offset==(real)$KEY
           	)
      	{

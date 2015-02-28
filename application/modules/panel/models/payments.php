@@ -18,14 +18,14 @@ class Payments extends MY_Model {
 	}
 	public function getLastPayment($array=array())
 	{
-		$this->_database->select('date_pay as last, type_prempay,  id');
+		$this->_database->select('max(date_pay) as last, type_prempay,  id');
 		$this->_database->order_by('last','desc');
 		$this->limit(1);
 		return $this->get_many_by($array);
 	}
 	public function getLastPaymentFinish($array=array())
 	{
-		$this->_database->select('date_finish as last, type_prempay,  id');
+		$this->_database->select('max(date_finish) as last, type_prempay,  id');
 		$this->_database->order_by('last','desc');
 		$this->limit(1);
 		return $this->get_many_by($array);	
