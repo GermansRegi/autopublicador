@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	    <title>Autopublicador Social</title>
+	    <title>Socialsuites</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <meta charset="UTF-8" />
 	    <?php echo $this->load->view('includes2/head');?>
@@ -12,7 +12,7 @@
 			<form  id='herramfb' action='<?php echo base_url()?>panel/herramientas/limpiador_twitter' method='post'>
 			   <div class="message"></div>
 			   <div class="col-lg-12">
-			   	Con esta herramienta podrás limpiar todos los tweets de una cuenta de Twitter.
+			   	Con esta herramienta podrás limpiar hasta 3200 tweets de una cuenta de Twitter.
 			   </div>
 			   <div class="col-lg-12">
 							
@@ -31,7 +31,8 @@
 		
 			   </div>
 			   <div class="col-1g-12">  
-			   		<input  type="submit" name="Enviar" value="Guardar" class="btn btn-primary"/>
+			   <input type="hidden" name="sendpost">
+			   		<input  type="submit" data-active="active..." data-loading="loading..." data-complete="completed..." name="Enviar" value="Guardar" class="btn btn-primary"/>
 			   	</div>
 
 

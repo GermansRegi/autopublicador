@@ -409,7 +409,7 @@ class Crons extends CI_Controller {
 
 
 						foreach ($arrayFb->user as $id) {
-							$user=$this->social_users->getUserappUsers(array('user_id'=>$id),1);
+							$user=$this->social_users->getUserappUsers(array('user_id'=>$id,'user_app'=>$rss->user_app),1);
 							$fbaccesstoken[]=$user[0]->access_token;
 							$this->fblib->setSessionFromToken($user[0]->access_token);
 							var_dump($user[0]->access_token);
@@ -425,7 +425,7 @@ class Crons extends CI_Controller {
 					{
 						$this->load->library('Facebooklib','','fblib');
 						foreach ($arrayFb->account as $id) {
-							$user=$this->social_user_accounts->getUserappAccounts(array('idaccount'=>$id),1);
+							$user=$this->social_user_accounts->getUserappAccounts(array('idaccount'=>$id,'user_app'=>$rss->user_app),1);
 							$this->fblib->setSessionFromToken($user[0]->access_token);
 							var_dump($user[0]->access_token);
 							$params['link']=(string)$itemTopublish->link[0];
@@ -439,7 +439,7 @@ class Crons extends CI_Controller {
 
 						$this->load->library('Twitterlib','','twtlib');
 						foreach ($arrayTw as $id ) {
-							$user=$this->social_users->getUserappUsers(array('user_id'=>$id),1);
+							$user=$this->social_users->getUserappUsers(array('user_id'=>$id,'user_app'=>$rss->user_app),1);
 							$fbaccesstoken[]=$user[0]->access_token;
 							$this->twtlib->setAccessToken(json_decode($user[0]->access_token));
 							var_dump($user[0]->access_token);
@@ -521,7 +521,8 @@ class Crons extends CI_Controller {
 			{
 				$text=$element->sentence;
 			}
-			if($sentenceperm)
+			var_dump($sentenceperm);
+			if($sentenceperm!=-1)
 			{
 				$params['message']=$arrayPerm[$sentenceperm]." ".(isset($text)?$text:'');	
 			}
@@ -566,7 +567,7 @@ class Crons extends CI_Controller {
 				$text=$element->sentence;
 			}
 
-			if($sentenceperm)
+			if($sentenceperm!=-1)
 			{
 				$params['status']=$arrayPerm[$sentenceperm]." ".(isset($text)?$text:'')." ".(isset($link)?$link:'');
 			}
@@ -650,7 +651,7 @@ class Crons extends CI_Controller {
 							echo "frequencia: ".$freq."<br>";;
 							echo "hora de inici de les publicacions ( a la k sha guardat el formulari config )".$dateProg->format('Y-m-d H:i:s') . "<br>";
 							echo $prog->accountid."<br/>";
-							//echo "resta  minuts que han passat desde k sha guardat el formulari: ".round($resta);
+							echo "resta  minuts que han passat desde k sha guardat el formulari: ".round($resta);
 							if (round($resta)%$freq==0)
 							{
 								log_message('error',"puc publicar!");
@@ -660,11 +661,11 @@ class Crons extends CI_Controller {
 									$this->load->model('social_users');
 									if($prog->type=='account')
 									{
-										$acctopublish=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid),1);
+										$acctopublish=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid,'user_app'=>$prog->user_app),1);
 									}
 									else
 									{
-										$acctopublish=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid),1);	
+										$acctopublish=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid,'user_app'=>$prog->user_app),1);	
 									}
 									var_dump($acctopublish);
 									if($var_name=="anuncios")
@@ -688,20 +689,22 @@ class Crons extends CI_Controller {
 									}	
 									$anunci=$this->$comuModel->getAll(array('socialnetwork'=>$array[$prog->socialnetwork],'id'=>$bdid));
 									var_dump($anunci);
-									$sentenceperm=false;
-									$arrayPerm=array(0=>"");
-									$sentenceperm=0;
+									
+									$arrayPerm=array(-1=>"");
+									$sentenceperm=-1;
 
 									if($prog->perm_sentences!="")
 									{
 										$arrayPerm=explode(";",$prog->perm_sentences);
+										var_dump($arrayPerm);
 										do{
 											$sentenceperm=array_rand($arrayPerm);
 										}while($arrayPerm[$sentenceperm]=='');
 									}
+									echo $arrayPerm[$sentenceperm];;
 									$elements=$this->$comuModel->getElements($anunci[0]->content,array('bbdd_id'=>$anunci[0]->id));
 									$numelements=count($elements);
-									var_dump($elements);
+								//	var_dump($elements);
 									$i=0;
 									if($prog->repeat==0)
 									{
@@ -792,12 +795,12 @@ class Crons extends CI_Controller {
 				if($prog->type=='account')
 				{
 					$this->load->model('social_user_accounts');
-					$acctopublish=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid),1);
+					$acctopublish=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid,'user_app'=>$prog->user_app),1);
 				}
 				else
 				{
 					$this->load->model('social_users');
-					$acctopublish=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid),1);	
+					$acctopublish=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid,'user_app'=>$prog->user_app),1);	
 				}
 				$arrayToErase=json_decode($prog->published_erase);
 				if(count($arrayToErase)>0)
@@ -849,6 +852,203 @@ class Crons extends CI_Controller {
 			return $this->twtlib->post("/statuses/destroy/".$id_publish_erase,array());
 		}
 	}
+	/**
+	 * [limpiar_fotos_facebook esborra totes les  publicacions que son foto de facebook  en un id de compte]
+	 * @param  [type] $token     [accestoken del compte de facebook]
+	 * @param  [type] $accountid identificador del compte de faceboook
+	 * @return [type]            [description]
+	 */
+	public function limpiar_fotos_facebook($token,$accountid)
+	{
+		$this->load->library('Facebooklib','','fblib');
+		$this->fblib->setSessionFromToken($token);
+		  $photos_data = array();
+	    $offset=0;
+	    $limit=200;	
+	    $photos_data=$this->fblib->api("/".$accountid."/photos/uploaded",array('limit'=>$limit,'offset'=>$offset));
+	    
+	   	//$until=$data['data'][count($data['data'])]->
+	   	
+	    $numerased=0;
+	    //si hi ha fotos les esborro
+	    if(isset($photos_data['data']) && count($photos_data['data'])>0)
+	    {
+		    
+		    foreach ($photos_data['data'] as $photo) {
+		    	try{
+		    		//var_dump($photo->id);
+		    		$res=$this->fblib->api('/'.$photo->id,null,'DELETE');	
+		    		$numerased++;
+		    		//var_dump($res);
+
+		    	}catch(Exception $E)
+		    	{
+		    		
+		    		continue;
+		    	}
+		    	
+		    	
+		    }
+		    echo $numerased;
+		    if($numerased==0)
+		    {
+		    	return 0;
+		    }
+		    else
+		    {
+		    	return 1;
+			}
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	/**
+	 * [limpiar_links_facebook esborrar els li]
+	 * @param  [type] $token     [description]
+	 * @param  [type] $accountid [description]
+	 * @return [type]            [description]
+	 */
+	public function limpiar_links_facebook($token,$accountid)
+	{
+		$this->load->library('Facebooklib','','fblib');
+		$this->fblib->setSessionFromToken($token);
+		$links_data = array();
+	    $offset=0;
+	    $limit=200;	
+	    $links_data=$this->fblib->api("/".$accountid."/links",array('limit'=>$limit,'offset'=>$offset));
+	    
+	   	//$until=$data['data'][count($data['data'])]->
+	var_dump($links_data);
+	$numerased=0;
+	    //si hi ha  links esborro els que no apunten a www.facebook.com
+    	if(isset($links_data['data']) && count($links_data['data'])>0)
+	    {
+		    echo "links";
+		    foreach ($links_data['data'] as $link) {
+		    	$parts=parse_url($link->link);
+		    	if($parts['host']!='www.facebook.com')
+		    	{
+			    	try{
+			    		//var_dump($photo->id);
+			    		$res=$this->fblib->api('/'.$link->id,null,'DELETE');	
+			    		$numerased++;
+			    		//var_dump($res);
+
+			    	}catch(Exception $E)
+			    	{
+			    		
+			    		continue;
+			    	}
+		    	}
+			    
+		    }
+			echo $numerased;
+		    if($numerased==0)
+		    {
+		    	return 0;
+		    }
+		    else
+		    {
+		    	return 1;
+			}   
+		}
+		else
+		{
+			return 0;
+		}
+	
+	}
+	public function cronCleanAccounts()
+	{
+		$this->load->model('req_clean_account');
+		$this->load->model('social_users');		
+
+		$this->load->model('social_user_accounts');
+
+		$array=$this->req_clean_account->get_all();
+		foreach ($array as $clean_row) 
+		{			
+			if($clean_row->type_socialaccount=='user')
+			{
+				$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$clean_row->accountid,'user_app'=>$clean_row->user_app),1);		 	
+				$account=$userRow[0]->user_id;
+
+			}
+			else
+			{
+				 	$userRow=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$clean_row->accountid,'user_app'=>$clean_row->user_app),1);
+				 	$account=$userRow[0]->idaccount;
+			}
+			echo $account;
+			$resultati=1;
+			$resultatl=1;
+			if($clean_row->social_network=='fb')
+			{
+
+				if($clean_row->type_clean=='spam')
+					$resultatl=$this->limpiar_links_facebook($userRow[0]->access_token,$account);
+				elseif($clean_row->type_clean=='photos')
+				{
+					$resultati=$this->limpiar_fotos_facebook($userRow[0]->access_token,$account);
+				}	
+				else{
+					$resultati=$this->limpiar_fotos_facebook($userRow[0]->access_token,$account);
+					$resultatl=$this->limpiar_links_facebook($userRow[0]->access_token,$account);
+				}
+				if(($resultatl==0 && $resultati==0 && $clean_row->type_clean=='all') || ($resultatl==0 && $clean_row->type_clean=='spam') || ($resultati==0 && $clean_row->type_clean=='photos'))
+				{
+					$this->req_clean_account->delete_by(array('id'=>$clean_row->id));
+				}
+			}
+			else
+			{
+					$resultat=$this->deleteTwits($userRow[0]->access_token,$account);
+					if($resultati==0)
+					{
+						$this->req_clean_account->delete_by(array('id'=>$clean_row->id));
+					}
+
+			}
+		}	
+		
+	}
+	/**
+	 * [deleteTwits funcio que permet a  un usuari de twitter deixr de seguir a tots els seus seguidors]
+	 * @param  [type] $token   [acccestoken]
+	 * @param  [type] $user_id id de usuari de twittr
+	 * @return [type]          [description]
+	 */
+	public function deleteTwits($token,$user_id)
+	{
+		$this->load->library('Twitterlib','','twtlib');
+		
+		$this->twtlib->setAccessToken(json_decode($token));
+		$max_id=0;
+		$count = 200;
+		$allcount=0;
+		$full_friends = array();
+		$statuses = $this->twtlib->get("statuses/user_timeline",array('count'=>$count,'user_id'=>$user_id));
+		  
+		 //var_dump($statuses);
+		 if(count($statuses)>0)
+		 {
+		  foreach ($statuses as $friend) {
+
+			$follows = $this->twtlib->post("statuses/destroy",array('id'=>$friend->id));		  	
+			var_dump($follows);
+			
+		  }
+		  return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+	
 }
 
 /* End of file crons.php */

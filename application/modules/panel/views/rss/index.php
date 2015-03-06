@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 
-    <title>Autopublicador Social</title>
+    <title>Socialsuites</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -22,9 +22,9 @@
        
 
 	
-	<div>
+	<div class="namebd">
     
-        <p> Tiene    <?php echo count($rssrows)?> fuentes de rss creadas.<a href="<?php echo base_url();?>panel/rss/crear">Crear nueva fuente rss</a>
+        <p> Tiene    <?php echo count($rssrows)?> fuentes de rss creadas.<a class="right" href="<?php echo base_url();?>panel/rss/crear">Crear nueva fuente rss</a>
         </p>
         <div class="message"></div>
     </div>

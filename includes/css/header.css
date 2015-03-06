@@ -7,7 +7,7 @@ header {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\000037}}
   header .logo {
     padding: 0px;
-    margin: -7px; }
+    margin: -10px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000310}}
     header .logo h1 a {
       font-size: 26px;

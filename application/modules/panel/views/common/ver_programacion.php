@@ -57,7 +57,7 @@
 						?>
 						<div class="col-lg-6">
 								<strong>Enlace</strong><br>
-								<?php echo "<a href='".$prog[0]->link."' >".$prog[0]->text."</a>";?>								
+								<?php echo "<a href='".$prog[0]->link."' >".(($prog[0]->text=='')?$prog[0]->link:$prog[0]->text)."</a>";?>								
 						</div>
 					<?php
 					} ?>

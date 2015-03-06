@@ -4,6 +4,6 @@
 
 																		<p>
 																			Saludos,<br/>
-																			Equipo de <span class="il">Autopublicador Social</span>.
+																			Equipo de <span class="il">Socialsuites</span>.
 																		</p>
 	

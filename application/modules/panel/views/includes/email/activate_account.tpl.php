@@ -1,4 +1,4 @@
-																		<h1>Bienvenido <?php echo $identity; ?> a <span class="il">Autopublicador Social</span>.</h1>
+																		<h1>Bienvenido <?php echo $identity; ?> a <span class="il">Socialsuites</span>.</h1>
 																		<br>
 																		<br>En nuestra web encontrará las mejores herramientas de publicación para sus páginas de facebook y twitter.
 																		<br>
@@ -17,6 +17,6 @@
 																		<br>
 																		<br>Saludos.
 																		<br>
-																		<br>El equipo de <span class="il">Autopublicador Social</span>.
+																		<br>El equipo de <span class="il">Socialsuites</span>.
 															
 	

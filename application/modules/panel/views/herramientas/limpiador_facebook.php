@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	    <title>Autopublicador Social</title>
+	    <title>Socialsuites</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <meta charset="UTF-8" />
 	    <?php echo $this->load->view('includes2/head');?>
@@ -83,7 +83,7 @@
 				</section>
 				
 				<section class="col-lg-12">
-						<input type='submit' name='publicar' class="btn btn-primary" value='Limpiar'/>
+						<input data-active="active..." data-loading="loading..." data-complete="completed..." type='submit' name='publicar' class="btn btn-primary" value='Limpiar'/>
 						<a class="btn btn-default" id='cancel_crear_bbdd' href="<?php echo base_url()?>panel/herramietas" >Cancelar</a>
 				</section>
 				

@@ -9,7 +9,7 @@ class Inicio extends CI_Controller {
 	}
 	function index()
 	{
-		$data['titlepage']="Bienvenido al Autopublicador Social";
+		$data['titlepage']="Bienvenido a Socialsuites";
 		$this->load->view('inicio',$data);
 
 	}

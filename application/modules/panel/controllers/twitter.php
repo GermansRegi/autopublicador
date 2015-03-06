@@ -491,11 +491,14 @@ class Twitter extends CI_Controller {
                                     	$data['link']=$this->input->post('link');
                                     }
 						}
-							$fecha=DateTime::createFromFormat('d-m-Y H:i:s',date('d-m-Y H:i:s',strtotime($this->input->post('date').$this->input->post('time'))));
-						$fecha->setTimeZone(new DateTimeZone('Europe/Berlin'));
+										$fecha=DateTime::createFromFormat('d-m-Y H:i',$this->input->post('date')." ".$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
+						//echo $fecha->format('d-m-y H:i');
 
+						$fecha->setTimezone(new DateTimeZone('Europe/London'));
+						//echo $fecha->format('d-m-y H:i');
 
-						$data['fecha']=strtotime($fecha->format('Y-m-d H:i:s'));
+						$data['fecha']=$fecha->format('U');
+
 						if($this->input->post('fechaBorrado'))
 						{
 							if((int)$this->input->post('fechaBorrado')<1)
@@ -552,18 +555,17 @@ class Twitter extends CI_Controller {
 		$this->load->view("panel/twitter/programar",$this->data);
 	}
 	function date_valid($date){
-		$fecha2=DateTime::createFromFormat('d-m-Y G:i',$this->input->post('date').$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
+	$fecha2=DateTime::createFromFormat('d-m-Y H:i',$this->input->post('date').$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
 		//$fecha2->setTimeZone(new DatetimeZone($this->session->userdata('timezone')));	    
 
 	    if($fecha2)
 	    {
+	    		
 	    		$fecha=new DateTime('now',new DatetimeZone($this->session->userdata('timezone')));
-	    		
-	    		
-	    	
-		    	if(floor($fecha->format('U')/60)>floor($fecha2->format('U')/60))
-		    	{
-		    		$this->form_validation->set_message('date_valid', 'Debe seleccionar una fecha y hora posterior a la actual');
+	    		$diff=(($fecha2->format('U')-$fecha->format('U'))/60);
+		    	if($diff<=1)
+		     	{
+		    		$this->form_validation->set_message('date_valid', 'Debe seleccionar una fecha y hora posterior');
 	    			return false;	
 		    	}
 		    	else

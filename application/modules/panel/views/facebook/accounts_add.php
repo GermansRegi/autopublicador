@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 
-    <title>Autopublicador Social</title>
+    <title>Socialsuites</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -30,6 +30,7 @@
 				      <h4 class="panel-title">
 				        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 				          Páginas
+				          	<span class="badge"><?php echo count($pages); ?></span>
 				        </a>
 				      </h4>
 				    </div>
@@ -68,7 +69,7 @@
 				    <div class="panel-heading" role="tab" id="headingTwo">
 				      <h4 class="panel-title">
 				        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-				          Grupos
+				          Grupos <span class="badge"><?php echo count($groups); ?></span>
 				        </a>
 				      </h4>
 				    </div>
@@ -107,7 +108,7 @@
 				    <div class="panel-heading" role="tab" id="headingThree">
 				      <h4 class="panel-title">
 				        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-				          Eventos
+				          Eventos <span class="badge"><?php echo count($events); ?></span>
 				        </a>
 				      </h4>
 				    </div>
@@ -144,7 +145,7 @@
 				    </div>
 				  </div>
 				</div>
-				<input type="submit" name="submit" value="Añadir Páginas" class="btn btn-primary">
+				<input type="submit" name="submit" value="Añadir Cuentas" class="btn btn-primary">
 				<a class="btn btn-danger" href="<?php echo base_url();?>panel/facebook "> Cancelar</a>
 			</form>
 	             

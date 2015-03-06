@@ -429,10 +429,14 @@ $("body").on("click",".deleteautoprog",function(){
               }
           );
           
+
 	})
 	$('body').on('submit',"#periodicasmultiple",function(e){
+		  var my_button = $(this).find("input[type='submit']");
+		  console.log(my_button);
+		  my_button.button('loading');
 		e.preventDefault();
-			var $btn=$(this).find('input:submit');
+			var $btn=$(this).find('input[type=submit]');
 		 var formdata =new FormData($(this)[0]);
 		 var url=$(this).attr('action');
 		 makeajax({
@@ -443,7 +447,7 @@ $("body").on("click",".deleteautoprog",function(){
 		 	
 			success:function(data)
 			{
-				$btn.button('reset');
+				my_button.button('reset');
 				var res=showResults(data,',','.message');
 				if(res){
 						$('body').delay(2000).queue(function( nxt ) {
@@ -457,7 +461,7 @@ $("body").on("click",".deleteautoprog",function(){
 
 	$('body').on('submit',"#periodicas",function(e){
 		e.preventDefault();
-			var $btn=$(this).find('input:submit');
+			var $btn=$(this).find('input[type=submit]');
 		 var formdata =new FormData($(this)[0]);
 		 var url=$(this).attr('action');
 		 makeajax({
@@ -469,10 +473,11 @@ $("body").on("click",".deleteautoprog",function(){
 			{
 				
 				var res=showResults(data,',','.messagemodal');
+				console.log(res);
 				if(res){
 						$('body').delay(2000).queue(function( nxt ) {
 							$("#ajaxModal").modal('hide');
-							nxt();
+								nxt();
 	                      }); 	
 					}
 			}
@@ -481,7 +486,7 @@ $("body").on("click",".deleteautoprog",function(){
 
 	$('body').on('submit',"#programar",function(e){
 		e.preventDefault();
-		var $btn=$(this).find('input:submit');
+		var $btn=$(this).find('input[type=submit]');
 		 var formdata =new FormData($(this)[0]);
 		 var url=$(this).attr('action');
 		 makeajax({
@@ -506,8 +511,19 @@ $("body").on("click",".deleteautoprog",function(){
 			}
 		 },$btn)
 	})
-	
-	function makeajax(obj,l)
+	$.fn.state = function(state) {
+  var d = 'disabled'
+  return this.each(function () {
+    var $this = $(this);
+    console.log($this[0].className,state);
+    $this[0].className = $this[0].className.replace(/\bstate-.*?\b/g, '');
+    console.log($this[0].className,state);
+    $this.html( $this.data(state) )
+    state == 'loading' ? $this.addClass(d+' state-'+state).attr(d,d) : $this.removeClass(d).removeAttr(d).removeClass(state)
+  })
+}
+
+	function makeajax(obj,btn)
 	{
 		objajax= $.extend({		 	
 			async:false,
@@ -516,17 +532,32 @@ $("body").on("click",".deleteautoprog",function(){
 			cache:false,
 			contentType:false,
 			beforeSend:function(e){
-		///		l.start()
-			},
+		console.log("comple2te");
+		btn.state('loading')
+		console.log(btn);
+					},
 			complete:function(e){
 				//l.stop()
+				console.log("complete");
+				btn.state('active');
+				console.log(btn);
 			}},obj)
 		$.ajax(objajax);
 	}
+	 /*$('input[data-loading-text]')
+    .on('click', function () {
+        var btn = $(this)
+        
+        setTimeout(function () {
+            btn.button('reset')
+        }, 5000)
+    });*/
 	$('body').on('submit',"#publicarahora",function(e){
-		var $btn=$(this).find('input:submit');
+		var $btn=$(this).find('input[data-loading]');
 		e.preventDefault();
 		 var formdata =new FormData($(this)[0]);
+		
+
 		 var url=$(this).attr('action');
 		 makeajax({
 		 	url:url,
@@ -536,7 +567,7 @@ $("body").on("click",".deleteautoprog",function(){
 
 			success:function(data)
 			{
-				$btn.button('reset');
+				
 				var res=showResults(data,',','.message');
 				if(res){
 						$('body').delay(2000).queue(function( nxt ) {
@@ -553,6 +584,7 @@ $("body").on("click",".deleteautoprog",function(){
 			}
 			
 		 },$btn)
+		 
 	})
 	  
            $(".accounts tbody tr","body").draggable({
@@ -615,4 +647,4 @@ $("body").on("click",".deleteautoprog",function(){
 
                 }
            })
-    
+   

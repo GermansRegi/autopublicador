@@ -1,15 +1,15 @@
 $(function(){
 
 $("body").on('click','#clearFile',function(e){
-  e.preventDefault();
-$("#filetoup").filestyle()
-/*
-  $("#filetoup").replaceWith();
-*/
-  $("#filetoup").val('');
-  $("#filetoup").next().find('input').val('')
+	  e.preventDefault();
+	$("#filetoup").filestyle()
+	/*
+	  $("#filetoup").replaceWith();
+	*/
+	  $("#filetoup").val('');
+	  $("#filetoup").next().find('input').val('')
 
-})
+});
 
  $('#time').timepicker({
                 minuteStep: 1,
@@ -25,7 +25,7 @@ $("#filetoup").filestyle()
  
  $(".date").datepicker({ language: 'es',
 		todayBtn: true,
-		todayHighlight: true,
+		todayHighlight: false,
 		format: 'dd-mm-yyyy',
 
 		});
@@ -35,9 +35,9 @@ $("#filetoup").filestyle()
 	});
 $(document).on('click', '[data-toggle="ajaxModal"]',function(e){
        e.preventDefault();
-      var $this = $(this)
-          , $remote = $this.data('remote') || $this.attr('href')
-          , $modal = $('<div class="modal fade" id="ajaxModal"><div class="modal-dialog" id="myModal"><div class="modal-content"></div></div></div>');
+      var $this = $(this);
+          var $remote = $this.data('remote') || $this.attr('href')
+          var $modal = $('<div class="modal fade" id="ajaxModal"><div class="modal-dialog" id="myModal"><div class="modal-content"></div></div></div>');
        	 
      
         $.ajax({
@@ -45,8 +45,17 @@ $(document).on('click', '[data-toggle="ajaxModal"]',function(e){
         	type:'get',
         	dataType:'html',
         	success:function(data){
-        	$modal.find(".modal-content").html(data); 	
-        	$modal.modal()
+//        		console.log(data);
+        			if(data=="    {\"req_auth\":1}")
+        			{
+        				window.location.href=base_url+"panel";
+        			}
+        			else
+        			{
+        				$modal.find(".modal-content").html(data); 	
+		        		$modal.modal()	
+        			}
+		        	
         	}
 
         
@@ -201,10 +210,10 @@ if(idUploader){
 		//$.notyfy.closeAll();
 		if(data.req_auth==1)
 		{
-			console.l
+	
 			window.location.href=base_url+"panel";
 		}
-	    	if(data.msg_errors)
+	   	if(data.msg_errors)
 		{	
 		     //$(id).html(showErrorsForm(data.msg_errors));
 		     generateNotify(id,"top",showErrorsForm(data.msg_errors),"error",3000);
@@ -213,7 +222,7 @@ if(idUploader){
 		else if(data.msg_success)
 		{      
 			
-		     //$(id).html(showSuccessForm(data.msg_success))
+		     console.log($(id),showSuccessForm(data.msg_success));
 		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",3000);
 		     if(data.idcreated)
 			{

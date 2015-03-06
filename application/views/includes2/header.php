@@ -8,17 +8,17 @@
             <section class="row">
            <?php if( isset($section_app) && $section_app=='panel')
      		{?>
-            <section class="col-sm-3">
+            <section class="col-lg-2">
             <?php }else{
             	?>
-            	  <section class="col-sm-6">
+            	  <section class="col-lg-6">
             	<?php
             }
             ?>
                 <section class="logo">
                     <h1>
 
-                        <a href="<?php echo base_url_module(); ?>">Autopublicador<span class="color bold"> Social</span></a>
+                        <a href="<?php echo base_url_module(); ?>">Socialsuites</a>
                     </h1>
 
 					<?php 
@@ -43,10 +43,10 @@
             </section>
            <?php if( isset($section_app) && $section_app=='panel')
      		{?>
-            <section class="col-sm-9">
+            <section class="col-lg-10">
             <?php }else{
             	?>
-            	  <section class="col-sm-6">
+            	  <section class="col-lg-6">
             	<?php
             }
             ?>

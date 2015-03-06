@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 
-    <title>Autopublicador Social</title>
+    <title>Socialsuites</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -309,7 +309,7 @@ $arr=array("group","user","event","page")
 						</div>
 						<div class="row form-group">
 							<div class="col-lg-3">
-								<input type="submit" name='anuncios[enviar]' value="Guardar bases de  anuncios" class="btn btn-primary">
+								<input type="submit"  name='anuncios[enviar]' value="Guardar bases de  anuncios" class="btn btn-primary">
 							</div>
 							<div class="col-lg-9">
 								 <label class="control-label ">Cuentas:</label>

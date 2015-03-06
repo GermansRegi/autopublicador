@@ -98,7 +98,7 @@ class Facebook extends CI_Controller {
 		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 	}
 	function date_valid($date){
-		$fecha2=DateTime::createFromFormat('d-m-Y G:i',$this->input->post('date').$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
+		$fecha2=DateTime::createFromFormat('d-m-Y H:i',$this->input->post('date').$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
 		//$fecha2->setTimeZone(new DatetimeZone($this->session->userdata('timezone')));	    
 
 	    if($fecha2)
@@ -159,7 +159,7 @@ class Facebook extends CI_Controller {
 					{
 
 						$this->load->library('form_validation_global');
-						$response=$this->form_validation_global->ErrorsPublicar($this->input->post());
+						$response=$this->form_validation_global->ErrorsPublicar($this->input->post(),true);
 						if(isset($response['msg_errors']))
 						{
 							echo json_encode($response);
@@ -617,7 +617,7 @@ class Facebook extends CI_Controller {
 					{
 
 						$this->load->library('form_validation_global');
-						$response=$this->form_validation_global->ErrorsPublicar($this->input->post());
+						$response=$this->form_validation_global->ErrorsPublicar($this->input->post(),true);
 						$row=null;
 						$urlfb="/feed";
 						if(isset($response['msg_errors']))

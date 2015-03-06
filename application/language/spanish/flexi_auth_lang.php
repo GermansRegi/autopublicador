@@ -47,7 +47,7 @@ $lang['email_activation_email_unsuccessful']		= 'No se puede enviar un correo el
 // Login / Logout
 $lang['login_successful']							= 'Usted ha sido ingresado con éxito.';
 $lang['login_unsuccessful']							= 'Sus datos de acceso presentados son incorrectos.';
-$lang['logout_successful']							= 'Ha solicitado con éxito.';
+$lang['logout_successful']							= 'Ha salido con éxito.';
 $lang['login_details_invalid'] 						= 'Sus datos de acceso no son válidos.';
 $lang['captcha_answer_invalid'] 					= 'La respuesta CAPTCHA es incorrecta.';
 $lang['login_attempts_exceeded'] 					= 'Se han superado los intentos máximos de acceso, por favor espere unos momentos antes de volver a intentarlo.';

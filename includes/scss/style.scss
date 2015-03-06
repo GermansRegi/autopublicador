@@ -16,7 +16,18 @@
 
 //@import "jquery-ui-min.scss";
 //@import "style_public.scss";
+.container-header
+{
+	width:1170px;
+	margin: 0 auto;
 
+	margin-left:auto;
+	margin-right:auto;
+	padding-left:15px;
+	padding-right:15px;
+
+
+}
 body{
 	height:100%;
 }
@@ -25,7 +36,12 @@ main
 	min-height:100%;
 	position:relative;
 }
-
+.namebd
+{
+	.right{
+		float:right;
+	}
+}
 .container-main{
 	margin-top:20px;
 	margin-left:auto;
@@ -48,8 +64,12 @@ footer{
 #generate-anuncis{
 	padding-top:15px;
 	padding-bottom:15px;
-
+	img
+	{
+		margin-right:5px;
+	}
 }
+
 .bg-dagner-dark-error-message{
 	background-color:darken(#F2DEDE,25%);
 	color:white;

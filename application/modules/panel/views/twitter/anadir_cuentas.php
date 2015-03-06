@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 
-    <title>Autopublicador Social</title>
+    <title>Socialsuites</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -30,7 +30,7 @@
 		<script>
 		$(function(){
 				
-				$("#msg_anadirpags").noty({text:'Las cuentas seleccionadas se han añadido corectamente',type:'success'})
+				$("#msg_anadirpags").noty({text:'La cuenta de twitter se han añadido correctamente',type:'success'})
 
 
 		})
@@ -42,7 +42,7 @@
        	?>
        	<script>
        	$(function(){
-		$("#msg_anadirpags").noty({text:'No se han añadido las cuentas seleccionadas',type:'error'})
+		$("#msg_anadirpags").noty({text:'Hubo un fallo al procesar su petición.',type:'error'})
 				})
 		</script>
 

@@ -1,7 +1,7 @@
 $(function(){
 	$('body').on('submit',"#addrss",function(e){
-		e.preventDefault()
-			var $btn//=Ladda.create($(this).find('input:submit')[0])
+		e.preventDefault();
+	var $btn=$(this).find('input[data-loading]');
 		 var formdata =new FormData($(this)[0]);
 		var url=$(this).attr('action');
 			 
@@ -25,7 +25,8 @@ $(function(){
 		 },$btn)
 	})
 	$('body').on('submit',"#herramfb",function(e)
-	{		var $btn=$(this).find('input:submit');
+	{
+		var $btn=$(this).find('input[data-loading]');
 		e.preventDefault()
 		 var formdata =new FormData($(this)[0]);
 		var url=$(this).attr('action');

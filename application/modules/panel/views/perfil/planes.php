@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 
-    <title>Autopublicador Social</title>
+    <title>Socialsuites</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -107,7 +107,7 @@
 									<input type="hidden" name="cmd" value="_xclick" />
 									<input type="hidden" name="business" value="eugeniregiprove@gmail.com" />
 									<input type="hidden" name="quantity" value="1" />
-									<input type="hidden" name="item_name" value="PAGO MENUSAL AUTOPUBLICADOR SOCIAL" />
+									<input type="hidden" name="item_name" value="PAGO MENUSAL Socialsuites" />
 
 									<input type="hidden" name="amount" value="10.00" />
 									<input type="hidden" name="custom" value="mensual-<?php echo $this->flexi_auth->get_user_id(); ?>"/>
@@ -137,7 +137,7 @@
 									<input type="hidden" name="cmd" value="_xclick" />
 									<input type="hidden" name="business" value="eugeniregiprove@gmail.com" />
 									<input type="hidden" name="quantity" value="1" />
-									<input type="hidden" name="item_name" value="PAGO TRIMESTRAL AUTOPUBLICADOR SOCIAL" />
+									<input type="hidden" name="item_name" value="PAGO TRIMESTRAL Socialsuites" />
 
 									<input type="hidden" name="amount" value="25.00" />
 									<input type="hidden" name="currency_code" value="EUR"/>
@@ -163,7 +163,7 @@
 									<input type="hidden" name="cmd" value="_xclick" />
 									<input type="hidden" name="business" value="eugeniregiprove@gmail.com" />
 									<input type="hidden" name="quantity" value="1" />
-									<input type="hidden" name="item_name" value="PAGO ANUAL AUTOPUBLICADOR SOCIAL" />
+									<input type="hidden" name="item_name" value="PAGO ANUAL Socialsuites" />
 
 									<input type="hidden" name="amount" value="90.00" />
 

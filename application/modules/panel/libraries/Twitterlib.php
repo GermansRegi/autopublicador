@@ -46,17 +46,23 @@ class Twitterlib
 		}
 		else
 		{
-			$this->twitter->setOauthToken($this->ci->session->userdata('request_token'),$this->ci->session->userdata('request_token_secret'));
-			$result=$this->twitter->oauth("oauth/access_token", array("oauth_verifier" => $this->ci->input->get('oauth_verifier')));
-			if($this->twitter->getLastHttpCode()==200)
-			{
-				
-				return $result;		
-			}
-			else
+			try{
+				$this->twitter->setOauthToken($this->ci->session->userdata('request_token'),$this->ci->session->userdata('request_token_secret'));
+				$result=$this->twitter->oauth("oauth/access_token", array("oauth_verifier" => $this->ci->input->get('oauth_verifier')));
+				if($this->twitter->getLastHttpCode()==200)
+				{
+					
+					return $result;		
+				}
+				else
+				{
+					return false;
+				}
+			}catch(Exception $e)
 			{
 				return false;
 			}
+			
 		}
 
 	}
@@ -92,7 +98,7 @@ class Twitterlib
 	public function post($url,$params)
 	{
 		 $result=$this->twitter->post($url,array_merge($params));
-		var_dump($result);
+	
 		if(isset($result->errors))
 			return array('error'=>$this->TRanlateAPIERROR($result->errors[0]->code));	
 		else

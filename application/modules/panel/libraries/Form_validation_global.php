@@ -6,7 +6,7 @@ class Form_validation_global
 	{
 		$this->CI =& get_instance();
 	}
-	public function ErrorsPublicar($arrayPost)
+	public function ErrorsPublicar($arrayPost, $isfb=false)
 	{
 		if($this->CI->input->post('anuncis') && $this->CI->input->post('bbdd'))
           {
@@ -165,7 +165,7 @@ class Form_validation_global
 
 
            }
-            elseif($this->CI->input->post('link') && $_FILES['imagen']['name']!='')
+            elseif($this->CI->input->post('link') && $_FILES['imagen']['name']!='' && $isfb==true)
             {
                   return array('msg_errors'=>array('pp'=>'Facebook no permite poner en una misma publicación imágenes y enlaces'));      
                   

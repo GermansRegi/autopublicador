@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	    <title>Autopublicador Social</title>
+	    <title>Socialsuites</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <meta charset="UTF-8" />
 	    <?php echo $this->load->view('includes2/head');?>
@@ -58,7 +58,7 @@
 				   			</select>
 				   </div>
 				   <div class="col-lg-12">
-				   	<input type="submit" class="btn btn-primary" name="enviar" value="Guardar"/>
+				   	<input type="submit" data-active="active..." data-loading="loading..." data-complete="completed..." class="btn btn-primary" name="enviar" value="Guardar"/>
 				   </div>
 			  
 

@@ -121,83 +121,6 @@ class Herramientas extends CI_Controller {
 		}
 	}
 	/**
-	 * [limpiar_fotos_facebook esborra totes les  publicacions que son foto de facebook  en un id de compte]
-	 * @param  [type] $token     [accestoken del compte de facebook]
-	 * @param  [type] $accountid identificador del compte de faceboook
-	 * @return [type]            [description]
-	 */
-	public function limpiar_fotos_facebook($token,$accountid)
-	{
-		$this->load->library('Facebooklib','','fblib');
-		$this->fblib->setSessionFromToken($token);
-		  $photos_data = array();
-	    $offset=0;
-	    $limit=50;	
-	    $data=$this->fblib->api("/".$accountid."/photos/uploaded",array('limit'=>$limit,'offset'=>$offset));
-	    
-	   	//$until=$data['data'][count($data['data'])]->
-	   	while(count($data["data"])>0) {
-	   		$photos_data = array_merge($photos_data, $data["data"]);
-		    $offset += $limit;
-		    $data = $this->fblib->api("/".$accountid."/photos/uploaded",array('limit'=>$limit,'offset'=>$offset));
-		    echo $offset;	
-		    
-		}
-
-	    //si hi ha fotos les esborro
-	    if(count($photos_data)>0)
-	    {
-		    
-		    foreach ($photos_data as $photo) {
-		    	
-		    	$res=$this->fblib->api('/'.$photo->id,null,'DELETE');
-		    	
-		    }
-		    
-		}
-	}
-	/**
-	 * [limpiar_links_facebook esborrar els li]
-	 * @param  [type] $token     [description]
-	 * @param  [type] $accountid [description]
-	 * @return [type]            [description]
-	 */
-	public function limpiar_links_facebook($token,$accountid)
-	{
-		$this->load->library('Facebooklib','','fblib');
-		$this->fblib->setSessionFromToken($token);
-	  $links_data = array();
-	    $offset=0;
-	    $limit=50;	
-	    $data=$this->fblib->api("/".$accountid."/links",array('limit'=>$limit,'offset'=>$offset));
-	    
-	   	//$until=$data['data'][count($data['data'])]->
-	   	while(isset($data["data"])) {
-	   		$links_data = array_merge($links_data, $data["data"]);
-		    $offset += $limit;
-		    $data = $this->fblib->api("/".$accountid."/links",array('limit'=>$limit,'offset'=>$offset));
-		    
-		    
-		    
-		}
-		var_dump($links_data);
-	    //si hi ha  links esborro els que no apunten a www.facebook.com
-	    if(count($links_data)>0)
-	    {
-		    
-		    foreach ($links_data as $link) {
-		    	$parts=parse_url($link->link);
-		    	if($part['host']!='www.facebook.com')
-		    	$res=$this->fblib->api('/'.$link->id,null,'DELETE');
-		    	
-		    }
-		    
-		}
-	
-	}
-
-
-	/**
 	 * [limpiador_facebook accio de formulari que esborra publicacions dun o varis comptes de facebook]
 	 * @return [type] [description]
 	 */
@@ -212,35 +135,33 @@ class Herramientas extends CI_Controller {
 					$type_erase=$this->input->post('type');
 					$cuentas=$this->input->post('ck_group_ap');
 					$users=(isset($cuentas['user'])?$cuentas['user']:array());
-
+					$this->load->model('req_clean_account');
+					if($type_erase==1)
+						$clean='photos';
+					elseif($type_erase==2)
+						$clean='spam';
+					else
+						$clean='all';
+					
 					$accounts=(isset($cuentas['account'])?$cuentas['account']:array());
 					//per cada compte de tipus usuari
 					 foreach ($users as $user) {
-						$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$user),1);		 	
-						if($type_erase=='1')
-							$this->limpiar_fotos_facebook($userRow[0]->access_token,$user);
-						else if($type_erase=="2")
-							$this->limpiar_links_facebook($userRow[0]->access_token,$user);
-						else{
-							$this->limpiar_links_facebook($userRow[0]->access_token,$user);
-							$this->limpiar_fotos_facebook($userRow[0]->access_token,$user);
-						}
+						$this->req_clean_account->insert(array('accountid'=>$user,
+							'type_socialaccount'=>'user',
+							'social_network'=>'fb',
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							'type_clean'=>$clean));
 
 					 }
 					 //per cada compte de tipus conta
 					 foreach ($accounts as $account) {
-					 	$accRow=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$account),1);
-					 	if($type_erase=='1')
-							$this->limpiar_fotos_facebook($accRow[0]->access_token,$account);
-						else if($type_erase=="2")
-							$this->limpiar_links_facebook($accRow[0]->access_token,$account);
-						else{
-							$this->limpiar_links_facebook($accRow[0]->access_token,$account);
-							$this->limpiar_fotos_facebook($accRow[0]->access_token,$account);
-						}
-					 }
+						$this->req_clean_account->insert(array('accountid'=>$account,
+							'type_socialaccount'=>'account',
+							'social_network'=>'fb',
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							'type_clean'=>$clean));				 }
 					
-					
+					echo json_encode(array('msg_success'=>'Operación realizada correctamente'));	
 
 				}
 				else
@@ -275,10 +196,20 @@ class Herramientas extends CI_Controller {
 	{
 		if($this->input->post())
 		{
-			$users=$this->input->post('user');
-			foreach ($users as $userid) {
-				$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$userid),1);		 	
-				$this->makeUnFollow($userRow[0]->access_token,$userid);
+			$this->form_validation->set_rules('user[]','Cuentas','required');
+			if($this->form_validation->run()==TRUE)
+			{
+				$users=$this->input->post('user');
+				foreach ($users as $userid) {
+					$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$userid,'user_app'=>$this->flexi_auth->get_user_id()),1);		 	
+					$this->makeUnFollow($userRow[0]->access_token,$userid);
+				}
+				 echo json_encode(array('msg_success'=>'Operación realizada con éxito'));
+			}
+			else
+			{
+				    $errors = $this->form_validation->error_array();
+		             echo json_encode(array('msg_errors'=>$errors));
 			}
 			exit;
 		}
@@ -286,44 +217,11 @@ class Herramientas extends CI_Controller {
 		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('herramientas/unfollow_twitter',$this->data);		
 	}
-	/**
-	 * [deleteTwits funcio que permet a  un usuari de twitter deixr de seguir a tots els seus seguidors]
-	 * @param  [type] $token   [acccestoken]
-	 * @param  [type] $user_id id de usuari de twittr
-	 * @return [type]          [description]
-	 */
-	public function deleteTwits($token,$user_id)
-	{
-		$this->load->library('Twitterlib','','twtlib');
-		
-		$this->twtlib->setAccessToken(json_decode($token));
-		$max_id=0;
-		$count = 200;
-		$allcount=0;
-		$full_friends = array();
-		$statuses = $this->twtlib->get("statuses/user_timeline",array('count'=>$count,'user_id'=>$user_id));
-		do {
-			
-			
-			$max_id=$statuses[count($statuses)-1]->id;
-		       $allcount=$allcount+$count;
-		       $statuses = $this->twtlib->get("statuses/user_timeline",array('count'=>$count,'user_id'=>$user_id,'max_id'=>$max_id));
-		    	
-		       $full_friends=array_merge($statuses, $full_friends);
-		  } while ($allcount<3800);
-		  
-		 
-		  foreach ($full_friends as $friend) {
-
-			$follows = $this->twtlib->post("statuses/destroy",array('id'=>$friend->id));		  	
-			
-		  }
-	}
 	
 	public function makeUnFollow($token,$user_id)
 	{
 		$this->load->library('Twitterlib','','twtlib');
-		echo $token;
+	
 		$this->twtlib->setAccessToken(json_decode($token));
 		$e = 1;
 		$cursor = -1;
@@ -342,23 +240,41 @@ class Herramientas extends CI_Controller {
 		       $cursor = $follows->next_cursor;
 
 		  } while ($cursor > 0);
-		  var_dump($full_friends);
+		  
 		  foreach ($full_friends as $friend) {
 
 			$follows = $this->twtlib->post("friendships/destroy",array('user_id'=>$friend));		  	
-			var_dump($follows);
+		
 		  }
 	}
 	public function limpiador_twitter()
 	{
+
+
 		if($this->input->post())
-		{
-			$users=$this->input->post('user');
-			foreach ($users as $userid) {
-				$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$userid),1);		 	
-				$this->deleteTwits($userRow[0]->access_token,$userid);
+		{	
+			$this->form_validation->set_rules('user[]','Cuentas','required');
+			if($this->form_validation->run()==TRUE)
+			{
+				$this->load->model('req_clean_account');
+				$users=$this->input->post('user');
+				foreach ($users as $userid) {
+						$this->req_clean_account->insert(array('accountid'=>$userid,
+							'type_socialaccount'=>'user',
+							'social_network'=>'tw',
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							'type_clean'=>'all'));
+
+					
+					
+				}
+				 echo json_encode(array('msg_success'=>'Tweets eliminados correctamente'));
 			}
-				
+			else
+			{
+				    $errors = $this->form_validation->error_array();
+		             echo json_encode(array('msg_errors'=>$errors));
+			}
 			exit;
 		}
 		$this->data['titlepage']="Herramientas - Limpiador de twitter";
@@ -406,7 +322,7 @@ class Herramientas extends CI_Controller {
 			if($this->form_validation->run()===TRUE)
 			{
 				$this->getTwitts($this->input->post('nameacount'),$this->input->post('qt'),$this->input->post('inclrt'),$this->input->post('asociard'));
-				 echo json_encode(array('msg_success'=>'Tweets guardados correctaments'));
+				 echo json_encode(array('msg_success'=>'Tweets guardados correctamenta'));
 			}
 			else
 			{

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 
-    <title>Autopublicador Social</title>
+    <title>Socialsuites</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -23,9 +23,10 @@
 
 	
 	<div>
-    
-        <p> Tiene    <?php echo count($arbbdd)?> bases de datos creadas.<a href="<?php echo base_url();?>panel/basesdedatos/crear">Crear nueva base de datos</a>
-        </p>
+	    <div class="namebd">
+	        <p> Tiene    <?php echo count($arbbdd)?> bases de datos creadas.<a class="right" href="<?php echo base_url();?>panel/basesdedatos/crear">Crear nueva base de datos</a>
+	        </p>
+	     </div>
         <div class="message"></div>
     </div>
 	<div class="col-sm-12">
