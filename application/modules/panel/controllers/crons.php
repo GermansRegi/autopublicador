@@ -191,21 +191,22 @@ class Crons extends CI_Controller {
             			$file=true;
             			$params['media'] = $prog->path;	
             		}
-            		if(isset($prog->link)  && $prog->link)
+            		if(isset($prog->link)  && $prog->link!='')
             		{
-            			$link=" ".$prog->link;
+            			$link=$prog->link;
             		}
-            		$params['status']=((isset($prog->text) && $prog->text!="")?$prog->text:'').(isset($link)?$link:'');
+            		$params['status']=$prog->text." ".(isset($link)?$link:'');
             		$url='statuses/update';
             	}
             	else
             	{
             		$url="/".$prog->socialaccount."/feed";
-            		if(isset($prog->link)  && $prog->link)
+            		if(isset($prog->link)  && $prog->link!='')
             		{
-            			$link=" ".$prog->link;
+            			$params['link']=$prog->link;
             		}
-            		$params['message']=$prog->text.(isset($link)?$link:'');
+            		$params['message']=$prog->text;
+            		
             		if(isset($prog->path) && $prog->path!="")
             		{
             			$params['source']='@'.$prog->path;
@@ -706,6 +707,7 @@ class Crons extends CI_Controller {
 									$numelements=count($elements);
 								//	var_dump($elements);
 									$i=0;
+									echo "reoet".$prog->repeat."<br>";
 									if($prog->repeat==0)
 									{
 										$numelementsPublicats=$this->autoprog_publicadas->count_by(
@@ -713,20 +715,23 @@ class Crons extends CI_Controller {
 												'user_app'=>$prog->user_app,
 												"bd_id"=>$anunci[0]->id,
 												"account_id"=>$prog->accountid,
-												"type_bd"=>'anuncio',
+												"type_bd"=>$var_name,
 												"content"=>$anunci[0]->content,
 												'autoprog_id'=>$prog->id
 												)
 										);
+										echo $numelements."<br>";
+										echo $numelementsPublicats."<br>";
+
 										if($numelements>$numelementsPublicats)
 										{
-											do
+											/*do
 											{
 												$numRandom=array_rand($elements);
 												$trobat=$this->autoprog_publicadas->findOne(array('user_app'=>$prog->user_app,"bd_id"=>$anunci[0]->id,"element_id"=>$elements[$numRandom]->id,
 													"account_id"=>$prog->accountid,"type_bd"=>$var_name,"content"=>$anunci[0]->content,'autoprog_id'=>$prog->id));
 
-											}while(count($trobat)>0);
+											}while(count($trobat)>0);*/
 										}
 									}
 									else
@@ -974,12 +979,14 @@ class Crons extends CI_Controller {
 			{
 				$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$clean_row->accountid,'user_app'=>$clean_row->user_app),1);		 	
 				$account=$userRow[0]->user_id;
+				$name=$userRow[0]->username;
 
 			}
 			else
 			{
 				 	$userRow=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$clean_row->accountid,'user_app'=>$clean_row->user_app),1);
 				 	$account=$userRow[0]->idaccount;
+				 	$name=$userRow[0]->name;
 			}
 			echo $account;
 			$resultati=1;
@@ -1000,14 +1007,32 @@ class Crons extends CI_Controller {
 				if(($resultatl==0 && $resultati==0 && $clean_row->type_clean=='all') || ($resultatl==0 && $clean_row->type_clean=='spam') || ($resultati==0 && $clean_row->type_clean=='photos'))
 				{
 					$this->req_clean_account->delete_by(array('id'=>$clean_row->id));
+							$this->req_clean_account->delete_by(array('id'=>$clean_row->id));
+					$user=$this->flexi_auth->get_user_by_id_query($clean_row->user_app,array("uacc_email",'upro_first_name'))->result();	
+					var_dump($user);
+					$email_to = $user[0]->{$this->auth->database_config['user_acc']['columns']['email']};
+					$data=array('user'=>$user[0],'nameaccount'=>$name);
+					$email_title = ' - Operación de limpieza de facebook';
+
+					$this->flexi_auth_model->send_email($email_to, $email_title,$data,'cleanNoty.tpl.php');
+
 				}
 			}
 			else
 			{
 					$resultat=$this->deleteTwits($userRow[0]->access_token,$account);
-					if($resultati==0)
+					if($resultat==0)
 					{
 						$this->req_clean_account->delete_by(array('id'=>$clean_row->id));
+						$user=$this->flexi_auth->get_user_by_id_query($clean_row->user_app,array("uacc_email",'upro_first_name'))->result();	
+						$email_to = $user[0]->{$this->auth->database_config['user_acc']['columns']['email']};
+						$data=array('user'=>$user[0],'nameaccount'=>$name);
+						$email_title = ' - Operación de limpieza de twitter';
+
+						$this->flexi_auth_model->send_email($email_to, $email_title,$data,'cleanNoty.tpl.php');
+
+
+
 					}
 
 			}
@@ -1025,12 +1050,12 @@ class Crons extends CI_Controller {
 		$this->load->library('Twitterlib','','twtlib');
 		
 		$this->twtlib->setAccessToken(json_decode($token));
-		$max_id=0;
+		
 		$count = 200;
-		$allcount=0;
-		$full_friends = array();
+		
+		
 		$statuses = $this->twtlib->get("statuses/user_timeline",array('count'=>$count,'user_id'=>$user_id));
-		  
+		  	var_dump($statuses);
 		 //var_dump($statuses);
 		 if(count($statuses)>0)
 		 {

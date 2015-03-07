@@ -7,10 +7,10 @@ header {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\000037}}
   header .logo {
     padding: 0px;
-    margin: -10px; }
+    margin: 0px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000310}}
     header .logo h1 a {
-      font-size: 26px;
+      font-size: 32px;
       color: #777;
       text-decoration: none;
       font-weight: 400; }
@@ -22,7 +22,7 @@ header {
         font-weight: 400; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000322}}
     header .logo h1.subheader {
-      font-size: 23px; }
+      font-size: 20px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000328}}
     header .logo .meta {
       color: #888;

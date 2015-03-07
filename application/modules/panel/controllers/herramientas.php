@@ -62,7 +62,19 @@ class Herramientas extends CI_Controller {
 				if($guest[0]->guestPremium=="1")
 				$this->load->vars('privilege_user_app','prem');
 				else
-				$this->load->vars('privilege_user_app','free');
+				{
+					$this->load->vars('privilege_user_app','free');
+					if($this->input->is_ajax_request())
+					{
+						echo json_encode(array('req_auth'=>1));
+						//redirect_js(base_url().'panel');
+						exit;
+					}
+					else
+					redirect(base_url().'panel');
+			
+				}
+
 			
 			}
 			else if ($this->flexi_auth->is_privileged('acces user prem'))
@@ -161,7 +173,7 @@ class Herramientas extends CI_Controller {
 							'user_app'=>$this->flexi_auth->get_user_id(),
 							'type_clean'=>$clean));				 }
 					
-					echo json_encode(array('msg_success'=>'Operación realizada correctamente'));	
+				echo json_encode(array('msg_success'=>'Operación en proceso, recibirá un correo cuándo se haya completado'));
 
 				}
 				else
@@ -268,7 +280,7 @@ class Herramientas extends CI_Controller {
 					
 					
 				}
-				 echo json_encode(array('msg_success'=>'Tweets eliminados correctamente'));
+				 echo json_encode(array('msg_success'=>'Operación en proceso, recibirá un correo cuándo se haya completado'));
 			}
 			else
 			{

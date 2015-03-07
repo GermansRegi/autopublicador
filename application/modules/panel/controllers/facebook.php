@@ -67,7 +67,21 @@ class Facebook extends CI_Controller {
 				if($guest[0]->guestPremium=="1")
 				$this->load->vars('privilege_user_app','prem');
 				else
-				$this->load->vars('privilege_user_app','free');
+				{
+
+					$this->load->vars('privilege_user_app','free');
+					if("panel/facebook/prog_periodicas"==uri_string())
+					{
+						if($this->input->is_ajax_request())
+						{
+							echo json_encode(array('req_auth'=>1));
+							//redirect_js(base_url().'panel');
+							exit;
+						}
+						else
+						redirect(base_url().'panel');
+					}
+				}
 			
 			}
 			else if ($this->flexi_auth->is_privileged('acces user prem'))
@@ -183,11 +197,11 @@ class Facebook extends CI_Controller {
 							}
 							elseif($response['content']=='link')
 							{
-								$data['link']=$row[0]->link;
+								$link=$row[0]->link;
 							}
 							else
 							{
-								$data['text']=$row[0]->sentence;
+								$text=$row[0]->sentence;
 							}
 
 						}
@@ -223,14 +237,16 @@ class Facebook extends CI_Controller {
 		                                    {
 		                                        $file=$this->upload->data();
 		                                        $data['path']=$file['full_path'];
-		                                        $data['text']=((isset($data['text']) && $data['text']!='')?$data['text'].$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
+		                                        $data['text']=(isset($text)?$text.$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
 		                                    }
                                        }
                                    
                                    
                                     }
-                                    	$data['text']=((isset($data['text']) && $data['text']!='')?$data['text'].$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
-                              		if(!isset($data['link']) || $data['link']=='')
+                                    	$data['text']=(isset($text)?$text.$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
+                              		if(isset($link))
+                              			$data['link']=$link;
+                              		else
                                     	$data['link']=$this->input->post('link');
                                     
 
@@ -645,12 +661,12 @@ class Facebook extends CI_Controller {
 							}
 							elseif($response['content']=='link')
 							{
-								$params['link']=$row[0]->link;
+								$link=$row[0]->link;
 
 							}
 							else
 							{
-								$params['message1']=$row[0]->sentence;
+								$text=$row[0]->sentence;
 							}
 
 						}
@@ -664,16 +680,18 @@ class Facebook extends CI_Controller {
                                   {
                                   	$params['source']='@'.$_FILES['imagen']['tmp_name'];
 
-                                  	$params['message']=$this->input->post('texto_facebook')." ".((isset($params['message1']) && $params['message1']!='')?$params['message1']:'');
+                                  	$params['message']=$this->input->post('texto_facebook')." ".((isset($text))?$text:'');
                                   }
                                    $urlfb="/photos";    
                               
                                }
                                
                                
-                               	$params['message']=$this->input->post('texto_facebook')." ".((isset($params['message1']) && $params['message1']!='')?$params['message1']:'');
-                               	if(!isset($params['link']) || $params['link']=='')
-                               	$params['link']=$this->input->post('link');	
+                               	$params['message']=$this->input->post('texto_facebook')." ".((isset($text))?$text:'');
+                               	if(isset($link))
+                               	$params['link']=$link;	
+                               else
+                               	$params['link']=$this->input->post('link');
                                
 						//}
 						$res=array();

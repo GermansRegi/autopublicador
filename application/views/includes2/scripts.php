@@ -10,8 +10,6 @@
         <script src="<?php echo base_url(); ?>includes/js/jquery.cookie.js"></script>
         <script src="<?php echo base_url(); ?>includes/js/bootstrap-datepicker.min.js"></script>
         <script src="<?php echo base_url(); ?>includes/locales/bootstrap-datepicker.es.min.js"></script>
-<script  src="<?php echo base_url(); ?>includes/js/spin.min.js"></script>
-  <script  src="<?php echo base_url(); ?>includes/js/ladda.min.js"></script>
   
     <script src="<?php echo base_url(); ?>includes/js/script.js"></script>
    <script  src="<?php echo base_url(); ?>includes/js/basesdedatos.js"></script>

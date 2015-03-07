@@ -97,8 +97,9 @@ class Twitterlib
 	}
 	public function post($url,$params)
 	{
-		 $result=$this->twitter->post($url,array_merge($params));
-	
+///var_dump($params);
+		 $result=$this->twitter->post($url,$params);
+	//var_dump($result);
 		if(isset($result->errors))
 			return array('error'=>$this->TRanlateAPIERROR($result->errors[0]->code));	
 		else
@@ -108,6 +109,7 @@ class Twitterlib
 	}
 	public function upload($params)
 	{
+
 		$result = $this->twitter->upload('media/upload', array('media' => $params['media']));
 		if(isset($result->media_id_string))
 		{

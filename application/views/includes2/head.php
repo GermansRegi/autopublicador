@@ -8,6 +8,6 @@
 
 
    
-   <link rel="stylesheet" href="<?php echo base_url(); ?>includes/css/ladda.min.css">
+   
    <link rel="stylesheet" href="<?php echo base_url(); ?>includes/js/themes/default.css"> 
    <link rel="stylesheet" href="<?php echo base_url(); ?>includes/css/jquery-ui.min.css">

@@ -11,7 +11,7 @@ class Form_validation_global
 		if($this->CI->input->post('anuncis') && $this->CI->input->post('bbdd'))
           {
           	
-             if(($this->CI->input->post('anuncis_link') || $this->CI->input->post('anuncis_sentence') || $this->CI->input->post('anuncis_img')) && ($this->CI->input->post('bbdd_img') || $this->CI->input->post('bbdd_sentence') || $this->CI->input->post('bbdd_link')) )
+             if(($this->CI->input->post('anuncis_link') || $this->CI->input->post('anuncis_sentence') || $this->CI->input->post('anuncis_image')) && ($this->CI->input->post('bbdd_image') || $this->CI->input->post('bbdd_sentence') || $this->CI->input->post('bbdd_link')) )
                {    
                        return array('msg_errors'=>array('pp'=>'No puede publicar contenido de anuncios y bases de datos a la vez'));
                        
@@ -27,7 +27,7 @@ class Form_validation_global
           	
           	
           	//si no seleccionen cap element d'anuncis pero si un anunci
-          	if($this->CI->input->post('anuncis_sentence')=='' && $this->CI->input->post('anuncis_link')=='' && $this->CI->input->post('anuncis_img')=='' && $this->CI->input->post('texto_facebook')=='' && $this->CI->input->post('link')=='' && $_FILES['imagen']['name']=="" )
+          	if($this->CI->input->post('anuncis_sentence')=='' && $this->CI->input->post('anuncis_link')=='' && $this->CI->input->post('anuncis_image')=='' && $this->CI->input->post('texto_facebook')=='' && $this->CI->input->post('link')=='' && $_FILES['imagen']['name']=="" )
                
                {
                    return array('msg_errors'=>array('pp'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar'));

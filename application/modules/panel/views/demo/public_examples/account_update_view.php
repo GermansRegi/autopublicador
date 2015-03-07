@@ -18,8 +18,14 @@
 
 ?>
             
-
-<section id="message"><?php echo isset($message)?$message:'';?></section>      
+  <?php if (! empty($message)) { ?>
+                    <section class=" panel bg-info" id="infoMessage">
+                      <div class="text-center panel-heading bg-info bg-info-dark-info-message">
+                      <?php echo $message; ?>
+                      </div>
+                    </section>
+                  <?php } ?>
+            
 <section class="col-md-6">
 	<h3> Datos personales</h3>
 	<?php echo form_open(uri_string());?>

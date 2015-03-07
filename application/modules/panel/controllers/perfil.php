@@ -113,17 +113,20 @@ class Perfil extends CI_Controller {
 	}
 	function index()
 	{
+
 		// If 'Update Account' form has been submitted, update the user account details.
 		if ($this->input->post('update_account'))
 		{
 			$this->load->model('demo_auth_model');
 			$this->demo_auth_model->update_account();
 		}
-		if ($this->input->post('change_password'))
+		elseif ($this->input->post('change_password'))
 		{
 			$this->load->model('demo_auth_model');
 			$this->demo_auth_model->change_password();
 		}
+		else
+			$this->session->set_flashdata('message','');
 		$user=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_by_id())->result();
 
 		// Get users current data.
@@ -131,8 +134,9 @@ class Perfil extends CI_Controller {
 		$this->data['user'] = $this->flexi_auth->get_user_by_id_query()->result();
 		
 		// Set any returned status/error messages.
+		// 
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-		$this->data['titlepage']="Perfil - Editar perfil";
+		$this->data['titlepage']="Perfil - Editar datos";
 		$this->load->view('demo/public_examples/account_update_view', $this->data);
 	}
 	function pagos()

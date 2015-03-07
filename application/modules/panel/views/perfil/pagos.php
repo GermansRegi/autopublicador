@@ -43,11 +43,7 @@
 				<?php } ?>
 				
 			</tbody>
-			<tfoot>
-				<tr><td colspan="5">
-					Tus Pagos Solicitados
-				</td></tr>
-			</tfoot>
+			
 		</table>
 				
 	

@@ -61,7 +61,19 @@ class Anuncios extends CI_Controller {
 				if($guest[0]->guestPremium=="1")
 				$this->load->vars('privilege_user_app','prem');
 				else
-				$this->load->vars('privilege_user_app','free');
+				{
+					$this->load->vars('privilege_user_app','free');
+					if($this->input->is_ajax_request())
+					{
+						echo json_encode(array('req_auth'=>1));
+						//redirect_js(base_url().'panel');
+						exit;
+					}
+					else
+					redirect(base_url().'panel');
+						
+				}
+				
 			
 			}
 			else if ($this->flexi_auth->is_privileged('acces user prem'))

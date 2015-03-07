@@ -69,7 +69,21 @@ class Twitter extends CI_Controller {
 				if($guest[0]->guestPremium=="1")
 				$this->load->vars('privilege_user_app','prem');
 				else
-				$this->load->vars('privilege_user_app','free');
+				{
+					$this->load->vars('privilege_user_app','free');
+					if("panel/twitter/prog_periodicas"==uri_string())
+					{
+						if($this->input->is_ajax_request())
+						{
+							echo json_encode(array('req_auth'=>1));
+							//redirect_js(base_url().'panel');
+							exit;
+						}
+						else
+						redirect(base_url().'panel');
+					}
+				}
+				
 			
 			}
 			else if ($this->flexi_auth->is_privileged('acces user prem'))
@@ -242,6 +256,7 @@ class Twitter extends CI_Controller {
          			{
          				//var_dump($_FILES);
          					//var_dump(($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && count($_FILES)==0));	//si  no ha introduit cap dada
+         					//var_dump(($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']==''));
 					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
 					{
 						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
@@ -278,11 +293,11 @@ class Twitter extends CI_Controller {
 							}
 							elseif($response['content']=='link')
 							{
-								$params['link']=$row[0]->link;
+								$link=$row[0]->link;
 							}
 							else
 							{
-								$params['status1']=$row[0]->sentence;
+								$text=$row[0]->sentence;
 							}
 
 						}
@@ -295,16 +310,23 @@ class Twitter extends CI_Controller {
                                        {
 	                                       	$file=true;
 	                                       	$params['media']=$_FILES['imagen']['tmp_name'];
-	                                       	$params['status']=$this->input->post('texto_facebook').((isset($params['status1']) && $params['status1']!='')?$params['status1']:'');
+
+	                                       	
                                        }
                                         
                                    
                                     }
-                    	      	$params['status']=$this->input->post('texto_facebook').((isset($params['status1']) && $params['status1']!='')?$params['status1']:'');
-                          	    	if(!isset($params['link']) || $params['link']=='')
-             		            	$params['status']=$this->input->post('link');
-	             		            else
-	             		            $params['status']=$params['link'];
+                    	      		
+                    	      		if(isset($link))
+                    	      		
+                    	      			$params['status']=$this->input->post('texto_facebook')." ".(isset($text)?$text:'')." ".(isset($link)?$link:'');
+                    	      		else
+                    	      			$params['status']=$this->input->post('texto_facebook')." ".(isset($text)?$text:'')." ".$this->input->post('link');
+                    	      		
+
+             		            
+	             		            
+	             		        
 
                               //var_dump($params);
 						$this->load->library("twitterlib",'','twtlib');
@@ -405,6 +427,9 @@ class Twitter extends CI_Controller {
          			{
          				//var_dump($_FILES);
          					//var_dump(($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && count($_FILES)==0));	//si  no ha introduit cap dada
+         				
+
+         				
 					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
 					{
 						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
@@ -438,16 +463,15 @@ class Twitter extends CI_Controller {
 							}
 							elseif($response['content']=='link')
 							{
-								$data['link']=$row[0]->link;
+								$link=$row[0]->link;
 							}
 							else
 							{
-								$data['text']=$row[0]->sentence;
+								$text=$row[0]->sentence;
 							}
 
 						}
-						if(!$response)
-						{
+						
 							if(isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")
                                     {
                                         
@@ -479,18 +503,20 @@ class Twitter extends CI_Controller {
 		                                    {
 		                                        $file=$this->upload->data();
 		                                        $data['path']=$file['full_path'];
-		                                        $data['text']=$this->input->post('texto_facebook');
+		                                        $data['text']=(isset($text)?$text.$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
+		                                        $data['link']=$this->input->post('link');
 		                                    }
                                        }
                                    
                                    
                                     }
+                                    $data['text']=(isset($text)?$text.$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
+                                    if(isset($link))
+                                    	$data['link']=$link;
                                     else
-                                    {
-                                    	$data['text']=$this->input->post('texto_facebook');
                                     	$data['link']=$this->input->post('link');
-                                    }
-						}
+                                   
+						
 										$fecha=DateTime::createFromFormat('d-m-Y H:i',$this->input->post('date')." ".$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
 						//echo $fecha->format('d-m-y H:i');
 
@@ -539,8 +565,8 @@ class Twitter extends CI_Controller {
 		
 		$this->load->model('social_users');
 			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
-			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
 			$programaciones=$this->programations->get_many_by(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 			foreach ($programaciones as $prog) {
 				
