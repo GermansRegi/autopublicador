@@ -18,7 +18,7 @@
                 <section class="logo">
                     <h1>
 
-                        <a href="<?php echo base_url_module(); ?>">Socialsuites</a>
+                        <a href="<?php echo base_url_module(); ?>"><img src="<?php echo base_url() ?>includes/img/logo_socialsuites.png" width="180" /></a>
                     </h1>
 
 					<?php 

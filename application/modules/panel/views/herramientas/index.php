@@ -19,19 +19,23 @@
     <?php echo $this->load->view('includes2/header');
 
 	?>
-<div class="col-lg-3">
+<div class="col-lg-2">
 	<a href='<?php echo base_url()?>panel/herramientas/limpiador_facebook'>Limpiador de facebook</a>
 </div>
 <div class="col-lg-3">
+    <a href='<?php echo base_url()?>panel/herramientas/buscador_de_imagenes'>Buscador de imágenes facebook</a>
+</div>
+<div class="col-lg-2">
     <a href='<?php echo base_url()?>panel/herramientas/unfollow_twitter'>Unfollow de twitter</a>
 </div>
 
-<div class="col-lg-3">
+<div class="col-lg-2">
     <a href='<?php echo base_url()?>panel/herramientas/limpiador_twitter'>Limpiador de twitter</a>
 </div>
-<div class="col-lg-3">
+<div class="col-lg-2">
     <a href='<?php echo base_url()?>panel/herramientas/extractor_tweets'>Extractor de twits</a>
 </div>
+
 	             
 <?php
     echo $this->load->view('includes2/footer');

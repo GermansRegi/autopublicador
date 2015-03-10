@@ -363,7 +363,10 @@ $("body").on("click",".deleteautoprog",function(){
 
 	})
 
-	
+	function isUrl(s) {
+   var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+   return regexp.test(s);
+}
 //generar elements de base d daddes per publicar i prohgramar
 	function generate(container,data)
 	{
@@ -384,7 +387,12 @@ $("body").on("click",".deleteautoprog",function(){
 				if(data.content=="sentence"){	
 					$('<span>'+data.data[i].sentence+'</span><br>').appendTo($("#"+container))}
 				else if(data.content=="image")
-					$('<img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'"/>').appendTo($("#"+container))
+				{
+					if(isUrl(data.data[i].path))
+						$('<img width="60" height="60" src="'+data.data[i].path+'"/>').appendTo($("#"+container))
+					else
+						$('<img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'"/>').appendTo($("#"+container))
+				}
 				else
 					$('<span><a href="'+data.data[i].link+'">'+data.data[i].text+'</a></span><br>').appendTo($("#"+container))
 

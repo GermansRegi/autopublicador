@@ -144,7 +144,7 @@ $arr=array("group","user","event","page")
 						</div>
 						<div class="row form-group"	>
 							<div class="col-lg-3">
-								<input type="submit" name='datos[enviar]' value="Guardar Bases de datos" class="btn btn-primary">
+								<input type="submit" name='datos[enviar]' value="Guardar programación de bases de datos" class="btn btn-primary">
 							</div>
 							<div class="col-lg-9">
 								<label class="control-label ">Cuentas:</label>
@@ -340,7 +340,7 @@ $arr=array("group","user","event","page")
 						</div>
 						<div class="row form-group">
 							<div class="col-lg-3">
-								<input type="submit" name='anuncios[enviar]' value="Guardar bases de  anuncios" class="btn btn-primary">
+								<input type="submit" name='anuncios[enviar]' value="Guardar programación de anuncios" class="btn btn-primary">
 							</div>
 							<div class="col-lg-9">
 								<label class="control-label ">Cuentas:</label>

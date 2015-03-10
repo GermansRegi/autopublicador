@@ -12,7 +12,12 @@
 			<form  id='herramfb' action='<?php echo base_url()?>panel/herramientas/unfollow_twitter' method='post'>
 			   <div class="message"></div>
 			   <div class="col-lg-12">
-			   	Con esta herramienta podrás dejar de seguir a  todos los usuarios que estas siguiendo en tu cuenta de twitter.
+					<section class=" panel bg-info">
+                      <div class="text-center panel-heading bg-info bg-info-dark-info-message">
+                      Con esta herramienta podrás dejar de seguir a  todos los usuarios que estas siguiendo en tu cuenta de twitter.
+                      </div>
+                    </section>
+					
 			   </div>
 			   <div class="col-lg-12">
 							

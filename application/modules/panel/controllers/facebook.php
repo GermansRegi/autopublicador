@@ -2,6 +2,7 @@
 
 class Facebook extends CI_Controller {
 	private $user_fb;
+	private $is_guest=false;
 	public function __construct()
 	{
 		parent::__construct();
@@ -65,7 +66,10 @@ class Facebook extends CI_Controller {
 			{
 				
 				if($guest[0]->guestPremium=="1")
-				$this->load->vars('privilege_user_app','prem');
+				{
+					$this->load->vars('privilege_user_app','prem');
+					$this->is_guest=true;
+				}
 				else
 				{
 
@@ -318,8 +322,17 @@ class Facebook extends CI_Controller {
 			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['page']=$pages;
 			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
-			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
+			if ($this->flexi_auth->is_privileged('acces user prem') || $this->is_guest==true)
+			{
+				$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
+				$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
+				
+			}
+			else if($this->flexi_auth->is_privileged('acces user free') && $this->is_guest==false)
+			{
+				$this->data['basesdedatos']=$this->bases_datos_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'face'));
+				$this->data['anuncios']=$this->anuncios_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'face'));
+			}
 			$programaciones=$this->programations->get_many_by(array('social_network'=>"fb",'user_app'=>$this->flexi_auth->get_user_id()));
 	
 			foreach ($programaciones as $prog) {
@@ -414,117 +427,140 @@ class Facebook extends CI_Controller {
 	//llista les comptes de facebook de uusuari de facebook 
 	public function connectar_facebook()
 	{
-		
 
-		$this->load->library('Facebooklib','','fblib');
-		if($this->fblib->getSession()==null)
-		{
-			redirect($this->fblib->login_url());
+		$this->load->model("social_user_accounts");
+		$numUsers=$this->social_users->count_by(array('user_app'=>$this->flexi_auth->get_user_id()));
+		$numAcc=$this->social_user_accounts->count_by(array('user_app'=>$this->flexi_auth->get_user_id()));
 			
+			
+			
+		if ($this->flexi_auth->is_privileged('acces user free') && $this->is_guest==false && ($numAcc+$numUsers)>3)
+		{
+			
+			 	$url=base_url().'panel/perfil/planes';
+				$this->data['message']='No estas autorizado a realizar esta acción.<br><b> Has alcanzado el límite de cuentas possibles a añadir con el plan gratuito.</b>';
+				$this->data['result']='error';
+	
+				$this->data['titlepage']="Facebook - Añadir cuentas";
+				$this->load->view("panel/facebook/anadir_paginas",$this->data);
 
 		}
 		else
 		{
 			
-			$this->fblib->getSession()->getLongLivedSession();
-	//		var_dump($user);
-			$this->user_fb=$this->fblib->api('/me');
-			
-	///		var_dump($this->user_fb);
-			//sino existeix l'usuari de facebook l'inserim
-			$exist=$this->social_users->Exists($this->user_fb['id'],'fb',$this->flexi_auth->get_user_id());
-			if($exist==false)
+			$this->load->library('Facebooklib','','fblib');
+			if($this->fblib->getSession()==null)
 			{
-				$this->social_users->insertNew(array(
-				'user_id'=>$this->user_fb['id'],
-				'username'=>$this->user_fb['name'],
-				'social_network'=>'fb',
-				'access_token'=>$this->fblib->getSession()->getToken(),
-				'user_app'=>$this->flexi_auth->get_user_id(),
-				'disabled'=>0));
+				redirect($this->fblib->login_url());
+				
 
-			}	
+			}
 			else
 			{
-			
-				$this->social_users->update_by(
-				array(
+
+				$this->fblib->getSession()->getLongLivedSession();
+				//		var_dump($user);
+				$this->user_fb=$this->fblib->api('/me');
+				
+				///		var_dump($this->user_fb);
+				//sino existeix l'usuari de facebook l'inserim
+				$exist=$this->social_users->Exists($this->user_fb['id'],'fb',$this->flexi_auth->get_user_id());
+				if($exist==false)
+				{
+					$this->social_users->insertNew(array(
+					'user_id'=>$this->user_fb['id'],
 					'username'=>$this->user_fb['name'],
-					'access_token'=>$this->fblib->getSession()->getToken()),
-				array(
+					'social_network'=>'fb',
+					'access_token'=>$this->fblib->getSession()->getToken(),
 					'user_app'=>$this->flexi_auth->get_user_id(),
-					'user_id'=>$this->user_fb['id']));
-			}		
-			$this->load->model("social_user_accounts");
+					'disabled'=>0));
 
-			$pages=array();
+				}	
+				else
+				{
+				
+					$this->social_users->update_by(
+					array(
+						'username'=>$this->user_fb['name'],
+						'access_token'=>$this->fblib->getSession()->getToken()),
+					array(
+						'user_app'=>$this->flexi_auth->get_user_id(),
+						'user_id'=>$this->user_fb['id']));
+				}		
+				//$this->load->model("social_user_accounts");
+
+				$pages=array();
+				
+				$pagesFace=$this->fblib->api('/me/accounts');
 			
-			$pagesFace=$this->fblib->api('/me/accounts');
-		
-		//	var_dump($pagesFace);
-			if(isset($pagesFace['data']) && count($pagesFace['data'])>0)
-			foreach($pagesFace['data'] as $val)
-	           {    
+				//	var_dump($pagesFace);
+				if(isset($pagesFace['data']) && count($pagesFace['data'])>0)
+				foreach($pagesFace['data'] as $val)
+		           {    
+					
+		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+	                    if(in_array('ADMINISTER',$val->perms) && $exist==false)
+	                    {
+	                    	$pages[]=$val;
+	                    }
+	                    else
+	                    {
+	                    	$this->social_user_accounts->update_by(array('access_token'=>$val->access_token,'name'=>$val->name),
+	                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+	                    }
+	                    
+	               }
+	               $groups=array();
+	               $groupsFace=$this->fblib->api('/me/groups');
+				if(isset($groupsFace['data']) &&  count($groupsFace['data'])>0)
+				foreach($groupsFace['data'] as $val)
+		           {    
+					
+		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+	                    if($exist==false)
+	                    {
+	                    	$groups[]=$val;
+	                    }
+	                    else
+	                    {
+	                    	$this->social_user_accounts->update_by(array('access_token'=>$this->fblib->getSession()->getToken(),'name'=>$val->name),
+	                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+	                    }
+	               }
+	               $events=array();
+	               $eventsFace=$this->fblib->api('/me/events');
 				
-	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
-                    if(in_array('ADMINISTER',$val->perms) && $exist==false)
-                    {
-                    	$pages[]=$val;
-                    }
-                    else
-                    {
-                    	$this->social_user_accounts->update_by(array('access_token'=>$val->access_token,'name'=>$val->name),
-                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
-                    }
-                    
-               }
-               $groups=array();
-               $groupsFace=$this->fblib->api('/me/groups');
-			if(isset($groupsFace['data']) &&  count($groupsFace['data'])>0)
-			foreach($groupsFace['data'] as $val)
-	           {    
-				
-	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
-                    if($exist==false)
-                    {
-                    	$groups[]=$val;
-                    }
-                    else
-                    {
-                    	$this->social_user_accounts->update_by(array('access_token'=>$this->fblib->getSession()->getToken(),'name'=>$val->name),
-                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
-                    }
-               }
-               $events=array();
-               $eventsFace=$this->fblib->api('/me/events');
-			
-			if(isset($eventsFace['data']) && count($eventsFace['data'])>0)
-			foreach($eventsFace['data'] as $val)
-	           {    
-				
-	             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
-                    if($exist==false)
-                    {
-                    	$events[]=$val;
-                    }
-                    else
-                    {
-                    	$this->social_user_accounts->update_by(array('access_token'=>$this->fblib->getSession()->getToken(),'name'=>$val->name),
-                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
-                    }
-                    
-               }
-               $this->data['pages']=$pages;
+				if(isset($eventsFace['data']) && count($eventsFace['data'])>0)
+				foreach($eventsFace['data'] as $val)
+		           {    
+					
+		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+	                    if($exist==false)
+	                    {
+	                    	$events[]=$val;
+	                    }
+	                    else
+	                    {
+	                    	$this->social_user_accounts->update_by(array('access_token'=>$this->fblib->getSession()->getToken(),'name'=>$val->name),
+	                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+	                    }
+	                    
+	               }
+	               $this->data['pages']=$pages;
 
-			$this->data['events']=$events;
-			$this->data['groups']=$groups;
-				
+				$this->data['events']=$events;
+				$this->data['groups']=$groups;
+					
 
-	//		var_dump($this->session->all_userdata());
-			$this->data['titlepage']="Facebook - Añadir cuentas de: ".$this->user_fb['name'];
-				
-			$this->load->view('panel/facebook/accounts_add',$this->data);
+				//		var_dump($this->session->all_userdata());
+				$this->data['titlepage']="Facebook - Añadir cuentas de: ".$this->user_fb['name'];
+					
+				$this->load->view('panel/facebook/accounts_add',$this->data);
+			}			
 		}
+
+
+
 
 	}
 	//afegeix les comptes seleccionades per usuari
@@ -573,11 +609,13 @@ class Facebook extends CI_Controller {
 					}
 				}
 			}
-			$this->data['message']='success';
+			$this->data['message']="Se han añadido correctamente las cuentas seleccionada";
+			$this->data['result']='success';
 		}
 		else
 		{
-			$this->data['message']='error';
+			$this->data['message']='No se han añadido las cuentas seleccionadas';
+			$this->data['result']='error';
 		}
 		
 		$this->data['titlepage']="Facebook - Añadir cuentas";
@@ -657,7 +695,10 @@ class Facebook extends CI_Controller {
 							{
 
 								$urlfb="/photos";
-								$params['source']="@".$row[0]->path;
+								if(filter_var($row[0]->path,FILTER_VALIDATE_URL))
+									$params['url']=$row[0]->path;
+								else
+									$params['source']="@".$row[0]->path;
 							}
 							elseif($response['content']=='link')
 							{
@@ -749,9 +790,17 @@ class Facebook extends CI_Controller {
 			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['page']=$pages;
 			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
-			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
-
+			if ($this->flexi_auth->is_privileged('acces user prem') || $this->is_guest==true)
+			{
+				$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
+				$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
+				
+			}
+			else if($this->flexi_auth->is_privileged('acces user free') && $this->is_guest==false)
+			{
+				$this->data['basesdedatos']=$this->bases_datos_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'face'));
+				$this->data['anuncios']=$this->anuncios_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'face'));
+			}
 			$this->data['titlepage']="Facebook - Publicar ahora";
 			
 

@@ -9,23 +9,16 @@
 
 	<body>
 	    <?php echo $this->load->view('includes2/header'); ?>
-	    <?php if(count($data['page'])==0 && count($data['user'])==0 && count($data['event'])==0  && count($data[''])==0)
-		{
-    		?>
-			<div class="redbox">
-    				<p>
-				Para poder publicar debe añadir como mínimo una página de facebook. Desde la opción <?php  echo '<a href="'.base_url().'social_connect/fb_connect">Conectar con Facebook</a>';?>
-    				</p>
-			</div>
-		<?php
-		}
-		else
-		{
-		?>
+	 
 			<form  id='herramfb' action='<?php echo base_url()?>panel/herramientas/limpiador_facebook' method='post'>
 			   <div class="message"></div>
 			   <div class="col-lg-12">
-			   	Con esta herramienta podrás limpiar una cuenta de Facebook.
+			   			   	
+			   	   	<section class=" panel bg-info">
+                      <div class="text-center panel-heading bg-info bg-info-dark-info-message">
+                      	Con esta herramienta podrás limpiar una cuenta de Facebook.
+                      </div>
+                    </section>
 			   </div>
 			   <div class="col-lg-6">
 			       <div class="form-group">
@@ -90,7 +83,7 @@
 			</div>
 			</div>
 		</form>
-    <?php }?>       
+      
 <?php
     echo $this->load->view('includes2/footer');
 ?>

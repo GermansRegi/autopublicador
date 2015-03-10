@@ -22,34 +22,21 @@
        <div class="col-lg-12">
        	<div id="msg_anadirpags"></div>
        </div>
-       <?php
-       if($message=='success'){
-
        
-       ?>
+      
 		<script>
-		$(function(){
+		
 				
-				$("#msg_anadirpags").noty({text:'Las cuentas seleccionadas se han añadido correctamente',type:'success'})
+				$("#msg_anadirpags").noty({text:'<?php echo $message ?>',type:'<?php echo $result; ?>'})
 
 
-		})
+		
 		
 		</script>
-       	<?php
-       }else{
-
-       	?>
-       	<script>
-       	$(function(){
-		$("#msg_anadirpags").noty({text:'No se han añadido las cuentas seleccionadas',type:'error'})
-		</script>
-		})
-       	<?php
-       	}  ?>
-	             
+       	
+           
 	             <script>
-	             $('body').delay(1000).queue(function(nxt){
+	             $('body').delay(1500).queue(function(nxt){
 	             		location.href=base_url+'panel/facebook';
 
 	             })

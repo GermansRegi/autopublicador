@@ -34,7 +34,7 @@
 				<div class="arrow-down"></div>
 				<div class="plist">
 					<ul>
-						<li>Hasta 100 perfiles sociales de facebook y twiiter en una misma cuenta.</li>
+						<li>Infinitos perfiles sociales de facebook y twiiter en una misma cuenta.</li>
 						<li>Autopublicación de bases de datos propias o internas cada 10 minutos.</li>
 						<li>Más de 5 bases de datos de imágenes de todas las temáticas.</li>
 						<li>Tus propios albumes de imágenes con hasta 2 mil imágenes en cada álbum.</li>

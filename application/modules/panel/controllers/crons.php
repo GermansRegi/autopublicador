@@ -209,7 +209,10 @@ class Crons extends CI_Controller {
             		
             		if(isset($prog->path) && $prog->path!="")
             		{
-            			$params['source']='@'.$prog->path;
+    					if(filter_var($prog->path,FILTER_VALIDATE_URL))
+							$params['url']=$prog->path;
+						else
+							$params['source']='@'.$prog->path;
 						$url="/".$prog->socialaccount."/photos";
             		}	
             		
@@ -511,7 +514,10 @@ class Crons extends CI_Controller {
 			if($content=='image')
 			{
 				$urlfb="/photos";
-				$params['source']="@".$element->path;
+				if(filter_var($element->path,FILTER_VALIDATE_URL))
+					$params['url']=$element->path;
+				else
+					$params['source']="@".$element->path;
 
 			}
 			else if($content=='link')

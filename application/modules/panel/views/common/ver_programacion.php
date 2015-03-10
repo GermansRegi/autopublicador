@@ -21,33 +21,40 @@
 						?>
 						<div class="col-lg-6">
 								<strong>Imagen</strong><br>
-
+								
 								<?php
-								if(strpos($prog[0]->path,'temporal')!=false) 
+								if(filter_var($prog[0]->path,FILTER_VALIDATE_URL))
 								{
-									$pos=strpos($prog[0]->path,'upload');	
-									$imgsrc= substr($prog[0]->path,$pos );
+										echo "<img width='200' src='".$prog[0]->path."'>";
 								}
 								else
 								{
-									$posuser=strpos($prog[0]->path,'@');
-									echo $posuser;
-									if($posuser)
+									if(strpos($prog[0]->path,'temporal')!=false) 
 									{
-
 										$pos=strpos($prog[0]->path,'upload');	
 										$imgsrc= substr($prog[0]->path,$pos );
-										$imgsrc=$this->flexi_auth->get_user_identity()."/".$imgsrc;
 									}
 									else
 									{
-										$pos=strpos($prog[0]->path,'upload');	
-										$imgsrc= substr($prog[0]->path,$pos );
-									}
+										$posuser=strpos($prog[0]->path,'@');
+										
+										if($posuser)
+										{
 
-									
+											$pos=strpos($prog[0]->path,'upload');	
+											$imgsrc= substr($prog[0]->path,$pos );
+											$imgsrc=$imgsrc;
+										}
+										else
+										{
+											$pos=strpos($prog[0]->path,'upload');	
+											$imgsrc= substr($prog[0]->path,$pos );
+										}
+
+										
+									}
+									echo "<img width='200' src='".base_url().$imgsrc."'>";
 								}
-								echo "<img width='200' src='".base_url().$imgsrc."'>";
 									?>								
 						</div>
 					<?php
@@ -64,14 +71,27 @@
 					<div class="col-lg-6">
 						<strong>Fecha y hora</strong>
 						<br>
-						<?php echo date('d-m-Y H:i:s',$prog[0]->fecha)?>
+						<?php 
+									$fecha=new DateTime("@".$prog[0]->fecha);
+									$fecha->setTimezone(new DateTimezone($this->session->userdata('timezone')));
+									if(!empty($prog[0]->fechaBorrado))
+									{
+										$fechaB=new DateTime("@".$prog[0]->fechaBorrado);
+										$fechaB->setTimezone(new DatetimeZone($this->session->userdata('timezone')));
+									}
+									else
+									{
+										$fechaB=null;
+									}
+									echo $fecha->format('d-m-Y H:i:s');?>
+		
 					</div>
-					<?php if(!empty($prog[0]->fechaBorrado) && $prog[0]->fechaBorrado!="")
+					<?php if(isset($fechaB))
 					{
 						?>
 						<div class="col-lg-6">
 								<strong>Fecha borrado</strong><br>
-								<?php echo date('d-m-Y H:i:s',$prog[0]->fechaBorrado)?>								
+								<?php echo $fechaB->format('d-m-Y H:i:s'); ?>								
 						</div>
 					<?php
 					} ?>

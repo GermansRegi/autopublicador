@@ -12,7 +12,12 @@
 			<form  id='herramfb' action='<?php echo base_url()?>panel/herramientas/limpiador_twitter' method='post'>
 			   <div class="message"></div>
 			   <div class="col-lg-12">
-			   	Con esta herramienta podrás limpiar hasta 3200 tweets de una cuenta de Twitter.
+			   <section class=" panel bg-info">
+                      <div class="text-center panel-heading bg-info bg-info-dark-info-message">
+                      Con esta herramienta podrás limpiar hasta 3200 tweets de una cuenta de Twitter.
+                      </div>
+                    </section>
+			   	
 			   </div>
 			   <div class="col-lg-12">
 							

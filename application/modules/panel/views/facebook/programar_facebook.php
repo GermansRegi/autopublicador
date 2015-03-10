@@ -174,7 +174,7 @@ $arr=array("group","user","event","page")
 							?>      
 						</div>
 						<section class="col-lg-12">
-								<input type='submit' name='publicar' class="btn btn-primary" value='Publicar'/>
+								<input type='submit' name='publicar' class="btn btn-primary" value='Programar'/>
 						</section>
 						<div>
 							<p>Facebook no permite publicar en una misma publicación imágenes y enlaces</p>
@@ -215,7 +215,10 @@ $arr=array("group","user","event","page")
 									echo $fecha->format('d-m-Y H:i:s');?></td>
 									<td><?php echo (isset($fechaB)?$fechaB->format('d-m-Y H:i:s'):'-')?></td>
 									<td><?php echo $arrayStates[$prog->state]; ?></td>
-									<td> <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" >Ver </a><a data-id="<?php echo $prog->id; ?>" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a></td>
+									<td>
+										<div class="btn-group" role="group">
+											 <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" role="button" >Ver </a><a data-id="<?php echo $prog->id; ?>" role="button" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a></td>
+										</div>
 
 									</tr>
 

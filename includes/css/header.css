@@ -16,7 +16,7 @@ header {
       font-weight: 400; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000315}}
       header .logo h1 a:visited, header .logo h1 a:hover {
-        font-size: 26px;
+        font-size: 32px;
         color: #777;
         text-decoration: none;
         font-weight: 400; }

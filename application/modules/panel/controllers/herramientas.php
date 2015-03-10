@@ -197,10 +197,77 @@ class Herramientas extends CI_Controller {
 	}
 	public function buscador_de_imagenes()
 	{
-		$this->data['basesdedatos']=$this->bases_datos_model->get_all(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()));
+		if($this->input->post('albumid'))
+		{
+			$this->form_validation->set_rules('albumid','Albumes','required');
+			$this->form_validation->set_rules('asociard','Base de datos','required');
+			if($this->form_validation->run()==TRUE)
+			{
+				$this->load->model('bases_datos_model');
+				$photos=$this->getAlbumimages($this->input->post('albumid'));
+				if(isset($photos['data']))
+				{
+					foreach ($photos['data'] as $photo) {
+					
+					$this->bases_datos_model->insertElement('image',array('user_app'=>$this->flexi_auth->get_user_id(),'bbdd_id'=>$this->input->post('asociard'),'path'=>$photo->source));
+
+					}		
+					echo json_encode(array('msg_success'=>'Operación realizada con éxito'));
+				}
+
+				
+			}
+			else
+			{
+				$errors = $this->form_validation->error_array();
+		             echo json_encode(array('msg_errors'=>$errors));	
+			}
+			exit;
+			
+		}
+		elseif($this->input->post('pagename'))
+		{
+			$res=$this->getImagesPage($this->input->post('pagename'));
+			if($res==0)
+			{
+				echo json_encode(array('msg_errors'=>array('pp'=>"No se ha encontrado una página con el nombre introducido")));
+				exit;
+			}
+			
+			$this->load->model('bases_datos_model');
+			$res['accesstoken']=$this->config->item('api_id', 'facebook')."|".$this->config->item('app_secret', 'facebook');
+			$res['bd']=$this->data['basesdedatos']=$this->bases_datos_model->get_many_by(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id(),'content'=>'image'));
+			echo json_encode($res);
+			exit;
+		}
+		
+		$this->data['titlepage']="Herramientas - Buscador de imagenes de Facebook";
 		$this->load->view('herramientas/buscador_imagenes',$this->data);	
 	}
-	/**
+	public function getAlbumimages($id)
+	{
+		$this->load->library('Facebooklib','','fblib');
+		$this->fblib->setSessionFromToken($this->config->item('api_id', 'facebook')."|".$this->config->item('app_secret', 'facebook'));
+		return $this->fblib->api('/'.$id."/photos");
+
+	}
+	public function getImagesPage($name)
+	{
+		
+		$this->load->library('Facebooklib','','fblib');
+		$this->fblib->setSessionFromToken($this->config->item('api_id', 'facebook')."|".$this->config->item('app_secret', 'facebook'));
+		$res=$this->fblib->api('/search',array('q'=>$name,'type'=>'page'));
+		if(count($res['data'])==1)
+		{
+				return $this->fblib->api("/".$res['data'][0]->id."/albums");
+				
+		}
+		else
+		{
+			return 0;
+		}
+	}
+		/**
 	 * [unfollow_twitter accio de formulari que permet deixar de seguir als usuaris de twitter de l'aplicacio]
 	 * @return [type] [description]
 	 */

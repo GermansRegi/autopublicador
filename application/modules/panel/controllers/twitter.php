@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Twitter extends CI_Controller {
-	
+	private $is_guest=false;	
 	public function __construct()
 	{
 		parent::__construct();
@@ -67,7 +67,10 @@ class Twitter extends CI_Controller {
 			{
 				
 				if($guest[0]->guestPremium=="1")
-				$this->load->vars('privilege_user_app','prem');
+				{
+					$this->load->vars('privilege_user_app','prem');
+					$this->is_guest=true;	
+				}
 				else
 				{
 					$this->load->vars('privilege_user_app','free');
@@ -155,11 +158,31 @@ class Twitter extends CI_Controller {
 	}
 	public function connectar_twitter()
 	{
-		$this->load->library("twitterlib",'','twtlib');
-			//$this->twtlib->reset_session();
-		$res=$this->twtlib->auth(base_url('panel/twitter/callback'));
+		$this->load->model("social_user_accounts");
+		$numUsers=$this->social_users->count_by(array('user_app'=>$this->flexi_auth->get_user_id()));
+		$numAcc=$this->social_user_accounts->count_by(array('user_app'=>$this->flexi_auth->get_user_id()));
 			
+			
+			
+		if ($this->flexi_auth->is_privileged('acces user free') && $this->is_guest==false && ($numAcc+$numUsers)>3)
+		{
+			
+			 	$url=base_url().'panel/perfil/planes';
+				$this->data['message']='No estas autorizado a realizar esta acción.<br><b> Has alcanzado el límite de cuentas possibles a añadir con el plan gratuito.</b>';
+				$this->data['result']='error';
+	
+				$this->data['titlepage']="Twitter - Añadir cuentas";
+				$this->load->view("panel/twitter/anadir_cuentas",$this->data);
+
+		}
+		else
+		{
 		
+			$this->load->library("twitterlib",'','twtlib');
+				//$this->twtlib->reset_session();
+			$res=$this->twtlib->auth(base_url('panel/twitter/callback'));
+				
+		}
 	}
 	public function callback()
 	{
@@ -204,14 +227,16 @@ class Twitter extends CI_Controller {
 			}
 			
 			$this->data['titlepage']="Twitter - Añadir cuentas";
-			$this->data['message']="success";
+			$this->data['message']="Las cuentas de twitter se han añadido correctamente";
+			$this->data['result']='success';
 			$this->load->view("twitter/anadir_cuentas",$this->data);
 
 		}
 		else
 		{
 			$this->data['titlepage']="Twitter - Añadir cuentas";
-			$this->data['message']="eror";
+			$this->data['message']="Hubo un fallo al procesar su petición";
+			$this->data['result']='error';
 			$this->load->view("twitter/anadir_cuentas",$this->data);
 		}
 		
@@ -367,9 +392,18 @@ class Twitter extends CI_Controller {
 		
 		
 			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
-			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
-
+			if ($this->flexi_auth->is_privileged('acces user prem') || $this->is_guest==true)
+			{
+				$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+				$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+				
+			}
+			else if($this->flexi_auth->is_privileged('acces user free') && $this->is_guest==false)
+			{
+				$this->data['basesdedatos']=$this->bases_datos_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'twt'));
+				$this->data['anuncios']=$this->anuncios_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'twt'));
+			
+			}
 			$this->data['titlepage']="Twitter - Publicar ahora";
 			
 
@@ -565,8 +599,18 @@ class Twitter extends CI_Controller {
 		
 		$this->load->model('social_users');
 			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
-			$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+			if ($this->flexi_auth->is_privileged('acces user prem') || $this->is_guest==true)
+			{
+				$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+				$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+				
+			}
+			else if($this->flexi_auth->is_privileged('acces user free') && $this->is_guest==false)
+			{
+				$this->data['basesdedatos']=$this->bases_datos_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'twt'));
+				$this->data['anuncios']=$this->anuncios_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'twt'));
+			
+			}
 			$programaciones=$this->programations->get_many_by(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 			foreach ($programaciones as $prog) {
 				

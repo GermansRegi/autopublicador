@@ -22,34 +22,20 @@
        <div class="col-lg-12">
        	<div id="msg_anadirpags"></div>
        </div>
-       <?php
-       if($message=='success'){
-
-       
-       ?>
-		<script>
-		$(function(){
-				
-				$("#msg_anadirpags").noty({text:'La cuenta de twitter se han añadido correctamente',type:'success'})
+    
+      
+    <script>
+    
+        
+        $("#msg_anadirpags").noty({text:'<?php echo $message ?>',type:'<?php echo $result; ?>'})
 
 
-		})
-		
-		</script>
-       	<?php
-       }else{
+    
+    
+    </script>
+        
 
-       	?>
-       	<script>
-       	$(function(){
-		$("#msg_anadirpags").noty({text:'Hubo un fallo al procesar su petición.',type:'error'})
-				})
-		</script>
-
-
-       	<?php
-       	}  ?>
-	             
+               
 	             <script>
 	             $('body').delay(1000).queue(function(nxt){
 	             		location.href=base_url+'panel/twitter';

@@ -154,7 +154,7 @@ $arr=array("group","user","event","page")
 				
 						</div>
 						<section class="col-lg-12">
-								<input type='submit' name='publicar' class="btn btn-primary" value='Enviar'/>
+								<input type='submit' name='publicar' class="btn btn-primary" value='Programar'/>
 						</section>
 						
 					</div>	
@@ -193,8 +193,10 @@ $arr=array("group","user","event","page")
 									echo $fecha->format('d-m-Y H:i:s');?></td>
 									<td><?php echo (isset($fechaB)?$fechaB->format('d-m-Y H:i:s'):'-')?></td>
 									<td><?php echo $arrayStates[$prog->state]; ?></td>
-									<td> <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" >Ver </a><a data-id="<?php echo $prog->id; ?>" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a></td>
-
+									<td>
+										<div class="btn-group" role="group">
+									 		<a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" >Ver </a><a data-id="<?php echo $prog->id; ?>" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a></td>
+										</div>
 									</tr>
 
 								<?php } ?>
