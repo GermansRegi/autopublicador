@@ -366,7 +366,7 @@ class Crons extends CI_Controller {
 
 			echo $rss->md5lastupdate."<br>";
 			echo $md5Updaterssfeed;
-
+			
 				if($rss->md5lastupdate!=$md5Updaterssfeed)
 				{
 					try{
@@ -444,11 +444,11 @@ class Crons extends CI_Controller {
 						$this->load->library('Twitterlib','','twtlib');
 						foreach ($arrayTw as $id ) {
 							$user=$this->social_users->getUserappUsers(array('user_id'=>$id,'user_app'=>$rss->user_app),1);
-							$fbaccesstoken[]=$user[0]->access_token;
+							
 							$this->twtlib->setAccessToken(json_decode($user[0]->access_token));
 							var_dump($user[0]->access_token);
 							if(isset($params['message']))
-								$paramstw['status']=$params['message'].(string)$itemTopublish->link[0];
+								$paramstw['status']=$params['message']." ".(string)$itemTopublish->link[0];
 							else
 								$paramstw['status']=(string)$itemTopublish->link[0];
 							$restw=$this->twtlib->post('statuses/update',$paramstw);
@@ -613,7 +613,7 @@ class Crons extends CI_Controller {
 		$comuAutoprog="autoprog_".$var_name;
 		else
 		$comuAutoprog="autoprog_basede".$var_name;
-		echo $comuAutoprog;
+//		echo $comuAutoprog;
 		$this->load->model($comuAutoprog);
 		$autoprogs=$this->$comuAutoprog->get_all();
 		if(count($autoprogs)>0)
@@ -695,7 +695,7 @@ class Crons extends CI_Controller {
 										$bdid=$prog->ids;
 									}	
 									$anunci=$this->$comuModel->getAll(array('socialnetwork'=>$array[$prog->socialnetwork],'id'=>$bdid));
-									var_dump($anunci);
+//									var_dump($anunci);
 									
 									$arrayPerm=array(-1=>"");
 									$sentenceperm=-1;
@@ -708,7 +708,7 @@ class Crons extends CI_Controller {
 											$sentenceperm=array_rand($arrayPerm);
 										}while($arrayPerm[$sentenceperm]=='');
 									}
-									echo $arrayPerm[$sentenceperm];;
+//									echo $arrayPerm[$sentenceperm];;
 									$elements=$this->$comuModel->getElements($anunci[0]->content,array('bbdd_id'=>$anunci[0]->id));
 									$numelements=count($elements);
 								//	var_dump($elements);
@@ -731,13 +731,13 @@ class Crons extends CI_Controller {
 
 										if($numelements>$numelementsPublicats)
 										{
-											/*do
+											do
 											{
 												$numRandom=array_rand($elements);
 												$trobat=$this->autoprog_publicadas->findOne(array('user_app'=>$prog->user_app,"bd_id"=>$anunci[0]->id,"element_id"=>$elements[$numRandom]->id,
 													"account_id"=>$prog->accountid,"type_bd"=>$var_name,"content"=>$anunci[0]->content,'autoprog_id'=>$prog->id));
 
-											}while(count($trobat)>0);*/
+											}while(count($trobat)>0);
 										}
 									}
 									else
@@ -931,27 +931,32 @@ class Crons extends CI_Controller {
 	    $links_data=$this->fblib->api("/".$accountid."/links",array('limit'=>$limit,'offset'=>$offset));
 	    
 	   	//$until=$data['data'][count($data['data'])]->
-	var_dump($links_data);
+	//var_dump($links_data);
 	$numerased=0;
 	    //si hi ha  links esborro els que no apunten a www.facebook.com
     	if(isset($links_data['data']) && count($links_data['data'])>0)
 	    {
 		    echo "links";
-		    foreach ($links_data['data'] as $link) {
-		    	$parts=parse_url($link->link);
+		    echo count($links_data['data']);
+		    foreach ($links_data['data'] as $linkobj) {
+		    	var_dump($linkobj);
+		    	$parts=parse_url($linkobj->link);
+		    	
 		    	if($parts['host']!='www.facebook.com')
 		    	{
-			    	try{
+		    		echo "pp";
+			    	//try{
 			    		//var_dump($photo->id);
-			    		$res=$this->fblib->api('/'.$link->id,null,'DELETE');	
+			    		$res=$this->fblib->api('/'.$linkobj->id,array(),'DELETE');	
 			    		$numerased++;
-			    		//var_dump($res);
+			    		var_dump($res);
 
-			    	}catch(Exception $E)
+			    	/*}catch(Exception $E)
 			    	{
 			    		
 			    		continue;
-			    	}
+			    	}*/
+			    	echo "ooooo";
 		    	}
 			    
 		    }
@@ -994,7 +999,6 @@ class Crons extends CI_Controller {
 				 	$account=$userRow[0]->idaccount;
 				 	$name=$userRow[0]->name;
 			}
-			echo $account;
 			$resultati=1;
 			$resultatl=1;
 			if($clean_row->social_network=='fb')

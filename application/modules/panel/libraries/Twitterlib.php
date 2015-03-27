@@ -1,4 +1,3 @@
-
 <?php 
 require_once( APPPATH . 'modules/panel/libraries/Twitter/autoloader.php' );
 
@@ -66,12 +65,21 @@ class Twitterlib
 		}
 
 	}
+
 	public function setAccessToken($access_token)
 	{	
 		if(is_array($access_token))
 		$this->twitter->setOauthToken($access_token['oauth_token'],$access_token['oauth_token_secret']);
 		elseif(is_object($access_token))
 		$this->twitter->setOauthToken($access_token->oauth_token,$access_token->oauth_token_secret);
+	}
+	public function setAppToken($tokensecret)
+	{
+		$this->twitter->setBearerToken($tokensecret);
+	}
+	public function getAppToken()
+	{
+		return $this->twitter->oauth2('oauth2/token',array('grant_type'=>'client_credentials'));
 	}
 	public function getUserdata()
 	{

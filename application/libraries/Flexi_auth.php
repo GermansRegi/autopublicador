@@ -266,7 +266,7 @@ class Flexi_auth extends Flexi_auth_lite
 
 			// Set email data.
 			$email_to = $email;
-			$email_title = ' - Account Activation';
+			$email_title = ' - Activación de su cuenta';
 
 			$user_data = array(
 				'user_id' => $user_id,

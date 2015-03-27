@@ -20,7 +20,7 @@
 
 
 	<section class='namebd'>
-		<p>Inserte Enlaces en: <span class='bold'> <?php echo $anuncio->name."</span> <span class='right'> Tiene ".$total." enlaces creados. El máximo de enlaces son ".$this->config->item('max-no-images').".</span>";?></p>
+		<p>Inserte enlaces en: <span class='bold'> <?php echo $anuncio->name."</span> <span class='right'> Tiene ".$total." enlaces creados. El máximo de enlaces son ".$this->config->item('max-no-images').".</span>";?></p>
 	</section>
 
 	<section class="clearfix">
@@ -45,7 +45,7 @@
 	</section>
 	<section class="row">
 		<section class='namebd col-lg-6'>
-			<p>Elimine frases de: <span class='bold'><?php echo $anuncio->name;?></span></p>    
+			<p>Elimine enlaces de: <span class='bold'><?php echo $anuncio->name;?></span></p>    
 		</section>
 		<section class="col-lg-6 text-right">
 			<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary">                	

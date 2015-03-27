@@ -205,6 +205,7 @@ class Herramientas extends CI_Controller {
 			{
 				$this->load->model('bases_datos_model');
 				$photos=$this->getAlbumimages($this->input->post('albumid'));
+				var_dump($photos);
 				if(isset($photos['data']))
 				{
 					foreach ($photos['data'] as $photo) {
@@ -225,15 +226,11 @@ class Herramientas extends CI_Controller {
 			exit;
 			
 		}
-		elseif($this->input->post('pagename'))
+		elseif($this->input->post('pageselected'))
 		{
-			$res=$this->getImagesPage($this->input->post('pagename'));
-			if($res==0)
-			{
-				echo json_encode(array('msg_errors'=>array('pp'=>"No se ha encontrado una página con el nombre introducido")));
-				exit;
-			}
-			
+			$this->load->library('Facebooklib','','fblib');
+			$this->fblib->setSessionFromToken($this->config->item('api_id', 'facebook')."|".$this->config->item('app_secret', 'facebook'));
+			$res=$this->fblib->api("/".$this->input->post('pageselected')."/albums");
 			$this->load->model('bases_datos_model');
 			$res['accesstoken']=$this->config->item('api_id', 'facebook')."|".$this->config->item('app_secret', 'facebook');
 			$res['bd']=$this->data['basesdedatos']=$this->bases_datos_model->get_many_by(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id(),'content'=>'image'));
@@ -241,6 +238,20 @@ class Herramientas extends CI_Controller {
 			exit;
 		}
 		
+		elseif($this->input->post('pagename'))
+		{
+
+			$res=$this->searchpages($this->input->post('pagename'));
+			if($res==0)
+			{
+				echo json_encode(array('msg_errors'=>array('pp'=>"No se ha encontrado una página con el nombre introducido")));
+				exit;
+			}
+			
+			echo json_encode(array('pages'=>$res['data']));
+			exit;
+		}
+
 		$this->data['titlepage']="Herramientas - Buscador de imagenes de Facebook";
 		$this->load->view('herramientas/buscador_imagenes',$this->data);	
 	}
@@ -251,15 +262,19 @@ class Herramientas extends CI_Controller {
 		return $this->fblib->api('/'.$id."/photos");
 
 	}
+	public function searchpages($name)
+	{
+		$this->load->library('Facebooklib','','fblib');
+		$this->fblib->setSessionFromToken($this->config->item('api_id', 'facebook')."|".$this->config->item('app_secret', 'facebook'));
+		return $this->fblib->api('/search',array('q'=>$name,'type'=>'page'));
+		
+	}
 	public function getImagesPage($name)
 	{
 		
-		$this->load->library('Facebooklib','','fblib');
-		$this->fblib->setSessionFromToken($this->config->item('api_id', 'facebook')."|".$this->config->item('app_secret', 'facebook'));
-		$res=$this->fblib->api('/search',array('q'=>$name,'type'=>'page'));
 		if(count($res['data'])==1)
 		{
-				return $this->fblib->api("/".$res['data'][0]->id."/albums");
+			
 				
 		}
 		else
@@ -361,31 +376,59 @@ class Herramientas extends CI_Controller {
 		$this->load->view('herramientas/limpiador_twitter',$this->data);		
 	
 	}
+	public function searchTwits($query)
+	{
+		//var_dump($query);
+		return  $this->twtlib->get('search/tweets',$query);
+	}
 	public function getTwitts($account,$number,$inclrt,$bbdd)
     {
 
     		$usertw = $this->social_users->getUserAppUsers(array('user_app'=>$this->flexi_auth->get_user_id()));
         	$this->load->library('Twitterlib','','twtlib');
         
-			$this->twtlib->setAccessToken(json_decode($usertw[0]->access_token));
-		
+			
+			$aptoken=$this->twtlib->getAppToken();
+			
+            $this->twtlib->setAppToken($aptoken->access_token);
                                // carrego els acces_tokens permanents a la sessio de twitter
                 //carrego la llibreria    
-            
-          $params=array();
-          
-                    $twits=$this->twtlib->get('search/tweets',array('q'=>"@".$account.(($inclrt==1)?' -filter:retweets':''),'count'=>$number));    	                   
+          			$count=0;  
+          $arrayt=array();
+          			$query=array('q'=>(($inclrt==1)?"from:":'@').$account,'count'=>40);
+                    $results=$this->searchTwits($query);	                   
+
+                    while(count($results->statuses)>1 && $number>$count) {
+                    	$count=$count+count($results->statuses);
+                    	$arrayt=array_merge($arrayt,$results->statuses); 
+                    	//echo $count."<br>";
+                    	echo count($results->statuses)."<br>";
+                    	if(count($results->statuses)>0	)
+                    	{
+                    		$query=array('q'=>(($inclrt==1)?"from:":'@').$account,'count'=>40,'max_id'=>$results->statuses[count($results->statuses)-1]->id);
+                    		$results=$this->searchTwits($query); 
+                    		
+                    		
+                    	}
+                    	
+
+          	    	
+          	    	
+                    	
+                    }
+		echo $count;
+		var_dump($arrayt);
 
     		
-    		foreach ($twits->statuses as $twit) {
+    	/*	foreach ($twits->statuses as $twit) {
     			echo "<br>".$twit->text;
     			      $this->bases_datos_model->insertElement('sentence',array(
                                 'bbdd_id' =>$bbdd ,
                                 'sentence' => $twit->text,
                                 'user_app' => $this->flexi_auth->get_user_id()));
 
-    			
-    		}
+  			
+    		}*/
     		
     			
     		     
@@ -401,7 +444,7 @@ class Herramientas extends CI_Controller {
 			if($this->form_validation->run()===TRUE)
 			{
 				$this->getTwitts($this->input->post('nameacount'),$this->input->post('qt'),$this->input->post('inclrt'),$this->input->post('asociard'));
-				 echo json_encode(array('msg_success'=>'Tweets guardados correctamenta'));
+				 echo json_encode(array('msg_success'=>'Tweets guardados correctamente'));
 			}
 			else
 			{

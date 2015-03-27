@@ -42,7 +42,7 @@
 	</script>
 	<section class="row">
 		<section class='namebd col-lg-6'>
-			<p>Elimine frases de: <span class='bold'><?php echo $anuncio->name;?></span></p>    
+			<p>Elimine imágenes de: <span class='bold'><?php echo $anuncio->name;?></span></p>    
 		</section>
 
 		<section class="col-lg-6 text-right">
@@ -61,7 +61,9 @@
 				{
 					?>
 					<section class="col-sm-2">
+					<a href="<?php echo base_url()?>upload/<?php echo $this->flexi_auth->get_user_identity()."/".$element->filename;?>" class="image-link">
 						<img width="60" height="60" src="<?php echo base_url()?>upload/<?php echo $this->flexi_auth->get_user_identity()."/".$element->filename;?>"/>
+						</a>
 						<a data-id='<?php echo $element->id; ?>' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> 
 						<input type='checkbox' value='<?php echo $element->id; ?>' name='hk_group_bf[]'>
 					</section>

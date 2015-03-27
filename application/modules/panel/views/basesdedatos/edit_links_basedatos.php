@@ -50,7 +50,7 @@
 				</div>
 							<div class="row">
 							<div class='namebd col-lg-6'>
-				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
+				<p>Elimine enlaces de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
 			</div>
 				<div class="col-sm-6 text-right">
 	                	<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >

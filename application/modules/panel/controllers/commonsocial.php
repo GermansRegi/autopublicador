@@ -85,10 +85,7 @@ class CommonSocial extends CI_Controller {
 	{
 			
 	}
-	public function cronPublishProgramations()
-	{
-		
-	}
+	
 	public function Ondeletehaveprog($id,$isuser)
 	{
 		$this->load->model('programations');
@@ -240,8 +237,8 @@ class CommonSocial extends CI_Controller {
 				{
 					$acc=$this->social_user_accounts->getUserappAccounts(array('id'=>$value->id),1);
 					$this->programations->delete_by(array('socialaccount'=>$acc[0]->idaccount,'user_app'=>$this->flexi_auth->get_user_id()));
-					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->accountid,'user_app'=>$this->flexi_auth->get_user_id()));
-					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->accountid,'user_app'=>$this->flexi_auth->get_user_id()));
+					$this->autoprog_basededatos->delete_by(array('accountid'=>$acc[0]->idaccount,'user_app'=>$this->flexi_auth->get_user_id()));
+					$this->autoprog_anuncios->delete_by(array('accountid'=>$acc[0]->idaccount,'user_app'=>$this->flexi_auth->get_user_id()));
 					$this->social_user_accounts->delete_by(array("id"=>$value->id,'user_app'=>$this->flexi_auth->get_user_id()));
 				}
 			}

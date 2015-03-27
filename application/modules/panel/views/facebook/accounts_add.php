@@ -44,7 +44,7 @@
 				        			?>
 								<tr>
 									<td>
-										<img src="http://graph.facebook.com/v2.2/<?php echo $page->id ?>/picture?width=50&height=50">;
+										<img src="http://graph.facebook.com/v2.2/<?php echo $page->id ?>/picture?width=50&height=50">
 
 									</td>
 									<td >

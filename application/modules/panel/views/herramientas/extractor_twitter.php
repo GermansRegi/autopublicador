@@ -12,9 +12,14 @@
 	 
 			<form  id='herramfb' action='<?php echo base_url()?>panel/herramientas/extractor_tweets' method='post'>
 			   <div class="message"></div>
-			   <div class="col-lg-12">
-
-			   </div>
+			   	<div class="col-lg-12">
+				<section class=" panel bg-info">
+                      <div class="text-center panel-heading bg-info bg-info-dark-info-message">
+                      Con esta herramienta podrás agregar a una base de datos todos los tweets de una cuenta de twitter hechos durante la última semana.
+                      </div>
+                    </section>
+				</div>
+			
 			  <div class="col-lg-3">
 			   		<label class="control-label">Nombre de la cuenta de twitter</label>
 			   		<input type="text" class="form-control" name="nameacount" />
@@ -33,10 +38,10 @@
 						</select>
 				   </div>
 				   <div class="col-lg-3">
-				   <label class="control-label">Incluir RT's</label>
+				   <label class="control-label">Filtro</label>
 				   		<select name="inclrt" class="form-control">
-							<option value="1">Sí</option>
-							<option value="0">No</option>
+							<option value="1">Tweets enviados</option>
+							<option value="0">Tweets con referencia</option>
 
 						</select>
 				   </div>

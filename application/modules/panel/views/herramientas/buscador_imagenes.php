@@ -14,35 +14,36 @@
 				<div class="col-lg-12">
 				<section class=" panel bg-info">
                       <div class="text-center panel-heading bg-info bg-info-dark-info-message">
-                      Con esta herramienta podrás agregar a una base de datos todas las imágenes de un album de una página de facebook.
+                      Con esta herramienta podrás agregar a una base de datos todas las imágenes de un álbum de una página de facebook.
                       </div>
                     </section>
 				</div>
-							  <div class="col-lg-12 form-group">
+				<div class="col-lg-12 form-group">
 			   		<label class="control-label">Nombre de la página de facebook</label>
 			   		<input type="text" class="form-control" name="pagename" />
 			   </div>
+			   <div class="col-lg-12 hidden form-group" id="pagelist" >
+			   				<label class="control-label">Selecciona una página </label>
+				   			<select name="pageselected" id="selectpage" class="form-control">
+				   			<option value="">Selecciona una opción</option>
+				   					
+									
+							</select>
+			   </div>
 			   <div id="findpageresp" class="hidden col-lg-12 form-group">
-				   <div class="col-lg-6">
-				   		<label class="control-label">Albumes</label>
+
+				   <div class="col-lg-6 form-group">
+
+				   		<label class="control-label">Álbumes</label>
 				   		<div id="albums">
 				   		</div>
 						
 				   </div>
-				   <div class="col-lg-6">
+				   <div class="col-lg-6 form-group">
 				   			<label class="control-label">Selecciona las bases de datos </label>
 				   			<select name="asociard" id="selectbd" class="form-control">
 				   			<option value="">Selecciona una opción</option>
-				   						<?php/* foreach ($basesdedatos as $bd)
-										{
-
-											echo "<option value='".$bd->id."'>".$bd->name."</option>";
-
-
-
-										}*/
-										?>
-									
+				   						
 							
 				   			</select>
 				   </div>

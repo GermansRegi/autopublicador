@@ -55,24 +55,24 @@
 									<?php } ?>
                                       <form class="form-horizontal" action='<?php echo base_url()?>panel/login' method="post" role="form">
                                          <section class="form-group">
-                                           <label for="identity" class="col-lg-4 control-label">Correo electrónico:</label>
+                                           <label for="identity" class="col-lg-5 control-label">Correo electrónico:</label>
 
                                            <section class="col-lg-6">
-<input type="text" id="identity" name="login_identity" class="form-control" placeholder="Correo electrónico" value="<?php echo set_value('login_identity', 'eugeniregidev@gmail.com');?>"	/>
+                                            <input type="text" id="identity" name="login_identity" class="form-control" placeholder="Correo electrónico" value=""	/>
 
 
                                            </section>
                                          </section>
                                          <section class="form-group">
-                                           <label for="password" class="col-lg-4 control-label">Contraseña:</label>
+                                           <label for="password" class="col-lg-5 control-label">Contraseña:</label>
                                            <section class="col-lg-6">
 
-                                           	<input type="password" id="password" class="form-control" placeholder="Contraseña" name="login_password" value="<?php echo set_value('login_password', 'eugeni88');?>"/>
+                                           	<input type="password" id="password" class="form-control" placeholder="Contraseña" name="login_password" value=""/>
 
                                            </section>
                                          </section>
                                          <section class="form-group">
-                                           <section class="col-lg-offset-4 col-lg-10">
+                                           <section class="col-lg-offset-3 col-lg-10">
                                            <input type="submit" name="login_user" id="submit" value="Acceder" class="btn btn-default"/>
 
                                              <button type="reset" class="btn btn-default">Borrar</button>
@@ -82,7 +82,7 @@
 
                                       <hr>
 
-                                      <p><a href="<?php echo base_url();?>panel/forgotten_password">Olvidó su contraseña?</a></p>
+                                      <p><a href="<?php echo base_url();?>panel/forgotten_password">Olvidó su contraseña?</a> | <a href="<?php echo base_url();?>panel/resend_activation_token">Reenviar código de activación</a></p>
                                       <h5>Crear cuenta</h5>
                                       <!-- Register link -->
                                           No tiene una cuenta? <a href="<?php echo base_url(); ?>panel/register_account">Regístrese</a>

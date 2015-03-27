@@ -138,6 +138,9 @@ class Facebooklib {
        * Retrieve User’s Profile Information
        */
       // Graph API to request user data
+      try{
+
+
       $request =  new FacebookRequest( $this->session, $method, $path ,$params) ;
       $response=$request->execute();
 
@@ -145,6 +148,10 @@ class Facebooklib {
       $user = $response->getGraphObject()->asArray();
 
       return $user;
+    }catch(Exception $e)
+    {
+      return array('error'=>$this->TRanlateAPIERROR($e->getHttpStatusCode()));   
+    }
     }
     return false;
   }

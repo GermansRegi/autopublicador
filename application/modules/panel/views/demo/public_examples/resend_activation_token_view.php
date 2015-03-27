@@ -1,75 +1,67 @@
-<!doctype html>
-<!--[if lt IE 7 ]><html lang="en" class="no-js ie6"><![endif]-->
-<!--[if IE 7 ]><html lang="en" class="no-js ie7"><![endif]-->
-<!--[if IE 8 ]><html lang="en" class="no-js ie8"><![endif]-->
-<!--[if IE 9 ]><html lang="en" class="no-js ie9"><![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--><html lang="en" class="no-js"><!--<![endif]-->
+<!DOCTYPE html>
 <head>
-	<meta charset="utf-8">
-	<title>Resend Account Activation Demo | flexi auth | A User Authentication Library for CodeIgniter</title>
-	<meta name="description" content="flexi auth, the user authentication library designed for developers."/> 
-	<meta name="keywords" content="demo, flexi auth, user authentication, codeigniter"/>
-	<?php $this->load->view('includes/head'); ?> 
+
+    <title>Socialsuites</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta charset="UTF-8" />
+    <?php echo $this->load->view('includes2/head');?>
+
+
+
+
 </head>
 
-<body id="resend_activation_token">
+<body>
+    <?php echo $this->load->view('includes2/header');
 
-<section id="body_wrap">
-	<!-- Header -->  
-	<?php $this->load->view('includes/header'); ?> 
+?>
 
-	<!-- Demo Navigation -->
-	<?php $this->load->view('includes/demo_header'); ?> 
-	
-	<!-- Intro Content -->
-	<section class="content_wrap intro_bg">
-		<section class="content clearfix">
-			<section class="col100">
-				<h2>Resend Activation Token</h2>
-				<p>This demo is setup to require that users that register for a new account must activate their account via clicking a link that is emailed to them immediately upon registration.</p>
-				<p>Since the user can not gain access to their account until it is activated, it is important to allow users to request for the activation email to be resent to them incase they have not received the initial activation email.</p>
-			</section>		
-		</section>
-	</section>
-	
-	<!-- Main Content -->
-	<section class="content_wrap main_content_bg">
-		<section class="content clearfix">
-			<section class="col100">
-				<h2>Resend Activation Token</h2>
 
-			<?php if (! empty($message)) { ?>
-				<section class="message">
-					<?php echo $message; ?>
-				</section>
-			<?php } ?>
-				
-				<?php echo form_open(current_url());?>  	
-					<section class="w100 frame">
-						<ul>
-							<li class="info_req">
-								<label for="identity">Email or Username:</label>
-								<input type="text" id="identity" name="activation_token_identity" value="" class="tooltip_trigger"
-									title="Please enter either your email address or username defined during registration."
-								/>
-							</li>
-							<li>
-								<label for="submit">Send Email:</label>
-								<input type="submit" name="send_activation_token" id="submit" value="Submit" class="link_button large"/>
-							</li>
-						</ul>
-					</section>	
-				<?php echo form_close();?>
-			</section>
-		</section>
-	</section>	
-	
-	<!-- Footer -->  
-	<?php $this->load->view('includes/footer'); ?> 
-</section>
+    <section class="col-md-6">
+                  <section class="formy well">
+                    <!-- Title -->
+                     <h4 class="title">Introduzca su correo electrónico</h4>
+                                  <section class="form">
 
-<!-- Scripts -->  
-<?php $this->load->view('includes/scripts'); ?> 
+                                      <!-- Login form (not working)-->
+                                    <?php if (! empty($message)) { ?>
+										<section class=" panel bg-dagner" id="infoMessage">
+											<div class="text-center panel-heading bg-danger bg-dagner-dark-error-message">
+											<?php echo $message; ?>
+											</div>
+										</section>
+									<?php } ?>
+              
+                                     <?php echo form_open("panel/resend_activation_token",array('class'=>'form-horizontal','role'=>'form'));?>
+
+                                         <section class="form-group">
+ 											<label for="identity" class="col-lg-5 control-label">Correo electrónico</label>
+                                           <section class="col-lg-6	">
+																	<input type="text" id="identity" name="activation_token_identity" value="" class="form-control"
+									title="Por favor introduzca el correo electrónico con el que se registró">
+		
+								
+        
+                                           </section>
+                                         </section>
+                                         <section class="form-group">
+                                           <section class="col-lg-offset-2 col-lg-10">
+												<input type="submit" name="send_activation_token" id="submit" value="Enviar" class="btn btn-default"/>
+                                             	
+                                             <button type="reset" class="btn btn-default">Borrar</button>
+                                           </section>
+                                         </section>
+                                       </form>
+                                      </section>
+                                   </section>
+
+
+<?php
+    echo $this->load->view('includes2/footer');
+?>
+ <?php echo $this->load->view('includes2/scripts');?>
 
 </body>
 </html>

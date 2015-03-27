@@ -21,7 +21,20 @@ $arr=array("group","user","event","page")
 
 	?>
       
-	
+         <?php if(count($data['page'])==0 && count($data['user'])==0 && count($data['event'])==0  && count($data['group'])==0)
+		{
+    		?>
+			<div class="redbox">
+    				<p>
+				Para poder programar debe añadir como mínimo una página de facebook. Desde la opción <?php  echo '<a href="'.base_url().'panel/facebook/connectar_facebook">Conectar con Facebook</a>';?>
+    				</p>
+			</div>
+		<?php
+		}
+		else
+		{
+		?>
+
 
 		<div class="message">
 			
@@ -143,10 +156,10 @@ $arr=array("group","user","event","page")
 							</div>
 						</div>
 						<div class="row form-group"	>
-							<div class="col-lg-3">
+							<div class="col-lg-4">
 								<input type="submit" name='datos[enviar]' value="Guardar programación de bases de datos" class="btn btn-primary">
 							</div>
-							<div class="col-lg-9">
+							<div class="col-lg-8">
 								<label class="control-label ">Cuentas:</label>
 								  
 								<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -339,10 +352,10 @@ $arr=array("group","user","event","page")
 							</div>
 						</div>
 						<div class="row form-group">
-							<div class="col-lg-3">
+							<div class="col-lg-4">
 								<input type="submit" name='anuncios[enviar]' value="Guardar programación de anuncios" class="btn btn-primary">
 							</div>
-							<div class="col-lg-9">
+							<div class="col-lg-8">
 								<label class="control-label ">Cuentas:</label>
 								  
 								<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -418,7 +431,7 @@ $arr=array("group","user","event","page")
 	
 	
 	
-
+<?php }?>
 
 <?php
     echo $this->load->view('includes2/footer');

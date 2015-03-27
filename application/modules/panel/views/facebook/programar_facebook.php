@@ -20,7 +20,20 @@ $arr=array("group","user","event","page")
     <?php echo $this->load->view('includes2/header');
 
 	?>
-       
+          <?php if(count($data['page'])==0 && count($data['user'])==0 && count($data['event'])==0  && count($data['group'])==0)
+		{
+    		?>
+			<div class="redbox">
+    				<p>
+				Para poder programar debe añadir como mínimo una página de facebook. Desde la opción <?php  echo '<a href="'.base_url().'panel/facebook/connectar_facebook">Conectar con Facebook</a>';?>
+    				</p>
+			</div>
+		<?php
+		}
+		else
+		{
+		?>
+	
 			<form id="programar" action="<?php echo current_url(); ?>" method="POST">
 			<div class="message"></div>
 				<section class="col-lg-6">
@@ -181,6 +194,7 @@ $arr=array("group","user","event","page")
 						</div>
 					</div>	
 					</form>
+
 					<div class="col-lg-12">
 						<?php if(count($programaciones)>0)
 						{?>
@@ -231,7 +245,7 @@ $arr=array("group","user","event","page")
 						}
 						?>
 					</div>
-
+<?php }?>
 <script type="text/javascript">
 
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';

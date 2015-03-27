@@ -366,7 +366,7 @@ $config['facebook']['api_id'] = '213105925563162';
 $config['facebook']['app_secret'] = 'a35485bd9926d648f83f28695f1e5ac7';
 $config['facebook']['redirect_url'] = 'panel/facebook/connectar_facebook';
 $config['facebook']['permissions'] = array(
-  "manage_pages,publish_stream,publish_actions,offline_access,user_groups,user_events,user_photos,read_stream"
+  "manage_pages,publish_actions,user_events,user_photos,user_posts"
 );
 $config['timezones']=array(
 	"-12"=>"Kwajalein",

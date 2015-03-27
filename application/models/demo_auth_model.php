@@ -23,8 +23,8 @@ class Demo_auth_model extends CI_Model {
 		$this->load->library('form_validation');
 
 		// Set validation rules.
-		$this->form_validation->set_rules('login_identity', 'Identity (Email / Login)', 'required');
-		$this->form_validation->set_rules('login_password', 'Password', 'required');
+		$this->form_validation->set_rules('login_identity', 'Correo electrónico', 'required');
+		$this->form_validation->set_rules('login_password', 'Contraseña', 'required');
 
 		// If failed login attempts from users IP exceeds limit defined by config file, validate captcha.
 		if ($this->flexi_auth->ip_login_attempts_exceeded())
@@ -199,7 +199,7 @@ class Demo_auth_model extends CI_Model {
 	{
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('activation_token_identity', 'Identity (Email / Login)', 'required');
+		$this->form_validation->set_rules('activation_token_identity', 'Correo electrónico', 'required');
 
 		// Run the validation.
 		if ($this->form_validation->run())
@@ -211,7 +211,7 @@ class Demo_auth_model extends CI_Model {
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
 			// Redirect user.
-			($response) ? redirect('auth') : redirect('auth/resend_activation_token');
+			($response) ? redirect('panel') : redirect('panel/resend_activation_token');
 		}
 		else
 		{

@@ -53,7 +53,7 @@
 						<?php } ?>                   <!-- Register form (not working)-->
                       <?php echo form_open("panel/register_account",array('class'=>'form-horizontal','role'=>'form'));?>
                        <section class="form-group">
-                            <label for="first_name" class="col-lg-4 control-label">Nombre</label>
+                            <label for="first_name" class="col-lg-5 control-label">Nombre</label>
                          <section class="col-lg-6">
                          <input type="text" id="first_name" name="register_first_name" class="form-control" placeholder="Nombre" value="<?php echo set_value('register_first_name');?>"/>
                         <!--  <?php echo form_input($first_name,'','');?> -->
@@ -61,14 +61,14 @@
                          </section>
                        </section>
                        <section class="form-group">
-                          <label for="register_last_name" class="col-lg-4 control-label">Apellidos</label>
+                          <label for="register_last_name" class="col-lg-5 control-label">Apellidos</label>
                          <section class="col-lg-6">
 
                         	<input type="text" id="last_name" name="register_last_name" class="form-control" placeholder="Apellidos" value="<?php echo set_value('register_last_name');?>"/>
                          </section>
                        </section>
                        <section class="form-group">
-                        <label for="first_name" class="col-lg-4 control-label">Correo Electrónico</label>
+                        <label for="first_name" class="col-lg-5 control-label">Correo Electrónico</label>
                        <!--  <?php echo lang('create_user_email_label', 'email');?> -->
                          <section class="col-lg-6">
                          <input type="text" id="email_address" class="form-control" placeholder="Correo electrónico" name="register_email_address" value="<?php echo set_value('register_email_address');?>" class="tooltip_trigger"
@@ -78,7 +78,7 @@
                          </section>
                        </section>
                        <section class="form-group">
-							  <label for="first_name" class="col-lg-4 control-label">Contraseña</label>
+							  <label for="first_name" class="col-lg-5 control-label">Contraseña</label>
                   <!--   <?php echo lang('create_user_password_label', 'password');?> -->
                          <section class="col-lg-6">
                          	<input type="password" id="password" class="form-control" placeholder="Contraseña" name="register_password" value="<?php echo set_value('register_password');?>"/>
@@ -88,7 +88,7 @@
                        <section class="form-group">
 
                 <!--      <?php echo lang('create_user_password_confirm_label', 'password_confirm');?> -->
-                	  <label for="first_name" class="col-lg-4 control-label">Confirmación contraseña</label>
+                	  <label for="first_name" class="col-lg-5 control-label">Confirmación contraseña</label>
                          <section class="col-lg-6 aligninput">
                          <input class="form-control" placeholder="Confirmación contraseña" type="password" id="confirm_password" name="register_confirm_password" value="<?php echo set_value('register_confirm_password');?>"/>
                    <!--   <?php echo form_input($password_confirm,'','class="form-control" placeholder="Confirmar contraseña"');?> -->
@@ -96,7 +96,7 @@
                        </section>
 
                        <section class="form-group">
-                         <section class="col-lg-offset-2 col-lg-6">
+                         <section class="col-lg-offset-2 col-lg-10">
                          <section class="checkbox">
                            <label>
                            <input name="register_terms_and_conditions" type="checkbox"> Acepto los Términos &amp; Condiciones

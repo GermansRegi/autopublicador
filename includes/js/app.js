@@ -62,14 +62,24 @@ $(function(){
 		 	data:formdata,
 		 	success:function(data)
 			{
-				if(data.data)
+				if(data.pages)
+				{
+					$("#selectpage").children().remove('option[value!=""]');
+					for (var o=0;o<data.pages.length;o++)
+					{
+						$("<option value='"+data.pages[o].id+"'>"+data.pages[o].name+"</option>").appendTo($("#selectpage"));
+					}
+					$("#pagelist").removeClass('hidden');
+				}
+				else if(data.data)
 				{
 					$("#albums").children().remove();
+					$("#selectbd").children().remove('option[value!=""]');
 					for(var i=0;i<data.data.length;i++)
 					{
-						$('<input  type="radio" name="albumid" value="'+data.data[i].id+'"/>').appendTo($("#albums"))
+						$('<input title="'+data.data[i].name+'" type="radio" name="albumid" value="'+data.data[i].id+'"/>').appendTo($("#albums"))
 			
-						$('<img width="50" height="50" src="https://graph.facebook.com/v2.2/'+data.data[i].id+'/picture?type=album&access_token='+data.accesstoken+'"/>').appendTo($("#albums"))
+						$('<img title="'+data.data[i].name+'" width="50" height="50" src="https://graph.facebook.com/v2.2/'+data.data[i].id+'/picture?type=album&access_token='+data.accesstoken+'"/>').appendTo($("#albums"))
 					}
 					for (var o=0;o<data.bd.length;o++)
 					{

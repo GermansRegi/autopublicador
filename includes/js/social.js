@@ -388,10 +388,11 @@ $("body").on("click",".deleteautoprog",function(){
 					$('<span>'+data.data[i].sentence+'</span><br>').appendTo($("#"+container))}
 				else if(data.content=="image")
 				{
+
 					if(isUrl(data.data[i].path))
-						$('<img width="60" height="60" src="'+data.data[i].path+'"/>').appendTo($("#"+container))
+						$('<a href="'+data.data[i].path+'" class="image-link" ><img width="60" height="60"  src="'+data.data[i].path+'"/></a>').appendTo($("#"+container))
 					else
-						$('<img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'"/>').appendTo($("#"+container))
+						$('<a href="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'" class="image-link" ><img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'"/></a>').appendTo($("#"+container))
 				}
 				else
 					$('<span><a href="'+data.data[i].link+'">'+data.data[i].text+'</a></span><br>').appendTo($("#"+container))
@@ -540,15 +541,19 @@ $("body").on("click",".deleteautoprog",function(){
 			cache:false,
 			contentType:false,
 			beforeSend:function(e){
+				$("body *").css("cursor","wait");
 		console.log("comple2te");
 		btn.state('loading')
 		console.log(btn);
+		//$("#container").addClass('waitcursor');
 					},
 			complete:function(e){
 				//l.stop()
+		///		$('#container').removeClass('waitcursor');
 				console.log("complete");
 				btn.state('active');
 				console.log(btn);
+				$("body *").css("cursor","");
 			}},obj)
 		$.ajax(objajax);
 	}

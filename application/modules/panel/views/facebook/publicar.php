@@ -9,12 +9,12 @@
 
 	<body>
 	    <?php echo $this->load->view('includes2/header'); ?>
-	    <?php if(count($data['page'])==0 && count($data['user'])==0 && count($data['event'])==0  && count($data[''])==0)
+	    <?php if(count($data['page'])==0 && count($data['user'])==0 && count($data['event'])==0  && count($data['group'])==0)
 		{
     		?>
 			<div class="redbox">
     				<p>
-				Para poder publicar debe añadir como mínimo una página de facebook. Desde la opción <?php  echo '<a href="'.base_url().'social_connect/fb_connect">Conectar con Facebook</a>';?>
+				Para poder publicar debe añadir como mínimo una página de facebook. Desde la opción <?php  echo '<a href="'.base_url().'panel/facebook/connectar_facebook">Conectar con Facebook</a>';?>
     				</p>
 			</div>
 		<?php

@@ -61,10 +61,10 @@ class Facebook extends CI_Controller {
 			$timezones=$this->config->item('timezones');
 			$this->session->set_userdata('timezone',$timezones[$guest[0]->upro_timezone_offset]);
 			//date_default_timezone_set($timezones[$guest[0]->upro_timezone_offset]);
-
+			//si es usuari amb la gratuit
 			if ($this->flexi_auth->is_privileged('acces user free'))
 			{
-				
+				// si es usuari amb pla gratuit pero es estat de guest(convidat)
 				if($guest[0]->guestPremium=="1")
 				{
 					$this->load->vars('privilege_user_app','prem');
@@ -74,6 +74,7 @@ class Facebook extends CI_Controller {
 				{
 
 					$this->load->vars('privilege_user_app','free');
+					//si no es guest i te pla gratuit no te access a prog_periodicas
 					if("panel/facebook/prog_periodicas"==uri_string())
 					{
 						if($this->input->is_ajax_request())
@@ -88,6 +89,7 @@ class Facebook extends CI_Controller {
 				}
 			
 			}
+			//si es usuari premium
 			else if ($this->flexi_auth->is_privileged('acces user prem'))
 			{
 				$this->load->vars('privilege_user_app','prem');
@@ -115,6 +117,7 @@ class Facebook extends CI_Controller {
 		$this->data = null;
 		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 	}
+	// valida que la data passada sigui poserior   ala acutal
 	function date_valid($date){
 		$fecha2=DateTime::createFromFormat('d-m-Y H:i',$this->input->post('date').$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
 		//$fecha2->setTimeZone(new DatetimeZone($this->session->userdata('timezone')));	    
@@ -143,16 +146,22 @@ class Facebook extends CI_Controller {
 	    		return false;
 	    }
 	}
-	
+	/**
+	 * [programar_facebook acccio de controlador que mostra el formulari per guardar una programacio puntual a facebook]
+	 * @return [type] [description]
+	 */
 	public function programar_facebook(){
+		// agafo l'usuari que hi ha loguejat
 		$user=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_by_id())->result();
 		$timezones=$this->config->item('timezones');
 		
 		$this->load->model('programations');
+		// poso les validacions per formulari
 		$this->form_validation->set_rules('ck_group_ap','Cuentas','callback_checkSelected');
          	$this->form_validation->set_rules('link','Enlace','prep_url|valid_url');
          	$this->form_validation->set_rules('time', 'Hora', 'required');
      	$this->form_validation->set_rules('date', 'Fecha y hora', 'required|callback_date_valid');
+     	// si hi ha peticio post
 		if($this->input->post())
 		{
 			
@@ -166,8 +175,7 @@ class Facebook extends CI_Controller {
          		{
          			if($this->input->post('ck_group_ap'))
          			{
-         				//var_dump($_FILES);
-         					//var_dump(($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && count($_FILES)==0));	//si  no ha introduit cap dada
+         			//si ha no ha omplrt cap camp dels requits		
 					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
 					{
 						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
@@ -177,13 +185,14 @@ class Facebook extends CI_Controller {
 					{
 
 						$this->load->library('form_validation_global');
+						//valido el formulari per a basesde dades i anuncis
 						$response=$this->form_validation_global->ErrorsPublicar($this->input->post(),true);
 						if(isset($response['msg_errors']))
 						{
 							echo json_encode($response);
 							exit;
 						}
-						
+						//si la resposta de la validacio es un elemnent
 						else if(isset($response['table']))
 						{
 							if($response['table']=="basesdedatos")
@@ -209,63 +218,59 @@ class Facebook extends CI_Controller {
 							}
 
 						}
-						
+						//si hi ha un fitxer en la peticio de formulari
 							if(isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")
+                            {
+                                
+                               $array=array('image/jpg','image/jpeg','image/png','image/x-png','image/gif');
+                               if(in_array($_FILES['imagen']['type'],$array))
+                               {
+                                   	if(!file_exists('upload/temporal'))
                                     {
-                                        
-                                       $array=array('image/jpg','image/jpeg','image/png','image/x-png','image/gif');
-                                       if(in_array($_FILES['imagen']['type'],$array))
-                                       {
-	                                       	if(!file_exists('upload/temporal'))
-		                                    {
-		                                        mkdir('upload/temporal');
-		                                    }
-		                                   $email=substr($this->flexi_auth->get_user_identity(),0,strpos($this->flexi_auth->get_user_identity(),'.'));
-		                                 //la pujo en una carpeta temporal ja que es publicara un cop i no cal guardarla
-		                                    $config['file_name']=$email.uniqid("Image_");
-		                                    $config['upload_path'] = 'upload/temporal/';
-		                                           
-		                                    $config['allowed_types'] = 'gif|jpg|png';
-		                                    $config['max_size'] = 8000; //in KB
-		                                    $config['is_image']=true;
-		   					     //la pujo al servidor
-		                                    $this->load->library('upload', $config);
-		                                    if (! $this->upload->do_upload('imagen'))
-		                                    {
-		                                      //  $upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
-
-		                                        echo json_encode(array('results'=>true,'error'=>$this->upload->display_errors_array()));        
-		                                       
-		                                    }
-		                                    else 
-		                                    {
-		                                        $file=$this->upload->data();
-		                                        $data['path']=$file['full_path'];
-		                                        $data['text']=(isset($text)?$text.$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
-		                                    }
-                                       }
-                                   
-                                   
+                                        mkdir('upload/temporal');
                                     }
-                                    	$data['text']=(isset($text)?$text.$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
-                              		if(isset($link))
-                              			$data['link']=$link;
-                              		else
-                                    	$data['link']=$this->input->post('link');
-                                    
+                                   $email=substr($this->flexi_auth->get_user_identity(),0,strpos($this->flexi_auth->get_user_identity(),'.'));
+                     	            //la pujo en una carpeta temporal ja que es publicara un cop i no cal guardarla
+                                    $config['file_name']=$email.uniqid("Image_");
+                                    $config['upload_path'] = 'upload/temporal/';
+                                           
+                                    $config['allowed_types'] = 'gif|jpg|png';
+                                    $config['max_size'] = 8000; //in KB
+                                    $config['is_image']=true;
+   								     //la pujo al servidor
+                                    $this->load->library('upload', $config);
+                                    if (! $this->upload->do_upload('imagen'))
+                                    {
+                                      //  $upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
 
-			
-						
-					
-                       	//echo date_default_timezone_get();
+                                        echo json_encode(array('results'=>true,'error'=>$this->upload->display_errors_array()));        
+                                       
+                                    }
+                                    else 
+                                    {
+                                        $file=$this->upload->data();
+                                        $data['path']=$file['full_path'];
+                                        $data['text']=(isset($text)?$text.$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
+                                    }
+                               }
+                           
+                           
+                            }
+                            	$data['text']=(isset($text)?$text.$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
+                      		if(isset($link))
+                      			$data['link']=$link;
+                      		else
+                            	$data['link']=$this->input->post('link');
+
+                       	///creo la data i hora de la peticio amb el timezone de usuari
 						$fecha=DateTime::createFromFormat('d-m-Y H:i',$this->input->post('date')." ".$this->input->post('time'),new DateTimeZone($this->session->userdata('timezone')));
-						//echo $fecha->format('d-m-y H:i');
 
+						//canvio el timezone de la datatime pel guardar la data a bd
 						$fecha->setTimezone(new DateTimeZone('Europe/London'));
 						//echo $fecha->format('d-m-y H:i');
 
 						$data['fecha']=$fecha->format('U');
-
+						// si ha fechaborrado en la peticio del formulari
 						if($this->input->post('fechaBorrado'))
 						{
 							if((int)$this->input->post('fechaBorrado')<1)
@@ -279,9 +284,11 @@ class Facebook extends CI_Controller {
 								$data['fechaBorrado']=(int)$data['fecha']+$segSum;
 							}
 						}	
+						// estat de laprogramacio es sempre en process
 						$data['state']='process';
 						
 						$group_ap=$this->input->post('ck_group_ap');
+						// per tots els usuari de facebook selecccionades inserto una programacio
 						if(isset($group_ap['user']) )
 						foreach ($group_ap['user'] as $accountid) 
 						{
@@ -295,6 +302,7 @@ class Facebook extends CI_Controller {
 							
 
 						}
+						// per totes les comptes de facebook selecccionades inserto una programacio
 						if(isset($group_ap['account']))
 						foreach ($group_ap['account'] as $accountid) 
 						{
@@ -317,25 +325,30 @@ class Facebook extends CI_Controller {
 		
 		$this->load->model('social_user_accounts');
 		$this->load->model('social_users');
+			// agafo les comptes de facebook i de usuari
 			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['data']['page']=$pages;
 			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+			// si es usuari premium o si es guest te acces a les seves bases de dades 
 			if ($this->flexi_auth->is_privileged('acces user prem') || $this->is_guest==true)
 			{
 				$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
 				$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
 				
 			}
+			// sino nomes te acces  a les basesde dades de usuari administrador
 			else if($this->flexi_auth->is_privileged('acces user free') && $this->is_guest==false)
 			{
 				$this->data['basesdedatos']=$this->bases_datos_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'face'));
 				$this->data['anuncios']=$this->anuncios_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'face'));
 			}
+			// agafo les programacions de facebook i de usuari 
 			$programaciones=$this->programations->get_many_by(array('social_network'=>"fb",'user_app'=>$this->flexi_auth->get_user_id()));
-	
+			//pr cada una incloc el nom de la compte o pagina a la que vva associada
 			foreach ($programaciones as $prog) {
+
 				if($prog->type_socialaccount=='account')
 				{
 					$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->socialaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);
@@ -370,20 +383,13 @@ class Facebook extends CI_Controller {
 					'user'=>array('folders'=>array(),'nofolder'=>array())
 			);
 		$n=0;
-		
-//		primer jhhas de recorrere array de tipusaccount
-//		recorrer array carpetes amb comptess i si no hi ha carpeta al comptes
-	
-	//	$arrayfolder=array('data'=>'','rows'=>array());
 		foreach ($this->data['folders'] as $key) {
-			
+
 			$arraydata[$key->type]['folders'][]=array('data'=>$key,'rows'=>array());
-			
-			
 		}
 
-		foreach ($this->data['user_accounts'] as $key) {
-			
+		foreach ($this->data['user_accounts'] as $key) 
+		{
 			if(is_null($key->folder_id))
 			{
 				if(!isset($key->type_account))

@@ -21,7 +21,19 @@ $arr=array("group","user","event","page")
 
 	?>
       
-
+		<?php if(count($users)==0)
+		{
+    		?>
+			<div class="redbox">
+    				<p>
+				Para poder programar debe añadir como mínimo una cuenta de twitter. Desde la opción <?php  echo '<a href="'.base_url().'panel/twitter/connectar_twitter">Conectar con Twitter</a>';?>
+    				</p>
+			</div>
+		<?php
+		}
+		else
+		{
+		?>
 	
 		<div class="message">
 			
@@ -139,10 +151,10 @@ $arr=array("group","user","event","page")
 							</div>
 						</div>
 						<div class="row form-group"	>
-							<div class="col-lg-3">
+							<div class="col-lg-4">
 								<input type="submit" name='datos[enviar]' value="Guardar programación de base de datos" class="btn btn-primary">
 							</div>
-							<div class="col-lg-9">
+							<div class="col-lg-8">
 								<label class="control-label ">Cuentas:</label>
 						  
 									
@@ -308,10 +320,10 @@ $arr=array("group","user","event","page")
 							</div>
 						</div>
 						<div class="row form-group">
-							<div class="col-lg-3">
+							<div class="col-lg-4">
 								<input type="submit"  name='anuncios[enviar]' value="Guardar programación de anuncios" class="btn btn-primary">
 							</div>
-							<div class="col-lg-9">
+							<div class="col-lg-8">
 								 <label class="control-label ">Cuentas:</label>
 						  
 									<section >
@@ -353,7 +365,7 @@ $arr=array("group","user","event","page")
 	
 		</div>
 		
-
+<?php }?>
 
 <?php
     echo $this->load->view('includes2/footer');

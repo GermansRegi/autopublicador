@@ -59,6 +59,10 @@ class TwitterOAuth extends Config
     {
         $this->token = new Token($oauthToken, $oauthTokenSecret);
     }
+    public function setBearerToken($oauthTokenSecret)    
+    {
+        $this->bearer=$oauthTokenSecret;
+    }
 
     /**
      * @return string|null
@@ -242,6 +246,7 @@ class TwitterOAuth extends Config
             // Twitter doesn't like oauth_callback as a parameter.
             unset($parameters['oauth_callback']);
         }
+
         if ($this->bearer === null) {
             $request->signRequest($this->signatureMethod, $this->consumer, $this->token);
             $headers = $request->toHeader();

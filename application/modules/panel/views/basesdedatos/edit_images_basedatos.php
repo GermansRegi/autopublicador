@@ -44,7 +44,7 @@ var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 </script>
 		<div class="row">
 			<div class='namebd col-lg-6'>
-				<p>Elimine frases de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
+				<p>Elimine imágenes de: <span class='bold'><?php echo $bbdd->name;?></span></p>    
 			</div>
 		
 				<div class="col-sm-6 text-right">
@@ -66,8 +66,11 @@ var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 				        <?php
 							if(filter_var($element->path,FILTER_VALIDATE_URL))
 							{
-												         ?>
+												 ?>
+												 <a href="<?php echo $element->path; ?>" class="image-link">        
 				        		<img width="60" height="60" src="<?php echo $element->path; ?>"/>
+				        		</a>
+
 				        	<?php
 							}
 							else
@@ -75,7 +78,9 @@ var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 
 
 				         ?>
-				        	<img width="60" height="60" src="<?php echo base_url()?>upload/<?php echo $this->flexi_auth->get_user_identity()."/".$element->filename;?>"/>
+				         <a href="<?php echo base_url()?>upload/<?php echo $this->flexi_auth->get_user_identity()."/".$element->filename;?>" class="image-link">
+				        	<img width="60"  height="60" src="<?php echo base_url()?>upload/<?php echo $this->flexi_auth->get_user_identity()."/".$element->filename;?>"/>
+				        	</a>
 				        	<?php }?>
 						<a data-id='<?php echo $element->id; ?>' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> 
 						<input type='checkbox' value='<?php echo $element->id; ?>' name='hk_group_bf[]'>
