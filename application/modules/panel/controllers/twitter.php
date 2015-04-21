@@ -788,6 +788,71 @@ echo json_encode(array('msg_success'=>'Programaciones periódicas creadas con é
 		$this->data['titlepage']="Twitter - Programaciones periódicas";
 		$this->load->view('twitter/autoprog',$this->data);		
 	}
+	public function listas()
+	{
+
+		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+
+		$this->data['titlepage']="Twitter - Gestión de listas";
+		$this->load->view('twitter/lists',$this->data);		
+
+	}
+	public function gestion_listas()
+	{
+			if($this->input->get('userlist'))
+			{
+					$account=$this->social_users->getUserappUsers(array('user_id'=>$this->input->get('userlist'),'user_app'=>$this->flexi_auth->get_user_id()),1);
+					$this->load->model('twt_lists');
+					$this->data['user_id']=$account[0]->user_id;
+					$listas=$this->twt_lists->getUserappLists(array('user_app'=>$this->flexi_auth->get_user_id(),'user_id'=>$account[0]->user_id));
+					if(count($listas)>0)
+					{
+						$this->load->library('Twitterlib','','twtlib');
+						$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+						$listsfeeds=array();
+						foreach ($listas as $lista) {
+							$listsfeeds[]['data']=$this->twtlib->get('lists/show',array('list_id'=>$lista->list_id));
+
+						}
+						var_dump($listsfeeds);
+					}					
+					$this->data['titlepage']="Twitter - Gestión de listas de".$account[0]->username;
+					$this->load->view('twitter/user_lists',$this->data);		
+
+
+			}
+
+	}
+	public  function getLists($usertwt)
+	{
+		if($usertwt)
+		{
+			$account=$this->social_users->getUserappUsers(array('user_id'=>$usertwt,'user_app'=>$this->flexi_auth->get_user_id()),1);
+			$this->load->library("Twitterlib",'','twtlib');
+			$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+			$this->data['usertwtid']=$usertwt;
+			$this->data['subslists']=$this->twtlib->get('lists/subscriptions',array('user_id'=>$usertwt));
+			$this->data['ownlists']=$this->twtlib->get('lists/ownerships',array('user_id'=>$usertwt));
+			$this->load->view('twitter/get_lists',$this->data);					
+
+		}
+
+	}
+	public function addLists()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('twt_lists');
+			foreach($this->input->post('ownlistsids') as $id)
+			{
+				$this->twt_lists->insertNew(array('user_app'=>$this->flexi_auth->get_user_id(),'user_id'=>$this->input->post('userid'),'list_id'=>$id,'is_subscriberlist'=>0));
+			}
+			foreach($this->input->post('subslistsids') as $id)
+			{
+				$this->twt_lists->insertNew(array('user_app'=>$this->flexi_auth->get_user_id(),'user_id'=>$this->input->post('userid'),'list_id'=>$id,'is_subscriberlist'=>1));
+			}
+		}
+	}
 
 
 }

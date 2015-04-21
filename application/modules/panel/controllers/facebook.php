@@ -466,16 +466,16 @@ class Facebook extends CI_Controller {
 
 				$this->fblib->getSession()->getLongLivedSession();
 				//		var_dump($user);
-				$this->user_fb=$this->fblib->api('/me');
+				$user_fb=$this->fblib->api('/me');
 				
-				///		var_dump($this->user_fb);
+				///		var_dump($user_fb);
 				//sino existeix l'usuari de facebook l'inserim
-				$exist=$this->social_users->Exists($this->user_fb['id'],'fb',$this->flexi_auth->get_user_id());
+				$exist=$this->social_users->Exists($user_fb['id'],'fb',$this->flexi_auth->get_user_id());
 				if($exist==false)
 				{
 					$this->social_users->insertNew(array(
-					'user_id'=>$this->user_fb['id'],
-					'username'=>$this->user_fb['name'],
+					'user_id'=>$user_fb['id'],
+					'username'=>$user_fb['name'],
 					'social_network'=>'fb',
 					'access_token'=>$this->fblib->getSession()->getToken(),
 					'user_app'=>$this->flexi_auth->get_user_id(),
@@ -487,11 +487,12 @@ class Facebook extends CI_Controller {
 				
 					$this->social_users->update_by(
 					array(
-						'username'=>$this->user_fb['name'],
+						'username'=>$user_fb['name'],
 						'access_token'=>$this->fblib->getSession()->getToken()),
 					array(
 						'user_app'=>$this->flexi_auth->get_user_id(),
-						'user_id'=>$this->user_fb['id']));
+						'user_id'=>$user_fb['id']
+						));
 				}		
 				//$this->load->model("social_user_accounts");
 
@@ -504,7 +505,7 @@ class Facebook extends CI_Controller {
 				foreach($pagesFace['data'] as $val)
 		           {    
 					
-		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user_fb['id'],'type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
 	                    if(in_array('ADMINISTER',$val->perms) && $exist==false)
 	                    {
 	                    	$pages[]=$val;
@@ -522,7 +523,7 @@ class Facebook extends CI_Controller {
 				foreach($groupsFace['data'] as $val)
 		           {    
 					
-		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user_fb['id'],'type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
 	                    if($exist==false)
 	                    {
 	                    	$groups[]=$val;
@@ -540,7 +541,7 @@ class Facebook extends CI_Controller {
 				foreach($eventsFace['data'] as $val)
 		           {    
 					
-		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$this->user_fb['id'],'type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user_fb['id'],'type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
 	                    if($exist==false)
 	                    {
 	                    	$events[]=$val;
@@ -559,7 +560,7 @@ class Facebook extends CI_Controller {
 					
 
 				//		var_dump($this->session->all_userdata());
-				$this->data['titlepage']="Facebook - Añadir cuentas de: ".$this->user_fb['name'];
+				$this->data['titlepage']="Facebook - Añadir cuentas de: ".$user_fb['name'];
 					
 				$this->load->view('panel/facebook/accounts_add',$this->data);
 			}			
@@ -576,7 +577,7 @@ class Facebook extends CI_Controller {
 		{
 			$this->load->library('Facebooklib','','fblib');
 			$arrayTypes=array("page","group","event");
-			$this->user_fb=$this->fblib->api('/me');
+			$user_fb=$this->fblib->api('/me');
 			foreach($arrayTypes as $type)
 			{
 				$arrayPages=$this->input->post($type);
@@ -600,7 +601,7 @@ class Facebook extends CI_Controller {
 						}
 						$page['idaccount']=$page['id'];	
 						unset($page['id']);
-						$infoadd=array('user_app'=>$this->flexi_auth->get_user_id(),"type_account"=>$type,'id_social_user'=>$this->user_fb['id']);
+						$infoadd=array('user_app'=>$this->flexi_auth->get_user_id(),"type_account"=>$type,'id_social_user'=>$user_fb['id']);
 			/*			$this->autoprog_basededatos->insertNew(array(
 							'accountid'=>$page['idaccount'],
 							'user_app'=>$this->flexi_auth->get_user_id(),

@@ -89,6 +89,12 @@ class Bases_datos_model extends MY_Model {
 		$this->delete_by($data);
 		$this->setTable('basesdedatos');		
 	}
+	public function updateElement($type,$data,$where)
+	{
+		$this->setContentTable($type);
+		$this->update_by($data,$where);
+		$this->setTable('basesdedatos');			
+	}
 	public function deleteOne($bdid)
 	{
 		$basededatos=$this->getById($bdid);

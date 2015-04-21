@@ -72,7 +72,7 @@
 				    foreach ($elements as $element)
 				    {
 				        echo "<tr>";
-				            echo "<td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td>".$element->sentence."</td><td><a data-id='".$element->id."' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> </td>";
+				            echo "<td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td data-type='sentence' contenteditable='true'>".$element->sentence."</td><td><a data-id='".$element->id."' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> </td>";
 				        echo "</tr>";
 				    }
 				    ?>
@@ -106,6 +106,7 @@
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>panel/anuncios/deletecontent/<?php echo $anuncio->id; ?>';
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';
+	var updateElement_url='<?php echo base_url()?>panel/anuncios/updateElement/<?php echo $anuncio->id; ?>'
 </script>
 <?php
     echo $this->load->view('includes2/footer');

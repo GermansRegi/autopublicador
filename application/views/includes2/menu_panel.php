@@ -24,6 +24,7 @@
 						<li><a href="<?php echo base_url(); ?>panel/twitter">Cuentas</a></li>
 						<li><a href="<?php echo base_url(); ?>panel/twitter/publicar">Publicar ahora</a></li>
 						<li><a href="<?php echo base_url(); ?>panel/twitter/programar_twitter">Programar</a></li>
+						<li><a href="<?php echo base_url(); ?>panel/twitter/listas">Gestión de listas</a></li>
 						<?php if($privilege_user_app=='prem')
 						{
 	

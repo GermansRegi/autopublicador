@@ -388,11 +388,10 @@ $("body").on("click",".deleteautoprog",function(){
 					$('<span>'+data.data[i].sentence+'</span><br>').appendTo($("#"+container))}
 				else if(data.content=="image")
 				{
-
 					if(isUrl(data.data[i].path))
-						$('<a href="'+data.data[i].path+'" class="image-link" ><img width="60" height="60"  src="'+data.data[i].path+'"/></a>').appendTo($("#"+container))
+						$('<img width="60" height="60" class="image-link" src="'+data.data[i].path+'"/>').appendTo($("#"+container))
 					else
-						$('<a href="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'" class="image-link" ><img width="60" height="60" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'"/></a>').appendTo($("#"+container))
+						$('<img width="60" height="60" class="image-link" src="'+base_url+'upload/'+((data.folder)?data.folder+'/':'/')+data.data[i].filename+'"/>').appendTo($("#"+container))
 				}
 				else
 					$('<span><a href="'+data.data[i].link+'">'+data.data[i].text+'</a></span><br>').appendTo($("#"+container))

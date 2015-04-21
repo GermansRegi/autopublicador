@@ -12,10 +12,12 @@
 			$config['first_tag_close'] = "</li>";
 			$config['last_tag_open'] = "<li>";
 			$config['last_tag_close'] = "</li>";
-			   $config['prev_link'] = '&lt; Prev';
+			   $config['prev_link'] = '&lt; Anterior';
+			   $config['first_link']="&lsaquo; Primero";
+			   $config['last_link']="Último &rsaquo;";
 		    $config['prev_tag_open'] = '<li>';
 		    $config['prev_tag_close'] = '</li>';
-		    $config['next_link'] = 'Next &gt;';
+		    $config['next_link'] = 'Siguiente &gt;';
 		    $config['next_tag_open'] = '<li>';
 		    $config['next_tag_close'] = '</li>';
 			$config['num_links']=2;

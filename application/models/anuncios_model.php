@@ -91,6 +91,13 @@ class Anuncios_model extends MY_Model {
 		$this->delete_by($data);
 		$this->setTable('anuncios');		
 	}
+	public function updateElement($type,$data,$where)
+	{
+		$this->setContentTable($type);
+		$this->update_by($data,$where);
+		$this->setTable('anuncios');		
+	}
+
 	public function deleteOne($bdid)
 	{
 		$basededatos=$this->getById($bdid);

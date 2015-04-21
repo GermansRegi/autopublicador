@@ -421,7 +421,46 @@ class Basesdedatos extends CI_Controller {
 		}
 		
 	}
-
+	public function updateElement($bbddid)
+	{
+		if($this->input->post())
+		{
+			if($this->input->post('content')=='link')
+			{
+				$data=array('link'=>$this->input->post('text'));
+				$this->form_validation->set_rules('text','Enlace','prep_url|valid_url|trim');
+				if($this->form_validation->run()==FALSE)
+				{
+			        $errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors));
+		           
+		           exit;
+				}
+				$content=$this->input->post('content');
+			}
+			else if($this->input->post('content')=='sentence')
+			{
+				$data=array('sentence'=>$this->input->post('text'));
+				$content=$this->input->post('content');
+			}
+			else
+			{
+				$data=array('text'=>$this->input->post('text'));
+				$content='link';
+			}
+			
+				
+			
+				//$data=array('sentence'=>$this->input->post('text'));
+				$this->bases_datos_model->updateElement($content,$data,
+				array(
+					'bbdd_id'=>$bbddid,
+					'id'=>$this->input->post('idelem'),
+					'user_app'=>$this->flexi_auth->get_user_id()
+					));
+				echo json_encode(array('msg_success'=>'Datos actualizados con éxito'));		
+		}
+	}
 }
 
 /* End of file basesdedatos.php */

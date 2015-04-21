@@ -51,6 +51,8 @@ $(document).on('click', '[data-toggle="ajaxModal"]',function(e){
        e.preventDefault();
       var $this = $(this);
           var $remote = $this.data('remote') || $this.attr('href')
+         
+          
           var $modal = $('<div class="modal fade" id="ajaxModal"><div class="modal-dialog" id="myModal"><div class="modal-content"></div></div></div>');
        	 
      
@@ -66,6 +68,11 @@ $(document).on('click', '[data-toggle="ajaxModal"]',function(e){
         			}
         			else
         			{
+        				if($("#ajaxModal").length!=0)
+				          {
+
+						    	$("#ajaxModal").remove();          	
+				          }
         				$modal.find(".modal-content").html(data); 	
 		        		$modal.modal()	
         			}
@@ -80,7 +87,6 @@ $(document).on('click', '[data-toggle="ajaxModal"]',function(e){
 
  	})
 $('body').on('hidden.bs.modal',"#ajaxModal", function () {
-    console.log('oo')
     $(this).remove();
 });
 
@@ -236,7 +242,7 @@ if(idUploader){
 		else if(data.msg_success)
 		{      
 			
-		     console.log($(id),showSuccessForm(data.msg_success));
+		     //console.log($(id),showSuccessForm(data.msg_success));
 		     generateNotify(id,"top",showSuccessForm(data.msg_success),"success",3000);
 		     if(data.idcreated)
 			{

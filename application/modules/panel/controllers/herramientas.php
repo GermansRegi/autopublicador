@@ -205,7 +205,7 @@ class Herramientas extends CI_Controller {
 			{
 				$this->load->model('bases_datos_model');
 				$photos=$this->getAlbumimages($this->input->post('albumid'));
-				var_dump($photos);
+				//var_dump($photos);
 				if(isset($photos['data']))
 				{
 					foreach ($photos['data'] as $photo) {
@@ -384,28 +384,33 @@ class Herramientas extends CI_Controller {
 	public function getTwitts($account,$number,$inclrt,$bbdd)
     {
 
-    		$usertw = $this->social_users->getUserAppUsers(array('user_app'=>$this->flexi_auth->get_user_id()));
+    		///$usertw = $this->social_users->getUserAppUsers(array('user_app'=>$this->flexi_auth->get_user_id()));
+    		/////carrego la llibreria de twtitter per fer la peticio  a la api
         	$this->load->library('Twitterlib','','twtlib');
         
-			
+		//$this->twtlib->setSessionFromToken(null);	
+		//
+		////agafo el token de laplicacio
 			$aptoken=$this->twtlib->getAppToken();
-			
+			// aplico el token de aplicacio 	
             $this->twtlib->setAppToken($aptoken->access_token);
-                               // carrego els acces_tokens permanents a la sessio de twitter
-                //carrego la llibreria    
+                
+                
           			$count=0;  
           $arrayt=array();
-          			$query=array('q'=>(($inclrt==1)?"from:":'@').$account,'count'=>40);
-                    $results=$this->searchTwits($query);	                   
 
+          			$query=array('q'=>(($inclrt==1)?"from:":'#').$account,'count'=>50);
+                    $results=$this->searchTwits($query);	                   
+//                    	var_dump($results);
+          			
                     while(count($results->statuses)>1 && $number>$count) {
                     	$count=$count+count($results->statuses);
                     	$arrayt=array_merge($arrayt,$results->statuses); 
                     	//echo $count."<br>";
-                    	echo count($results->statuses)."<br>";
+                //    	echo count($results->statuses)."<br>";
                     	if(count($results->statuses)>0	)
                     	{
-                    		$query=array('q'=>(($inclrt==1)?"from:":'@').$account,'count'=>40,'max_id'=>$results->statuses[count($results->statuses)-1]->id);
+                    		$query=array('q'=>(($inclrt==1)?"from:":'#').$account,'count'=>50,'max_id'=>$results->statuses[count($results->statuses)-1]->id);
                     		$results=$this->searchTwits($query); 
                     		
                     		
@@ -416,19 +421,18 @@ class Herramientas extends CI_Controller {
           	    	
                     	
                     }
-		echo $count;
-		var_dump($arrayt);
+		$this->twtlib->setAppToken(null);
 
-    		
-    	/*	foreach ($twits->statuses as $twit) {
-    			echo "<br>".$twit->text;
+//var_dump($arrayt);
+    		foreach ($arrayt as $twit) {
+    			
     			      $this->bases_datos_model->insertElement('sentence',array(
                                 'bbdd_id' =>$bbdd ,
                                 'sentence' => $twit->text,
                                 'user_app' => $this->flexi_auth->get_user_id()));
 
   			
-    		}*/
+    		}
     		
     			
     		     
@@ -439,6 +443,7 @@ class Herramientas extends CI_Controller {
 		$this->load->model('bases_datos_model');
 		if($this->input->post())
 		{	
+			//si formulari es correcte
 			$this->form_validation->set_rules('asociard','Bases de datos', 'required');
 			$this->form_validation->set_rules('nameacount','Nombre de la cuenta','required');
 			if($this->form_validation->run()===TRUE)
@@ -446,6 +451,7 @@ class Herramientas extends CI_Controller {
 				$this->getTwitts($this->input->post('nameacount'),$this->input->post('qt'),$this->input->post('inclrt'),$this->input->post('asociard'));
 				 echo json_encode(array('msg_success'=>'Tweets guardados correctamente'));
 			}
+			//sino mostro els errors
 			else
 			{
 				    $errors = $this->form_validation->error_array();

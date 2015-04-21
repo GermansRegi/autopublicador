@@ -53,8 +53,16 @@
            
 
             <section class="navbar bs-docs-nav" role="banner">
-            
-          <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+            </div>
+          <nav class="collapse navbar-collapse bs-navbar-collapse" id="bs-example-navbar-collapse-1" role="navigation">
 
                 <ul class="nav navbar-nav navbar-right">
                 <?php if(isset($section_app) && $section_app=='admin')

@@ -130,6 +130,32 @@ class Facebooklib {
  	}
  	return false;
   }
+  public function api_delete($path)
+  {
+      if ( $this->session ) {
+      /**
+       * Retrieve User’s Profile Information
+       */
+      // Graph API to request user data
+      try{
+
+
+      $request =  new FacebookRequest( $this->session, 'DELETE', $path) ;
+      $response=$request->execute();
+
+      // Get response as an array
+      $user = $response->getGraphObject()->asArray();
+
+      return $user;
+    }catch(Exception $e)
+    {
+      return $e->getMessage();
+      return array('error'=>$this->TRanlateAPIERROR($e->getHttpStatusCode()));   
+    }
+    }
+    return false;
+  
+  }
   public function api($path,$params=array(),$method='GET')
   {
   	
@@ -150,6 +176,7 @@ class Facebooklib {
       return $user;
     }catch(Exception $e)
     {
+      
       return array('error'=>$this->TRanlateAPIERROR($e->getHttpStatusCode()));   
     }
     }

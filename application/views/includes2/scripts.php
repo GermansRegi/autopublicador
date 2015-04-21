@@ -10,7 +10,7 @@
         <script src="<?php echo base_url(); ?>includes/js/jquery.cookie.js"></script>
         <script src="<?php echo base_url(); ?>includes/js/bootstrap-datepicker.min.js"></script>
         <script src="<?php echo base_url(); ?>includes/js/bootstrap-datepicker.es.min.js"></script>
-  
+  <script  src="<?php echo base_url(); ?>includes/js/jquery.jeditable.mini.js"></script> 
     <script src="<?php echo base_url(); ?>includes/js/script.js"></script>
    <script  src="<?php echo base_url(); ?>includes/js/basesdedatos.js"></script>
 
@@ -22,6 +22,7 @@
  <script  src="<?php echo base_url(); ?>includes/js/social.js"></script>
  <script  src="<?php echo base_url(); ?>includes/js/app.js"></script>
  <script  src="<?php echo base_url(); ?>includes/js/magnificpopup.min.js"></script>
+
 
    
    

@@ -15,7 +15,7 @@
 			   	<div class="col-lg-12">
 				<section class=" panel bg-info">
                       <div class="text-center panel-heading bg-info bg-info-dark-info-message">
-                      Con esta herramienta podrás agregar a una base de datos todos los tweets de una cuenta de twitter hechos durante la última semana.
+                      Con esta herramienta podrás agregar a una base de datos los tweets (de la última semana) de una cuenta de twitter.
                       </div>
                     </section>
 				</div>
@@ -41,7 +41,7 @@
 				   <label class="control-label">Filtro</label>
 				   		<select name="inclrt" class="form-control">
 							<option value="1">Tweets enviados</option>
-							<option value="0">Tweets con referencia</option>
+							<option value="0">Tweets con hashtag</option>
 
 						</select>
 				   </div>

@@ -364,8 +364,8 @@ class Crons extends CI_Controller {
 		                     //   var_dump($xml->channel->lastBuildDate[0]);
 			$md5Updaterssfeed=md5($rawFeed);
 
-			echo $rss->md5lastupdate."<br>";
-			echo $md5Updaterssfeed;
+			echo " md5  rss : ".$rss->md5lastupdate."<br>";
+			echo " md5  bd : ".$md5Updaterssfeed."<br>";
 			
 				if($rss->md5lastupdate!=$md5Updaterssfeed)
 				{
@@ -375,16 +375,18 @@ class Crons extends CI_Controller {
 					{
 						continue;
 					}
-					$timeUpdateitem=strtotime($xml->channel->item->pubDate[0]);
+					$itemsTopublish=array();
 					$itemTopublish=$xml->channel->item;
 					foreach ($xml->channel->item  as $item) {
-
-						if(strtotime($item->pubDate[0])>$timeUpdateitem)
+						echo "timerss public".strtotime($item->pubDate[0])."<br>";
+						echo (time()-(60*10));
+						if(strtotime($item->pubDate[0])>(time()-60*10))
 						{
-							$timeUpdateitem=strtotime($item->pubDate[0]);
-							$itemTopublish=$item;
+							$itemsTopublish[]=$item;
+
 						}
 					}
+					var_dump($itemsTopublish);
 					if($rss->perm_sentences!="")
 					{
 						$arrayPerm=explode(";",$rss->perm_sentences);
@@ -395,7 +397,7 @@ class Crons extends CI_Controller {
 
 					} 
 
-					log_message('error','publicador rss'.$timeUpdateitem.$itemTopublish->pubDate[0]);
+					log_message('error','publicador rss'.$itemTopublish->pubDate[0]);
 
 					log_message('error','link: '.$itemTopublish->link. " , ".$itemTopublish->link[0] );
 					$fbaccesstoken=array();
@@ -417,8 +419,10 @@ class Crons extends CI_Controller {
 							$fbaccesstoken[]=$user[0]->access_token;
 							$this->fblib->setSessionFromToken($user[0]->access_token);
 							var_dump($user[0]->access_token);
-							$params['link']=(string)$itemTopublish->link[0];
-							$resfb=$this->fblib->api_post('/'.$id."/feed",$params);
+							foreach ($itemsTopublish as $itemTopublish) {
+								$params['link']=(string)$itemTopublish->link[0];
+								$resfb=$this->fblib->api_post('/'.$id."/feed",$params);
+							}
 							var_dump($resfb);
 
 						}
@@ -432,8 +436,10 @@ class Crons extends CI_Controller {
 							$user=$this->social_user_accounts->getUserappAccounts(array('idaccount'=>$id,'user_app'=>$rss->user_app),1);
 							$this->fblib->setSessionFromToken($user[0]->access_token);
 							var_dump($user[0]->access_token);
-							$params['link']=(string)$itemTopublish->link[0];
-							$resfb=$this->fblib->api_post('/'.$id."/feed",$params);
+							foreach ($itemsTopublish as $itemTopublish) {
+								$params['link']=(string)$itemTopublish->link[0];
+								$resfb=$this->fblib->api_post('/'.$id."/feed",$params);
+							}
 							var_dump($resfb);
 						}
 					}
@@ -447,11 +453,14 @@ class Crons extends CI_Controller {
 							
 							$this->twtlib->setAccessToken(json_decode($user[0]->access_token));
 							var_dump($user[0]->access_token);
-							if(isset($params['message']))
-								$paramstw['status']=$params['message']." ".(string)$itemTopublish->link[0];
-							else
-								$paramstw['status']=(string)$itemTopublish->link[0];
-							$restw=$this->twtlib->post('statuses/update',$paramstw);
+							foreach ($$itemsTopublish as $itemTopublish) {
+								if(isset($params['message']))
+									$paramstw['status']=$params['message']." ".(string)$itemTopublish->link[0];
+								else
+									$paramstw['status']=(string)$itemTopublish->link[0];
+								$restw=$this->twtlib->post('statuses/update',$paramstw);	
+							}
+							
 							var_dump($restw);
 						}
 
@@ -890,7 +899,7 @@ class Crons extends CI_Controller {
 		    		//var_dump($photo->id);
 		    		$res=$this->fblib->api('/'.$photo->id,null,'DELETE');	
 		    		$numerased++;
-		    		//var_dump($res);
+		    		var_dump($res);
 
 		    	}catch(Exception $E)
 		    	{
@@ -900,7 +909,7 @@ class Crons extends CI_Controller {
 		    	
 		    	
 		    }
-		    echo $numerased;
+		    echo "numerased photos: ".$numerased;
 		    if($numerased==0)
 		    {
 		    	return 0;
@@ -937,30 +946,29 @@ class Crons extends CI_Controller {
     	if(isset($links_data['data']) && count($links_data['data'])>0)
 	    {
 		    echo "links";
-		    echo count($links_data['data']);
+		    
 		    foreach ($links_data['data'] as $linkobj) {
-		    	var_dump($linkobj);
+		    	//var_dump($linkobj);
 		    	$parts=parse_url($linkobj->link);
 		    	
 		    	if($parts['host']!='www.facebook.com')
 		    	{
-		    		echo "pp";
-			    	//try{
-			    		//var_dump($photo->id);
-			    		$res=$this->fblib->api('/'.$linkobj->id,array(),'DELETE');	
+		    		//echo "pp";
+			    	try{
+			    		//var_dump($linkobj);
+			    		$res=$this->fblib->api_delete("/".$linkobj->id);	
 			    		$numerased++;
 			    		var_dump($res);
 
-			    	/*}catch(Exception $E)
+			    	}catch(Exception $E)
 			    	{
 			    		
 			    		continue;
-			    	}*/
-			    	echo "ooooo";
+			    	}
 		    	}
 			    
 		    }
-			echo $numerased;
+			echo "numerased links: ".$numerased;
 		    if($numerased==0)
 		    {
 		    	return 0;
@@ -1019,7 +1027,7 @@ class Crons extends CI_Controller {
 					$this->req_clean_account->delete_by(array('id'=>$clean_row->id));
 							$this->req_clean_account->delete_by(array('id'=>$clean_row->id));
 					$user=$this->flexi_auth->get_user_by_id_query($clean_row->user_app,array("uacc_email",'upro_first_name'))->result();	
-					var_dump($user);
+					//var_dump($user);
 					$email_to = $user[0]->{$this->auth->database_config['user_acc']['columns']['email']};
 					$data=array('user'=>$user[0],'nameaccount'=>$name);
 					$email_title = ' - Operación de limpieza de facebook';

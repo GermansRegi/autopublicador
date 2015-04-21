@@ -119,7 +119,31 @@ $(function(){
 			 	}
 			})
 	})	
+	$('body').on('click','ul.js-list-container a',function(){
+		if($(this).hasClass("active")==false)
+			$(this).addClass('active');
+	})
+	$('body').on('click','.addtwtlists',function(){
+		var ownlistsids=Array();
+		$(".ownlists ul.js-list-container a.active").each(function(i,m){
+			ownlistsids.push($(m).data('id'));
+		});
+		var subslistsids=Array();
+		$(".subslists ul.js-list-container a.active").each(function(i,m){
+			subslistsids.push($(m).data('id'));
+		});
+		var userid=$('.listsToAdd').data('user-id');
+		$.ajax({url:base_url+'panel/twitter/addLists',
+			type:'post',
+			dataType:'json',
+			data:{ownlistsids:ownlistsids,subslistsids:subslistsids,userid:userid},
+			success:function(data){
 
+			}
+		})
+
+
+	})
 
 
 })

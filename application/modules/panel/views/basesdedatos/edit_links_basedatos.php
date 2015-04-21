@@ -76,7 +76,7 @@
 				    foreach ($elements as $element)
 				    {
 				        echo "<tr>";
-				            echo "<td>".$element->text."</td><td>".$element->link."</td><td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td><a data-id='".$element->id."' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> </td>";
+				            echo "<td data-type='text-link' contenteditable='true'>".$element->text."</td><td data-type='link' contenteditable='true'>".$element->link."</td><td><input type='checkbox' value='".$element->id."' name='hk_group_bf[]'></td><td><a data-id='".$element->id."' class='btn btn-danger deletecontent'><i class='fa fa-trash-o'></i></a> </td>";
 				        echo "</tr>";
 				    }
 				    ?>
@@ -110,6 +110,7 @@
 <script type="text/javascript">
 	var deletecontent_url='<?php echo base_url()?>panel/basesdedatos/deletecontent/<?php echo $bbdd->id; ?>'
 	var current_url='<?php echo base_url().$this->uri->uri_string();?>';
+	var updateElement_url='<?php echo base_url()?>panel/basesdedatos/updateElement/<?php echo $bbdd->id; ?>'
 </script>
 <?php
     echo $this->load->view('includes2/footer');
