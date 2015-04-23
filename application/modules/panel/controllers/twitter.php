@@ -119,7 +119,7 @@ class Twitter extends CI_Controller {
 	}
 	public function index()
 	{
-		$users=$this->social_users->getUserappUsers(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>'tw'));
+	/*	$users=$this->social_users->getUserappUsers(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>'tw'));
 		$this->load->model('folders');
 		$this->data['folders']=$this->folders->get_many_by(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>"tw"));
 		$arraydata=array('folders'=>array(),'nofolder'=>array());
@@ -146,10 +146,13 @@ class Twitter extends CI_Controller {
 					}
 			}
 		}
+		*/
 		$this->data['titlepage']="Twitter - Cuentas";
 
-		
-		$this->data['arraydata']=$arraydata;
+	
+	
+		$this->load->library('form_validation_global');
+		$this->data['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
 
 
 			
@@ -391,7 +394,10 @@ class Twitter extends CI_Controller {
 		
 		
 		
-			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+			//$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+
+		$this->load->library('form_validation_global');
+		$this->data['accordiondata']['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
 			if ($this->flexi_auth->is_privileged('acces user prem') || $this->is_guest==true)
 			{
 				$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
@@ -597,8 +603,9 @@ class Twitter extends CI_Controller {
 		}
 		
 		
-		$this->load->model('social_users');
-			$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->load->library('form_validation_global');
+		$this->data['accordiondata']['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
+		
 			if ($this->flexi_auth->is_privileged('acces user prem') || $this->is_guest==true)
 			{
 				$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
@@ -749,6 +756,7 @@ echo json_encode(array('msg_success'=>'Programaciones periódicas creadas con é
 			}
 			exit;	
 		}
+		
 		$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		foreach ($programacionesbbdd as $prog) {
@@ -777,14 +785,18 @@ echo json_encode(array('msg_success'=>'Programaciones periódicas creadas con é
 			}
 		
 		}
-
+		//guardem les programacions a mostrar en la vista
 		$this->data['autoprog']['basededatos']=$programacionesbbdd;
 		$this->data['autoprog']['anuncios']=$programacionesanuncios;
-		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+		//agafem les comptes de twiitter i les carpetes creades per usuari
+		$this->load->library('form_validation_global');
+		$this->data['accordiondata']['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
+	
 
-
+		//agafem les dades de les anuncis i bases de dades creades per usuari.
 		$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
 		$this->data['anuncios']=$this->anuncios_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
+
 		$this->data['titlepage']="Twitter - Programaciones periódicas";
 		$this->load->view('twitter/autoprog',$this->data);		
 	}

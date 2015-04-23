@@ -9,7 +9,7 @@
 
 	<body>
 	    <?php echo $this->load->view('includes2/header'); ?>
-	    <?php if(count($users)==0)
+	    <?php if($accordiondata['arraydata']['numTotal']==0)
 		{
     		?>
 			<div class="redbox">
@@ -81,19 +81,12 @@
 				</div>    
 				<div class="form-group col-lg-12">
 					 <label class="control-label ">Cuentas:</label>
-					  
-					<section >
+					
 					<?php
-									foreach($users as $page)
-									{
-										
-										echo " <input type='checkbox' name='ck_group_ap[]' value='".$page->user_id."' /> <span >".$page->username."</span><br>";
-									}
-									?>
-									
-				   
-				</section>
-				
+					$accordiondata['input']="ck_group_ap";
+					 $this->load->view('twitter/accordion_accounts',$accordiondata)	  ;?>
+					
+					
 				<section class="col-lg-12">
 						<input type='submit'  name='publicar'  data-active="active..." data-loading="loading..." data-complete="completed..."  class="btn btn-primary" value='Publicar' autocomplete="off" />
 				</section>

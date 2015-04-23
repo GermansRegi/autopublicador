@@ -23,21 +23,17 @@
 							
 					 <label class="control-label ">Cuentas a limpiar:</label>
 			  
-						<section >
 						<?php
-							foreach($users as $page)
-							{
-								
-								echo " <input type='checkbox' name='user[]' value='".$page->user_id."' /> <span >".$page->username."</span><br>";
-							}
+							$accordion['input']="user";
+							ECHO $this->load->view('twitter/accordion_accounts',$accordion);
 							?>
-						</section>
 							
 		
 			   </div>
 			   <div class="col-1g-12">  
 			   <input type="hidden" name="sendpost">
 			   		<input  type="submit" data-active="active..." data-loading="loading..." data-complete="completed..." name="Enviar" value="Guardar" class="btn btn-primary"/>
+			   		<a class="btn btn-default" id='cancel_crear_bbdd' href="<?php echo base_url()?>panel/herramientas" >Volver</a>
 			   	</div>
 
 

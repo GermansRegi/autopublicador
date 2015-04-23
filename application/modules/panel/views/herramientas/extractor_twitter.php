@@ -64,6 +64,7 @@
 				   </div>
 				   <div class="col-lg-12">
 				   	<input type="submit" data-active="active..." data-loading="loading..." data-complete="completed..." class="btn btn-primary" name="enviar" value="Guardar"/>
+				   	<a class="btn btn-default" id='cancel_crear_bbdd' href="<?php echo base_url()?>panel/herramientas" >Volver</a>
 				   </div>
 			  
 

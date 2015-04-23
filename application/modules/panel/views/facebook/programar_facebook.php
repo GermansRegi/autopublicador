@@ -20,12 +20,12 @@ $arr=array("group","user","event","page")
     <?php echo $this->load->view('includes2/header');
 
 	?>
-          <?php if(count($data['page'])==0 && count($data['user'])==0 && count($data['event'])==0  && count($data['group'])==0)
+	    <?php if($accordiondata['arraydata']['numTotal']==0)
 		{
     		?>
 			<div class="redbox">
     				<p>
-				Para poder programar debe añadir como mínimo una página de facebook. Desde la opción <?php  echo '<a href="'.base_url().'panel/facebook/connectar_facebook">Conectar con Facebook</a>';?>
+				Para poder programar debe añadir como mínimo una cuenta de facebook. Desde la opción <?php  echo '<a href="'.base_url().'panel/facebook/connectar_facebook">Conectar con Facebook</a>';?>
     				</p>
 			</div>
 		<?php
@@ -148,43 +148,13 @@ $arr=array("group","user","event","page")
 						     </div>
 						</div>
 						<div class="form-group col-lg-12">
-							<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+				
 							
-							<?php
-							
-							$arraytypes=array(
-								array("name"=>"group","title"=>"Grupos"),
-								array("name"=>"user","title"=>"Usuarios"),
-								array("name"=>"page","title"=>"Páginas"),
-								array("name"=>"event","title"=>"Eventos"));
-							for($i=0;$i<count($arraytypes);$i++)
-							{
-								if(count($data[$arraytypes[$i]["name"]])>0)
-								{ 
-								?>
-									<section class="panel panel-default">
-										<section class="panel-heading" role="tab" id="headingOne<?php echo $i; ?>">
-											<h4 class="panel-title">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne<?php echo $i; ?>" aria-expanded="false" aria-controls="collapseOne<?php echo $i; ?>">
-													<?php echo $arraytypes[$i]['title']; ?>
-												</a>
-											</h4>
-										</section>
-										<section id="collapseOne<?php echo $i; ?>" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne<?php echo $i; ?>">
-											<section class="panel-body">
-											<?php
-											foreach($data[$arraytypes[$i]['name']] as $page)
-											{
-																	echo " <input type='checkbox' name='ck_group_ap[".(($arraytypes[$i]['name']=="user")?'user':'account')."][]' value='".(($arraytypes[$i]['name']=="user")?$page->user_id:$page->idaccount)."' />&nbsp;&nbsp;&nbsp; <span >".(($arraytypes[$i]['name']=="user")?$page->username:$page->name)."</span>&nbsp;&nbsp;<br>";
-											}
-											?>
-											</section>
-										</section>
-									</section>
-								<?php	
-								} 
-							}
-							?>      
+					<?php 
+					$accordiondata['input']="ck_group_ap";
+					 $this->load->view('accordion_accounts',$accordiondata);
+				?>
+				
 						</div>
 						<section class="col-lg-12">
 								<input type='submit' name='publicar' class="btn btn-primary" value='Programar'/>

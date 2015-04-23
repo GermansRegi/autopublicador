@@ -21,7 +21,7 @@ $arr=array("group","user","event","page")
 
 	?>
       
-		<?php if(count($users)==0)
+		<?php if($accordiondata['arraydata']['numTotal']==0)
 		{
     		?>
 			<div class="redbox">
@@ -159,11 +159,9 @@ $arr=array("group","user","event","page")
 						  
 									
 									<?php
-										foreach($users as $page)
-										{
-											
-											echo " <input type='checkbox' name='datos[user][]' value='".$page->user_id."' /> <span >".$page->username."</span><br>";
-										}
+									$accordiondata['input']="datos[user]";
+									$this->load->view("twitter/accordion_accounts",$accordiondata);
+									
 										?>
 										
 							</div>
@@ -326,15 +324,12 @@ $arr=array("group","user","event","page")
 							<div class="col-lg-8">
 								 <label class="control-label ">Cuentas:</label>
 						  
-									<section >
+									
 									<?php
-										foreach($users as $page)
-										{
-											
-											echo " <input type='checkbox' name='anuncios[user][]' value='".$page->user_id."' /> <span >".$page->username."</span><br>";
-										}
-										?>
-									</section>
+									$accordiondata['input']="anuncios[user]";
+									$this->load->view("twitter/accordion_accounts2",$accordiondata);
+										
+									?>
 							</div>
 						</div>
 						<div class="form-group panel panel-default">

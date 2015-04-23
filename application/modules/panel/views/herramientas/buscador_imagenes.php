@@ -50,6 +50,7 @@
 			   </div>
 			   <div class="col-lg-2 form-group">
 			   <input type="submit" class=" btn btn-primary" value="Enviar">
+			   <a class="btn btn-default" id='cancel_crear_bbdd' href="<?php echo base_url()?>panel/herramientas" >Volver</a>
 			   </div>
 
 

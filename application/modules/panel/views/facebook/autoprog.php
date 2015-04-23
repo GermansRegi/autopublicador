@@ -21,7 +21,7 @@ $arr=array("group","user","event","page")
 
 	?>
       
-         <?php if(count($data['page'])==0 && count($data['user'])==0 && count($data['event'])==0  && count($data['group'])==0)
+        <?php if($accordiondata['arraydata']['numTotal']==0)
 		{
     		?>
 			<div class="redbox">
@@ -162,45 +162,11 @@ $arr=array("group","user","event","page")
 							<div class="col-lg-8">
 								<label class="control-label ">Cuentas:</label>
 								  
-								<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-										
-										<?php
-										
-										$arraytypes=array(
-											array("name"=>"group","title"=>"Grupos"),
-											array("name"=>"user","title"=>"Usuarios"),
-											array("name"=>"page","title"=>"Páginas"),
-											array("name"=>"event","title"=>"Eventos"));
-										for($i=0;$i<count($arraytypes);$i++)
-										{
-											if(count($data[$arraytypes[$i]["name"]])>0)
-											{ 
-											?>
-												<section class="panel panel-default">
-													<section class="panel-heading" role="tab" id="headingOne<?php echo $i; ?>">
-														<h4 class="panel-title">
-															<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne<?php echo $i; ?>" aria-expanded="false" aria-controls="collapseOne<?php echo $i; ?>">
-																<?php echo $arraytypes[$i]['title']; ?>
-															</a>
-														</h4>
-													</section>
-													<section id="collapseOne<?php echo $i; ?>" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne<?php echo $i; ?>">
-														<section class="panel-body">
-														<?php
-														foreach($data[$arraytypes[$i]['name']] as $page)
-														{
-															
-															echo " <input type='checkbox' name='datos[socialacc][".(($arraytypes[$i]['name']=="user")?'user':'account')."][]' value='".(($arraytypes[$i]['name']=="user")?$page->user_id:$page->idaccount)."' />&nbsp;&nbsp;&nbsp; <span >".(($arraytypes[$i]['name']=="user")?$page->username:$page->name)."</span>&nbsp;&nbsp;<br>";
-														}
-														?>
-														</section>
-													</section>
-												</section>
-											<?php	
-											} 
-										}
-										?>      
-								</section>
+								<?php
+									$accordiondata['input']="datos";
+								 echo $this->load->view('accordion_accounts',$accordiondata);
+
+					?>
 							</div>
 						</div>
 					
@@ -357,46 +323,9 @@ $arr=array("group","user","event","page")
 							</div>
 							<div class="col-lg-8">
 								<label class="control-label ">Cuentas:</label>
-								  
-								<section class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-										
-										<?php
-										
-										$arraytypes=array(
-											array("name"=>"group","title"=>"Grupos"),
-											array("name"=>"user","title"=>"Usuarios"),
-											array("name"=>"page","title"=>"Páginas"),
-											array("name"=>"event","title"=>"Eventos"));
-										for($i=0;$i<count($arraytypes);$i++)
-										{
-											if(count($data[$arraytypes[$i]["name"]])>0)
-											{ 
-											?>
-												<section class="panel panel-default">
-													<section class="panel-heading" role="tab" id="headingOne<?php echo $i; ?>Anuncios">
-														<h4 class="panel-title">
-															<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne<?php echo $i; ?>Anuncios" aria-expanded="false" aria-controls="collapseOne<?php echo $i; ?>">
-																<?php echo $arraytypes[$i]['title']; ?>
-															</a>
-														</h4>
-													</section>
-													<section id="collapseOne<?php echo $i; ?>Anuncios" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne<?php echo $i; ?>Anuncios">
-														<section class="panel-body">
-														<?php
-														foreach($data[$arraytypes[$i]['name']] as $page)
-														{
-															
-															echo " <input type='checkbox' name='anuncios[socialacc][".(($arraytypes[$i]['name']=="user")?'user':'account')."][]' value='".(($arraytypes[$i]['name']=="user")?$page->user_id:$page->idaccount)."' />&nbsp;&nbsp;&nbsp; <span >".(($arraytypes[$i]['name']=="user")?$page->username:$page->name)."</span>&nbsp;&nbsp;<br>";
-														}
-														?>
-														</section>
-													</section>
-												</section>
-											<?php	
-											} 
-										}
-										?>      
-								</section>
+								<?php 
+								$accordiondata['input']="anuncios";
+								echo $this->load->view('accordion_accounts2',$accordiondata);?>						  
 							</div>
 						</div>
 						<div class=" form-group panel panel-default ">

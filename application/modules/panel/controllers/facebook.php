@@ -243,7 +243,10 @@ class Facebook extends CI_Controller {
                                     {
                                       //  $upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
 
-                                        echo json_encode(array('results'=>true,'error'=>$this->upload->display_errors_array()));        
+                                        echo json_encode(
+                                        	array(
+                                        		'results'=>true,
+                                        		'error'=>$this->upload->display_errors_array()));        
                                        
                                     }
                                     else 
@@ -325,13 +328,15 @@ class Facebook extends CI_Controller {
 		
 		$this->load->model('social_user_accounts');
 		$this->load->model('social_users');
-			// agafo les comptes de facebook i de usuari
-			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['page']=$pages;
-			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+			//agafo les pagines d fb que te usuari guardats
+			
+		$this->load->library('form_validation_global');
+		$this->data['accordiondata']['arraydata']=$this->form_validation_global->getAccountsByFolderFB();
+
+
 			// si es usuari premium o si es guest te acces a les seves bases de dades 
+			
+
 			if ($this->flexi_auth->is_privileged('acces user prem') || $this->is_guest==true)
 			{
 				$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
@@ -345,18 +350,30 @@ class Facebook extends CI_Controller {
 				$this->data['anuncios']=$this->anuncios_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'face'));
 			}
 			// agafo les programacions de facebook i de usuari 
-			$programaciones=$this->programations->get_many_by(array('social_network'=>"fb",'user_app'=>$this->flexi_auth->get_user_id()));
+			$programaciones=$this->programations->get_many_by(
+				array(
+					'social_network'=>"fb",
+					'user_app'=>$this->flexi_auth->get_user_id()
+					));
 			//pr cada una incloc el nom de la compte o pagina a la que vva associada
 			foreach ($programaciones as $prog) {
 
 				if($prog->type_socialaccount=='account')
 				{
-					$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->socialaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);
+					$acc=$this->social_user_accounts->getUserAppAccounts(
+						array(
+							'idaccount'=>$prog->socialaccount,
+							'user_app'=>$this->flexi_auth->get_user_id()
+							),1);
 					$prog->name=$acc[0]->name;
 				}
 				else
 				{
-					$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->socialaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);	
+					$user=$this->social_users->getUserAppUsers(
+						array(
+							'user_id'=>$prog->socialaccount,
+							'user_app'=>$this->flexi_auth->get_user_id()
+							),1);	
 					$prog->name=$user[0]->username;
 				}
 			
@@ -367,66 +384,20 @@ class Facebook extends CI_Controller {
 		$this->data['titlepage']="Facebook - Programar publicación";
 		$this->load->view("panel/facebook/programar_facebook",$this->data);
 	}
+
 	// llista les comptes de facebook  que te afegides l'usuarii de aplicacio
 	public function index()
 	{
 
-		$this->load->model("social_user_accounts");
-		$this->load->model("folders");
-		$this->data['user_accounts']=$this->social_user_accounts->getUserAppAccounts(array('user_app'=>$this->flexi_auth->get_user_id()));
-		$this->data['user_accounts']=array_merge($this->data['user_accounts'],$this->social_users->getUserAppUsers(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>'fb')));
-		$this->data['folders']=$this->folders->get_many_by(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>"fb"));
-		$this->data['user_accounts_view']=null;
-		$arraydata=array('page'=>array('folders'=>array(),'nofolder'=>array()),
-					'group'=>array('folders'=>array(),'nofolder'=>array()),
-					'event'=>array('folders'=>array(),'nofolder'=>array()),
-					'user'=>array('folders'=>array(),'nofolder'=>array())
-			);
-		$n=0;
-		foreach ($this->data['folders'] as $key) {
-
-			$arraydata[$key->type]['folders'][]=array('data'=>$key,'rows'=>array());
-		}
-
-		foreach ($this->data['user_accounts'] as $key) 
-		{
-			if(is_null($key->folder_id))
-			{
-				if(!isset($key->type_account))
-					$arraydata['user']['nofolder'][]=$key;
-				else
-					$arraydata[$key->type_account]['nofolder'][]=$key;				
-			}
-			else
-			{	
-				if(!isset($key->type_account)){
-					if(count($arraydata['user']['folders'])!=0)
-					for($m=0;$m<count($arraydata['user']['folders']);$m++)
-					{
-						//var_dump($arraydata['user']['folders'][1]);
-						if($arraydata['user']['folders'][$m]['data']->id==$key->folder_id)
-						$arraydata['user']['folders'][$m]['rows'][]=$key;				
-					}
-				}
-				else
-				{
-					if(count($arraydata[$key->type_account]['folders'])!=0)
-					for($m=0;$m<count($arraydata[$key->type_account]['folders']);$m++)
-					{
-						//var_dump($arraydata[$key->type_account]['folders'][1]);
-						if($arraydata[$key->type_account]['folders'][$m]['data']->id==$key->folder_id)
-						$arraydata[$key->type_account]['folders'][$m]['rows'][]=$key;				
-					}
-				}
-			}
-		}
 		
 		$this->data['titlepage']="Facebook - Cuentas";
 		//$this->load->library('Facebooklib','','fblib');	
 		$this->session->unset_userdata('fb_token');
 		//$this->fblib->setSession();
 		
-		$this->data['arraydata']=$arraydata;
+	$this->load->library('form_validation_global');
+		$this->data['arraydata']=$this->form_validation_global->getAccountsByFolderFB();
+
 		$this->load->view('panel/facebook/index',$this->data);
 
 	}
@@ -505,15 +476,30 @@ class Facebook extends CI_Controller {
 				foreach($pagesFace['data'] as $val)
 		           {    
 					
-		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user_fb['id'],'type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+		             	$exist=$this->social_user_accounts->userAccountExist(
+		             		array(
+		             			'id_social_user'=>$user_fb['id'],
+		             			'type_account'=>'page',
+		             			'user_app'=>$this->flexi_auth->get_user_id(),
+		             			'idaccount'=>$val->id
+		             			)
+		             		);
 	                    if(in_array('ADMINISTER',$val->perms) && $exist==false)
 	                    {
 	                    	$pages[]=$val;
 	                    }
 	                    else
 	                    {
-	                    	$this->social_user_accounts->update_by(array('access_token'=>$val->access_token,'name'=>$val->name),
-	                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+	                    	$this->social_user_accounts->update_by(
+	                    		array(
+	                    			'access_token'=>$val->access_token,
+	                    			'name'=>$val->name
+	                    			),
+	                    		array(
+	                    			'user_app'=>$this->flexi_auth->get_user_id(),
+	                    			'idaccount'=>$val->id
+	                    			)
+	                    		);
 	                    }
 	                    
 	               }
@@ -523,7 +509,12 @@ class Facebook extends CI_Controller {
 				foreach($groupsFace['data'] as $val)
 		           {    
 					
-		             	$exist=$this->social_user_accounts->userAccountExist(array('id_social_user'=>$user_fb['id'],'type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$val->id));
+		             	$exist=$this->social_user_accounts->userAccountExist(
+		             		array(
+		             			'id_social_user'=>$user_fb['id'],
+		             			'type_account'=>'group',
+		             			'user_app'=>$this->flexi_auth->get_user_id(),
+		             			'idaccount'=>$val->id));
 	                    if($exist==false)
 	                    {
 	                    	$groups[]=$val;
@@ -649,6 +640,7 @@ class Facebook extends CI_Controller {
 	{
 		$this->load->model('social_user_accounts');
 		$this->load->model('social_users');
+		$this->load->library('form_validation_global');
 		$this->form_validation->set_rules('ck_group_ap','Páginas','callback_checkSelected');
          	$this->form_validation->set_rules('link','Enlace','prep_url|valid_url');
          		
@@ -677,7 +669,7 @@ class Facebook extends CI_Controller {
 					else
 					{
 
-						$this->load->library('form_validation_global');
+						
 						$response=$this->form_validation_global->ErrorsPublicar($this->input->post(),true);
 						$row=null;
 						$urlfb="/feed";
@@ -790,13 +782,9 @@ class Facebook extends CI_Controller {
          		exit;
 		}
 
+			$this->data['accordiondata']['arraydata']=$this->form_validation_global->getAccountsByFolderFB();
 		
-		
-		$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['page']=$pages;
-			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+			
 			if ($this->flexi_auth->is_privileged('acces user prem') || $this->is_guest==true)
 			{
 				$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'face','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'face'));
@@ -1034,11 +1022,9 @@ class Facebook extends CI_Controller {
 
 		$this->data['autoprog']['basededatos']=$programacionesbbdd;
 		$this->data['autoprog']['anuncios']=$programacionesanuncios;
-			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id(),'configured'=>0));
-			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id(),'configured'=>0));
-			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id(),'configured'=>0));
-			$this->data['data']['page']=$pages;
-			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id(),'configured'=>0));
+		$this->load->library('form_validation_global');
+		$this->data['accordiondata']['arraydata']=$this->form_validation_global->getAccountsByFolderFB();
+
 			
 
 

@@ -233,7 +233,136 @@ class Form_validation_global
 
 
   }
+  public function getAccountsByFolderFB()
+  {
+    
+    $this->CI->load->model("social_user_accounts");
+    $this->CI->load->model("folders");
+    $this->CI->load->model("social_users");
+    $data['user_accounts']=$this->CI->social_user_accounts->getUserAppAccounts(
+      array(
+        'user_app'=>$this->CI->flexi_auth->get_user_id()
+        )
+      );
+    $data['user_accounts']=array_merge($data['user_accounts'],$this->CI->social_users->getUserAppUsers(array('user_app'=>$this->CI->flexi_auth->get_user_id(),'social_network'=>'fb')));
+    
+    $data['folders']=$this->CI->folders->get_many_by(array('user_app'=>$this->CI->flexi_auth->get_user_id(),'social_network'=>"fb"));
+    $data['user_accounts_view']=null;
+    $arraydata=array(
+          'page'=>array(
+            'folders'=>array(),
+            'count'=>0,
+            'nofolder'=>array()
+            ),
+          'group'=>array(
+            'folders'=>array(),
+            'count'=>0,
+            'nofolder'=>array()
+            ),
+          'event'=>array(
+            'folders'=>array(),
+            'count'=>0,
+            'nofolder'=>array()
+            ),
+          'user'=>array(
+            'folders'=>array(),
+            'count'=>0,
+            'nofolder'=>array()
+            )
+      );
+    $n=0;
+    foreach ($data['folders'] as $key) {
 
+      $arraydata[$key->type]['folders'][]=array('data'=>$key,'rows'=>array());
+    }
+
+    foreach ($data['user_accounts'] as $key) 
+    {
+
+      if(is_null($key->folder_id))
+      {
+        if(!isset($key->type_account))
+        { 
+         $arraydata['user']['nofolder'][]=$key;
+         $arraydata['user']['count']++;
+        }
+        else
+        {
+          $arraydata[$key->type_account]['nofolder'][]=$key;
+          $arraydata[$key->type_account]['count']++;
+        }
+        
+      }
+      else
+      { 
+        if(!isset($key->type_account)){
+          if(count($arraydata['user']['folders'])!=0)
+          for($m=0;$m<count($arraydata['user']['folders']);$m++)
+          {
+            //var_dump($arraydata['user']['folders'][1]);
+            if($arraydata['user']['folders'][$m]['data']->id==$key->folder_id)
+            $arraydata['user']['folders'][$m]['rows'][]=$key;       
+
+
+          }
+          $arraydata['user']['count']++;
+        }
+        else
+        {
+          if(count($arraydata[$key->type_account]['folders'])!=0)
+          for($m=0;$m<count($arraydata[$key->type_account]['folders']);$m++)
+          {
+            //var_dump($arraydata[$key->type_account]['folders'][1]);
+            if($arraydata[$key->type_account]['folders'][$m]['data']->id==$key->folder_id)
+            $arraydata[$key->type_account]['folders'][$m]['rows'][]=$key;       
+          }
+          $arraydata[$key->type_account]['count']++;
+        }
+      }
+    }
+    $numTotal=0;
+    foreach ($arraydata as $type) {
+     $numTotal+=$type['count'];
+    }
+    $arraydata['numTotal']=$numTotal;
+    return $arraydata;
+  }
+  public function getAccountsByFolderTwT()
+  {
+    $this->CI->load->model("folders");
+    $this->CI->load->model("social_users");
+      $users=$this->CI->social_users->getUserappUsers(array('user_app'=>$this->CI->flexi_auth->get_user_id(),'social_network'=>'tw'));
+    $this->CI->load->model('folders');
+    $data['folders']=$this->CI->folders->get_many_by(array('user_app'=>$this->CI->flexi_auth->get_user_id(),'social_network'=>"tw"));
+    $arraydata=array('folders'=>array(),'nofolder'=>array());
+
+    foreach ($data['folders'] as $key) {
+      
+      $arraydata['folders'][]=array('data'=>$key,'rows'=>array());
+      
+      
+    }
+    $num=0;
+    foreach ($users as $user) {
+      if(is_null($user->folder_id))
+      {
+        $arraydata['nofolder'][]=$user;
+      }
+      else
+      {
+        if(count($arraydata['folders'])!=0)
+          for($m=0;$m<count($arraydata['folders']);$m++)
+          {
+            //var_dump($arraydata[$key->type_account]['folders'][1]);
+            if($arraydata['folders'][$m]['data']->id==$user->folder_id)
+            $arraydata['folders'][$m]['rows'][]=$user;        
+          }
+      }
+      $num++;
+    }
+    $arraydata['numTotal']=$num;
+    return $arraydata;
+  }
 }
 
 /* End of file MY_form_validation2.php */

@@ -185,12 +185,10 @@ class Herramientas extends CI_Controller {
 				
 				exit;
 			}
+			$this->load->library('form_validation_global');
+			$this->data['accordion']['arraydata']=$this->form_validation_global->getAccountsByFolderFB();
+
 			//carrego les dades dels diferents comptes i usuaris de facebook de laplicacio
-			$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['page']=$pages;
-			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
 			$this->data['titlepage']="Herramientas - Limpiador de facebook";
 
 		$this->load->view('herramientas/limpiador_facebook',$this->data);
@@ -308,7 +306,10 @@ class Herramientas extends CI_Controller {
 			exit;
 		}
 		$this->data['titlepage']="Herramientas - Unfollow twitter";
-		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->load->library('form_validation_global');
+		$this->data['accordion']['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
+
+//		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('herramientas/unfollow_twitter',$this->data);		
 	}
 	
@@ -372,7 +373,10 @@ class Herramientas extends CI_Controller {
 			exit;
 		}
 		$this->data['titlepage']="Herramientas - Limpiador de twitter";
-		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->load->library('form_validation_global');
+		$this->data['accordion']['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
+
+//		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('herramientas/limpiador_twitter',$this->data);		
 	
 	}

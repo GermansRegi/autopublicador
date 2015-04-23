@@ -137,14 +137,13 @@ class Rss extends CI_Controller {
 
 		}
 		$this->data['titlepage']="RSS - Crear fuente";
-		$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['page']=$pages;
-			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->load->library('form_validation_global');
+		$this->data['accordionfb']['arraydata']=$this->form_validation_global->getAccountsByFolderFB();
+		$this->data['accordiontw']['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
 			$this->data['userstw']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('rss/crear',$this->data);
 	}
+	
 	public function editar($id)
 	{
 		$this->form_validation->set_rules('rss_url', 'Url', 'trim|required');
@@ -175,13 +174,11 @@ class Rss extends CI_Controller {
 		}
 		$rss_edit=$this->rss_model->get_by_id($id);
 		$this->data['titlepage']="Editar fuente RSS";
-
-		$pages=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'page','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['event']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'event','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['group']=$this->social_user_accounts->getUserAppAccounts(array('type_account'=>'group','user_app'=>$this->flexi_auth->get_user_id()));
-			$this->data['data']['page']=$pages;
+		$this->load->library('form_validation_global');
+		$this->data['accordionfb']['arraydata']=$this->form_validation_global->getAccountsByFolderFB();
+		$this->data['accordiontw']['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
 			$this->data['rssedit']=$rss_edit[0];
-			$this->data['data']['user']=$this->social_users->getUserAppUsers(array('social_network'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+
 			$this->data['userstw']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('rss/editar',$this->data);	
 	}
