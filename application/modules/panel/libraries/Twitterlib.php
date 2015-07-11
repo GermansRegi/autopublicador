@@ -93,9 +93,21 @@ class Twitterlib
 		 	return false;
 		 }
 	}
+	public function aget($url,$params)
+	{
+		 $result=$this->twitter->aget($url,$params);
+		if(isset($result->errors))
+			return array('error'=>$this->TRanlateAPIERROR($result->errors[0]->code));	
+		else
+		{
+			return $result;
+		}
+	}
+
 	public function get($url,$params)
 	{
 		 $result=$this->twitter->get($url,$params);
+		 
 		if(isset($result->errors))
 			return array('error'=>$this->TRanlateAPIERROR($result->errors[0]->code));	
 		else

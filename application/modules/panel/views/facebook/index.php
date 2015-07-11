@@ -15,8 +15,8 @@
 	<div class="clearfix ">
 		<div class="col-lg-3"><a href="<?php echo base_url(); ?>panel/facebook/connectar_facebook" class="btn btn-primary">Conectar con Facebook</a></div>
 		<div class="col-lg-2"><a class="btn btn-default showHide" >Crear Carpeta</a></div>
-
-		<div  class="col-lg-6 clearfix  hidden"  >
+		<div class="col-lg-2"><a class="btn btn-default showHideAddGroup" >Añadir grupo</a></div>
+		<div  class="col-lg-6 divCreateFolder clearfix  hidden"  >
 			<form id="createFolder" action="" class="form-horitzonal">
 				<div class="message"></div>
 				<div class="col-lg-12 form-group">
@@ -42,10 +42,57 @@
 				</div>
 			</form>
 		</div>
+		<div  class="col-lg-6 divAddGroup clearfix  hidden"  >
+			<form id="addGroup" action="" class="form-horitzonal">
+				<div class="message2"></div>
+				<div class="col-lg-12 form-group">
+					<p>Introduzca el identificador del grupo y seleccione el usuario con el que quiere publicar en el grupo. El identificador es el numero de 16 cifras que aparece en la url de facebook del grupo. (Por ejemplo: https://www.facebook.com/groups/1400615130264706/, en éste caso seria: 1400615130264706).</p><p> Para que pueda publicar en el grupo desde socialsuites, el grupo debe tener permisos Público y el usuario seleccionado debe pertenecer al grupo.</p>
+				</div>
+				<div class="col-lg-12 form-group">
+					<label for="" class="label-control col-lg-4">Identificador de grupo:</label>
+					<div class="col-lg-7">
+						<input name="name" class="form-control" type="text">
+					</div>
+				</div>
+				<div class="col-lg-12 form-group">
+					<label for="" class="label-control col-lg-4">Usuario del grupo:</label>
+					<div class="col-lg-7">
+						<select name="usuario" class="select form-control">
+							<option value="">Selecciona un usuario</option>
+							<?php 
+							foreach ($arraydata['user']['nofolder'] as $pagenofolder) {
+								?>
+								<option value="<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id:$pagenofolder->idaccount); ?>">
+								<?php echo ((!isset($pagenofolder->name))?$pagenofolder->username:$pagenofolder->name); ?>
+								</option>
+								<?php
+							 }
+							 foreach ($arraydata['user']['folders'] as $folder) {
+							 	foreach ($folder['rows'] as $page) {
+							 		
+							 	
+							 	?>
+								<option value="<?php echo $page->user_id; ?>">
+								<?php echo $page->username; ?>
+								</option>
+								<?php
+								}
+							 }
+
+							?>
+
+						</select>
+					</div>
+				</div>
+				<div class="form-group  col-lg-12">
+					<input type="submit"  class=" col-lg-offset-5  btn btn-primary" value="Añadir grupo"/>
+				</div>
+			</form>
+		</div>
 	</div>
 	<div role="tabpanel">
 		<!-- Nav tabs -->
-		<ul class="nav nav-tabs" role="tablist">,
+		<ul class="nav nav-tabs" role="tablist">
 			<?php for($i=0;$i<count($arraytypes);$i++){ 
 
 				?>
@@ -65,10 +112,7 @@
 					</a>
 				</li>
 				<?php } ?>	
-						    <!--!<li role="presentation" class="pages"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Páginas</a></li>
-						    <li role="presentation"><a href="#groups" aria-controls="profile" role="tab" data-toggle="tab">Grupos</a></li>
-						    <li role="presentation"><a href="#events" aria-controls="messages" role="tab" data-toggle="tab">Eventos</a></li>
-					-->
+			
 		</ul>			
 		<!-- Tab panes -->
 		<div class="tab-content">
@@ -94,7 +138,18 @@
 												
 												<tr class="item" >
 													<td>
+														<?php if($arraytypes[$i]['name']!='group'){
+	?>
 														<img src="http://graph.facebook.com/v2.2/<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id:$pagenofolder->idaccount); //$pagenofolder->idaccount ?>/picture?width=50&height=50">
+														<?php
+													}else{
+														$res=file_get_contents('https://graph.facebook.com/v2.2/'.((!isset($pagenofolder->idaccount))?$pagenofolder->user_id:$pagenofolder->idaccount).'?fields?icon&access_token='.$pagenofolder->access_token);
+														$res=json_decode($res);
+														
+													?>
+													<img src="<?php echo $res->icon?>">
+
+													<?php }?>
 
 													</td>
 													<td class="name">
@@ -189,31 +244,11 @@
 			var deletecontent_url='<?php echo base_url()?>panel/commonsocial/deletecontent';
 			var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 			var createfolder_url=base_url+'panel/facebook/createFolder';
+			var addgroup_url=base_url+'panel/facebook/addGroup';
 		</script>
 		<?php
 		echo $this->load->view('includes2/footer');
 		?>
 		<?php echo $this->load->view('includes2/scripts');?>
-		 <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '672117342900527',
-          xfbml      : true,
-          version    : 'v2.2',
-          cookie:  true,
-          scope:'email,offline_access'
-        });
-  //      FB.login(function(){}, {scope: 'email,offline_access,publish_actions'});
-      };
-
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/es_ES/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
-    </script>
-		<div class=" fb_reset" id="fb-root"></div>
-	</body>
+		 
 </html>

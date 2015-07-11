@@ -135,7 +135,8 @@ class Herramientas extends CI_Controller {
 	/**
 	 * [limpiador_facebook accio de formulari que esborra publicacions dun o varis comptes de facebook]
 	 * @return [type] [description]
-	 */
+*/
+	/*
 	public function limpiador_facebook()
 	{
 			$this->form_validation->set_rules('type',"Tipo de limpieza","required");
@@ -193,6 +194,7 @@ class Herramientas extends CI_Controller {
 
 		$this->load->view('herramientas/limpiador_facebook',$this->data);
 	}
+	*/
 	public function buscador_de_imagenes()
 	{
 		if($this->input->post('albumid'))

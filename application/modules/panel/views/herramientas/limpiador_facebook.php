@@ -34,7 +34,10 @@
 			       
 				<div class="form-group col-lg-12">
 					 <label class="control-label ">Cuentas a limpiar:</label>
-									<?PHP ECHO $this->load->view('facebook/accordion_accounts',$accordion);?>  
+
+									<?PHP 
+									$accordion['input']="ck_group_ap";
+									ECHO $this->load->view('facebook/accordion_accounts',$accordion);?>  
 					
 				</section>
 				

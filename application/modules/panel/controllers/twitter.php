@@ -811,40 +811,216 @@ echo json_encode(array('msg_success'=>'Programaciones periódicas creadas con é
 	}
 	public function gestion_listas()
 	{
-			if($this->input->get('userlist'))
+			if($this->input->get('userlist') && is_numeric($this->input->get('userlist')))
 			{
 					$account=$this->social_users->getUserappUsers(array('user_id'=>$this->input->get('userlist'),'user_app'=>$this->flexi_auth->get_user_id()),1);
+					
 					$this->load->model('twt_lists');
 					$this->data['user_id']=$account[0]->user_id;
+					$this->data['lists']=array();	
 					$listas=$this->twt_lists->getUserappLists(array('user_app'=>$this->flexi_auth->get_user_id(),'user_id'=>$account[0]->user_id));
+					
 					if(count($listas)>0)
 					{
 						$this->load->library('Twitterlib','','twtlib');
 						$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
-						$listsfeeds=array();
-						foreach ($listas as $lista) {
-							$listsfeeds[]['data']=$this->twtlib->get('lists/show',array('list_id'=>$lista->list_id));
+					
+						
+						foreach ($listas as $key ) {
+							$resultdata=$this->twtlib->get('lists/show',array('list_id'=>$key->list_id));
+							
+							if(is_object($resultdata))
+							{
+
+								$this->listsdata[$key->list_id]=$resultdata;
+								if(strcmp($key->list_name,$this->listsdata[$key->list_id]->name)!=0)
+								{
+//var_dump($this->listsdata[$key->list_id]->name);
+									$this->twt_lists->update_by(
+										array(
+											'list_name'=>$resultdata->name
+											),
+										array(
+											'user_app'=>$this->flexi_auth->get_user_id(),
+											'list_id'=>$key->list_id,
+											'user_id'=>$key->user_id)
+										);
+									
+									$key->list_name=$this->listsdata[$key->list_id]->name;	
+								}
+								if(strcmp($key->username,$this->listsdata[$key->list_id]->user->name)!=0)
+								{
+									 $key->username=$this->listsdata[$key->list_id]->user->name;
+									$this->twt_lists->update_by(array('username'=>$resultdata->user->name),array('user_app'=>$this->flexi_auth->get_user_id(),'list_id'=>$key->list_id,'user_id'=>$key->user_id));
+
+								}
+							}
+							else
+							{
+							///	echo "ss"							}
+							}
+							
 
 						}
-						var_dump($listsfeeds);
-					}					
-					$this->data['titlepage']="Twitter - Gestión de listas de".$account[0]->username;
+						
+						$this->data['lists']=$listas;
+					}		
+
+					$this->session->set_userdata('userid',$account);
+					$this->session->set_userdata('listsdata',$this->listsdata);
+					
+					$this->data['titlepage']="Twitter - Gestión de listas de ".$account[0]->username;
 					$this->load->view('twitter/user_lists',$this->data);		
 
 
 			}
+			else
+			{
+				redirect(base_url().'panel/twiitter/listas');
+			}
 
+	}
+	public function editlist($listid)
+	{
+		$this->listsdata=$this->session->userdata('listsdata');
+		
+		$account=$this->session->userdata('userid');
+		$this->load->library('Twitterlib','','twtlib');
+		$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+		$this->data['members']=$this->twtlib->get('lists/members',array('list_id'=>$listid));
+		$this->data['datalist']=$this->listsdata[$listid];
+
+		$this->load->view('twitter/edit_list',$this->data);	
+	}
+	public function addmemberlist()
+	{
+		if($this->input->post('screen_name'))
+		{
+			
+			$account=$this->session->userdata('userid');
+			$this->load->library('Twitterlib','','twtlib');
+			$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+			$res=$this->twtlib->post('lists/members/create',array('list_id'=>$this->input->post('listid'),'screen_name'=>$this->input->post('screen_name')));
+			
+			
+		}
+	}
+	public function removeMemberlist()
+	{
+		if($this->input->post('screen_name'))
+		{
+			$account=$this->session->userdata('userid');
+			$this->load->library('Twitterlib','','twtlib');
+			$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+			$res=$this->twtlib->post('lists/members/destroy',array('list_id'=>$this->input->post('listid'),'screen_name'=>$this->input->post('screen_name')));
+			
+		}
+	}
+	private $listsdata;
+	/**
+	 * [listsearchusers funcio seveix per fer cerca usuaris   twutter al editar una lllista
+	 * @return [type] [description]
+	 */
+	public function listsearchusers()
+	{
+		$q=$this->input->get('q');
+		$listid=$this->input->get('listid');
+		$account=$this->session->userdata('userid');
+		$this->load->library('Twitterlib','','twtlib');
+		$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+		$res=$this->twtlib->get('users/search',array('q'=>$q));
+		$members=$this->twtlib->get('lists/members',array('list_id'=>$listid));
+		foreach ($members->users as $key) {
+				foreach ($res as $key2) {
+					if($key->id==$key2->id)
+						$key2->ismember=true;
+				}
+		}
+		echo json_encode($res);
+
+	}
+	public function getDataList()
+	{
+
+			if($this->input->get('listid'))
+			{
+				$this->load->library('Twitterlib','','twtlib');
+				$res=$this->twtlib->get("lists/statuses",array('list_id'=>$this->input->get('listid'),'since_id'=>(($this->input->get('since_id')==false)?1:$this->input->get('since_id')),'count'=>200,'include_rts'=>1,'include_entities'=>1));
+				echo json_encode($res);
+			}
+
+	}
+	public function quitList($idlist,$id)
+	{
+		if($idlist)
+		{
+			$this->load->model('twt_lists');
+			$this->twt_lists->delete_by(array('list_id'=>$idlist,'user_app'=>$this->flexi_auth->get_user_id()));
+
+		}
+	}
+	public function crearlista()
+	{
+
+		$this->form_validation->set_rules('name_list','Nombre','required');
+		$this->form_validation->set_rules('desc_list','Descripcion','required');
+		$this->form_validation->set_rules('privacidad','Pública o Privada','required');
+		$account=$this->session->userdata('userid');
+		if($this->input->post())
+		{
+			if($this->form_validation->run()==TRUE)
+			{
+				$this->load->library("Twitterlib",'','twtlib');
+				$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+				$listcreated=$this->twtlib->post('lists/create',array('mode'=>$this->input->post('privacidad'),'name'=>$this->input->post('name_list'),'description'=>$this->input->post('desc_list')));
+				$this->load->model('twt_lists');		
+				$this->twt_lists->insertNew(array('user_app'=>$this->flexi_auth->get_user_id(),'user_id'=>$account[0]->user_id,'list_id'=>$listcreated->id,'is_subscriberlist'=>0,'list_name'=>$this->input->post('name_list'),'username'=>$account[0]->username));
+					echo json_encode(array('msg_success'=>'La lista se ha creado correctamente'));
+			}
+			else
+			{
+				    $errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors));      
+
+			}
+
+			exit;
+		}
+		$this->data['usertwtid']=$account[0];
+		$this->load->view('twitter/create_list',$this->data);
 	}
 	public  function getLists($usertwt)
 	{
 		if($usertwt)
 		{
+			$this->load->model('twt_lists');
 			$account=$this->social_users->getUserappUsers(array('user_id'=>$usertwt,'user_app'=>$this->flexi_auth->get_user_id()),1);
 			$this->load->library("Twitterlib",'','twtlib');
 			$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+			$listas=$this->twt_lists->getUserappLists(array('user_app'=>$this->flexi_auth->get_user_id(),'user_id'=>$account[0]->user_id));
 			$this->data['usertwtid']=$usertwt;
-			$this->data['subslists']=$this->twtlib->get('lists/subscriptions',array('user_id'=>$usertwt));
-			$this->data['ownlists']=$this->twtlib->get('lists/ownerships',array('user_id'=>$usertwt));
+			$subslists=$this->twtlib->get('lists/subscriptions',array('user_id'=>$usertwt));
+			
+			for ($i=0;$i<count($subslists->lists);$i++) {
+				
+				$exist=$this->twt_lists->Exists($account[0]->user_id,$subslists->lists[$i]->id,$this->flexi_auth->get_user_id());
+
+				if($exist)
+					unset($subslists->lists[$i]);
+			}
+			$ownlists=$this->twtlib->get('lists/ownerships',array('user_id'=>$usertwt));
+			for ($i=0;$i<count($ownlists->lists);$i++) {
+				
+				$exist=$this->twt_lists->Exists($account[0]->user_id,$ownlists->lists[$i]->id,$this->flexi_auth->get_user_id());
+
+				if($exist)
+					unset($ownlists->lists[$i]);
+			}
+			$this->data['subslists']=$subslists;
+
+			$this->data['ownlists']=$ownlists;
+		
+
 			$this->load->view('twitter/get_lists',$this->data);					
 
 		}
@@ -865,8 +1041,39 @@ echo json_encode(array('msg_success'=>'Programaciones periódicas creadas con é
 			}
 		}
 	}
+	public function deletelist($listid)
+	{
+		if($listid)
+		{
+			$this->load->model('twt_lists');
+			$this->twt_lists->delete_by(array('list_id'=>$listid,'user_app'=>$this->flexi_auth->get_user_id()));
 
+			$account=$this->session->userdata('userid');
+			$this->load->library('Twitterlib','','twtlib');
+			$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+			$res=$this->twtlib->post('lists/destroy',array('list_id'=>$listid));
+			redirect(base_url().'panel/twitter/gestion_listas?userlist='.$account[0]->user_id);
 
+		}
+	}
+	public function editdetailslist($listid)
+	{
+		$this->listsdata=$this->session->userdata('listsdata');
+		$account=$this->session->userdata('userid');
+		$this->load->library('Twitterlib','','twtlib');
+		$this->twtlib->setAccessToken(json_decode($account[0]->access_token));
+		
+		if($this->input->post('name_list'))
+		{
+			$res=$this->twtlib->post('lists/update',array('list_id'=>$listid,'mode'=>$this->input->post('privacidad'),'name'=>$this->input->post('name_list'),'description'=>$this->input->post('desc_list')));	
+			var_dump($res);
+			exit;
+		}
+		$this->data['members']=$this->twtlib->get('lists/members',array('list_id'=>$listid));
+		$this->data['datalist']=$this->listsdata[$listid];
+
+		$this->load->view("twitter/edit_list_detailed",$this->data);
+	}
 }
 
 /* End of file twitter.php */

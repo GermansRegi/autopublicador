@@ -273,11 +273,20 @@ $("body").on("click",".deleteautoprog",function(){
 	$("body").on("click",".showHide",function(){
 		
 	
-		if($(this).parent().next().is(":hidden"))
-			$(this).parent().next().removeClass("hidden");
+		if($(this).parent().parent().find('.divCreateFolder').is(":hidden"))
+			$(this).parent().parent().find('.divCreateFolder').removeClass("hidden");
 
 		else
-			$(this).parent().next().addClass("hidden");
+			$(this).parent().parent().find('.divCreateFolder').addClass("hidden");
+	})
+	$("body").on("click",".showHideAddGroup",function(){
+		
+	
+		if($(this).parent().parent().find('.divAddGroup').is(":hidden"))
+			$(this).parent().parent().find('.divAddGroup').removeClass("hidden");
+
+		else
+			$(this).parent().parent().find('.divAddGroup').addClass("hidden");
 	})
 	// event per crear carpetes per a contenir cuentas
 	$("body").on("submit","#createFolder",function(e){
@@ -304,6 +313,31 @@ $("body").on("click",".deleteautoprog",function(){
 			});	
 		return false;
 	});
+	$("body").on("submit","#addGroup",function(e){
+		e.preventDefault();
+	
+		$.ajax(
+			{
+				url:addgroup_url,
+				data:
+					$(this).serialize()
+					,
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					var res=showResults(data,',','.message2');
+					if(res){
+							$('body').delay(1000).queue(function( nxt ) {
+								document.location.href=current_url;
+								nxt();
+		                      }); 	
+						}
+				},
+
+			});	
+		return false;
+	});
+	
 	$(document).on('click','.nav-tabs a',function(e){
 		e.preventDefault();
 	    $(this).tab("show");

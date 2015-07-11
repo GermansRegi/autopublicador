@@ -148,7 +148,13 @@ class TwitterOAuth {
 		}
 		return $response;
 	}
-	
+	function aget($url, $parameters = array()) {
+		$response = $this->oAuthRequest($url, 'GET', $parameters,true);
+		if ($this->format === 'json' && $this->decode_json) {
+			return json_decode($response);
+		}
+		return $response;
+	}
 	/**
 	 * POST wrapper for oAuthRequest.
 	 */

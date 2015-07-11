@@ -1033,6 +1033,84 @@ class Facebook extends CI_Controller {
 		$this->data['titlepage']="Facebook - Programaciones periódicas";
 		$this->load->view('facebook/autoprog',$this->data);		
 	}
+	public function addGroup()	{
+		if($this->input->post())
+		{
+			$this->form_validation->set_rules('name','Identificador de grupo','required');
+			$this->form_validation->set_rules('usuario','Usuarios','required');
+			if($this->form_validation->run()==true)
+			{
+				$user=$this->social_users->getUserAppUsers(array('user_id'=>$this->input->post('usuario'),'user_app'=>$this->flexi_auth->get_user_id()),1);	
+				$this->load->library('Facebooklib','','fblib');
+				$this->fblib->setSessionFromToken($user[0]->access_token);
+				
+				$res1=$this->fblib->api('/'.$this->input->post('name'));
+				
+				if(isset($res1['privacy']))
+				{
+					if($res1['privacy']=="OPEN")	
+					{
+						$res=$this->fblib->api('/'.$this->input->post('name').'/members');
+						$trobat=false;
+						foreach ($res['data'] as $key) {
+
+							if(isset($key->id) && $key->id==$user[0]->user_id)
+							{
+								$trobat=true;
+								break;
+							}						
+						}
+						if($trobat)
+						{
+								$this->load->model('social_user_accounts');
+								$exist=$this->social_user_accounts->userAccountExist(
+		             		array(
+		             			'id_social_user'=>$user[0]->user_id,
+		             			'type_account'=>'group',
+		             			'user_app'=>$this->flexi_auth->get_user_id(),
+		             			'idaccount'=>$this->input->post('name')));
+		                    if($exist==false)
+		                    {
+		                    	$this->social_user_accounts->insertNew(		             		array(
+		             			'id_social_user'=>$user[0]->user_id,
+		             			'type_account'=>'group',
+		             			'user_app'=>$this->flexi_auth->get_user_id(),
+		             			'idaccount'=>$this->input->post('name'),
+		             			'access_token'=>$user[0]->access_token,
+		             			'name'=>$res1['name']));
+		                    }
+		                    else
+		                    {
+		                    	$this->social_user_accounts->update_by(array('access_token'=>$user[0]->access_token,'name'=>$res1['name']),
+		                    		array('user_app'=>$this->flexi_auth->get_user_id(),'idaccount'=>$this->input->post('name')));
+		                    }
+		                    echo json_encode(array('msg_success'=>'Grupo añadido o actualizado correctamente'));
+						}	
+						else
+						{
+							echo json_encode(array('msg_errors'=>array('pp'=>"El usuario seleccionado no es miembro de este grupo.")));	
+						}		
+					}
+					else
+					{
+							echo json_encode(array('msg_errors'=>array('pp'=>"El grupo que ha introducido no es público.")));	
+					}
+				}
+				else
+				{
+							echo json_encode(array('msg_errors'=>array('pp'=>"Ha introducido un identificador que no corresponde a ningún grupo.")));	
+				}
+			}
+			else
+			{
+				$errors = $this->form_validation->error_array();
+                 echo json_encode(array('msg_errors'=>$errors));
+			}
+			
+		}
+		exit;
+
+	}
 	// agafa els elements d
 }
 

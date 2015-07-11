@@ -29,7 +29,7 @@ $lang['password_change_successful'] 	 	 		= 'La contraseña ha sido cambiada con
 $lang['password_change_unsuccessful'] 	  	 		= 'La contraseña actual que ha introducido no coincide con su contraseña.';
 $lang['password_token_invalid']  					= 'Su contraseña token presentado no es válida o ha expirado.';
 $lang['email_new_password_successful']				= 'Le hemos enviado nueva contraseña por correo electrónico.';
-$lang['email_forgot_password_successful']	 		= 'Le hemos enviado un correo electrónic para restablecer su contraseña.';
+$lang['email_forgot_password_successful']	 		= 'Le hemos enviado un correo electrónico para restablecer su contraseña.';
 $lang['email_forgot_password_unsuccessful']  		= 'No se ha podido restablecer la contraseña.';
 
 // Activation

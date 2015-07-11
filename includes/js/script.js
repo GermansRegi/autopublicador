@@ -61,8 +61,8 @@ $(document).on('click', '[data-toggle="ajaxModal"]',function(e){
         	type:'get',
         	dataType:'html',
         	success:function(data){
-//        		console.log(data);
-        			if(data=="    {\"req_auth\":1}")
+        		console.log(data);
+        			if(data=="{\"req_auth\":1}")
         			{
         				window.location.href=base_url+"panel";
         			}

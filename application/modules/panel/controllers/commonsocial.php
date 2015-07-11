@@ -618,6 +618,30 @@ class CommonSocial extends CI_Controller {
 				echo json_encode(array('msg_errors'=>array('pp'=>'Error al eliminar los datos')));
 		}
 	}
+	public function createFolderProg($social_network)
+	{
+			if($this->input->post())
+		{
+			$this->form_validation->set_rules('name', 'Nombre', 'required');
+			$array=array('fb'=>'facebook',"tw"=>'twitter');
+			if($this->form_validation->run()==TRUE)
+			{
+			
+				$this->load->model("folders_programations");
+				$arr=array(
+				"name"=>$this->input->post("name"),
+				
+				'user_app'=>$this->flexi_auth->get_user_id(),
+				"social_network"=>$social_network
+				);
+				if($this->folders_programations->insert($arr)){
+					redirect(base_url().'panel/'.$array[$social_network].'/programar_'.$array[$social_network]);
+				}	
+			}
+		
+		}
+	
+	}
 }
 
 /* End of file commonactions.php */

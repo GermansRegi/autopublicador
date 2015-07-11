@@ -19,9 +19,9 @@
     <?php echo $this->load->view('includes2/header');
 
 	?>
-<div class="col-lg-2">
+<!--<div class="col-lg-2">
 	<a href='<?php echo base_url()?>panel/herramientas/limpiador_facebook'>Limpiador de facebook</a>
-</div>
+</div>-->
 <div class="col-lg-3">
     <a href='<?php echo base_url()?>panel/herramientas/buscador_de_imagenes'>Buscador de imágenes facebook</a>
 </div>

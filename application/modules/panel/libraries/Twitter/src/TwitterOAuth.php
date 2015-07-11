@@ -182,6 +182,10 @@ class TwitterOAuth extends Config
         return $this->http('GET', self::API_HOST, $path, $parameters);
     }
 
+    public function aget($path, array $parameters = array())
+    {
+        return $this->http('GET', self::API_HOST, $path, $parameters,TRUE);
+    }
     /**
      * Make POST requests to the API.
      *
@@ -219,12 +223,12 @@ class TwitterOAuth extends Config
      *
      * @return array|object
      */
-    private function http($method, $host, $path, array $parameters)
+    private function http($method, $host, $path, array $parameters,$async=false)
     {
         $this->resetLastResponse();
         $url = sprintf('%s/%s/%s.json', $host, self::API_VERSION, $path);
         $this->response->setApiPath($path);
-        $result = $this->oAuthRequest($url, $method, $parameters);
+        $result = $this->oAuthRequest($url, $method, $parameters,$async);
         $response = JsonDecoder::decode($result, $this->decodeJsonAsArray);
         $this->response->setBody($response);
         return $response;
@@ -240,7 +244,7 @@ class TwitterOAuth extends Config
      * @return string
      * @throws TwitterOAuthException
      */
-    private function oAuthRequest($url, $method, array $parameters)
+    private function oAuthRequest($url, $method, array $parameters,$async=false)
     {
         $request = Request::fromConsumerAndToken($this->consumer, $this->token, $method, $url, $parameters);
         if (array_key_exists('oauth_callback', $parameters)) {
@@ -254,7 +258,7 @@ class TwitterOAuth extends Config
         } else {
             $headers = 'Authorization: Bearer ' . $this->bearer;
         }
-        return $this->request($request->getNormalizedHttpUrl(), $method, $headers, $parameters);
+        return $this->request($request->getNormalizedHttpUrl(), $method, $headers, $parameters,$async);
     }
 
     /**
@@ -268,20 +272,22 @@ class TwitterOAuth extends Config
      * @return string
      * @throws TwitterOAuthException
      */
-    private function request($url, $method, $headers, $postfields)
+    private function request($url, $method, $headers, $postfields,$async=false)
     {
         /* Curl settings */
+        echo $async;
         $options = array(
             // CURLOPT_VERBOSE => true,
             CURLOPT_CAINFO => __DIR__ . DIRECTORY_SEPARATOR . 'cacert.pem',
             CURLOPT_CAPATH => __DIR__,
+            CURLOPT_FRESH_CONNECT=>$async,
             CURLOPT_CONNECTTIMEOUT => $this->connectionTimeout,
             CURLOPT_HEADER => true,
             CURLOPT_HTTPHEADER => array($headers, 'Expect:'),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_SSL_VERIFYPEER => true,
-            CURLOPT_TIMEOUT => $this->timeout,
+            CURLOPT_TIMEOUT => (($async!=false)?1:$this->timeout),
             CURLOPT_URL => $url,
             CURLOPT_USERAGENT => $this->userAgent,
             CURLOPT_ENCODING => 'gzip',

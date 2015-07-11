@@ -18,7 +18,10 @@
       <script  src="<?php echo base_url(); ?>includes/js/bootstrap-timepicker.min.js"></script>
  <script  src="<?php echo base_url(); ?>includes/js/jquery-ui.min.js"></script>
  
- 
+ <script  src="<?php echo base_url(); ?>includes/js/handlebars-v3.0.3.js"></script>
+  <script  src="<?php echo base_url(); ?>includes/js/moment-with-locales.min.js"></script>
+ <script  src="<?php echo base_url(); ?>includes/js/moment-duration-format.js"></script>
+
  <script  src="<?php echo base_url(); ?>includes/js/social.js"></script>
  <script  src="<?php echo base_url(); ?>includes/js/app.js"></script>
  <script  src="<?php echo base_url(); ?>includes/js/magnificpopup.min.js"></script>

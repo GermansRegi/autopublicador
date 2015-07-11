@@ -1,6 +1,6 @@
 3.4.9 (Selective Steve)
-faea7a389518f4399333af20cacff50420507e74
-o:Sass::Tree::RootNode:@template"x// When true, asset path helpers are used, otherwise the regular CSS `url()` is used.
+7f83b4c5e24fff717c92f7b8c9f3ade09dd98a40
+o:Sass::Tree::RootNode:@template"x// When true, asset path helpers are used, otherwise the regular CSS `url()` is used.
 // When there no function is defined, `fn('')` is parsed as string that equals the right hand side
 // NB: in Sass 3.3 there is a native function: function-exists(twbs-font-path)
 $bootstrap-sass-asset-helper: (twbs-font-path("") != unquote('twbs-font-path("")')) !default;
@@ -90,7 +90,7 @@ $icon-font-path: if($bootstrap-sass-asset-helper, "bootstrap/", "../fonts/bootst
 //** File name for all font files.
 $icon-font-name:          "glyphicons-halflings-regular" !default;
 //** Element ID within SVG icon file.
-$icon-font-svg-id:        "glyphicons_halflingsregular" !default;
+$icon-font-svg-id:        "glyphicons-halflings-regular" !default;
 
 
 //== Components
@@ -954,7 +954,7 @@ floor;@;&0;'@;(0;iK;)[o;#;$o;=;o;	;	@;@;o;;iK;iJ;o;;iK;i9;
 ;[",/*** Load fonts from this directory. */;@;;;iX;[ o;
 ;["g/* [converter] Asset helpers such as Sprockets and Node.js Mincer do not resolve relative paths */;@;;;iZ;[ o;;0;o;	;	@;@;o;;i[;ie;o;;i[;i; "icon-font-path;@;!T;"o;%;o;	;	@;@;o;;i[;i\;o;;i[;i; "if;@;&0;'@;(0;i[;)[o;=;o;	;	@;@;o;;i[;i6;o;;i[;i; " bootstrap-sass-asset-helper;@;>" bootstrap_sass_asset_helper;'@;i[o;*	;o;+;"bootstrap/;@;;,;o;	;	@;@;o;;i[;iD;o;;i[;i8;'@;i[o;*	;o;+;"../fonts/bootstrap/;@;;,;o;	;	@;@;o;;i[;i[;o;;i[;iF;'@;i[;-o;.;/{ ;0IC;1{ ;2[ ;i[;[ o;
 ;["*/*** File name for all font files. */;@;;;i];[ o;;0;o;	;	@;@;o;;i^;iG;o;;i^;i; "icon-font-name;@;!T;"o;*	;o;+;"!glyphicons-halflings-regular;@;;,;o;	;	@;@;o;;i^;i>;o;;i^;i ;'@;i^;i^;[ o;
-;["-/*** Element ID within SVG icon file. */;@;;;i_;[ o;;0;o;	;	@;@;o;;i`;iF;o;;i`;i; "icon-font-svg-id;@;!T;"o;*	;o;+;" glyphicons_halflingsregular;@;;,;o;	;	@;@;o;;i`;i=;o;;i`;i ;'@;i`;i`;[ o;
+;["-/*** Element ID within SVG icon file. */;@;;;i_;[ o;;0;o;	;	@;@;o;;i`;iG;o;;i`;i; "icon-font-svg-id;@;!T;"o;*	;o;+;"!glyphicons-halflings-regular;@;;,;o;	;	@;@;o;;i`;i>;o;;i`;i ;'@;i`;i`;[ o;
 ;["”/*== Components
  *
  *## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start). */;@;;;ic;[ o;;0;o;	;	@;@;o;;ig;i.;o;;ig;i; "padding-base-vertical;@;!T;"o;*	;o;?

@@ -163,7 +163,7 @@ $arr=array("group","user","event","page")
 								<label class="control-label ">Cuentas:</label>
 								  
 								<?php
-									$accordiondata['input']="datos";
+									$accordiondata['input']="datos[socialacc]";
 								 echo $this->load->view('accordion_accounts',$accordiondata);
 
 					?>
@@ -324,7 +324,7 @@ $arr=array("group","user","event","page")
 							<div class="col-lg-8">
 								<label class="control-label ">Cuentas:</label>
 								<?php 
-								$accordiondata['input']="anuncios";
+								$accordiondata['input']="anuncios[socialacc]";
 								echo $this->load->view('accordion_accounts2',$accordiondata);?>						  
 							</div>
 						</div>

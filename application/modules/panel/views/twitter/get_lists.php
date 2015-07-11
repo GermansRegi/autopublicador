@@ -4,7 +4,7 @@
 		<h4 class="modal-title">Listas</h4>
 	</div>
 	<div class="modal-body clearfix" >
-		<div ><a href="" class="btn btn-primary">Crear lista</a> </div>
+		<div ><a href="<?php echo base_url()?>panel/twitter/crearlista" data-toggle="ajaxModal" class="btn btn-primary">Crear lista</a> </div>
 		<div class="listsToAdd col-lg-12" data-user-id="<?php echo $usertwtid;?>">
 			
 			<div class="ownlists col-lg-6">
@@ -58,5 +58,5 @@
 	</div>
 	<div class="modal-footer">
 		<a href="#" class="btn btn-default" data-dismiss="modal">Cerrar</a>
-		<buton type="submit" value="Añadir " class="btn btn-primary addtwtlists">Añadir</buton>
+		<button type="submit" value="Añadir " class="btn btn-primary addtwtlists">Añadir</button>
 	</div>
