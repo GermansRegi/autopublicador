@@ -327,6 +327,71 @@ class Form_validation_global
     $arraydata['numTotal']=$numTotal;
     return $arraydata;
   }
+  public function getProgramationsByFolder($social_network)
+  {
+    $this->CI->load->model("folders_programations"); 
+    $this->CI->load->model("programations");
+    //agafo les carpettes
+    $data['folders']=$this->CI->folders_programations->get_many_by(array('user_app'=>$this->CI->flexi_auth->get_user_id(),'social_network'=>$social_network));
+    //agafo les programacions
+      $programaciones=$this->CI->programations->get_many_by(array('user_app'=>$this->CI->flexi_auth->get_user_id(),'social_network'=>$social_network));
+      foreach ($programaciones as $prog) {
+
+        if($prog->type_socialaccount=='account')
+        {
+          $acc=$this->CI->social_user_accounts->getUserAppAccounts(
+            array(
+              'idaccount'=>$prog->socialaccount,
+              'user_app'=>$this->CI->flexi_auth->get_user_id()
+              ),1);
+          $prog->name=$acc[0]->name;
+        }
+        else
+        {
+          $user=$this->CI->social_users->getUserAppUsers(
+            array(
+              'user_id'=>$prog->socialaccount,
+              'user_app'=>$this->CI->flexi_auth->get_user_id()
+              ),1); 
+          $prog->name=$user[0]->username;
+        }
+      
+      }
+      //preparo array d dades
+      $arraydata=array('folders'=>array(),'nofolder'=>array());
+      //per cada carpeta creo un subarray amb les dades de la carpeta i preparo un array per les programacions de dins la carpeta
+      foreach ($data['folders'] as $key) {
+        
+        $arraydata['folders'][]=array('data'=>$key,'rows'=>array());
+
+        
+        
+
+      }
+      $num=0;
+    foreach ($programaciones as $prog) {
+      if(is_null($prog->folder_id))
+      {
+        $arraydata['nofolder'][]=$prog;
+      }
+      else
+      {
+        if(count($arraydata['folders'])!=0)
+          for($m=0;$m<count($arraydata['folders']);$m++)
+          {
+            //var_dump($arraydata[$key->type_account]['folders'][1]);
+            if($arraydata['folders'][$m]['data']->id==$prog->folder_id)
+            $arraydata['folders'][$m]['rows'][]=$prog;        
+          }
+      }
+      $num++;
+    }
+    $arraydata['numTotal']=$num;
+    return $arraydata;
+      
+
+
+  }
   public function getAccountsByFolderTwT()
   {
     $this->CI->load->model("folders");

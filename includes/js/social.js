@@ -32,6 +32,47 @@ if($('#tweet_txt').length>0)
 }
 
 
+	$('body').on('click','.deleteprogfolder',function  (e) {
+			e.preventDefault()
+			$this=$(this)
+			var progFolderId=$this.data('id')
+			var np=noty({	text:"Seguro que quiere eliminar la carpeta de programaciones?",
+
+					buttons:
+						[	
+							{
+								addClass:"btn btn-primary",
+								text:"Cancelar",
+								onClick:function(notyfy){
+									notyfy.close()
+								}
+							},
+							{
+								text:"Acceptar",
+								addClass:"btn btn-danger",
+								onClick:function(notyfyparent)
+								{
+									$.ajax({
+										type:'post',
+										url:base_url+'panel/commonsocial/deleteFolderProg',
+										data:{'askHaveProg':true,'idFolder':progFolderId},
+										datatype:'json',
+										success:function(data){
+											var res=showResults(data,',','.messagedelete');
+											if(res){
+												$('body').delay(1000).queue(function( nxt ) {
+													document.location.href=current_url;
+													nxt();
+							                      }); 	
+											}
+										}
+									});
+								}
+						
+								}
+				]})
+
+	})
 	// event per eliminar contes i carpetes de xarxes socials
 	$("body").on("click",".deleteaccount",function(e){
 		e.preventDefault();
@@ -632,6 +673,7 @@ $("body").on("click",".deleteautoprog",function(){
 		 },$btn)
 		 
 	})
+	
 	  
            $(".accounts tbody tr","body").draggable({
             handle:'td.name',
@@ -640,7 +682,6 @@ $("body").on("click",".deleteautoprog",function(){
             appendTo:'body',
             opacity:0.7
            })
-
            $("div.panel-accounts-nofolder").droppable({
              activeClass: "ui-state-default",
                 hoverClass: "ui-state-hover",
@@ -693,4 +734,63 @@ $("body").on("click",".deleteautoprog",function(){
 
                 }
            })
+
+        $(".programaciones tbody tr","body").draggable({
+            handle:'td.name',
+            revert:'invalid',
+            cursor:'move',
+            appendTo:'body',
+            opacity:0.7
+           })
+        	$("div.panel-prog-nofolder").droppable({
+             activeClass: "ui-state-default",
+                hoverClass: "ui-state-hover",
+                accept:'tr.folderrow',
+                drop:function(event,ui){
+                    var idprog=$(ui.draggable).find('.deleteprog').data('id');
+                    
+                    $.ajax(
+                        {
+                            url:base_url+'panel/commonsocial/changeProgFolder',
+                            data:{prog:idprog,folder:'null'},
+                            type:'post',
+                            dataType:'json',
+                            complete:function(data){
+                                
+                          document.location.href=current_url;    
+                            }
+                        }
+                    );
+                    ui.draggable.remove();
+            
+                }
+           })
+        	$("div.panel-prog-folder").droppable({
+             activeClass: "ui-state-default",
+                hoverClass: "ui-state-hover",
+                drop:function(event,ui){
+                    var p=$(this)
+                  
+                    var idfolder=$(this).find('.panel-collapse').data('idfolder')
+                   
+                    var idprog=$(ui.draggable).find('.deleteprog').data('id');
+                 
+                    
+                    $.ajax(
+                        {
+                            url:base_url+'panel/commonsocial/changeProgFolder',
+                            data:{prog:idprog,folder:idfolder},
+                            type:'post',
+                            dataType:'json',
+                            complete:function(data){
+                                
+                                      document.location.href=current_url;
+                            }
+                        }
+                    );
+                    ui.draggable.remove();
+
+                }
+           })
+
    

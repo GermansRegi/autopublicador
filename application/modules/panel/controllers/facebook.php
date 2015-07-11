@@ -350,35 +350,13 @@ class Facebook extends CI_Controller {
 				$this->data['anuncios']=$this->anuncios_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'face'));
 			}
 			// agafo les programacions de facebook i de usuari 
-			$programaciones=$this->programations->get_many_by(
+			/*$programaciones=$this->programations->get_many_by(
 				array(
 					'social_network'=>"fb",
 					'user_app'=>$this->flexi_auth->get_user_id()
-					));
+					));*/
 			//pr cada una incloc el nom de la compte o pagina a la que vva associada
-			foreach ($programaciones as $prog) {
-
-				if($prog->type_socialaccount=='account')
-				{
-					$acc=$this->social_user_accounts->getUserAppAccounts(
-						array(
-							'idaccount'=>$prog->socialaccount,
-							'user_app'=>$this->flexi_auth->get_user_id()
-							),1);
-					$prog->name=$acc[0]->name;
-				}
-				else
-				{
-					$user=$this->social_users->getUserAppUsers(
-						array(
-							'user_id'=>$prog->socialaccount,
-							'user_app'=>$this->flexi_auth->get_user_id()
-							),1);	
-					$prog->name=$user[0]->username;
-				}
-			
-			}
-			$this->data['programaciones']=$programaciones;
+			$this->data['programaciones']=$this->form_validation_global->getProgramationsByFolder('fb');
 			
 
 		$this->data['titlepage']="Facebook - Programar publicación";

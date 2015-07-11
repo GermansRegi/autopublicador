@@ -85,7 +85,7 @@ class CommonSocial extends CI_Controller {
 	{
 			
 	}
-	
+
 	public function Ondeletehaveprog($id,$isuser)
 	{
 		$this->load->model('programations');
@@ -116,6 +116,22 @@ class CommonSocial extends CI_Controller {
 				return false;
 
 		}
+	}
+	public function deleteFolderProg()
+	{
+		$this->load->model('programations');
+		$progs=$this->programations->count_by(array("folder_id"=>$this->input->post('idFolder'),'user_app'=>$this->flexi_auth->get_user_id()));
+		if($progs==0)
+		{
+			$this->load->model('folders_programations');
+			$this->folders_programations->delete_by(array('id'=>$this->input->post('idFolder')));
+				echo json_encode(array("result"=>"ok","msg_success"=>'Carpeta eliminada correctamente '));
+		}
+		else
+		{
+					echo json_encode(array("result"=>"error","msg_errors"=>array('p'=>'No se puede eliminar la carpeta si contiene programaciones')));
+		}
+
 	}
 	public function deletecontent()
 	{
@@ -350,6 +366,23 @@ class CommonSocial extends CI_Controller {
 
 				$this->social_user_accounts->update_by(array('folder_id'=>$idfolder),array('id'=>$idpage,'user_app'=>$this->flexi_auth->get_user_id()));
 			}
+		}
+	}
+	public function changeProgFolder()
+	{
+		if($this->input->post())
+		{
+			$prog=$this->input->post('prog');
+			$idfolder=$this->input->post('folder');
+			
+			if($idfolder=='null')
+			{
+					$idfolder=NULL;
+			}
+			$this->load->model('programations');
+
+				$this->programations->update_by(array('folder_id'=>$idfolder),array('id'=>$prog,'user_app'=>$this->flexi_auth->get_user_id()));
+			
 		}
 	}
 	public function ver_programacion($idprog=0)
