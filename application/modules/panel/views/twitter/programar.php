@@ -164,21 +164,169 @@ $arr=array("group","user","event","page")
 					</div>	
 					</form>
 					<div class='col-lg-12'>
-					<div class="col-lg-2"><a class="btn btn-default showHide" >Crear Carpeta</a></div>
-						<div  class="col-lg-6 divCreateFolder clearfix  hidden"  >
-							<form id="createFolderProg" method="post" action="<?php echo base_url()?>panel/commonsocial/createFolderProg/tw"  class="form-horitzonal">
-								<div class="messagefolder"></div>
-								<div class="col-lg-12 form-group">
-									<label for="" class="label-control col-lg-4">Nombre:</label>
-									<div class="col-lg-7">
-										<input name="name" class="form-control" type="text">
+						<div class="clearfix">
+						<div class="col-lg-2">
+							<a class="btn btn-default showHide" >Crear Carpeta</a>
+							</div>
+							<div  class="col-lg-6 divCreateFolder clearfix  hidden"  >
+								<form id="createFolderProg" method="post" action="<?php echo base_url()?>panel/commonsocial/createFolderProg/tw"  class="form-horitzonal">
+									<div class="messagefolder"></div>
+									<div class="col-lg-12 form-group">
+										<label for="" class="label-control col-lg-4">Nombre:</label>
+										<div class="col-lg-7">
+											<input name="name" class="form-control" type="text">
+										</div>
+									</div>
+									<div class="form-group  col-lg-12">
+										<input type="submit"  class=" col-lg-offset-5  btn btn-primary" value="Crear carpeta"/>
+									</div>
+								</form>
+							</div>
+
+						<div class='messagedelete'></div>
+						</div>
+	<?
+							if(count($programaciones['nofolder'])>=0)
+							{		
+								
+								?>
+								<div class="panel panel-default panel-prog-nofolder">
+							<div class="panel-heading">Programaciones sin carpeta </div>
+
+									<div class="panel-body ">
+										<table class="table table-striped programaciones">
+											<thead>
+												<tr>
+													<td>Cuenta</td><td>Fecha</td><td>	Fecha Borrado</td><td>Estado</td><td></td>
+												</tr>	
+											</thead>			
+											<tbody>
+												<?php
+												$arrayStates=array('process'=>'En proceso','finished'=>"Terminado",'finisherase'=>'Terminado','nocomplete'=>"No completado",'toerase'=>'Pendiente de borrar'); 
+												foreach ($programaciones['nofolder'] as $prog) {
+													?>
+													
+													<tr>
+														<td class="name"><?php echo $prog->name ?></td>
+														<td><?php 
+
+														$fecha=new DateTime("@".$prog->fecha);
+														$fecha->setTimezone(new DateTimezone($this->session->userdata('timezone')));
+														if(!empty($prog->fechaBorrado))
+														{
+															$fechaB=new DateTime("@".$prog->fechaBorrado);
+															$fechaB->setTimezone(new DatetimeZone($this->session->userdata('timezone')));
+														}
+														else
+														{
+															$fechaB=null;
+														}
+
+														echo $fecha->format('d-m-Y H:i:s');?></td>
+														<td><?php echo (isset($fechaB)?$fechaB->format('d-m-Y H:i:s'):'-')?></td>
+														<td><?php echo $arrayStates[$prog->state]; ?></td>
+														<td>
+															<div class="btn-group" role="group">
+																 <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" role="button" >Ver </a><a data-id="<?php echo $prog->id; ?>" role="button" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a>
+															</div>
+															</td>
+	
+														</tr>
+
+													<?php   			
+
+									        				# code...
+												}
+												?>
+											</tbody>
+										</table>
 									</div>
 								</div>
-								<div class="form-group  col-lg-12">
-									<input type="submit"  class=" col-lg-offset-5  btn btn-primary" value="Crear carpeta"/>
+
+								<?php
+							}
+								if(count($programaciones['folders'])>0)
+							{	
+
+								?>
+								<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+									<?php
+									foreach ($programaciones['folders'] as $folder) {
+										?>
+										<div class="panel panel-default panel-prog-folder">
+											<div class="panel-heading  " role="tab" id="headerfold<?php echo $folder['data']->id; ?>">
+												<!--<h4 class=" clearfix panel-title">-->
+													<a class="accordion-toggle clearfix" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">
+														<span><?php echo $folder['data']->name; ?> <span class="badge"> <?php echo count($folder['rows']); ?></span></span>
+														<div class="pull-right btn btn-danger deleteprogfolder"  data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i></div>
+													</a>
+
+												<!--</h4>-->
+											</div>
+											
+											<div id="fold<?php echo $folder['data']->id; ?>" data-idfolder='<?php echo $folder['data']->id; ?>' class="panel-collapse collapse" role="tabpanel" aria-labelledby="headerfold<?php echo $folder['data']->id; ?>">
+												<div class="panel-body">	
+													<table class="table table-striped programaciones">
+														<thead>
+															<tr>
+																<td>Cuenta</td><td>Fecha</td><td>	Fecha Borrado</td><td>Estado</td><td></td>
+															</tr>	
+														</thead>			
+														<tbody>
+
+															<?php
+															
+																foreach ($folder['rows'] as $prog) 
+																{
+
+															?>
+
+
+																	<tr class="folderrow">
+																		<td class="name"><?php echo $prog->name ?></td>
+																		<td><?php 
+
+																		$fecha=new DateTime("@".$prog->fecha);
+																		$fecha->setTimezone(new DateTimezone($this->session->userdata('timezone')));
+																		if(!empty($prog->fechaBorrado))
+																		{
+																			$fechaB=new DateTime("@".$prog->fechaBorrado);
+																			$fechaB->setTimezone(new DatetimeZone($this->session->userdata('timezone')));
+																		}
+																		else
+																		{
+																			$fechaB=null;
+																		}
+
+																		echo $fecha->format('d-m-Y H:i:s');?></td>
+																		<td><?php echo (isset($fechaB)?$fechaB->format('d-m-Y H:i:s'):'-')?></td>
+																		<td><?php echo $arrayStates[$prog->state]; ?></td>
+																		<td>
+																			<div class="btn-group" role="group">
+																				 <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" role="button" >Ver </a><a data-id="<?php echo $prog->id; ?>" role="button" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a>
+																			</div>
+																		</td>
+
+																		</tr>
+
+																	<?php   			
+				  			
+																}
+															?>
+
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
 								</div>
-							</form>
+							<?php		
+							}
+							?>
 						</div>
+						<?php   			
+						}
+					/*
 					
 						<?php if(count($programaciones)>0)
 						{?>
@@ -225,7 +373,7 @@ $arr=array("group","user","event","page")
 							</tbody>
 						</table>
 						<?php
-						}
+						}*/
 						?>
 					</div>
 <?php }?>

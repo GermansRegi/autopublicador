@@ -606,6 +606,7 @@ class Twitter extends CI_Controller {
 		$this->load->library('form_validation_global');
 		$this->data['accordiondata']['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
 		
+
 			if ($this->flexi_auth->is_privileged('acces user prem') || $this->is_guest==true)
 			{
 				$this->data['basesdedatos']=$this->bases_datos_model->getAllWithAdmin(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id()),array('is_admin'=>1,'socialnetwork'=>'twt'));
@@ -618,14 +619,15 @@ class Twitter extends CI_Controller {
 				$this->data['anuncios']=$this->anuncios_model->get_many_by(array('is_admin'=>1,'socialnetwork'=>'twt'));
 			
 			}
-			$programaciones=$this->programations->get_many_by(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
-			foreach ($programaciones as $prog) {
+			//$programaciones=$this->programations->get_many_by(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+			/*foreach ($programaciones as $prog) {
 				
 					$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->socialaccount,'user_app'=>$this->flexi_auth->get_user_id()),1);	
 		
 					$prog->name=$user[0]->username;
-			}
-			$this->data['programaciones']=$programaciones;
+			}*/
+			$this->data['programaciones']=$this->form_validation_global->getProgramationsByFolder('tw');
+			//$this->data['programaciones']=$programaciones;
 			
 
 		$this->data['titlepage']="Twitter - Programar publicación";

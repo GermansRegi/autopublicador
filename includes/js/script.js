@@ -212,7 +212,7 @@ if(idUploader){
 	    	if(elem==null)
 	    	{
 
-	    		var notyp=noty({text:text,type:type	,layout:position,dismissQueue:true,timeout:seg,maxVisible:1});
+	    		noty({text:text,type:type,layout:position,dismissQueue:true,timeout:seg,maxVisible:1});
 	    	}
 	    	else
 		{

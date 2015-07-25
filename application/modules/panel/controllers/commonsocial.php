@@ -125,11 +125,11 @@ class CommonSocial extends CI_Controller {
 		{
 			$this->load->model('folders_programations');
 			$this->folders_programations->delete_by(array('id'=>$this->input->post('idFolder')));
-				echo json_encode(array("result"=>"ok","msg_success"=>'Carpeta eliminada correctamente '));
+				echo json_encode(array("msg_success"=>'Carpeta eliminada correctamente '));
 		}
 		else
 		{
-					echo json_encode(array("result"=>"error","msg_errors"=>array('p'=>'No se puede eliminar la carpeta si contiene programaciones')));
+					echo json_encode(array("msg_errors"=>array('p'=>'La carpeta contiene programaciones y no se puede eliminar')));
 		}
 
 	}

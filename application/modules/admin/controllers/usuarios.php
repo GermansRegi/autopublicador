@@ -88,6 +88,12 @@ class Usuarios extends CI_Controller {
 
 		}
 	}
+	public function cambiarplan($user_app,$grup_id)
+	{
+			$res=$this->db->query('update user_accounts set uacc_group_fk='.$grup_id.' where user_app='.$user_app);
+			redirect(base_url()."admin/usuarios");
+
+	}
 
 }
 

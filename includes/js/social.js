@@ -50,15 +50,17 @@ if($('#tweet_txt').length>0)
 							{
 								text:"Acceptar",
 								addClass:"btn btn-danger",
-								onClick:function(notyfyparent)
+								onClick:function(notyfy)
 								{
+									notyfy.close();
 									$.ajax({
 										type:'post',
 										url:base_url+'panel/commonsocial/deleteFolderProg',
 										data:{'askHaveProg':true,'idFolder':progFolderId},
-										datatype:'json',
+										dataType:'json',
 										success:function(data){
 											var res=showResults(data,',','.messagedelete');
+											
 											if(res){
 												$('body').delay(1000).queue(function( nxt ) {
 													document.location.href=current_url;
