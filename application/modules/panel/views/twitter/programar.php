@@ -164,7 +164,8 @@ $arr=array("group","user","event","page")
 					</div>	
 					</form>
 					<div class='col-lg-12'>
-						<div class="clearfix">
+					<a href="<?php echo base_url()?>panel/commonsocial/createFolderProg/tw/prog" class="btn btn-default btn-ms" data-toggle='ajaxModal'>Crear carpeta</a>
+					<!--	<div class="clearfix">
 						<div class="col-lg-2">
 							<a class="btn btn-default showHide" >Crear Carpeta</a>
 							</div>
@@ -184,7 +185,7 @@ $arr=array("group","user","event","page")
 							</div>
 
 						<div class='messagedelete'></div>
-						</div>
+						</div>-->
 	<?
 							if(count($programaciones['nofolder'])>=0)
 							{		
@@ -231,7 +232,7 @@ $arr=array("group","user","event","page")
 															</div>
 															</td>
 	
-														</tr>
+													</tr>
 
 													<?php   			
 
@@ -307,7 +308,7 @@ $arr=array("group","user","event","page")
 																			</div>
 																		</td>
 
-																		</tr>
+																	</tr>
 
 																	<?php   			
 				  			
@@ -319,10 +320,11 @@ $arr=array("group","user","event","page")
 												</div>
 											</div>
 										</div>
+									<?php		
+									}
+									?>
 								</div>
-							<?php		
-							}
-							?>
+							
 						</div>
 						<?php   			
 						}

@@ -1,4 +1,4 @@
-<form id="" method="post" action="<?php echo base_url()?>panel/commonsocial/createFolderAutoProg/<?php echo $socialnetwork."/".$content; ?>"  class="form-horitzonal">
+<form id="createFolderProg" method="post" action="<?php echo $url; ?>"  class="form-horitzonal">
 				
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>
@@ -6,11 +6,12 @@
 	</div>
 	<div class="modal-body">
 		<div class="clearfix">
-					<div class="messagefolder"></div>
+					<div class="messagemodal"></div>
 					<div class="col-lg-12 form-group">
 						<label for="" class="label-control col-lg-4">Nombre:</label>
 						<div class="col-lg-7">
 							<input name="name" class="form-control" type="text">
+							<?php echo form_error('name');?>
 						</div>
 					</div>
 					<div class="form-group  col-lg-12">

@@ -970,7 +970,7 @@ class Facebook extends CI_Controller {
 		}
 		
 		$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
-		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+//		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
 		foreach ($programacionesbbdd as $prog) {
 			if($prog->type=='account')
 			{
@@ -981,10 +981,11 @@ class Facebook extends CI_Controller {
 			{
 				$user=$this->social_users->getUserAppUsers(array('user_id'=>$prog->accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);	
 				$prog->name=$user[0]->username;
-			}
 		
+		
+			}
 		}
-		foreach ($programacionesanuncios as $prog) {
+/*		foreach ($programacionesanuncios as $prog) {
 			if($prog->type=='account')
 			{
 				$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$prog->accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
@@ -997,10 +998,12 @@ class Facebook extends CI_Controller {
 			}
 		
 		}
-
-		$this->data['autoprog']['basededatos']=$programacionesbbdd;
-		$this->data['autoprog']['anuncios']=$programacionesanuncios;
+*/
 		$this->load->library('form_validation_global');
+		$this->data['autoprog']['basededatos']=$this->form_validation_global->getAutoProgByFolder('bbdd','fb');
+		$this->data['autoprog']['basededatos2']=$programacionesbbdd;
+		$this->data['autoprog']['anuncios']=$this->form_validation_global->getAutoProgByFolder('anunci','fb');
+		
 		$this->data['accordiondata']['arraydata']=$this->form_validation_global->getAccountsByFolderFB();
 
 			

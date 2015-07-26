@@ -119,18 +119,44 @@ class CommonSocial extends CI_Controller {
 	}
 	public function deleteFolderProg()
 	{
-		$this->load->model('programations');
-		$progs=$this->programations->count_by(array("folder_id"=>$this->input->post('idFolder'),'user_app'=>$this->flexi_auth->get_user_id()));
-		if($progs==0)
+		$isAutoProg=$this->input->post('isAutoProg');
+
+		if($isAutoProg==='true')
 		{
-			$this->load->model('folders_programations');
-			$this->folders_programations->delete_by(array('id'=>$this->input->post('idFolder')));
-				echo json_encode(array("msg_success"=>'Carpeta eliminada correctamente '));
+			$this->load->model('folders_autoprog');
+			$foldertodelete=$this->folders_autoprog->get_by_id($this->input->post('idFolder'));
+			 $array=array('bbdd'=>'basededatos','anunci'=>'anuncios');
+			 $model_autoprog_type='autoprog_'.$array[$foldertodelete[0]->type];
+		     $this->load->model($model_autoprog_type);
+		     $progs=$this->$model_autoprog_type->count_by(array("folder_id"=>$this->input->post('idFolder'),'user_app'=>$this->flexi_auth->get_user_id()));
+		     if($progs==0)
+		     {
+		     	$this->folders_autoprog->delete_by(array('id'=>$this->input->post('idFolder')));
+		     	echo json_encode(array("msg_success"=>'Carpeta eliminada correctamente '));
+		     }
+		     else
+		     {
+		     			echo json_encode(array("msg_errors"=>array('p'=>'La carpeta contiene programaciones y no se puede eliminar')));	
+		     }
+
+
 		}
 		else
 		{
-					echo json_encode(array("msg_errors"=>array('p'=>'La carpeta contiene programaciones y no se puede eliminar')));
+			$this->load->model('programations');
+			$progs=$this->programations->count_by(array("folder_id"=>$this->input->post('idFolder'),'user_app'=>$this->flexi_auth->get_user_id()));
+			if($progs==0)
+			{
+				$this->load->model('folders_programations');
+				$this->folders_programations->delete_by(array('id'=>$this->input->post('idFolder')));
+					echo json_encode(array("msg_success"=>'Carpeta eliminada correctamente '));
+			}
+			else
+			{
+						echo json_encode(array("msg_errors"=>array('p'=>'La carpeta contiene programaciones y no se puede eliminar')));
+			}	
 		}
+		
 
 	}
 	public function deletecontent()
@@ -374,15 +400,25 @@ class CommonSocial extends CI_Controller {
 		{
 			$prog=$this->input->post('prog');
 			$idfolder=$this->input->post('folder');
-			
+			$isAutoProg=$this->input->post('isAutoProg');
 			if($idfolder=='null')
 			{
 					$idfolder=NULL;
 			}
+			if($isAutoProg==='false')
+			{
 			$this->load->model('programations');
 
 				$this->programations->update_by(array('folder_id'=>$idfolder),array('id'=>$prog,'user_app'=>$this->flexi_auth->get_user_id()));
-			
+			}
+			else
+			{
+		      $array=array('bbdd'=>'basededatos','anunci'=>'anuncios');
+		      $this->load->model('folders_autoprog');
+		      $model_autoprog_type='autoprog_'.$this->input->post('type');
+		      $this->load->model($model_autoprog_type);
+		      $this->$model_autoprog_type->update_by(array('folder_id'=>$idfolder),array('id'=>$prog,'user_app'=>$this->flexi_auth->get_user_id()));
+			}
 		}
 	}
 	public function ver_programacion($idprog=0)
@@ -651,41 +687,64 @@ class CommonSocial extends CI_Controller {
 				echo json_encode(array('msg_errors'=>array('pp'=>'Error al eliminar los datos')));
 		}
 	}
-	public function createFolderProg($social_network)
+	public function createFolderProg($social_network,$type,$type=null)
 	{
-			if($this->input->post())
+		if($this->input->post())
 		{
 			$this->form_validation->set_rules('name', 'Nombre', 'required');
 			$array=array('fb'=>'facebook',"tw"=>'twitter');
+			
 			if($this->form_validation->run()==TRUE)
 			{
-			
-				$this->load->model("folders_programations");
-				$arr=array(
-				"name"=>$this->input->post("name"),
-				
-				'user_app'=>$this->flexi_auth->get_user_id(),
-				"social_network"=>$social_network
-				);
-				if($this->folders_programations->insert($arr)){
-					redirect(base_url().'panel/'.$array[$social_network].'/programar_'.$array[$social_network]);
+				if($type=="prog")
+				{	
+					$this->load->model("folders_programations");
+					$arr=array(
+					"name"=>$this->input->post("name"),
+					
+					'user_app'=>$this->flexi_auth->get_user_id(),
+					"social_network"=>$social_network
+					);
+					if($this->folders_programations->insert($arr)){
+						//redirect(base_url().'panel/'.$array[$social_network].'/programar_'.$array[$social_network]);
+					}
 				}	
+				else
+				{
+					$this->load->model("folders_autoprog");
+					$arr=array(
+					"name"=>$this->input->post("name"),
+					
+					'user_app'=>$this->flexi_auth->get_user_id(),
+					"social_network"=>$social_network,
+					'type'=>$type
+					);
+					if($this->folders_autoprog->insert($arr)){
+						//redirect(base_url().'panel/'.$array[$social_network].'/prog_periodicas');
+					}
+				}
+				echo json_encode(array('msg_success'=>'Datos guardados correctamente'));				
 			}
+			else
+			{
+				    $errors = $this->form_validation->error_array();
+                   echo json_encode(array('msg_errors'=>$errors)); 
+
+			}
+			exit;
+
 		
 		}
+		else
+		{
+			$this->data['url']=base_url(uri_string());
+			
+			$this->load->view('common/createFolderAutoProg',$this->data);
+		}
+
 	
 	}
-	public function modal_createFolderAutoProg($socialnetwork,$content)
-	{
-		$this->data['socialnetwork']=$socialnetwork;
-		$this->data['content']=$content;
-		$this->load->view('common/createFolderAutoProg',$this->data);
-	}
-	public function createFolderAutoProg($socialnetwork,$content)
-	{
-		$this->load->model('folders_autoprog');
-		$this>-input
-	}
+
 }
 
 /* End of file commonactions.php */

@@ -31,10 +31,11 @@ if($('#tweet_txt').length>0)
     init_contadorTa("tweet_txt","contadorTaComentario", 140);
 }
 
-
+	// serveix per eliminar una carpeta de programacions puntuals i una carpeta de programacions periodiques
 	$('body').on('click','.deleteprogfolder',function  (e) {
 			e.preventDefault()
 			$this=$(this)
+			var isAutoProg=($this.hasClass('autoprog'))
 			var progFolderId=$this.data('id')
 			var np=noty({	text:"Seguro que quiere eliminar la carpeta de programaciones?",
 
@@ -56,10 +57,10 @@ if($('#tweet_txt').length>0)
 									$.ajax({
 										type:'post',
 										url:base_url+'panel/commonsocial/deleteFolderProg',
-										data:{'askHaveProg':true,'idFolder':progFolderId},
+										data:{'askHaveProg':true,'idFolder':progFolderId,isAutoProg:isAutoProg},
 										dataType:'json',
 										success:function(data){
-											var res=showResults(data,',','.messagedelete');
+											var res=showResults(data,',','.message');
 											
 											if(res){
 												$('body').delay(1000).queue(function( nxt ) {
@@ -168,7 +169,7 @@ if($('#tweet_txt').length>0)
 	
 
 	})
-	//
+	//serveix per eliminar una programacio periodica
 $("body").on("click",".deleteautoprog",function(){
 	var $this=$(this);
 	var prog=$this.data("prog-id")
@@ -356,21 +357,21 @@ $("body").on("click",".deleteautoprog",function(){
 			});	
 		return false;
 	});
-	$("body").on("submit","#createFolderAutoProg",function(e){
+	$("body").on("submit","#createFolderProg",function(e){
 		e.preventDefault();
-		var url=$(this).parents('form')[0].attr('action')
-		var name=$(this).parents('input[type="text"]').val()
-		console.log(url,name);
+		var url=$(this).attr('action')
+		var $this=$(this);
+		console.log(url);
 		$.ajax(
 			{
 				url:url,
 				data:
-					$(this).serialize()
+					$this.serialize()
 					,
 				type:"post",
 				dataType:"json",
 				success:function(data){
-					var res=showResults(data,',','.message');
+					var res=showResults(data,',','.messagemodal');
 					if(res){
 							$('body').delay(1000).queue(function( nxt ) {
 								document.location.href=current_url;
@@ -517,7 +518,7 @@ $("body").on("click",".deleteautoprog",function(){
 		}	
 
 	}
-
+	// serveix per eliminar una programacio puntual
 	$('body').on('click','.deleteprog',function()
 	{
 		$this=$(this);
@@ -763,7 +764,7 @@ $("body").on("click",".deleteautoprog",function(){
 
                 }
            })
-
+		// faig dreggable els trde la taula 
         $(".programaciones tbody tr","body").draggable({
             handle:'td.name',
             revert:'invalid',
@@ -771,22 +772,42 @@ $("body").on("click",".deleteautoprog",function(){
             appendTo:'body',
             opacity:0.7
            })
+        	//FAIG DRoppable el contenidor per a programacions sense carpetes 
+        	//treu la programacio k sigui de la carpeta en k esta / posa anull el camp folder_id de la programacio
+        	//
+        	//
         	$("div.panel-prog-nofolder").droppable({
              activeClass: "ui-state-default",
                 hoverClass: "ui-state-hover",
                 accept:'tr.folderrow',
                 drop:function(event,ui){
-                    var idprog=$(ui.draggable).find('.deleteprog').data('id');
-                    
+                	//agafo id de la programacio
+                	//
+                	var isAutoProg=null
+                	var type=null
+                	 isAutoProg=($(ui.draggable).find('.deleteautoprog').length>0);
+
+                	if(isAutoProg)
+                	{
+                		var idprog=$(ui.draggable).find('.deleteautoprog').data('prog-id')
+                		 type=$(ui.draggable).find('.deleteautoprog').data('type-prog');
+
+                	}
+                	else
+                	{
+						var idprog=$(ui.draggable).find('.deleteprog').data('id');
+                	}
+
+                    //faig peticio a servidor per posar a null en camp id_folder de la programacio 
                     $.ajax(
                         {
                             url:base_url+'panel/commonsocial/changeProgFolder',
-                            data:{prog:idprog,folder:'null'},
+                            data:{prog:idprog,folder:'null',isAutoProg:isAutoProg,type:type},
                             type:'post',
                             dataType:'json',
                             complete:function(data){
                                 
-                          document.location.href=current_url;    
+                     //     document.location.href=current_url;    
                             }
                         }
                     );
@@ -794,26 +815,46 @@ $("body").on("click",".deleteautoprog",function(){
             
                 }
            })
+        	//faig droppable els contenidors per a programacions amb carpetes
         	$("div.panel-prog-folder").droppable({
              activeClass: "ui-state-default",
                 hoverClass: "ui-state-hover",
                 drop:function(event,ui){
                     var p=$(this)
-                  
-                    var idfolder=$(this).find('.panel-collapse').data('idfolder')
+                    var isAutoProg=null
+                	var type=null
+                	 isAutoProg=($(ui.draggable).find('.deleteautoprog').length>0);
+
+                	if(isAutoProg)
+                	{
+                		var idprog=$(ui.draggable).find('.deleteautoprog').data('prog-id')
+                		 type=$(ui.draggable).find('.deleteautoprog').data('type-prog');
+
+                	}
+                	else
+                	{
+
+						var idprog=$(ui.draggable).find('.deleteprog').data('id');
+                	}
+
+                  //agafo id de la carpeta en que he deixat la programacio
+					var idfolder=$(this).find('.panel-collapse').data('idfolder')
                    
-                    var idprog=$(ui.draggable).find('.deleteprog').data('id');
-                 
                     
+                 
+                    // faig peticio al servidor per fer efectiu el canvi
                     $.ajax(
                         {
                             url:base_url+'panel/commonsocial/changeProgFolder',
-                            data:{prog:idprog,folder:idfolder},
+                           data:{'prog':idprog,
+                    				'folder':idfolder,
+                    				'isAutoProg':isAutoProg,
+                    				'type':type},
                             type:'post',
                             dataType:'json',
                             complete:function(data){
                                 
-                                      document.location.href=current_url;
+                                    //  document.location.href=current_url;
                             }
                         }
                     );

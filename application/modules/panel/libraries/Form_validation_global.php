@@ -327,6 +327,73 @@ class Form_validation_global
     $arraydata['numTotal']=$numTotal;
     return $arraydata;
   }
+  public function getAutoProgByFolder($type,$social_network)
+  {
+      $array=array('bbdd'=>'basededatos','anunci'=>'anuncios');
+      $this->CI->load->model('folders_autoprog');
+      $model_autoprog_content='autoprog_'.$array[$type];
+
+      $this->CI->load->model($model_autoprog_content);
+      $data['folders']=$this->CI->folders_autoprog->get_many_by(array('user_app'=>$this->CI->flexi_auth->get_user_id(),'social_network'=>$social_network,'type'=>$type));
+      $autoprogramaciones=$this->CI->$model_autoprog_content->get_many_by(array('socialnetwork'=>$social_network,'user_app'=>$this->CI->flexi_auth->get_user_id()));
+      foreach ($autoprogramaciones as $prog) {
+
+        if($prog->type=='account')
+        {
+          $acc=$this->CI->social_user_accounts->getUserAppAccounts(
+            array(
+              'idaccount'=>$prog->accountid,
+              'user_app'=>$this->CI->flexi_auth->get_user_id()
+              ),1);
+          $prog->name=$acc[0]->name;
+        }
+        else
+        {
+          $user=$this->CI->social_users->getUserAppUsers(
+            array(
+              'user_id'=>$prog->accountid,
+              'user_app'=>$this->CI->flexi_auth->get_user_id()
+              ),1); 
+          $prog->name=$user[0]->username;
+        }
+      
+      }
+      $arraydata=array('folders'=>array(),'nofolder'=>array());
+      //per cada carpeta creo un subarray amb les dades de la carpeta i preparo un array per les programacions de dins la carpeta
+      foreach ($data['folders'] as $key) {
+        
+        $arraydata['folders'][]=array('data'=>$key,'rows'=>array());
+
+        
+        
+
+      }
+      $num=0;
+      foreach ($autoprogramaciones as $prog) {
+      if(is_null($prog->folder_id))
+      {
+        $arraydata['nofolder'][]=$prog;
+      }
+      else
+      {
+        if(count($arraydata['folders'])!=0)
+          for($m=0;$m<count($arraydata['folders']);$m++)
+          {
+            //var_dump($arraydata[$key->type_account]['folders'][1]);
+            if($arraydata['folders'][$m]['data']->id==$prog->folder_id)
+            $arraydata['folders'][$m]['rows'][]=$prog;        
+          }
+      }
+      $num++;
+    }
+    $arraydata['numTotal']=$num;
+    return $arraydata;
+      
+  
+
+
+      
+  }
   public function getProgramationsByFolder($social_network)
   {
     $this->CI->load->model("folders_programations"); 

@@ -166,7 +166,8 @@ $arr=array("group","user","event","page")
 					</form>
 
 					<div class="col-lg-12">
-						<div class="clearfix">
+						<a href="<?php echo base_url()?>panel/commonsocial/createFolderProg/fb/prog" class="btn btn-default btn-ms" data-toggle='ajaxModal'>Crear carpeta</a>
+							<!--<div class="clearfix">
 						<div class="col-lg-2"><a class="btn btn-default showHide" >Crear Carpeta</a></div>
 						<div  class="col-lg-6 divCreateFolder clearfix  hidden"  >
 							<form id="createFolderProg" method="post" action="<?php echo base_url()?>panel/commonsocial/createFolderProg/fb"  class="form-horitzonal">
@@ -183,8 +184,8 @@ $arr=array("group","user","event","page")
 							</form>
 						</div>
 						<div class='messagedelete'></div>
-						</div>
-	<?
+						</div>-->
+						<?
 							if(count($programaciones['nofolder'])>=0)
 							{		
 								
@@ -230,7 +231,7 @@ $arr=array("group","user","event","page")
 															</div>
 															</td>
 	
-														</tr>
+													</tr>
 
 													<?php   			
 
@@ -250,14 +251,16 @@ $arr=array("group","user","event","page")
 								?>
 								<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
 									<?php
-									foreach ($programaciones['folders'] as $folder) {
+									foreach ($programaciones['folders'] as $folder) 
+									{
 										?>
 										<div class="panel panel-default panel-prog-folder">
 											<div class="panel-heading  " role="tab" id="headerfold<?php echo $folder['data']->id; ?>">
 												<!--<h4 class=" clearfix panel-title">-->
 													<a class="accordion-toggle clearfix" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">
 														<span><?php echo $folder['data']->name; ?> <span class="badge"> <?php echo count($folder['rows']); ?></span></span>
-														<div class="pull-right btn btn-danger deleteprogfolder"  data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i></div>
+														<div class="pull-right btn btn-danger deleteprogfolder"  data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i>
+														</div>
 													</a>
 
 												<!--</h4>-->
@@ -306,7 +309,7 @@ $arr=array("group","user","event","page")
 																			</div>
 																		</td>
 
-																		</tr>
+																	</tr>
 
 																	<?php   			
 				  			
@@ -318,10 +321,11 @@ $arr=array("group","user","event","page")
 												</div>
 											</div>
 										</div>
+										<?php		
+									}?>
 								</div>
-							<?php		
-							}
-							?>
+							
+							
 						</div>
 						<?php   			
 						}
