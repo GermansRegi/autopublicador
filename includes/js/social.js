@@ -356,6 +356,33 @@ $("body").on("click",".deleteautoprog",function(){
 			});	
 		return false;
 	});
+	$("body").on("submit","#createFolderAutoProg",function(e){
+		e.preventDefault();
+		var url=$(this).parents('form')[0].attr('action')
+		var name=$(this).parents('input[type="text"]').val()
+		console.log(url,name);
+		$.ajax(
+			{
+				url:url,
+				data:
+					$(this).serialize()
+					,
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					var res=showResults(data,',','.message');
+					if(res){
+							$('body').delay(1000).queue(function( nxt ) {
+								document.location.href=current_url;
+								nxt();
+		                      }); 	
+						}
+				},
+
+			});	
+		return false;
+	});
+
 	$("body").on("submit","#addGroup",function(e){
 		e.preventDefault();
 	

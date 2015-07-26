@@ -153,6 +153,7 @@ $arr=array("group","user","event","page")
 						<div class="row form-group"	>
 							<div class="col-lg-4">
 								<input type="submit" name='datos[enviar]' value="Guardar programación de base de datos" class="btn btn-primary">
+								<a href="<?php echo base_url()?>panel/commonsocial/modal_createFolderAutoProg/tw/bbdd" class="btn btn-default btn-ms" data-toggle='ajaxModal'>Crear carpeta</a>
 							</div>
 							<div class="col-lg-8">
 								<label class="control-label ">Cuentas:</label>
@@ -320,6 +321,7 @@ $arr=array("group","user","event","page")
 						<div class="row form-group">
 							<div class="col-lg-4">
 								<input type="submit"  name='anuncios[enviar]' value="Guardar programación de anuncios" class="btn btn-primary">
+								<a href="<?php echo base_url()?>panel/commonsocial/modal_createFolderAutoProg/tw/anunci" class="btn btn-default btn-ms" data-toggle='ajaxModal'>Crear carpeta</a>
 							</div>
 							<div class="col-lg-8">
 								 <label class="control-label ">Cuentas:</label>

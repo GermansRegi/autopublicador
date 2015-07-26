@@ -675,6 +675,17 @@ class CommonSocial extends CI_Controller {
 		}
 	
 	}
+	public function modal_createFolderAutoProg($socialnetwork,$content)
+	{
+		$this->data['socialnetwork']=$socialnetwork;
+		$this->data['content']=$content;
+		$this->load->view('common/createFolderAutoProg',$this->data);
+	}
+	public function createFolderAutoProg($socialnetwork,$content)
+	{
+		$this->load->model('folders_autoprog');
+		$this>-input
+	}
 }
 
 /* End of file commonactions.php */
