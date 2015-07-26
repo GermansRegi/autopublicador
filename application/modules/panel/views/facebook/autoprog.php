@@ -159,7 +159,7 @@ $arr=array("group","user","event","page")
 						<div class="row form-group"	>
 							<div class="col-lg-4 ">
 								<input type="submit" name='datos[enviar]' value="Guardar programación de bases de datos" class="btn btn-primary">
-								<a href="<?php echo base_url()?>panel/commonsocial/modal_createFolderAutoProg/fb/bbdd" class="btn btn-default btn-ms" data-toggle='ajaxModal'>Crear carpeta</a>
+								<a href="<?php echo base_url()?>panel/commonsocial/createFolderProg/fb/auto/bbdd" class="btn btn-default btn-ms" data-toggle='ajaxModal'>Crear carpeta</a>
 							</div>
 							<div class="col-lg-8">
 								<label class="control-label ">Cuentas:</label>
@@ -175,10 +175,101 @@ $arr=array("group","user","event","page")
 					<div class=" form-group panel panel-default ">
 						<div class="panel-heading">Programaciones periódicas de bases de datos</div>
 							<div class="panel-body">
-								<table class="table table-striped">
-									<tbody>
-										<?php 
-										foreach ($autoprog['basededatos'] as $prog) {
+							<div class="messagedelete"></div>
+							<!--	<table class="table table-striped">
+									<tbody>-->
+										<?php
+
+					//					echo "<pre>";
+					//					var_dump($autoprog['basededatos']);
+							//			echo "</pre>";
+										if(count($autoprog['basededatos']['nofolder'])>=0)
+										{
+											?>
+											<div class="panel panel-default panel-prog-nofolder">
+												<div class="panel-heading">Programaciones periódicas sin carpeta </div>
+
+												<div class="panel-body ">
+													<table class="table table-striped programaciones">
+														<tbody>
+															<?php
+																foreach ($autoprog['basededatos']['nofolder'] as $prog) {
+																	echo "<tr>";
+																	echo "<td class='name'>".$prog->name."</td>";
+																	?>
+																	<td><a href="<?php echo base_url()?>panel/commonsocial/editar_basesdedatos/<?php echo $prog->accountid.(($prog->type=='user')?'/u':'/a').'/'.$prog->id; ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>
+																		<a  class="btn btn-danger deleteautoprog" data-account-id="<?php echo $prog->accountid?>" data-type-prog='basededatos' data-prog-id="<?php  echo $prog->id; ?>"> <i  class="fa fa-trash-o"></i></a>
+																	</td>
+																	<?php
+																	echo "</tr>";
+																}
+															?>					
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<?php
+										}										
+										if(count($autoprog['basededatos']['folders'])>0)
+										{
+											?>
+													<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+												<?php
+												foreach ($autoprog['basededatos']['folders'] as $folder) 
+												{
+													?>
+													<div class="panel panel-default panel-prog-folder">
+														<div class="panel-heading  " role="tab" id="headerfold<?php echo $folder['data']->id; ?>">
+															<!--<h4 class=" clearfix panel-title">-->
+																<a class="accordion-toggle clearfix" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">
+																	<span><?php echo $folder['data']->name; ?> <span class="badge"> <?php echo count($folder['rows']); ?></span></span>
+																	<div class="pull-right btn btn-danger autoprog deleteprogfolder"  data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i>
+																	</div>
+																</a>
+
+															<!--</h4>-->
+														</div>
+														
+														<div id="fold<?php echo $folder['data']->id; ?>" data-idfolder='<?php echo $folder['data']->id; ?>' class="panel-collapse collapse" role="tabpanel" aria-labelledby="headerfold<?php echo $folder['data']->id; ?>">
+															<div class="panel-body">	
+																<table class="table table-striped programaciones">
+																	<tbody>
+
+																		<?php
+																		
+																			foreach ($folder['rows'] as $prog) 
+																			{
+
+																		?>
+
+
+																				<tr class="folderrow">
+																					<td class='name'><?php echo $prog->name; ?></td>
+																					
+																					<td><a href="<?php echo base_url()?>panel/commonsocial/editar_basesdedatos/<?php echo $prog->accountid.(($prog->type=='user')?'/u':'/a').'/'.$prog->id; ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>
+																						<a  class="btn btn-danger deleteautoprog" data-account-id="<?php echo $prog->accountid?>" data-type-prog='basededatos' data-isAutoProg="true" data-prog-id="<?php  echo $prog->id; ?>"> <i  class="fa fa-trash-o"></i></a>
+																					</td>
+
+																				</tr>
+
+																				<?php   			
+							  			
+																			}
+																		?>
+
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+													<?php		
+												}?>
+											</div>
+										
+										
+											<?php
+										}
+								/*		foreach ($autoprog['basededatos2'] as $prog) {
 											echo "<tr>";
 											echo "<td>".$prog->name."</td>";
 											?>
@@ -187,10 +278,10 @@ $arr=array("group","user","event","page")
 											</td>
 											<?php
 											echo "</tr>";
-										}
+										}*/
 										?>
-									</tbody>
-								</table>		
+									<!--</tbody>
+								</table>		-->
 							</div>
 						</div>
 					
@@ -322,7 +413,7 @@ $arr=array("group","user","event","page")
 						<div class="row form-group">
 							<div class="col-lg-4">
 								<input type="submit" name='anuncios[enviar]' value="Guardar programación de anuncios" class="btn btn-primary">
-								<a href="<?php echo base_url()?>panel/commonsocial/modal_createFolderAutoProg/fb/anunci" class="btn btn-default btn-ms" data-toggle='ajaxModal'>Crear carpeta</a>
+								<a href="<?php echo base_url()?>panel/commonsocial/createFolderProg/fb/auto/anunci" class="btn btn-default btn-ms" data-toggle='ajaxModal'>Crear carpeta</a>
 							</div>
 							<div class="col-lg-8">
 								<label class="control-label ">Cuentas:</label>
@@ -334,10 +425,101 @@ $arr=array("group","user","event","page")
 						<div class=" form-group panel panel-default ">
 							<div class="panel-heading">Programaciones periódicas de anuncios</div>
 								<div class="panel-body">
-									<table class="table table-striped">
+								<div class="messagedelete"></div>
+								<?php
+										if(count($autoprog['anuncios']['nofolder'])>=0)
+										{
+											?>
+											<div class="panel panel-default panel-prog-nofolder">
+												<div class="panel-heading">Programaciones periódicas sin carpeta </div>
+
+												<div class="panel-body ">
+													<table class="table table-striped programaciones">
+														<tbody>
+															<?php
+																foreach ($autoprog['anuncios']['nofolder'] as $prog) {
+																	echo "<tr>";
+																	echo "<td class='name'>".$prog->name."</td>";
+																	?>
+																	<td><a href="<?php echo base_url()?>panel/commonsocial/editar_anuncios/<?php echo $prog->accountid.(($prog->type=='user')?'/u':'/a').'/'.$prog->id; ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>
+																		<a  class="btn btn-danger deleteautoprog" data-account-id="<?php echo $prog->accountid?>" data-type-prog='anuncios' data-prog-id="<?php  echo $prog->id; ?>"> <i  class="fa fa-trash-o"></i></a>
+																	</td>
+																	<?php
+																	echo "</tr>";
+																}
+															?>					
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<?php
+										}										
+										if(count($autoprog['anuncios']['folders'])>0)
+										{
+											?>
+													<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+												<?php
+												foreach ($autoprog['anuncios']['folders'] as $folder) 
+												{
+													?>
+													<div class="panel panel-default panel-prog-folder">
+														<div class="panel-heading  " role="tab" id="headerfold<?php echo $folder['data']->id; ?>">
+															<!--<h4 class=" clearfix panel-title">-->
+																<a class="accordion-toggle clearfix" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" href="#fold<?php echo $folder['data']->id; ?>"  aria-controls="fold<?php echo $folder['data']->id; ?>">
+																	<span><?php echo $folder['data']->name; ?> <span class="badge"> <?php echo count($folder['rows']); ?></span></span>
+																	<div class="pull-right btn btn-danger autoprog deleteprogfolder"  data-type="true" data-social="fb"  data-id="<?php echo $folder['data']->id; ?>"><i class="fa fa-trash-o"></i>
+																	</div>
+																</a>
+
+															<!--</h4>-->
+														</div>
+														
+														<div id="fold<?php echo $folder['data']->id; ?>" data-idfolder='<?php echo $folder['data']->id; ?>' class="panel-collapse collapse" role="tabpanel" aria-labelledby="headerfold<?php echo $folder['data']->id; ?>">
+															<div class="panel-body">	
+																<table class="table table-striped programaciones">
+																	<tbody>
+
+																		<?php
+																		
+																			foreach ($folder['rows'] as $prog) 
+																			{
+
+																		?>
+
+
+																				<tr class="folderrow">
+																					<td class="name"><?php echo $prog->name; ?></td>
+																					
+																					<td><a href="<?php echo base_url()?>panel/commonsocial/editar_anuncios/<?php echo $prog->accountid.(($prog->type=='user')?'/u':'/a').'/'.$prog->id; ?>" class="btn btn-default btn-ms" data-toggle='ajaxModal'> <i  class="fa fa-edit"></i></a>
+																						<a  class="btn btn-danger deleteautoprog" data-account-id="<?php echo $prog->accountid?>" data-type-prog='anuncios' data-prog-id="<?php  echo $prog->id; ?>"> <i  class="fa fa-trash-o"></i></a>
+																					</td>
+
+																				</tr>
+
+																				<?php   			
+							  			
+																			}
+																		?>
+
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+													<?php		
+												}?>
+											</div>
+										
+										
+											<?php
+										}
+														?>
+									<!--<table class="table table-striped">
 										<tbody>
 											<?php 
-											foreach ($autoprog['anuncios'] as $prog) {
+											var_dump($autoprog['anuncios']);
+
+											/*foreach ($autoprog['anuncios'] as $prog) {
 												echo "<tr>";
 												echo "<td>".$prog->name."</td>";
 												?>
@@ -346,10 +528,10 @@ $arr=array("group","user","event","page")
 												</td>
 												<?php
 												echo "</tr>";
-											}
+											}*/
 											?>
 										</tbody>
-									</table>		
+									</table>		-->
 								</div>
 							</div>	
 						</div>
