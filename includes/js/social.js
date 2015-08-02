@@ -619,9 +619,9 @@ $("body").on("click",".deleteautoprog",function(){
 							nxt();
 	                      }); 	
 					}
-						$('#generate-bbdd').html('');
+						/*$('#generate-bbdd').html('');
 						$("#generate-anuncis").html('');
-						$(".generate-select").val('');	
+						$(".generate-select").val('');	*/
 					
 			}
 		 },$btn)
@@ -696,10 +696,10 @@ $("body").on("click",".deleteautoprog",function(){
 					}
 					
 					
-						$('#generate-bbdd').html('');
+				/*		$('#generate-bbdd').html('');
 						$("#generate-anuncis").html('');
 						$(".generate-select").val('');
-					
+				*/	
 			}
 			
 		 },$btn)

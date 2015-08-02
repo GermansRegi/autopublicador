@@ -384,7 +384,7 @@ class Demo_auth_model extends CI_Model {
 		$validation_rules = array(
 			array('field' => 'current_password', 'label' => 'Contraseña antigua', 'rules' => 'required'),
 			array('field' => 'new_password', 'label' => ' Contraseña nueva', 'rules' => 'required|validate_password|matches[confirm_new_password]'),
-			array('field' => 'confirm_new_password', 'label' => 'Reperir nueva contraseña', 'rules' => 'required')
+			array('field' => 'confirm_new_password', 'label' => 'Repetir nueva contraseña', 'rules' => 'required')
 		);
 
 		$this->form_validation->set_rules($validation_rules);

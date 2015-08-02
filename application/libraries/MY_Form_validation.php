@@ -67,7 +67,7 @@ class MY_Form_validation extends CI_Form_validation
 			return TRUE;
 		}
 		
-		$status_message = $this->CI->lang->line('password_invalid');
+		$status_message = $this->CI->lang->line('password_invalid')." Debe contener mínimo ".$min_length." carácteres y/o números";
 		$this->CI->form_validation->set_message('validate_password', $status_message);
 		return FALSE;
     }

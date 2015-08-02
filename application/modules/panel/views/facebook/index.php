@@ -15,7 +15,7 @@
 	<div class="clearfix ">
 		<div class="col-lg-3"><a href="<?php echo base_url(); ?>panel/facebook/connectar_facebook" class="btn btn-primary">Conectar con Facebook</a></div>
 		<div class="col-lg-2"><a class="btn btn-default showHide" >Crear Carpeta</a></div>
-		<div class="col-lg-2"><a class="btn btn-default showHideAddGroup" >Añadir grupo</a></div>
+		
 		<div  class="col-lg-6 divCreateFolder clearfix  hidden"  >
 			<form id="createFolder" action="" class="form-horitzonal">
 				<div class="message"></div>
@@ -42,54 +42,8 @@
 				</div>
 			</form>
 		</div>
-		<div  class="col-lg-6 divAddGroup clearfix  hidden"  >
-			<form id="addGroup" action="" class="form-horitzonal">
-				<div class="message2"></div>
-				<div class="col-lg-12 form-group">
-					<p>Introduzca el identificador del grupo y seleccione el usuario con el que quiere publicar en el grupo. El identificador es el numero de 16 cifras que aparece en la url de facebook del grupo. (Por ejemplo: https://www.facebook.com/groups/1400615130264706/, en éste caso seria: 1400615130264706).</p><p> Para que pueda publicar en el grupo desde socialsuites, el grupo debe tener permisos Público y el usuario seleccionado debe pertenecer al grupo.</p>
-				</div>
-				<div class="col-lg-12 form-group">
-					<label for="" class="label-control col-lg-4">Identificador de grupo:</label>
-					<div class="col-lg-7">
-						<input name="name" class="form-control" type="text">
-					</div>
-				</div>
-				<div class="col-lg-12 form-group">
-					<label for="" class="label-control col-lg-4">Usuario del grupo:</label>
-					<div class="col-lg-7">
-						<select name="usuario" class="select form-control">
-							<option value="">Selecciona un usuario</option>
-							<?php 
-							foreach ($arraydata['user']['nofolder'] as $pagenofolder) {
-								?>
-								<option value="<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id:$pagenofolder->idaccount); ?>">
-								<?php echo ((!isset($pagenofolder->name))?$pagenofolder->username:$pagenofolder->name); ?>
-								</option>
-								<?php
-							 }
-							 foreach ($arraydata['user']['folders'] as $folder) {
-							 	foreach ($folder['rows'] as $page) {
-							 		
-							 	
-							 	?>
-								<option value="<?php echo $page->user_id; ?>">
-								<?php echo $page->username; ?>
-								</option>
-								<?php
-								}
-							 }
-
-							?>
-
-						</select>
-					</div>
-				</div>
-				<div class="form-group  col-lg-12">
-					<input type="submit"  class=" col-lg-offset-5  btn btn-primary" value="Añadir grupo"/>
-				</div>
-			</form>
-		</div>
-	</div>
+		
+	</div>	
 	<div role="tabpanel">
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
@@ -124,6 +78,61 @@
 						
 						<div class="panel-body">
 							<?php
+							//Si es la tab de grups mostrem el boto añadir grupo
+							if($arraytypes[$i]['name']=="group")
+							{?>
+							<div class="clearfix"><a class="btn btn-default showHideAddGroup" >Añadir grupo</a></div>
+								<div  class="col-lg-6 divAddGroup clearfix  hidden"  >
+									<form id="addGroup" action="" class="form-horitzonal">
+										<div class="message2"></div>
+										<div class="col-lg-12 form-group">
+											<p>Introduzca el identificador del grupo y seleccione el usuario con el que quiere publicar en el grupo. El identificador es el numero de 16 cifras que aparece en la url de facebook del grupo. (Por ejemplo: https://www.facebook.com/groups/1400615130264706/, en éste caso seria: 1400615130264706).</p><p> Para que pueda publicar en el grupo desde socialsuites, el grupo debe tener permisos Público y el usuario seleccionado debe pertenecer al grupo.</p>
+										</div>
+										<div class="col-lg-12 form-group">
+											<label for="" class="label-control col-lg-4">Identificador de grupo:</label>
+											<div class="col-lg-7">
+												<input name="name" class="form-control" type="text">
+											</div>
+										</div>
+										<div class="col-lg-12 form-group">
+											<label for="" class="label-control col-lg-4">Usuario del grupo:</label>
+											<div class="col-lg-7">
+												<select name="usuario" class="select form-control">
+													<option value="">Selecciona un usuario</option>
+													<?php 
+													foreach ($arraydata['user']['nofolder'] as $pagenofolder) {
+														?>
+														<option value="<?php echo ((!isset($pagenofolder->idaccount))?$pagenofolder->user_id:$pagenofolder->idaccount); ?>">
+														<?php echo ((!isset($pagenofolder->name))?$pagenofolder->username:$pagenofolder->name); ?>
+														</option>
+														<?php
+													 }
+													 foreach ($arraydata['user']['folders'] as $folder) {
+													 	foreach ($folder['rows'] as $page) {
+													 		
+													 	
+													 	?>
+														<option value="<?php echo $page->user_id; ?>">
+														<?php echo $page->username; ?>
+														</option>
+														<?php
+														}
+													 }
+
+													?>
+
+												</select>
+											</div>
+										</div>
+										<div class="form-group  col-lg-12">
+											<input type="submit"  class=" col-lg-offset-5  btn btn-primary" value="Añadir grupo"/>
+										</div>
+									</form>
+								</div>
+							</div>
+							<?php
+
+							}
 							if(count($arraydata[$arraytypes[$i]['name']]['nofolder'])>=0)
 							{		
 								?>
