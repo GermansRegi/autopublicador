@@ -616,6 +616,7 @@ class Facebook extends CI_Controller {
 	// permet publicar a facebook
 	public function publicar()
 	{
+		
 		$this->load->model('social_user_accounts');
 		$this->load->model('social_users');
 		$this->load->library('form_validation_global');
@@ -660,6 +661,8 @@ class Facebook extends CI_Controller {
 						if(isset($response['table']))
 						{
 							
+							
+							
 							if($response['table']=="basesdedatos")
 							{
 								$row=$this->bases_datos_model->getElements($response['content'],array("id"=>$response['idelement']));
@@ -668,6 +671,7 @@ class Facebook extends CI_Controller {
 							{	
 								$row=$this->anuncios_model->getElements($response['content'],array("id"=>$response['idelement']));
 							}
+
 							if($response['content']=='image')
 							{
 
@@ -716,26 +720,34 @@ class Facebook extends CI_Controller {
 						//var_dump($params);
 						 $this->load->library('Facebooklib','','fblib');
 						$group_ap=$this->input->post('ck_group_ap');
-						if(isset($group_ap['user']) )
-
-						foreach ($group_ap['user'] as $accountid) 
+						if(isset($group_ap['user']))
 						{
-							$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
-							//var_dump($user[0]->access_token);
-							$this->fblib->setSessionFromToken($user[0]->access_token);
-							$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
+							foreach ($group_ap['user'] as $accountid) 
+							{
+								$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
+								
+								$this->fblib->setSessionFromToken($user[0]->access_token);
+								$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
+								
 
+							}
 						}
+						
+							
 						if(isset($group_ap['account']))
-						foreach ($group_ap['account'] as $accountid) 
 						{
-							$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
-							$this->fblib->setSessionFromToken($acc[0]->access_token);
-							$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
-							
-							
+							foreach ($group_ap['account'] as $accountid) 
+							{
+								$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
+								
+								$this->fblib->setSessionFromToken($acc[0]->access_token);
+								$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
+								
+								
 
+							}
 						}
+						
 						$errorflag=false;
 					
 						foreach($res as $error)
@@ -969,7 +981,7 @@ class Facebook extends CI_Controller {
 					exit;	
 		}
 		
-		$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
+		/*$programacionesbbdd=$this->autoprog_basededatos->get_many_by(array('socialnetwork'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
 //		$programacionesanuncios=$this->autoprog_anuncios->get_many_by(array('socialnetwork'=>'fb','user_app'=>$this->flexi_auth->get_user_id()));
 		foreach ($programacionesbbdd as $prog) {
 			if($prog->type=='account')
@@ -1001,7 +1013,7 @@ class Facebook extends CI_Controller {
 */
 		$this->load->library('form_validation_global');
 		$this->data['autoprog']['basededatos']=$this->form_validation_global->getAutoProgByFolder('bbdd','fb');
-		$this->data['autoprog']['basededatos2']=$programacionesbbdd;
+		//$this->data['autoprog']['basededatos2']=$programacionesbbdd;
 		$this->data['autoprog']['anuncios']=$this->form_validation_global->getAutoProgByFolder('anunci','fb');
 		
 		$this->data['accordiondata']['arraydata']=$this->form_validation_global->getAccountsByFolderFB();

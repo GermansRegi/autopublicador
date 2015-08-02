@@ -28,6 +28,9 @@
 <div class="col-lg-2">
     <a href='<?php echo base_url()?>panel/herramientas/unfollow_twitter'>Unfollow de twitter</a>
 </div>
+<div class="col-lg-2">
+    <a href='<?php echo base_url()?>panel/herramientas/follow_twitter'>Follow de twitter</a>
+</div>
 
 <div class="col-lg-2">
     <a href='<?php echo base_url()?>panel/herramientas/limpiador_twitter'>Limpiador de twitter</a>

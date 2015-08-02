@@ -124,12 +124,13 @@ class Panel extends CI_Controller {
 					$datestart->modify("+8 day");
 					$datend=new DateTime('now');
 					$interval	=$datestart->diff($datend);
-						
+					$this->data['titlePlan']="Días de prueba premium";		
 					$this->data['texto']="Esta usando la versión completa en periodo de prueba. Le quedan ".$interval->days." días de versión premium gratuita";	
 				}								
 				
 				else
 				{
+					$this->data['titlePlan']="Versión gratuita";
 					$this->data['texto']="Esta usando la version gratuita, actualize a la version completa haciendo click <a href='".base_url().'panel/perfil/planes'."'> aquí.</a>";	
 				}
 				
@@ -147,6 +148,7 @@ class Panel extends CI_Controller {
 
 					$datend=new DateTime('now');
 					$interval	=$datestart->diff($datend);
+					$this->data['titlePlan']="Días premium";
 					$this->data['texto']="Gracias por usar la versión completa, le quedan  ".$interval->days." días. Renuévelo   <a href='".base_url().'panel/perfil/planes'."'> aquí.</a>";
 				}
 			}
@@ -351,7 +353,7 @@ class Panel extends CI_Controller {
 
 		// Get any status message that may have been set.
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
-
+		$this->data['titlepage']="Cambiar contraseña";
 		$this->load->view('demo/public_examples/forgot_password_update_view', $this->data);
 	}
 

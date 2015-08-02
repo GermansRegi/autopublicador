@@ -21,7 +21,7 @@
 <?php if(isset($texto)){
 ?>
 	  <div class="panel panel-success">
-    	<header class="panel-heading text-center"> Días Premium</header>
+    	<header class="panel-heading text-center"><?php echo  $titlePlan ?></header>
     	<div class="text-center">
     		<p>
     		<strong>

@@ -38,7 +38,7 @@ class Form_validation_global
                //si selecciona algun element d'anuncis i entra algun altre camp
                elseif((/*$this->CI->input->post('anuncis_sentence')!='' ||*/ $this->CI->input->post('anuncis_image')!='' || $this->CI->input->post('anuncis_link')!='') && ($this->CI->input->post('link')!='' || (isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")  ))
                {
-                   return  array('msg_errors'=>array('pp'=>'No puede publicar contenido de anuncios con enlace o imagen'));
+                   return  array('msg_errors'=>array('pp'=>'No puede publicar dos imágenes o dos enlaces a la vez ni un enlace y una imágen a la vez'));
                    
                }
                //si algun element d'anuncis es seleccionat
@@ -106,7 +106,7 @@ class Form_validation_global
                // si seleccionen algun element de bbdd i omplen algun altre camp
                elseif((/*($this->CI->input->post('bbdd_sentence')!='' ||*/ $this->CI->input->post('bbdd_image')!='') && ( $this->CI->input->post('link')!='' || (isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="") ))
                {
-                	return array('msg_errors'=>array('aa'=>'No puede publicar contenido de bases de datos con enlace o imágen'));
+                	return array('msg_errors'=>array('aa'=>'No puede publicar dos imágenes o dos enlaces a la vez ni un enlace y una imágen a la vez'));
               
                }
                //si seleccionen algun element de bbdd

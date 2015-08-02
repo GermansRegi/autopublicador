@@ -314,7 +314,57 @@ class Herramientas extends CI_Controller {
 //		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
 		$this->load->view('herramientas/unfollow_twitter',$this->data);		
 	}
+	public function follow_twitter()
+	{
+		if($this->input->post())
+		{
+			$this->form_validation->set_rules('user[]','Cuentas','required');
+			$this->form_validation->set_rules('username','Nombre de usuario','required');
+			if($this->form_validation->run()==TRUE)
+			{
+				$users=$this->input->post('user');
+				$username=$this->input->post('username');
+				foreach ($users as $userid) {
+					$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$userid,'user_app'=>$this->flexi_auth->get_user_id()),1);		 	
+					$result=$this->makeFollow($userRow[0]->access_token,$userid,$username);
+					if(isset($result['error']))
+					{
+						echo json_encode(array('msg_errors'=>$result));	
+						exit;
+					}
+				}
+				 echo json_encode(array('msg_success'=>'Operación realizada con éxito'));
+			}
+			else
+			{
+				    $errors = $this->form_validation->error_array();
+		             echo json_encode(array('msg_errors'=>$errors));
+			}
+			exit;
+		}
+		$this->data['titlepage']="Herramientas - Follow twitter";
+		$this->load->library('form_validation_global');
+		$this->data['accordion']['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
+
+//		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+		$this->load->view('herramientas/follow_twitter',$this->data);		
+		
+	}
 	
+	public function makeFollow($token,$user_id,$username)
+	{
+		$this->load->library('Twitterlib','','twtlib');
+	
+		$this->twtlib->setAccessToken(json_decode($token));
+		
+		
+		$follows = $this->twtlib->post("friendships/create",array('screen_name'=>$username,'follow'=>"true"));		  	
+		if(isset($follows['error']))
+			return $follows;
+
+		
+		  
+	}
 	public function makeUnFollow($token,$user_id)
 	{
 		$this->load->library('Twitterlib','','twtlib');

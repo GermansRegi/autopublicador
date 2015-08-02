@@ -8,7 +8,7 @@ class Twitterlib
 {
 	protected $twitter;
 	public $ci;
-	public $errors=array(34=>"La cuenta no existe",64=>"La cuenta esta suspendida",187=>"No puede publicar el mismo contenido repetidamente");
+	public $errors=array(34=>"La cuenta no existe",64=>"La cuenta esta suspendida",187=>"No puede publicar el mismo contenido repetidamente",108=>"El nombre de usuario no existe");
 	function __construct()
 	{
 		$this->ci =& get_instance();

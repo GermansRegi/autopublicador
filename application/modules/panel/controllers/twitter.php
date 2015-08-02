@@ -787,11 +787,14 @@ echo json_encode(array('msg_success'=>'Programaciones periódicas creadas con é
 			}
 		
 		}
-		//guardem les programacions a mostrar en la vista
-		$this->data['autoprog']['basededatos']=$programacionesbbdd;
-		$this->data['autoprog']['anuncios']=$programacionesanuncios;
-		//agafem les comptes de twiitter i les carpetes creades per usuari
 		$this->load->library('form_validation_global');
+		//guardem les programacions a mostrar en la vista
+		$this->data['autoprog']['basededatos']=$this->form_validation_global->getAutoProgByFolder('bbdd','tw');
+		$this->data['autoprog']['anuncios']=$this->form_validation_global->getAutoProgByFolder('anunci','tw');
+		//$this->data['autoprog']['basededatos']=$programacionesbbdd;
+		//$this->data['autoprog']['anuncios']=$programacionesanuncios;
+		//agafem les comptes de twiitter i les carpetes creades per usuari
+		
 		$this->data['accordiondata']['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
 	
 

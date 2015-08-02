@@ -27,8 +27,8 @@ $lang['account_creation_insufficient_data']			= 'Datos insuficientes para crear 
 $lang['password_invalid']							= "El campo %s no es válido.";
 $lang['password_change_successful'] 	 	 		= 'La contraseña ha sido cambiada con éxito.';
 $lang['password_change_unsuccessful'] 	  	 		= 'La contraseña actual que ha introducido no coincide con su contraseña.';
-$lang['password_token_invalid']  					= 'Su contraseña token presentado no es válida o ha expirado.';
-$lang['email_new_password_successful']				= 'Le hemos enviado nueva contraseña por correo electrónico.';
+$lang['password_token_invalid']  					= 'El enlace des del que ha accedido a ésta página ya no es válido. Compruebe en su correo electrónico si le ha llegado uno más reciente o vuelva a iniciar la recuperación de su contraseña.';
+$lang['email_new_password_successful']				= 'Le hemos enviado la nueva contraseña por correo electrónico.';
 $lang['email_forgot_password_successful']	 		= 'Le hemos enviado un correo electrónico para restablecer su contraseña.';
 $lang['email_forgot_password_unsuccessful']  		= 'No se ha podido restablecer la contraseña.';
 
@@ -46,7 +46,7 @@ $lang['email_activation_email_unsuccessful']		= 'No se puede enviar un correo el
 
 // Login / Logout
 $lang['login_successful']							= 'Usted ha sido ingresado con éxito.';
-$lang['login_unsuccessful']							= 'Sus datos de acceso presentados son incorrectos.';
+$lang['login_unsuccessful']							= 'Los datos de acceso que ha introducido son incorrectos.';
 $lang['logout_successful']							= 'Ha salido con éxito.';
 $lang['login_details_invalid'] 						= 'Sus datos de acceso no son válidos.';
 $lang['captcha_answer_invalid'] 					= 'La respuesta CAPTCHA es incorrecta.';

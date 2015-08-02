@@ -270,8 +270,8 @@ class Demo_auth_model extends CI_Model {
 		// Set validation rules
 		// The custom rule 'validate_password' can be found in '../libaries/MY_Form_validation.php'.
 		$validation_rules = array(
-			array('field' => 'new_password', 'label' => 'New Password', 'rules' => 'required|validate_password|matches[confirm_new_password]'),
-			array('field' => 'confirm_new_password', 'label' => 'Confirm Password', 'rules' => 'required')
+			array('field' => 'new_password', 'label' => 'Nueva contraseña', 'rules' => 'required|validate_password|matches[confirm_new_password]'),
+			array('field' => 'confirm_new_password', 'label' => 'Repita la nueva contraseña', 'rules' => 'required')
 		);
 
 		$this->form_validation->set_rules($validation_rules);
@@ -285,12 +285,12 @@ class Demo_auth_model extends CI_Model {
 			// The 'forgotten_password_complete()' function is used to either manually set a new password, or to auto generate a new password.
 			// For this example, we want to manually set a new password, so ensure the 3rd argument includes the $new_password var, or else a  new password.
 			// The function will then validate the token exists and set the new password.
-			$this->flexi_auth->forgotten_password_complete($user_id, $token, $new_password);
+			$this->flexi_auth->forgotten_password_complete($user_id, $token, $new_password,true);
 
 			// Save any public status or error messages (Whilst suppressing any admin messages) to CI's flash session data.
 			$this->session->set_flashdata('message', $this->flexi_auth->get_messages());
 
-			redirect('auth');
+			redirect('panel');
 		}
 		else
 		{

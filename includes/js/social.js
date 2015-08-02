@@ -415,11 +415,13 @@ $("body").on("click",".deleteautoprog",function(){
 	});
 	// events per obrir tabs en cuentas  d facebook
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		console.log($(e.target).attr("href"));
 		var target = $(e.target).attr("href") // activated currTab
 		$.cookie("currTab",target);
 	});
-	$(document).on("ready",function(){
-		$("a[href="+$.cookie("currTab")+"]").tab("show")
+	$(document).ready(function(){
+		console.log($.cookie("currTab"));
+		$(".nav-tabs a[href="+$.cookie("currTab")+"]").tab("show")
 	})
 	// events per generar elements d base d dades al publicar o programmar
 	$("BODY").on("change",".generate-select",function(){
@@ -807,7 +809,7 @@ $("body").on("click",".deleteautoprog",function(){
                             dataType:'json',
                             complete:function(data){
                                 
-                     //     document.location.href=current_url;    
+                          document.location.href=current_url;    
                             }
                         }
                     );
@@ -854,7 +856,7 @@ $("body").on("click",".deleteautoprog",function(){
                             dataType:'json',
                             complete:function(data){
                                 
-                                    //  document.location.href=current_url;
+                                      document.location.href=current_url;  
                             }
                         }
                     );

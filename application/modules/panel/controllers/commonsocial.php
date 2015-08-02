@@ -687,7 +687,7 @@ class CommonSocial extends CI_Controller {
 				echo json_encode(array('msg_errors'=>array('pp'=>'Error al eliminar los datos')));
 		}
 	}
-	public function createFolderProg($social_network,$type,$type=null)
+	public function createFolderProg($social_network,$isauto,$type=null)
 	{
 		if($this->input->post())
 		{
@@ -696,7 +696,7 @@ class CommonSocial extends CI_Controller {
 			
 			if($this->form_validation->run()==TRUE)
 			{
-				if($type=="prog")
+				if($isauto!="auto")
 				{	
 					$this->load->model("folders_programations");
 					$arr=array(

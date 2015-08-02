@@ -82,7 +82,7 @@
 
                                       <hr>
 
-                                      <p><a href="<?php echo base_url();?>panel/forgotten_password">Olvidó su contraseña?</a> | <a href="<?php echo base_url();?>panel/resend_activation_token">Reenviar código de activación</a></p>
+                                      <p><a href="<?php echo base_url();?>panel/forgotten_password">Olvidó su contraseña?</a> <!--| <a href="<?php echo base_url();?>panel/resend_activation_token">Reenviar código de activación</a></p>-->
                                       <h5>Crear cuenta</h5>
                                       <!-- Register link -->
                                           No tiene una cuenta? <a href="<?php echo base_url(); ?>panel/register_account">Regístrese</a>
