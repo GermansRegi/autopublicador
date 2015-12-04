@@ -38,7 +38,9 @@
 <div class="col-lg-2">
     <a href='<?php echo base_url()?>panel/herramientas/extractor_tweets'>Extractor de twits</a>
 </div>
-
+<div class="col-lg-2">
+    <a href='<?php echo base_url()?>panel/herramientas/contadores'>Contador de tweets y seguidores</a>
+</div>
 	             
 <?php
     echo $this->load->view('includes2/footer');

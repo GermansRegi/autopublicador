@@ -26,81 +26,10 @@ class Anuncios extends CI_Controller {
  		$this->load->helper('form');
  		$this->load->helper('language');
  		$this->load->library('form_validation');
+ 		$this->load->library('form_validation_global');
+ 		$this->form_validation_global->validarSession();
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
-		$this->auth = new stdClass;
-
-		// Load 'standard' flexi auth library by default.
-		$this->load->library('flexi_auth');
-		
-
-     	// Redirect users logged in via password (However, not 'Remember me' users, as they may wish to login properly).
-		if ($this->flexi_auth->is_logged_in_via_password() && uri_string() != 'panel/logout')
-		{
-			
-			// Preserve any flashdata messages so they are passed to the redirect page.
-			if ($this->session->flashdata('message')) { $this->session->keep_flashdata('message'); }
-
-			// Redirect logged in admins (For security, admin users should always sign in via Password rather than 'Remember me'.
-			if ($this->flexi_auth->is_admin())
-			{
-				redirect(base_url().'admin');
-			}
-			else if( uri_string()=='panel')
-			{
-
-				redirect(base_url().'panel/basesdedatos');
-
-			}
-			
-			$this->load->vars('section_app','panel');
-			$guest=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk"))->result();	
-			if ($this->flexi_auth->is_privileged('acces user free'))
-			{
-				
-				if($guest[0]->guestPremium=="1")
-				$this->load->vars('privilege_user_app','prem');
-				else
-				{
-					$this->load->vars('privilege_user_app','free');
-					if($this->input->is_ajax_request())
-					{
-						echo json_encode(array('req_auth'=>1));
-						//redirect_js(base_url().'panel');
-						exit;
-					}
-					else
-					redirect(base_url().'panel');
-						
-				}
-				
-			
-			}
-			else if ($this->flexi_auth->is_privileged('acces user prem'))
-			{
-				$this->load->vars('privilege_user_app','prem');
-			}
-		}
-		else
-		{
-			if($this->input->is_ajax_request())
-			{
-				echo json_encode(array('req_auth'=>1));
-				//redirect_js(base_url().'panel');
-				exit;
-			}
-			else
-			redirect(base_url().'panel');
-		}
-
-		// Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
-		//$this->load->vars('base_url', base_url(). 'auth/');
-		//$this->load->vars('includes_dir', 'http://localhost:8888/flexi_auth/includes/');
-		//$this->load->vars('current_url', $this->uri->uri_to_assoc(1));
-
-		// Define a global variable to store data that is then used by the end view page.
-		$this->data = null;
-		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
 	}
 	public function index()
 	{
@@ -110,7 +39,7 @@ class Anuncios extends CI_Controller {
 		$this->data['titlepage']="Anuncios"; 
 		$this->load->view('panel/anuncios/index',$this->data);
 
-		
+	
 
 	
 		
@@ -137,16 +66,37 @@ class Anuncios extends CI_Controller {
 
 				if($this->form_validation->run()==TRUE)
 				{
+					    if(!file_exists('upload/'.$this->flexi_auth->get_user_identity()))
+	                    {
+	                        mkdir('upload/'.$this->flexi_auth->get_user_identity());
+	                    }
+	                    $config['file_name']=uniqid("WatermarkImage_");
+	                    $config['upload_path'] = 'upload/'.$this->flexi_auth->get_user_identity();
+	                    $config['allowed_types'] = 'jpg|png';               
+	                    $config['max_size'] = '800'; //in KB
 
+	                    $this->load->library('upload', $config);
+	                    //sino sha pujat be
+	                    if (! $this->upload->do_upload('imagen'))
+	                    {
+	                        //$upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
+	                        echo json_encode(array('msg_error'=>$this->upload->display_errors()));        
+
+	                    }
+	                    else 
+	                    {
+	                    
 					
-					
-					$idcreated=$this->anuncios_model->insertNew(array(
-						'socialnetwork'=>$this->input->post('basededatos_create_social'),
-						'content'=>$this->input->post('content'),
-						'name'=>$this->input->post('basededatos_create_name'),
-						'user_app'=>$this->flexi_auth->get_user_id(),
-						'is_admin'=>0));
+						            $file=$this->upload->data();
+						$idcreated=$this->anuncios_model->insertNew(array(
+							'socialnetwork'=>$this->input->post('basededatos_create_social'),
+							'content'=>$this->input->post('content'),
+							'watermark_image'=>$file['full_path'], 
+							'name'=>$this->input->post('basededatos_create_name'),
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							'is_admin'=>0));
 					echo json_encode(array('msg_success'=>'Datos guardados con éxito','idcreated'=>$idcreated));
+					}
 				}
 				else
 				{
@@ -246,7 +196,19 @@ class Anuncios extends CI_Controller {
 	                        }
 	                        else 
 	                        {
+	                        	$this->load->library('image_lib');
 	                            $file=$this->upload->data();
+	                            $config = array();
+								$config['source_image'] = $file['full_path'];
+								$config['image_library'] = 'gd2';
+								$config['wm_type'] = 'overlay';
+								$config['wm_overlay_path'] = $anuncio[0]->watermark_image;
+								$config['wm_vrt_alignment'] = 'middle';
+								$config['wm_hor_alignment'] = 'center';
+								$this->image_lib->initialize($config);
+								$this->image_lib->watermark();
+								$this->image_lib->clear();
+								
 	                                $this->anuncios_model->insertElement('image',array(
 	                                	'user_app' => $this->flexi_auth->get_user_id(),
 	                                	'bbdd_id' => $idbd,
@@ -279,7 +241,7 @@ class Anuncios extends CI_Controller {
 		                	
 		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
 		                	{
-		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
+		                		 echo json_encode(array('msg_errors'=>array('errors'=>'no se permites mas ffrases')));
 		                	}
 		                	else
 		                	{
@@ -324,7 +286,7 @@ class Anuncios extends CI_Controller {
 		                	
 		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
 		                	{
-		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
+		                		 echo json_encode(array('msg_errors'=>array('errors'=>'no se permites mas ffrases')));
 		                	}
 		                	else
 		                	{
@@ -360,7 +322,7 @@ class Anuncios extends CI_Controller {
 		$res=$this->anuncios_model->countAllElements('image',array('bbdd_id'=>$id));
 			if($res>$this->config->item('max-images'))
 			{
-				echo json_encode(array('msg_errors'=>array('0'=>'No puedes añadir más imágenes en esta base de datos')));
+				echo json_encode(array('msg_errors'=>array('errors'=>'No puedes añadir más imágenes en esta base de datos')));
 			     
 			
 	   		}

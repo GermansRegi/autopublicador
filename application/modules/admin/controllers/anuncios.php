@@ -209,7 +209,7 @@ class Anuncios extends CI_Controller {
 		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
 		                	{
 		                			// mostro error
-		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
+		                		 echo json_encode(array('msg_errors'=>array('errors'=>'no se permites mas ffrases')));
 		                	}
 		                	else
 		                	{
@@ -259,7 +259,7 @@ class Anuncios extends CI_Controller {
 		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
 		                	{
 		                		// mostro error
-		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
+		                		 echo json_encode(array('msg_errors'=>array('errors'=>'no se permites mas ffrases')));
 		                	}
 		                	else
 		                	{
@@ -300,7 +300,7 @@ class Anuncios extends CI_Controller {
 			if($res>$this->config->item('max-images'))
 			{
 				// mostro error
-				echo json_encode(array('msg_errors'=>array('0'=>'No puedes añadir más imágenes en esta base de datos')));
+				echo json_encode(array('msg_errors'=>array('errors'=>'No puedes añadir más imágenes en esta base de datos')));
 			     
 			
 	   		}

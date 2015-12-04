@@ -26,7 +26,7 @@
 			 						<section class="form-group col-sm-9">
 			 							<label class="col-sm-4 control-label">Contenido:</label>
 			 							<section class="col-sm-8">
-			 								<select class="form-control" name="content">
+			 								<select class="form-control changecontent" name="content">
 			 									<option value="">Selecciona una opción</option>
 			 									<option value="link">Enlaces</option>
 			 									<option value='image'>Imágenes</option>
@@ -34,6 +34,15 @@
 			 								</select>
 			 							</section>
 			 						</section>
+			 						<section class="form-group col-sm-9 hidden watermark">
+						            		<label class="col-sm-4 control-label">Imágen de marca de agua:</label>
+						            		<section class="col-sm-8">
+						            		        <input class='filestyle' data-buttonText="Escoja una imagen" data-buttonName="btn-default" data-icon="false" class="filestyle" accept="image/x-png,image/png, image/gif, image/jpeg , image/jpg" type='file' id="filetoup"  name='imagen'>
+									             <a href="" id="clearFile">Eliminar imagen de marca de agua</a>
+									    	
+						      				</section>
+						      		</section>
+						      		
 			 						<section class="form-group col-md-9">
 			 							<label class="control-label col-sm-4">Red social:</label>
 			 							<section class="col-sm-8">

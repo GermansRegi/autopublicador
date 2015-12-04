@@ -109,6 +109,14 @@ $arr=array("group","user","event","page")
 				           </div>
 					</div>
 					<div class="form-group">
+					<label class=" col-lg-12 control-label">Imagen de marca de agua(jpg,png,gif):</label>
+					<div class="col-lg-12">
+			            <input class='filestyle' data-buttonText="Escoja una imagen" data-buttonName="btn-default" data-icon="false" class="filestyle" accept="image/x-png,image/png, image/gif, image/jpeg , image/jpg" type='file' id="filetoupoverlay"  name='imagen_overlay'>
+			             <a href="" id="clearFile">Eliminar imagen a publicar</a>
+			           </div>
+			       </div>
+			
+					<div class="form-group">
 						<label class=" col-lg-12 control-label">Enlace:</label>
 				           <div class="col-lg-12 ">
 				           	<input class='form-control' type='text' name='link'>
@@ -197,12 +205,12 @@ $arr=array("group","user","event","page")
 										<table class="table table-striped programaciones">
 											<thead>
 												<tr>
-													<td>Cuenta</td><td>Fecha</td><td>	Fecha Borrado</td><td>Estado</td><td></td>
+													<td>Cuenta</td><td>Fecha de publicación</td><td>	Fecha de borrado</td><td>Estado</td><td></td>
 												</tr>	
 											</thead>			
 											<tbody>
 												<?php
-												$arrayStates=array('process'=>'En proceso','finished'=>"Terminado",'finisherase'=>'Terminado','nocomplete'=>"No completado",'toerase'=>'Pendiente de borrar'); 
+												$arrayStates=array('process'=>'En proceso','finished'=>"Publicado",'finisherase'=>"Borrado",'nocomplete'=>"No completado",'toerase'=>'Pendiente de borrar'); 
 												foreach ($programaciones['nofolder'] as $prog) {
 													?>
 													
@@ -224,7 +232,7 @@ $arr=array("group","user","event","page")
 
 														echo $fecha->format('d-m-Y H:i:s');?></td>
 														<td><?php echo (isset($fechaB)?$fechaB->format('d-m-Y H:i:s'):'-')?></td>
-														<td><?php echo $arrayStates[$prog->state]; ?></td>
+														<td><?php echo $arrayStates[$prog->state]; echo ($prog->state=="nocomplete"?'<button data-placement="top" type="button" class="btn btn-danger" data-toggle="popover" title="Ver error" data-content="'.$prog->error.'">Ver error</button>':'') ?></td>
 														<td>
 															<div class="btn-group" role="group">
 																 <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" role="button" >Ver </a><a data-id="<?php echo $prog->id; ?>" role="button" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a>
@@ -271,7 +279,7 @@ $arr=array("group","user","event","page")
 													<table class="table table-striped programaciones">
 														<thead>
 															<tr>
-																<td>Cuenta</td><td>Fecha</td><td>	Fecha Borrado</td><td>Estado</td><td></td>
+																<td>Cuenta</td><td>Fecha de publicación</td><td>	Fecha de borrado</td><td>Estado</td><td></td>
 															</tr>	
 														</thead>			
 														<tbody>
@@ -302,7 +310,7 @@ $arr=array("group","user","event","page")
 
 																		echo $fecha->format('d-m-Y H:i:s');?></td>
 																		<td><?php echo (isset($fechaB)?$fechaB->format('d-m-Y H:i:s'):'-')?></td>
-																		<td><?php echo $arrayStates[$prog->state]; ?></td>
+																		<td><?php echo $arrayStates[$prog->state]; echo ($prog->state=="nocomplete"?'<button data-placement="top" type="button" class="btn btn-danger" data-toggle="popover" title="Ver error" data-content="'.$prog->error.'">Ver error</button>':'') ?></td>
 																		<td>
 																			<div class="btn-group" role="group">
 																				 <a href="<?php echo base_url()?>panel/commonsocial/ver_programacion/<?php echo $prog->id;?>" data-toggle="ajaxModal" class="btn btn-primary" role="button" >Ver </a><a data-id="<?php echo $prog->id; ?>" role="button" class="btn deleteprog btn-danger" ><i class="fa fa-trash-o"></i></a>
@@ -341,7 +349,7 @@ $arr=array("group","user","event","page")
 							<tbody>
 
 								<?php
-								$arrayStates=array('process'=>'En proceso','finished'=>"Terminado",'finisherase'=>'Terminado','nocomplete'=>"No completado",'toerase'=>'Pendiente de borrar'); 
+								$arrayStates=array('process'=>'En proceso','finished'=>"Publicado",'finisherase'=>"Borrado",'nocomplete'=>"No completado",'toerase'=>'Pendiente de borrar'); 
 								foreach ($programaciones as $prog) {
 								?>
 									<tr>

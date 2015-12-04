@@ -6,6 +6,78 @@ class Form_validation_global
 	{
 		$this->CI =& get_instance();
 	}
+  public function validarSession()
+  {
+        $this->CI->auth = new stdClass;
+
+        // Load 'standard' flexi auth library by default.
+        $this->CI->load->library('flexi_auth');
+        
+
+          // Redirect users logged in via password (However, not 'Remember me' users, as they may wish to login properly).
+        if ($this->CI->flexi_auth->is_logged_in_via_password() && uri_string() != 'panel/logout')
+        {
+          
+          // Preserve any flashdata messages so they are passed to the redirect page.
+          if ($this->CI->session->flashdata('message')) { $this->CI->session->keep_flashdata('message'); }
+
+          // Redirect logged in admins (For security, admin users should always sign in via Password rather than 'Remember me'.
+          if ($this->CI->flexi_auth->is_admin())
+          {
+            redirect(base_url().'admin');
+          }
+       /*   else if( uri_string()=='panel')
+          {
+
+            redirect(base_url().'panel');
+
+          }*/
+          
+          $this->CI->load->vars('section_app','panel');
+          $guest=$this->CI->flexi_auth->get_user_by_id_query($this->CI->flexi_auth->get_user_id(),array("guestPremium","uacc_group_fk",'upro_timezone_offset'))->result(); 
+            $timezones=$this->CI->config->item('timezones');
+      $this->CI->session->set_userdata('timezone',$timezones[$guest[0]->upro_timezone_offset]);
+    
+          if ($this->CI->flexi_auth->is_privileged('acces user free'))
+          {
+            
+            if($guest[0]->guestPremium=="1")
+            $this->CI->load->vars('privilege_user_app','prem');
+            else
+            {
+              $this->CI->load->vars('privilege_user_app','free');
+              
+            }
+            
+          
+          }
+          else if ($this->CI->flexi_auth->is_privileged('acces user prem'))
+          {
+            $this->CI->load->vars('privilege_user_app','prem');
+          }
+        }
+        else
+        {
+          if($this->CI->input->is_ajax_request())
+          {
+            echo json_encode(array('req_auth'=>1));
+            //redirect_js(base_url().'panel');
+            exit;
+          }
+          else
+          redirect(base_url().'panel');
+        }
+
+        // Note: This is only included to create base urls for purposes of this demo only and are not necessarily considered as 'Best practice'.
+        //$this->CI->load->vars('base_url', base_url(). 'auth/');
+        //$this->CI->load->vars('includes_dir', 'http://localhost:8888/flexi_auth/includes/');
+        //$this->CI->load->vars('current_url', $this->CI->uri->uri_to_assoc(1));
+
+        // Define a global variable to store data that is then used by the end view page.
+        $this->CI->data = null;
+        $this->CI->data['username']=$this->CI->flexi_auth->get_user_by_id_query($this->CI->flexi_auth->get_user_id(),array("upro_first_name"))->result(); 
+
+  }
 	public function ErrorsPublicar($arrayPost, $isfb=false)
 	{
 		if($this->CI->input->post('anuncis') && $this->CI->input->post('bbdd'))
@@ -13,12 +85,12 @@ class Form_validation_global
           	
              if(($this->CI->input->post('anuncis_link') || $this->CI->input->post('anuncis_sentence') || $this->CI->input->post('anuncis_image')) && ($this->CI->input->post('bbdd_image') || $this->CI->input->post('bbdd_sentence') || $this->CI->input->post('bbdd_link')) )
                {    
-                       return array('msg_errors'=>array('pp'=>'No puede publicar contenido de anuncios y bases de datos a la vez'));
+                       return array('msg_errors'=>array('errors'=>'No puede publicar contenido de anuncios y bases de datos a la vez'));
                        
                }
                else
                {
-               	return array('msg_errors'=>array('aa'=>'Debe seleccionar un elemento de bases de datos o un elemento de anuncios'));
+               	return array('msg_errors'=>array('errors'=>'Debe seleccionar un elemento de bases de datos o un elemento de anuncios'));
                }
           }
           //si nomes seleccionen algun element d'anuncis
@@ -30,7 +102,7 @@ class Form_validation_global
           	if($this->CI->input->post('anuncis_sentence')=='' && $this->CI->input->post('anuncis_link')=='' && $this->CI->input->post('anuncis_image')=='' && $this->CI->input->post('texto_facebook')=='' && $this->CI->input->post('link')=='' && $_FILES['imagen']['name']=="" )
                
                {
-                   return array('msg_errors'=>array('pp'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar'));
+                   return array('msg_errors'=>array('errors'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar'));
                   
 
                } 
@@ -38,7 +110,7 @@ class Form_validation_global
                //si selecciona algun element d'anuncis i entra algun altre camp
                elseif((/*$this->CI->input->post('anuncis_sentence')!='' ||*/ $this->CI->input->post('anuncis_image')!='' || $this->CI->input->post('anuncis_link')!='') && ($this->CI->input->post('link')!='' || (isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="")  ))
                {
-                   return  array('msg_errors'=>array('pp'=>'No puede publicar dos imágenes o dos enlaces a la vez ni un enlace y una imágen a la vez'));
+                   return  array('msg_errors'=>array('errors'=>'No puede publicar dos imágenes o dos enlaces a la vez ni un enlace y una imágen a la vez'));
                    
                }
                //si algun element d'anuncis es seleccionat
@@ -60,7 +132,7 @@ class Form_validation_global
                    		//si a mes de l'element d'anuncis imatge tambe seleccionen una imatge
                        if($_FILES['imagen']['name']!='' && $this->CI->input->post('anuncis_image'))
                        {
-                           return array('msg_errors'=>array('pp'=>'No puede publicar 2 imágenes a la vez'));      
+                           return array('msg_errors'=>array('errors'=>'No puede publicar 2 imágenes a la vez'));      
                            
                        }
                        else
@@ -74,12 +146,12 @@ class Form_validation_global
                    	   // si  a més de seleccionar un element danuncis link, omplen el camp link
                        if($this->CI->input->post('anuncis_link') && $this->CI->input->post('link'))
                        {
-                           return array('msg_errors'=>array('pp'=>'No puede publicar 2 enlaces a la vez'));      
+                           return array('msg_errors'=>array('errors'=>'No puede publicar 2 enlaces a la vez'));      
                          
                        }
                        else if($_FILES['imagen']['name']!='' && $this->CI->input->post('anuncis_link'))
                        {
-                       	return array('msg_errors'=>array('aa'=>'No puede publicar una imagen y un link'));      
+                       	return array('msg_errors'=>array('errors'=>'No puede publicar una imagen y un link'));      
                            
                        }
                        else
@@ -90,7 +162,7 @@ class Form_validation_global
                }
                else
                {
-               	return array('msg_errors'=>array('aa'=>'Debe seleccionar un elemento de anuncios'));
+               	return array('msg_errors'=>array('errors'=>'Debe seleccionar un elemento de anuncios'));
                }
            }
            //si seleccionen una bbdd
@@ -100,13 +172,13 @@ class Form_validation_global
            	//si no seleccionen cap element de bbdd ni omplen cap altre camp
                if($this->CI->input->post('bbdd_sentence')=='' && $this->CI->input->post('bbdd_image')=='' && $this->CI->input->post('bbdd_link')=='' && $this->CI->input->post('texto_facebook')=='' && $this->CI->input->post('link')=='' && $_FILES['imagen']['name']=="" )
                {
-                   return array('msg_errors'=>array('pp'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar'));          
+                   return array('msg_errors'=>array('errors'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar'));          
                    
                }
                // si seleccionen algun element de bbdd i omplen algun altre camp
                elseif((/*($this->CI->input->post('bbdd_sentence')!='' ||*/ $this->CI->input->post('bbdd_image')!='') && ( $this->CI->input->post('link')!='' || (isset($_FILES['imagen']['name']) && $_FILES['imagen']['name']!="") ))
                {
-                	return array('msg_errors'=>array('aa'=>'No puede publicar dos imágenes o dos enlaces a la vez ni un enlace y una imágen a la vez'));
+                	return array('msg_errors'=>array('errors'=>'No puede publicar dos imágenes o dos enlaces a la vez ni un enlace y una imágen a la vez'));
               
                }
                //si seleccionen algun element de bbdd
@@ -126,7 +198,7 @@ class Form_validation_global
                    		// si seleccionen un element de bbdd que es imatge i omplen el camp imatge
                        if($_FILES['imagen']['name']!='' && $this->CI->input->post('bbdd_image'))
                        {
-                           return array('msg_errors'=>array('aa'=>'No puede publicar 2 imágenes a la vez'));      
+                           return array('msg_errors'=>array('errors'=>'No puede publicar 2 imágenes a la vez'));      
                            
                        }
                        else
@@ -140,12 +212,12 @@ class Form_validation_global
                    		//si seleccionen un element de bbdd que es link i omplen el camp link
                        if($this->CI->input->post('bbdd_link') && $this->CI->input->post('link'))
                        {
-                           return array('msg_errors'=>array('aa'=>'No puede publicar 2 enlaces a la vez'));      
+                           return array('msg_errors'=>array('errors'=>'No puede publicar 2 enlaces a la vez'));      
                            
                        }
                        else if($_FILES['imagen']['name']!='' && $this->CI->input->post('bbdd_link'))
                        {
-                       	return array('msg_errors'=>array('aa'=>'No puede publicar una imagen y un link'));      
+                       	return array('msg_errors'=>array('errors'=>'No puede publicar una imagen y un link'));      
                            
                        }
                        else
@@ -160,14 +232,14 @@ class Form_validation_global
                }
                else
                {
-               	return array('msg_errors'=>array('aa'=>'Debe seleccionar un elemento de bases de datos'));
+               	return array('msg_errors'=>array('errors'=>'Debe seleccionar un elemento de bases de datos'));
                }
 
 
            }
             elseif($this->CI->input->post('link') && $_FILES['imagen']['name']!='' && $isfb==true)
             {
-                  return array('msg_errors'=>array('pp'=>'Facebook no permite poner en una misma publicación imágenes y enlaces'));      
+                  return array('msg_errors'=>array('errors'=>'Facebook no permite poner en una misma publicación imágenes y enlaces'));      
                   
           
             }
@@ -194,7 +266,7 @@ class Form_validation_global
             // si nomès hi ha un element mostro  error
             if(count($elementsText)==1)
                {
-                     echo json_encode(array('msg_errors'=>array('pp'=>"Ha seleccionado una base de datos de texto que contiene un elemento no se permite publicar repetidas veces el mismo elemento")));
+                     echo json_encode(array('msg_errors'=>array('errors'=>"Ha seleccionado una base de datos de texto que contiene un elemento no se permite publicar repetidas veces el mismo elemento")));
                      exit;
                }
             }
@@ -222,7 +294,7 @@ class Form_validation_global
             if(count($elementsText)==1)
             {
                         //mostro error
-                           echo json_encode(array('msg_errors'=>array('pp'=>"Ha seleccionado una base de datos de texto que contiene un elemento no se permite publicar repetidas veces el mismo elemento")));        
+                           echo json_encode(array('msg_errors'=>array('errors'=>"Ha seleccionado una base de datos de texto que contiene un elemento no se permite publicar repetidas veces el mismo elemento")));        
                            exit;
             }
 
@@ -494,6 +566,22 @@ class Form_validation_global
     }
     $arraydata['numTotal']=$num;
     return $arraydata;
+  }
+  public function setWatermarkImage($file,$imageOverlay)
+  {
+      $this->CI->load->library('image_lib');
+      $config = array();
+      $config['source_image'] = (isset($file['full_path'])?$file['full_path']:$file);
+      $config['image_library'] = 'gd2';
+      $config['wm_type'] = 'overlay';
+      $config['wm_overlay_path'] = $imageOverlay;
+      $config['wm_vrt_alignment'] = 'middle';
+      $config['wm_hor_alignment'] = 'center';
+      $this->CI->image_lib->initialize($config);
+      $this->CI->image_lib->watermark();
+      $this->CI->image_lib->clear();
+                
+    return $file;
   }
 }
 

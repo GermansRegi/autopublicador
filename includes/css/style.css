@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
 html {
@@ -4740,7 +4741,9 @@ button.close {
 
 .modal-body {
   position: relative;
-  padding: 15px; }
+  padding: 15px; 
+  word-wrap:break-word;
+  }
 
 .modal-footer {
   padding: 15px;
@@ -7055,7 +7058,7 @@ main {
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 237px;
-  width: 1170px;
+  width: 100%;
   max-width: 1075px; }
 
 footer {
@@ -7101,7 +7104,7 @@ footer {
 
 .savedlists {
   display: flex;
-  overflow-x: scroll; }
+  flex-flow: wrap; }
 
 .savedlists__item {
   border-color: #F0F0F0;

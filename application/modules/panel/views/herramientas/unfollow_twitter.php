@@ -14,13 +14,23 @@
 			   <div class="col-lg-12">
 					<section class=" panel bg-info">
                       <div class="text-center panel-heading bg-info bg-info-dark-info-message">
-                      Con esta herramienta podrás dejar de seguir a  todos los usuarios que estas siguiendo en tu cuenta de twitter.
+                      Con esta herramienta podrás dejar de seguir a usuarios de las cuentas de twitter.
                       </div>
                     </section>
 					
 			   </div>
+
 			   <div class="col-lg-12">
-							
+			   <div>
+					<label class="radio-inline">
+						<input type="radio" name='type_unfollow' value="1">
+						Dejar de seguir a todos los usuarios que sigues
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name='type_unfollow' value="2">
+						Dejar de seguir a todos los usuarios que no te siguen a ti
+					</label>
+					</div>
 					 <label class="control-label ">Cuentas:</label>
 			  
 						

@@ -1,29 +1,29 @@
 /* Header */
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\000034}}
+/* line 4, ../scss/header.scss */
 header {
   padding: 10px 0px 0px 0px;
   background: #fafafa url("../images/cream.png") repeat; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\000037}}
+  /* line 7, ../scss/header.scss */
   header .logo {
     padding: 0px;
     margin: 0px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000310}}
+    /* line 10, ../scss/header.scss */
     header .logo h1 a {
       font-size: 32px;
       color: #777;
       text-decoration: none;
       font-weight: 400; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000315}}
+      /* line 15, ../scss/header.scss */
       header .logo h1 a:visited, header .logo h1 a:hover {
         font-size: 32px;
         color: #777;
         text-decoration: none;
         font-weight: 400; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000322}}
+    /* line 22, ../scss/header.scss */
     header .logo h1.subheader {
       font-size: 20px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000328}}
+    /* line 28, ../scss/header.scss */
     header .logo .meta {
       color: #888;
       line-height: 15px;
@@ -31,7 +31,7 @@ header {
       margin: 0px; }
 
 /* Navigation #1 */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000339}}
+/* line 39, ../scss/header.scss */
 .navbar *, .nav-collapse * {
   box-shadow: none !important;
   text-shadow: none !important;
@@ -40,7 +40,7 @@ header {
   font-size: 12.5px !important;
   font-family: 'Open Sans', Arial, Helvetica, sans-serif; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000348}}
+/* line 48, ../scss/header.scss */
 .navbar {
   padding-left: 0px;
   background: transparent;
@@ -50,38 +50,38 @@ header {
   border-bottom: 0px !important;
   margin-top: 15px;
   margin-bottom: 0px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000353}}
+  /* line 53, ../scss/header.scss */
   .navbar .btn {
     font-size: 13px;
     padding: 6px 10px;
     color: #fff !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000362}}
+  /* line 62, ../scss/header.scss */
   .navbar ul li {
     list-style-type: none;
     padding: 0px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000366}}
+  /* line 66, ../scss/header.scss */
   .navbar button {
     border: 0px;
     background: #eee !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000369}}
+    /* line 69, ../scss/header.scss */
     .navbar button:hover {
       background: #e9e9e9 !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000372}}
+    /* line 72, ../scss/header.scss */
     .navbar button .icon-bar {
       background: #ddd !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000376}}
+  /* line 76, ../scss/header.scss */
   .navbar .caret {
     border-top-color: #888 !important;
     border-bottom-color: #888 !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000380}}
+  /* line 80, ../scss/header.scss */
   .navbar a {
     color: #666 !important;
     background: transparent; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000383}}
+    /* line 83, ../scss/header.scss */
     .navbar a:visited {
       color: #666 !important;
       background: transparent; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000388}}
+  /* line 88, ../scss/header.scss */
   .navbar .nav > li > a {
     color: #666 !important;
     padding: 15px 10px 15px;
@@ -91,7 +91,7 @@ header {
     -o-transition: color 1s ease;
     transition: color 1s ease;
     background: transparent !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\0000396}}
+    /* line 96, ../scss/header.scss */
     .navbar .nav > li > a:visited {
       color: #666 !important;
       padding: 15px 15px 15px;
@@ -100,21 +100,21 @@ header {
       -moz-transition: color 1s ease;
       -o-transition: color 1s ease;
       transition: color 1s ease; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003106}}
+    /* line 106, ../scss/header.scss */
     .navbar .nav > li > a:hover, .navbar .nav > li > a:active {
       background: transparent !important; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003112}}
+/* line 112, ../scss/header.scss */
 .nav li ul.nav--top__list {
   display: none; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003116}}
+/* line 116, ../scss/header.scss */
 .nav li ul.nav--top__list li {
   background-color: #ddd;
   width: 80px;
   height: 10px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003122}}
+/* line 122, ../scss/header.scss */
 .nav li a.link_dropdown:hover + ul {
   display: block;
   left: -40px;
@@ -122,23 +122,23 @@ header {
   position: relative; }
 
 /* Page heading */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003132}}
+/* line 132, ../scss/header.scss */
 .page-head {
   padding: 10px 0px;
   box-shadow: inset 0px 0px 4px #bbb;
   background: #f8f8f8;
   border-bottom: 1px solid #ddd; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003137}}
+  /* line 137, ../scss/header.scss */
   .page-head h2 {
     color: #777;
     font-size: 19px;
     line-height: 20px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003142}}
+  /* line 142, ../scss/header.scss */
   .page-head h4 {
     color: #999;
     font-size: 15px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/autopublicador\/includes\/scss\/header\.scss}line{font-family:\00003148}}
+/* line 148, ../scss/header.scss */
 .sep {
   height: 5px;
   background: url("../images/sep.png") repeat; }

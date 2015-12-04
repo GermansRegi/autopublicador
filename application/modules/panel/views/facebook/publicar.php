@@ -41,6 +41,14 @@
 			           </div>
 			       </div>
 			       <div class="form-group">
+					<label class=" col-lg-12 control-label">Imagen de marca de agua(jpg,png,gif):</label>
+					<div class="col-lg-12">
+			            <input class='filestyle' data-buttonText="Escoja una imagen" data-buttonName="btn-default" data-icon="false" class="filestyle" accept="image/x-png,image/png, image/gif, image/jpeg , image/jpg" type='file' id="filetoupoverlay"  name='imagen_overlay'>
+			             <a href="" id="clearFile">Eliminar imagen a publicar</a>
+			           </div>
+			       </div>
+			
+			       <div class="form-group">
 			           <label class=" col-lg-12 control-label">Enlace:</label>
 			           <div class="col-lg-12 ">
 			           	<input class='form-control' type='text' name='link'>

@@ -28,9 +28,12 @@ class CommonSocial extends CI_Controller {
  		$this->load->helper('form');
  		$this->load->helper('language');
  		$this->load->library('form_validation');
+ 		$this->load->library('form_validation_global');
+ 		$this->form_validation_global->validarSession();
 
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
+		/*
 		$this->auth = new stdClass;
 
 		// Load 'standard' flexi auth library by default.
@@ -77,7 +80,7 @@ class CommonSocial extends CI_Controller {
 			else
 			redirect(base_url().'panel');				
 		}
-		
+		*/
 	}
 
 	
@@ -684,7 +687,7 @@ class CommonSocial extends CI_Controller {
 			if($flag)
 				echo json_encode(array('msg_success'=>'Datos eliminados correctamente'));
 			else
-				echo json_encode(array('msg_errors'=>array('pp'=>'Error al eliminar los datos')));
+				echo json_encode(array('msg_errors'=>array('errors'=>'Error al eliminar los datos')));
 		}
 	}
 	public function createFolderProg($social_network,$isauto,$type=null)
@@ -744,7 +747,13 @@ class CommonSocial extends CI_Controller {
 
 	
 	}
+	public function publishContentErrors()
+	{
+		$errors=$this->session->userdata('errors');
 
+
+		$this->load->view('common/PublishErrors');
+	}
 }
 
 /* End of file commonactions.php */

@@ -29,10 +29,12 @@ class Facebook extends CI_Controller {
  		$this->load->helper('form');
  		$this->load->helper('language');
  		$this->load->library('form_validation');
+ 		$this->load->library('form_validation_global');
+ 		$this->form_validation_global->validarSession();
 
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
-		$this->auth = new stdClass;
+		/*$this->auth = new stdClass;
 
 		// Load 'standard' flexi auth library by default.
 		$this->load->library('flexi_auth');
@@ -116,6 +118,7 @@ class Facebook extends CI_Controller {
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
 		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
+		*/
 	}
 	// valida que la data passada sigui poserior   ala acutal
 	function date_valid($date){
@@ -178,7 +181,7 @@ class Facebook extends CI_Controller {
          			//si ha no ha omplrt cap camp dels requits		
 					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
 					{
-						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
+						echo json_encode(array('msg_errors'=>array('errors'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
 						exit;
 					}
 					else
@@ -252,6 +255,11 @@ class Facebook extends CI_Controller {
                                     else 
                                     {
                                         $file=$this->upload->data();
+                                        if(isset($_FILES['imagen_overlay']['name']) && $_FILES['imagen_overlay']['name']!="")
+	                                  	{
+	                                  		$file=$this->form_validation_global->setWatermarkImage($file,$_FILES['imagen_overlay']['tmp_name']);
+	                                  	}
+                             		
                                         $data['path']=$file['full_path'];
                                         $data['text']=(isset($text)?$text.$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
                                     }
@@ -642,7 +650,7 @@ class Facebook extends CI_Controller {
          					//var_dump(($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && count($_FILES)==0));	//si  no ha introduit cap dada
 					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
 					{
-						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
+						echo json_encode(array('msg_errors'=>array('errors'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
 						exit;
 					}
 					else
@@ -700,7 +708,15 @@ class Facebook extends CI_Controller {
                                   $array=array('image/jpg','image/jpeg','image/png','image/x-png','image/gif');
                                   if(in_array($_FILES['imagen']['type'],$array))
                                   {
-                                  	$params['source']='@'.$_FILES['imagen']['tmp_name'];
+                                  	if(isset($_FILES['imagen_overlay']['name']) && $_FILES['imagen_overlay']['name']!="")
+                                  	{
+                                  		$params['source']='@'.$this->form_validation_global->setWatermarkImage($_FILES['imagen']['tmp_name'],$_FILES['imagen_overlay']['tmp_name']);
+                                  	}
+                             		else
+                             		{
+                             			$params['source']='@'.$_FILES['imagen']['tmp_name'];	
+                             		}
+                                  	
 
                                   	$params['message']=$this->input->post('texto_facebook')." ".((isset($text))?$text:'');
                                   }
@@ -716,10 +732,11 @@ class Facebook extends CI_Controller {
                                	$params['link']=$this->input->post('link');
                                
 						//}
-						$res=array();
+						$errors=array();
 						//var_dump($params);
 						 $this->load->library('Facebooklib','','fblib');
 						$group_ap=$this->input->post('ck_group_ap');
+						$errorflag=false;
 						if(isset($group_ap['user']))
 						{
 							foreach ($group_ap['user'] as $accountid) 
@@ -727,8 +744,14 @@ class Facebook extends CI_Controller {
 								$user=$this->social_users->getUserAppUsers(array('user_id'=>$accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
 								
 								$this->fblib->setSessionFromToken($user[0]->access_token);
-								$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
-								
+								$res=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
+								if(isset($res['error']))
+								{
+									$errorflag=true;
+									$errors['user'][$accountid]['error']=$res;
+									$errors['user'][$accountid]['name']=$user[0]->username;
+
+								}
 
 							}
 						}
@@ -741,28 +764,26 @@ class Facebook extends CI_Controller {
 								$acc=$this->social_user_accounts->getUserAppAccounts(array('idaccount'=>$accountid,'user_app'=>$this->flexi_auth->get_user_id()),1);
 								
 								$this->fblib->setSessionFromToken($acc[0]->access_token);
-								$res[]=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
-								
+								$res=$this->fblib->api_post('/'.$accountid.$urlfb,$params);
+								if(isset($res['error']))
+								{
+									$errorflag=true;
+									$errors['account'][$accountid]['error']=$res;
+									$errors['account'][$accountid]['name']=$acc[0]->name;
+
+								}									
 								
 
 							}
 						}
 						
-						$errorflag=false;
+						
 					
-						foreach($res as $error)
-						{
 
-							
-							if(isset($error['error']))
-							{
-								$errorflag=true;
-								break;
-							}
-							
+						if($errorflag === true)
+						{
+							echo json_encode(array('msg_errors'=>array('errors'=>"No se ha podido publicar correctamente en alguna de las cuentas seleccionadas"),'errors'=>$errors));	
 						}
-						if($errorflag==true)
-							echo json_encode(array('msg_errors'=>array('pp'=>'No se ha podido publicar correctamente en alguna de las cuentas seleccionadas')));
 						else
 							echo json_encode(array('msg_success'=>'Se ha publicado correctamente en las cuentas seleccionadas'));
 					}
@@ -904,7 +925,7 @@ class Facebook extends CI_Controller {
 			/*}
 			else
 			{
-				echo json_encode(array('msg_errors'=>array('pp'=>'La hora de inicio debe ser anterior a la hora final'))); 
+				echo json_encode(array('msg_errors'=>array('errors'=>'La hora de inicio debe ser anterior a la hora final'))); 
 			}*/
 			exit;
 		}
@@ -974,7 +995,7 @@ class Facebook extends CI_Controller {
 			/*}
 			else
 			{
-			echo json_encode(array('msg_errors'=>array('pp'=>'La hora de inicio debe ser anterior a la hora final'))); 	
+			echo json_encode(array('msg_errors'=>array('errors'=>'La hora de inicio debe ser anterior a la hora final'))); 	
 			}*/
 		
 		
@@ -1081,17 +1102,17 @@ class Facebook extends CI_Controller {
 						}	
 						else
 						{
-							echo json_encode(array('msg_errors'=>array('pp'=>"El usuario seleccionado no es miembro de este grupo.")));	
+							echo json_encode(array('msg_errors'=>array('errors'=>"El usuario seleccionado no es miembro de este grupo.")));	
 						}		
 					}
 					else
 					{
-							echo json_encode(array('msg_errors'=>array('pp'=>"El grupo que ha introducido no es público.")));	
+							echo json_encode(array('msg_errors'=>array('errors'=>"El grupo que ha introducido no es público.")));	
 					}
 				}
 				else
 				{
-							echo json_encode(array('msg_errors'=>array('pp'=>"Ha introducido un identificador que no corresponde a ningún grupo.")));	
+							echo json_encode(array('msg_errors'=>array('errors'=>"Ha introducido un identificador que no corresponde a ningún grupo.")));	
 				}
 			}
 			else

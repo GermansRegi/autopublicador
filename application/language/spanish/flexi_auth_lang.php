@@ -19,7 +19,7 @@
 $lang['account_creation_successful']				= 'Su cuenta ha sido creada con éxito.';
 $lang['account_creation_unsuccessful']				= 'No se puede crear cuenta.';
 $lang['account_creation_duplicate_email']			= 'Una cuenta con esta dirección de correo electrónico ya existe.';
-$lang['account_creation_duplicate_username']		= 'Una cuenta con este nombre de usuario ya existeUna cuenta con este nombre de usuario ya existe.';
+$lang['account_creation_duplicate_username']		= 'Ya existe una cuenta con ésta dirección de correo electrónico.';
 $lang['account_creation_duplicate_identity'] 		= 'Una cuenta con esta identidad ya existe.';
 $lang['account_creation_insufficient_data']			= 'Datos insuficientes para crear una cuenta. Asegurate de introducir una identidad y una contraseña válidos.';
 

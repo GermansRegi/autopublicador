@@ -31,7 +31,10 @@ class Twitter extends CI_Controller {
  		$this->load->helper('form');
  		$this->load->helper('language');
  		$this->load->library('form_validation');
+ 		$this->load->library('form_validation_global');
+ 		$this->form_validation_global->validarSession();
 
+/*
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
 		$this->auth = new stdClass;
@@ -115,43 +118,16 @@ class Twitter extends CI_Controller {
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
 		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
-
+*/
 	}
 	public function index()
 	{
-	/*	$users=$this->social_users->getUserappUsers(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>'tw'));
-		$this->load->model('folders');
-		$this->data['folders']=$this->folders->get_many_by(array('user_app'=>$this->flexi_auth->get_user_id(),'social_network'=>"tw"));
-		$arraydata=array('folders'=>array(),'nofolder'=>array());
-
-		foreach ($this->data['folders'] as $key) {
-			
-			$arraydata['folders'][]=array('data'=>$key,'rows'=>array());
-			
-			
-		}
-		foreach ($users as $user) {
-			if(is_null($user->folder_id))
-			{
-				$arraydata['nofolder'][]=$user;
-			}
-			else
-			{
-				if(count($arraydata['folders'])!=0)
-					for($m=0;$m<count($arraydata['folders']);$m++)
-					{
-						//var_dump($arraydata[$key->type_account]['folders'][1]);
-						if($arraydata['folders'][$m]['data']->id==$user->folder_id)
-						$arraydata['folders'][$m]['rows'][]=$user;				
-					}
-			}
-		}
-		*/
 		$this->data['titlepage']="Twitter - Cuentas";
 
 	
 	
 		$this->load->library('form_validation_global');
+		//agafo les comptes de twitter de usuari actual
 		$this->data['arraydata']=$this->form_validation_global->getAccountsByFolderTwt();
 
 
@@ -182,19 +158,22 @@ class Twitter extends CI_Controller {
 		{
 		
 			$this->load->library("twitterlib",'','twtlib');
-				//$this->twtlib->reset_session();
 			$res=$this->twtlib->auth(base_url('panel/twitter/callback'));
 				
 		}
 	}
+	//funcio de retorn de la connexio a twitter
 	public function callback()
 	{
 		$this->load->library("twitterlib",'','twtlib');
+		//valido la resposta de twitter
 		$res=$this->twtlib->checkresponse();
 		if(is_array($res))
 		{
+
 			$this->twtlib->setAccessToken($res);
 			$datauser=$this->twtlib->getUserdata();
+			//comporovo si ja existeix l'usuri de twitter 
 			$exist=$this->social_users->Exists($datauser->id,'tw',$this->flexi_auth->get_user_id());
 			if($exist==false)
 			{
@@ -206,18 +185,6 @@ class Twitter extends CI_Controller {
 				'access_token'=>json_encode($res),
 				'user_app'=>$this->flexi_auth->get_user_id(),
 				'disabled'=>0));
-/*					$this->load->model('autoprog_anuncios');
-				$this->load->model('autoprog_basededatos');
-				$this->autoprog_basededatos->insertNew(array(
-					'accountid'=>	$datauser->id,
-					'user_app'=>$this->flexi_auth->get_user_id(),
-					'type'=>'user','socialnetwork'=>'tw',
-					'weekdays'=>'[]'));
-				$this->autoprog_anuncios->insertNew(array(
-					'accountid'=>$datauser->id,
-					'user_app'=>$this->flexi_auth->get_user_id(),
-					'type'=>'user','socialnetwork'=>'tw',
-					'weekdays'=>'[]'));*/
 			}
 			else{
 				$this->social_users->update_by(
@@ -259,7 +226,7 @@ class Twitter extends CI_Controller {
 		}
 	}
 	
-	// permet publicar a facebook
+	// permet publicar a twitter
 	public function publicar()
 	{
 		$this->load->model('social_user_accounts');
@@ -287,7 +254,7 @@ class Twitter extends CI_Controller {
          					//var_dump(($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']==''));
 					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
 					{
-						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
+						echo json_encode(array('msg_errors'=>array('errors'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
 						exit;
 					}
 					else
@@ -336,9 +303,17 @@ class Twitter extends CI_Controller {
                                        $array=array('image/jpg','image/jpeg','image/png','image/x-png','image/gif');
                                        if(in_array($_FILES['imagen']['type'],$array))
                                        {
-	                                       	$file=true;
-	                                       	$params['media']=$_FILES['imagen']['tmp_name'];
 
+	                                       	$file=true;
+	                                       	if(isset($_FILES['imagen_overlay']['name']) && $_FILES['imagen_overlay']['name']!="")
+		                                  	{
+		                                  		$params['media']=$this->form_validation_global->setWatermarkImage($_FILES['imagen']['tmp_name'],$_FILES['imagen_overlay']['tmp_name']);
+		                                  	}
+		                             		else
+		                             		{
+                             		
+	                                       		$params['media']=$_FILES['imagen']['tmp_name'];
+	                                       }
 	                                       	
                                        }
                                         
@@ -359,7 +334,8 @@ class Twitter extends CI_Controller {
                               //var_dump($params);
 						$this->load->library("twitterlib",'','twtlib');
 						$group_ap=$this->input->post('ck_group_ap');
-					
+						$errorflag=false;
+						$errors=array();
 						foreach ($group_ap as $accountid) 
 						{
 							
@@ -373,12 +349,19 @@ class Twitter extends CI_Controller {
 							{
 								$res=$this->twtlib->post($urlfb,$params);
 							}	
-							
 							if(is_array($res) && isset($res['error']))
-								echo json_encode(array('msg_errors'=>array('pp'=>$res['error'])));
+							{
+								$errorflag=true;
+								$errors['user'][$accountid]['error']=$res;
+								$errors['user'][$accountid]['name']=$user[0]->username;
+							}
+							
+						}
+							if($errorflag===true)
+								echo json_encode(array('msg_errors'=>array('errors'=>"No se ha podido publicar correctamente en alguna de las cuentas seleccionadas"),'errors'=>$errors));
 							else
 								echo json_encode(array('msg_success'=>'La publicación se ha realizado correctamente'));
-							}
+		
 						
 						 
 					}
@@ -472,7 +455,7 @@ class Twitter extends CI_Controller {
          				
 					if($this->input->post('texto_facebook')=='' && $this->input->post('link')=='' && $this->input->post('anuncis')=='' && $this->input->post('bbdd')=='' && $_FILES['imagen']['name']=='')
 					{
-						echo json_encode(array('msg_errors'=>array('aa'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
+						echo json_encode(array('msg_errors'=>array('errors'=>'Debe introducir un texto, imagen , enlace o seleccionar un elemento de una base de datos o anuncio para publicar')));      
 						exit;
 					}
 					else
@@ -542,6 +525,12 @@ class Twitter extends CI_Controller {
 		                                    else 
 		                                    {
 		                                        $file=$this->upload->data();
+		                                        //si hia ha imatge de marca daigua la afegeixo 
+		                                        if(isset($_FILES['imagen_overlay']['name']) && $_FILES['imagen_overlay']['name']!="")
+			                                  	{
+			                                  		$file=$this->form_validation_global->setWatermarkImage($file,$_FILES['imagen_overlay']['tmp_name']);
+			                                  	}
+                             	
 		                                        $data['path']=$file['full_path'];
 		                                        $data['text']=(isset($text)?$text.$this->input->post('texto_facebook'):$this->input->post('texto_facebook'));
 		                                        $data['link']=$this->input->post('link');

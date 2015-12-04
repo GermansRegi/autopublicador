@@ -28,10 +28,12 @@ class Rss extends CI_Controller {
  		$this->load->helper('form');
  		$this->load->helper('language');
  		$this->load->library('form_validation');
+ 		$this->load->library('form_validation_global');
+ 		$this->form_validation_global->validarSession();
 
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
-		$this->auth = new stdClass;
+/*		$this->auth = new stdClass;
 
 		// Load 'standard' flexi auth library by default.
 		$this->load->library('flexi_auth');
@@ -86,7 +88,7 @@ class Rss extends CI_Controller {
 
 			// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
-		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
+		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	*/
 	}
 	public function index()
 	{

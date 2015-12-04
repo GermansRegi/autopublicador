@@ -81,8 +81,9 @@
 							//Si es la tab de grups mostrem el boto añadir grupo
 							if($arraytypes[$i]['name']=="group")
 							{?>
-							<div class="clearfix"><a class="btn btn-default showHideAddGroup" >Añadir grupo</a></div>
-								<div  class="col-lg-6 divAddGroup clearfix  hidden"  >
+							<div class="row">
+							<div class="col-lg-12"><a class="btn btn-default showHideAddGroup" >Añadir grupo</a></div>
+								<div  class="col-lg-12 panel panel-default divAddGroup clearfix  hidden"  >
 									<form id="addGroup" action="" class="form-horitzonal">
 										<div class="message2"></div>
 										<div class="col-lg-12 form-group">
@@ -129,7 +130,7 @@
 										</div>
 									</form>
 								</div>
-							</div>
+								</div>
 							<?php
 
 							}

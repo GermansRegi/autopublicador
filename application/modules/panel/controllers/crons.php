@@ -236,6 +236,7 @@ class Crons extends CI_Controller {
 					{
 						log_message('error',"eorror ".$publicaciofb['error']);
 						echo $publicaciofb['error'];
+						$this->programations->update_by(array('error'=>$publicaciofb['error']	),array('id'=>$prog->id));
 						$state='nocomplete';
 					}
 
@@ -259,6 +260,7 @@ class Crons extends CI_Controller {
 					{
 						log_message('error',"eorror ".$publicaciotw['error']);
 						echo $publicaciotw['error'];
+						$this->programations->update_by(array('error'=>$publicaciotw['error']	),array('id'=>$prog->id));
 						$state='nocomplete';
 					}
 
@@ -399,10 +401,11 @@ class Crons extends CI_Controller {
 
 					log_message('error','publicador rss'.$itemTopublish->pubDate[0]);
 
-					log_message('error','link: '.$itemTopublish->link. " , ".$itemTopublish->link[0] );
+					//log_message('error','link: '.$itemTopublish->link. " , ".$itemTopublish->link[0] );
 					$fbaccesstoken=array();
 					$arrayFb=json_decode($rss->ids_fb);
 					$arrayTw=json_decode($rss->ids_twt);
+                    echo "arraytw:<br>";
 					var_dump($arrayTw);
 					if(isset($sentenceperm))
 					{
@@ -453,7 +456,7 @@ class Crons extends CI_Controller {
 							
 							$this->twtlib->setAccessToken(json_decode($user[0]->access_token));
 							var_dump($user[0]->access_token);
-							foreach ($$itemsTopublish as $itemTopublish) {
+							foreach ($itemsTopublish as $itemTopublish) {
 								if(isset($params['message']))
 									$paramstw['status']=$params['message']." ".(string)$itemTopublish->link[0];
 								else

@@ -1,5 +1,7 @@
 $(function(){
 
+  $('[data-toggle="popover"]').popover()
+
   $('body').magnificPopup({type:'image'     ,
   	     closeOnContentClick: true,
   	     delegate:'a.image-link',

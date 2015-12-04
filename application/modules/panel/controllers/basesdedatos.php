@@ -26,9 +26,12 @@ class Basesdedatos extends CI_Controller {
  		$this->load->helper('form');
  		$this->load->helper('language');
  		$this->load->library('form_validation');
+ 		$this->load->library('form_validation_global');
+ 		$this->form_validation_global->validarSession();
+
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
-		$this->auth = new stdClass;
+/*		$this->auth = new stdClass;
 
 		// Load 'standard' flexi auth library by default.
 		$this->load->library('flexi_auth');
@@ -103,6 +106,7 @@ class Basesdedatos extends CI_Controller {
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
 		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
+		*/
 	}
 	public function index()
 	{
@@ -198,7 +202,20 @@ class Basesdedatos extends CI_Controller {
 	                        }
 	                        else 
 	                        {
+	                        	       	$this->load->library('image_lib');
 	                            $file=$this->upload->data();
+	                            $config = array();
+								$config['source_image'] = $file['full_path'];
+								$config['image_library'] = 'gd2';
+								$config['wm_type'] = 'overlay';
+								$config['wm_overlay_path'] = $basededatos[0]->watermark_image;
+								$config['wm_vrt_alignment'] = 'middle';
+								$config['wm_hor_alignment'] = 'center';
+								$this->image_lib->initialize($config);
+								$this->image_lib->watermark();
+								$this->image_lib->clear();
+					
+	                            //$file=$this->upload->data();
 	                                $this->bases_datos_model->insertElement('image',array(
 	                                	'user_app' => $this->flexi_auth->get_user_id(),
 	                                	'bbdd_id' => $idbd,
@@ -231,7 +248,7 @@ class Basesdedatos extends CI_Controller {
 		                	
 		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
 		                	{
-		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
+		                		 echo json_encode(array('msg_errors'=>array('errors'=>'no se permites mas ffrases')));
 		                	}
 		                	else
 		                	{
@@ -279,7 +296,7 @@ class Basesdedatos extends CI_Controller {
 		                	
 		                	if(count($numElementsTotal)>$this->config->item('max-no-images'))
 		                	{
-		                		 echo json_encode(array('msg_errors'=>array('0'=>'no se permites mas ffrases')));
+		                		 echo json_encode(array('msg_errors'=>array('errors'=>'no se permites mas ffrases')));
 		                	}
 		                	else
 		                	{
@@ -317,7 +334,7 @@ class Basesdedatos extends CI_Controller {
 			
 			if($res>$this->config->item('max-images'))
 			{
-				echo json_encode(array('msg_errors'=>array('0'=>'No puedes añadir más imágenes en esta base de datos')));
+				echo json_encode(array('msg_errors'=>array('errors'=>'No puedes añadir más imágenes en esta base de datos')));
 			     
 			
 	   		}  
@@ -348,15 +365,38 @@ class Basesdedatos extends CI_Controller {
 				if($this->form_validation->run()==TRUE)
 				{
 
+					if(!file_exists('upload/'.$this->flexi_auth->get_user_identity()))
+	                    {
+	                        mkdir('upload/'.$this->flexi_auth->get_user_identity());
+	                    }
+	                    $config['file_name']=uniqid("WatermarkImage_");
+	                    $config['upload_path'] = 'upload/'.$this->flexi_auth->get_user_identity();
+	                    $config['allowed_types'] = 'jpg|png';               
+	                    $config['max_size'] = '800'; //in KB
+
+	                    $this->load->library('upload', $config);
+	                    //sino sha pujat be
+	                    if (! $this->upload->do_upload('imagen'))
+	                    {
+	                        //$upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
+	                        echo json_encode(array('msg_error'=>$this->upload->display_errors()));        
+
+	                    }
+	                    else 
+	                    {
+	                    
 					
-					
-					$idcreated=$this->bases_datos_model->insertNew(array(
-						'socialnetwork'=>$this->input->post('basededatos_create_social'),
-						'content'=>$this->input->post('content'),
-						'name'=>$this->input->post('basededatos_create_name'),
-						'user_app'=>$this->flexi_auth->get_user_id(),
-						'is_admin'=>0));
-					echo json_encode(array('msg_success'=>'Datos guardados con éxito','idcreated'=>$idcreated));
+						
+						$file=$this->upload->data();
+						$idcreated=$this->bases_datos_model->insertNew(array(
+							'socialnetwork'=>$this->input->post('basededatos_create_social'),
+							'content'=>$this->input->post('content'),
+							'watermark_image'=>$file['full_path'],
+							'name'=>$this->input->post('basededatos_create_name'),
+							'user_app'=>$this->flexi_auth->get_user_id(),
+							'is_admin'=>0));
+						echo json_encode(array('msg_success'=>'Datos guardados con éxito','idcreated'=>$idcreated));
+					}
 				}
 				else
 				{

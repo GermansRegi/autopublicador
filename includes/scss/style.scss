@@ -52,7 +52,7 @@ main
 	
 
 	padding-bottom:237px;
-	width:1170px;
+	width:100%;
 	max-width:1075px;
 	
 
@@ -108,7 +108,8 @@ footer{
 .savedlists{
 	//overflow-x:auto;	
 	display:flex;
-	overflow-x:scroll;
+	flex-flow:wrap;
+	//overflow-x:scroll;
 	//white-space:nowrap;
 }
 .savedlists__item{

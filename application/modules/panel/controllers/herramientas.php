@@ -27,10 +27,13 @@ class Herramientas extends CI_Controller {
  		$this->load->helper('form');
  		$this->load->helper('language');
  		$this->load->library('form_validation');
+ 		$this->load->library('form_validation_global');
+ 		$this->form_validation_global->validarSession();
+
 
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
-		$this->auth = new stdClass;
+	/*	$this->auth = new stdClass;
 
 		// Load 'standard' flexi auth library by default.
 		$this->load->library('flexi_auth');
@@ -102,7 +105,7 @@ class Herramientas extends CI_Controller {
 
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
-		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
+		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	*/
 	}
 	/**
 	 * [index mostra els links a les diferents eines proporcionades]
@@ -244,7 +247,7 @@ class Herramientas extends CI_Controller {
 			$res=$this->searchpages($this->input->post('pagename'));
 			if($res==0)
 			{
-				echo json_encode(array('msg_errors'=>array('pp'=>"No se ha encontrado una página con el nombre introducido")));
+				echo json_encode(array('msg_errors'=>array('errors'=>"No se ha encontrado una página con el nombre introducido")));
 				exit;
 			}
 			
@@ -286,17 +289,88 @@ class Herramientas extends CI_Controller {
 	 * [unfollow_twitter accio de formulari que permet deixar de seguir als usuaris de twitter de l'aplicacio]
 	 * @return [type] [description]
 	 */
+	public function getTwitterFollowers($user_id)
+	{
+		$e = 1;
+		$cursor = -1;
+		do {
+
+		$follows = $this->twtlib->get("followers/ids",array('cursor'=>$cursor,'user_id'=>$user_id));
+
+		$foll_array = (array)$follows;
+
+		  foreach ($foll_array['ids'] as $key => $val) {
+
+		        $full_friends[$e] = $val;
+		        $e++; 
+		  }
+		       $cursor = $follows->next_cursor;
+
+		  } while ($cursor > 0);
+		  return $full_friends;
+	
+	}
+	public function getTwitterFollowing($user_id)
+	{
+		$e = 1;
+		$cursor = -1;
+		do {
+
+		$follows = $this->twtlib->get("friends/ids",array('cursor'=>$cursor,'user_id'=>$user_id));
+
+		$foll_array = (array)$follows;
+
+		  foreach ($foll_array['ids'] as $key => $val) {
+
+		        $full_friends[$e] = $val;
+		        $e++; 
+		  }
+		       $cursor = $follows->next_cursor;
+
+		  } while ($cursor > 0);
+		  return $full_friends;
+	}
+	public function UnfollowNotFollowBack($user_id,$token)
+	{
+		$this->load->library('Twitterlib','','twtlib');
+	
+		$this->twtlib->setAccessToken(json_decode($token));
+	
+		$followers = $this->getTwitterFollowers($user_id);
+        $following = $this->getTwitterFollowing($user_id);
+        var_dump($followers);
+        var_dump($following);
+        $tounfollow = array();
+        foreach ($following as $f) {
+            if (!in_array($f, $followers)) {
+                $tounfollow[] = $f;
+            }
+        }
+          foreach ($tounfollow as $friend) {
+
+			$follows = $this->twtlib->post("friendships/destroy",array('user_id'=>$friend));		  	
+		
+		  }
+        
+	}
 	public function unfollow_twitter()
 	{
+	
 		if($this->input->post())
 		{
 			$this->form_validation->set_rules('user[]','Cuentas','required');
 			if($this->form_validation->run()==TRUE)
 			{
+				
+
 				$users=$this->input->post('user');
 				foreach ($users as $userid) {
 					$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$userid,'user_app'=>$this->flexi_auth->get_user_id()),1);		 	
-					$this->makeUnFollow($userRow[0]->access_token,$userid);
+					if($this->input->post('type_unfollow')=='1')
+						$this->makeUnFollow($userRow[0]->access_token,$userid);
+					else
+						$this->UnfollowNotFollowBack($userid,$userRow[0]->access_token);
+
 				}
 				 echo json_encode(array('msg_success'=>'Operación realizada con éxito'));
 			}
@@ -316,24 +390,60 @@ class Herramientas extends CI_Controller {
 	}
 	public function follow_twitter()
 	{
-		if($this->input->post())
+		if($this->input->post('usernames'))
 		{
 			$this->form_validation->set_rules('user[]','Cuentas','required');
-			$this->form_validation->set_rules('username','Nombre de usuario','required');
+			$this->form_validation->set_rules('usernames[]','Nombre de usuario','required');
 			if($this->form_validation->run()==TRUE)
 			{
 				$users=$this->input->post('user');
-				$username=$this->input->post('username');
+				$usernames=$this->input->post('usernames');
 				foreach ($users as $userid) {
+					
 					$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$userid,'user_app'=>$this->flexi_auth->get_user_id()),1);		 	
-					$result=$this->makeFollow($userRow[0]->access_token,$userid,$username);
-					if(isset($result['error']))
+					foreach($usernames as $name)
 					{
-						echo json_encode(array('msg_errors'=>$result));	
-						exit;
+						$result=$this->makeFollow($userRow[0]->access_token,$name);	
+	//					var_dump($result);
 					}
+					
+					
 				}
 				 echo json_encode(array('msg_success'=>'Operación realizada con éxito'));
+			}
+			else
+			{
+				    $errors = $this->form_validation->error_array();
+		             echo json_encode(array('msg_errors'=>$errors));
+			}
+			exit;
+		}
+		elseif($this->input->post('search'))
+		{
+			$this->form_validation->set_rules('user[]','Cuentas','required');
+			$this->form_validation->set_rules('search','Temática','required');
+			if($this->form_validation->run()==TRUE)
+			{
+				$this->load->library('Twitterlib','','twtlib');
+        		$users=$this->input->post('user');
+        			$userRow=$this->social_users->getUserAppUsers(array('user_id'=>$users[0],'user_app'=>$this->flexi_auth->get_user_id()),1);		 	
+		
+				////agafo el token de laplicacio
+				
+				// aplico el token de aplicacio 	
+    			$this->twtlib->setAccessToken(json_decode($userRow[0]->access_token));
+    			$page=1;
+    			$result=array();
+            	do{
+            	$res=$this->twtlib->get('users/search',array('q'=>$this->input->post('search'),'count'=>20,'page'=>$page));	
+				$result[$page-1]=$res;
+				$page++;
+				
+				
+				
+				
+				}while($page<7);
+				 echo json_encode(array('users'=>$result));
 			}
 			else
 			{
@@ -351,16 +461,17 @@ class Herramientas extends CI_Controller {
 		
 	}
 	
-	public function makeFollow($token,$user_id,$username)
+	
+	public function makeFollow($token,$username)
 	{
 		$this->load->library('Twitterlib','','twtlib');
 	
 		$this->twtlib->setAccessToken(json_decode($token));
 		
 		
-		$follows = $this->twtlib->post("friendships/create",array('screen_name'=>$username,'follow'=>"true"));		  	
-		if(isset($follows['error']))
-			return $follows;
+		$follows = $this->twtlib->post("friendships/create",array('user_id'=>$username,'follow'=>"true"));		  	
+		
+		return $follows;
 
 		
 		  
@@ -521,6 +632,24 @@ class Herramientas extends CI_Controller {
 		$this->data['basesdedatos']=$this->bases_datos_model->get_many_by(array('socialnetwork'=>'twt','user_app'=>$this->flexi_auth->get_user_id(),'content'=>'sentence'));
 		$this->load->view('herramientas/extractor_twitter',$this->data);		
 	
+	}
+	public function contadores()
+	{
+		$this->load->library('Twitterlib','','twtlib');
+		$this->data['users']=$this->social_users->getUserAppUsers(array('social_network'=>'tw','user_app'=>$this->flexi_auth->get_user_id()));
+		
+
+		foreach($this->data['users'] as $account)
+		{
+			
+				$this->twtlib->setAccessToken(json_decode($account->access_token));			
+				$result=$this->twtlib->get('users/show',array('user_id'=>$account->user_id));
+				$account->numfollowers=$result->followers_count;
+				$account->numtweets=$result->statuses_count;
+				
+		}
+		$this->data['titlepage']="Herramientas - Contadores";
+		$this->load->view('herramientas/contadores',$this->data);			
 	}
 
 }

@@ -1,0 +1,132 @@
+/* Button */
+a.btn {
+  color: #333 !important; }
+  a.btn:visited, a.btn:hover {
+    color: #333 !important; }
+a.btn-primary {
+  color: #fff !important; }
+  a.btn-primary:visited, a.btn-primary:hover {
+    color: #fff !important; }
+a.btn-warning {
+  color: #fff !important; }
+  a.btn-warning:visited, a.btn-warning:hover {
+    color: #fff !important; }
+a.btn-danger {
+  color: #fff !important; }
+  a.btn-danger:visited, a.btn-danger:hover {
+    color: #fff !important; }
+a.btn-success {
+  color: #fff !important; }
+  a.btn-success:visited, a.btn-success:hover {
+    color: #fff !important; }
+a.btn-info {
+  color: #fff !important; }
+  a.btn-info:visited, a.btn-info:hover {
+    color: #fff !important; }
+a.btn-inverse {
+  color: #fff !important; }
+  a.btn-inverse:visited, a.btn-inverse:hover {
+    color: #fff !important; }
+
+.button {
+  margin: 10px 0px 5px 0px; }
+  .button a {
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 3px;
+    -webkit-transition: background 1s ease;
+    -moz-transition: background 1s ease;
+    -o-transition: background 1s ease;
+    transition: background 1s ease;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif; }
+    .button a:visited {
+      color: #fff;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 3px;
+      -webkit-transition: background 1s ease;
+      -moz-transition: background 1s ease;
+      -o-transition: background 1s ease;
+      transition: background 1s ease;
+      font-family: 'Open Sans', Arial, Helvetica, sans-serif; }
+    .button a:hover {
+      color: #fff;
+      text-decoration: none;
+      -webkit-transition: background 1s ease;
+      -moz-transition: background 1s ease;
+      -o-transition: background 1s ease;
+      transition: background 1s ease; }
+
+/* Container */
+.container {
+  max-width: 1075px; }
+
+/* Pricing table #1 */
+.pricel {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 20px !important; }
+
+.plist a i {
+  color: #333; }
+.plist a:hover i {
+  color: #333;
+  text-decoration: none; }
+
+.pricel .phead-top {
+  margin: 0px;
+  padding: 15px 10px; }
+  .pricel .phead-top h4 {
+    color: #fff; }
+.pricel .phead-bottom {
+  background: #f8f8f8;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 0px;
+  padding: 10px 10px 5px 10px;
+  color: #777;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 27px; }
+.pricel .pst {
+  font-size: 12px;
+  position: relative;
+  top: -5px;
+  font-weight: normal; }
+.pricel .psb {
+  font-size: 12px;
+  font-weight: normal; }
+.pricel .pbutton {
+  background: #eee;
+  border: 1px solid #ddd;
+  padding: 10px 0px 15px 0px;
+  color: #777;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 0px; }
+.pricel .plist {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  background: #fcfcfc; }
+  .pricel .plist ul {
+    margin-left: 0px;
+    margin-bottom: 0px !important;
+    padding-left: 0px; }
+  .pricel .plist li {
+    list-style-type: none;
+    background: none;
+    padding: 13px 0px;
+    font-size: 12px;
+    border-bottom: 1px solid #e1e1e1; }
+    .pricel .plist li:nth-child(even) {
+      background-color: #f8f8f8; }
+    .pricel .plist li:hover {
+      background: #fff; }
+.pricel .phead-top {
+  display: block; }
+
+/*# sourceMappingURL=body.css.map */

@@ -24,7 +24,10 @@ class Perfil extends CI_Controller {
  		$this->load->helper('url');
  		$this->load->helper('form');
  		$this->load->helper('language');
+ 		$this->load->library('form_validation_global');
+ 		$this->form_validation_global->validarSession();
 
+/*
   		// IMPORTANT! This global must be defined BEFORE the flexi auth library is loaded!
  		// It is used as a global that is accessible via both models and both libraries, without it, flexi auth will not work.
 		$this->auth = new stdClass;
@@ -94,6 +97,7 @@ class Perfil extends CI_Controller {
 		// Define a global variable to store data that is then used by the end view page.
 		$this->data = null;
 		$this->data['username']=$this->flexi_auth->get_user_by_id_query($this->flexi_auth->get_user_id(),array("upro_first_name"))->result();	
+		*/
 	}
 	public function planes()
 	{
@@ -119,6 +123,7 @@ class Perfil extends CI_Controller {
 		{
 			$this->load->model('demo_auth_model');
 			$this->demo_auth_model->update_account();
+
 		}
 		elseif ($this->input->post('change_password'))
 		{
@@ -132,9 +137,6 @@ class Perfil extends CI_Controller {
 		// Get users current data.
 		// This example does so via 'get_user_by_identity()', however, 'get_users()' using any other unqiue identifying column and value could also be used.
 		$this->data['user'] = $this->flexi_auth->get_user_by_id_query()->result();
-		
-		// Set any returned status/error messages.
-		// 
 		$this->data['message'] = (! isset($this->data['message'])) ? $this->session->flashdata('message') : $this->data['message'];
 		$this->data['titlepage']="Perfil - Editar datos";
 		$this->load->view('demo/public_examples/account_update_view', $this->data);

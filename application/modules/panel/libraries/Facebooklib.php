@@ -120,7 +120,7 @@ class Facebooklib {
 	      return $user;
  	}catch( Exception $e)
  	{
- 	
+ 	  
  		return array('error'=>$this->TRanlateAPIERROR($e->getHttpStatusCode()));
  	}
       // Get response as an array
@@ -193,7 +193,7 @@ class Facebooklib {
      	else if(array_key_exists($error, $this->errorArray))
      		return $errorArray[$error];
           else     
-            return "Ha ocurrido un error en la publicación";
+            return "Ha ocurrido un error en la publicacióne";
         
     }
     public function validatePerms()

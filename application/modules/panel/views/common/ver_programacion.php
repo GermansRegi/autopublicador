@@ -1,7 +1,7 @@
 
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
-			<?php $arrayStates=array('process'=>'En proceso','finished'=>"Terminado",'finisherase'=>'Terminado','nocomplete'=>"No completado",'toerase'=>'Pendiente de borrar'); ?>
+			<?php $arrayStates=array('process'=>'En proceso','finished'=>"Publicado",'finisherase'=>"Borrado",'nocomplete'=>"No completado",'toerase'=>'Pendiente de borrar'); ?>
 			<h4>Ver datos de la programacion #<?php echo $prog[0]->id." (".$arrayStates[$prog[0]->state].")"; ?></h4>
 		</div>
 		<div class="modal-body">
@@ -106,7 +106,7 @@
 									$url="http://www.twitter.com/".$prog[0]->socialaccount."/status/";
 								?>
 
-								<?php echo "<a target='_blank' href='".$url.$prog[0]->id_publish."' >Url de la publiación</a>";?>						
+								<?php echo "<a target='_blank' href='".$url.$prog[0]->id_publish."' >Ver la publiación</a>";?>						
 						</div>
 					<?php
 					} ?>

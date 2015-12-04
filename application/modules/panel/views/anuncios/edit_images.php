@@ -23,7 +23,8 @@
 	</section>
 
 	<section class="message"></section>
-	<form  method="post"  enctype='multipart/form-data'>	
+	<form  method="post"  enctype='multipart/form-data'>
+		
 		<section id="uploader">
 			<p>Your browser doesn't have Flash, Silverlight or HTML5 support.</p>
 
@@ -40,6 +41,7 @@
 		var deletecontent_url='<?php echo base_url()?>panel/anuncios/deletecontent/<?php echo $anuncio->id; ?>'
 		var current_url='<?php echo base_url().$this->uri->uri_string();?>';
 	</script>
+
 	<section class="row">
 		<section class='namebd col-lg-6'>
 			<p>Elimine imágenes de: <span class='bold'><?php echo $anuncio->name;?></span></p>    
@@ -48,6 +50,7 @@
 		<section class="col-lg-6 text-right">
 			<input type="button" id="toggle" value="Marcar todos" class="btn btn-primary" >          	
 			<input type="button" class="btn btn-danger deletemulti" value="Borrar">
+
 		</section>
 	</section>
 	

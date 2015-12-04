@@ -14,7 +14,7 @@
 		<div class="col-lg-3"><a href="<?php echo base_url(); ?>panel/twitter/connectar_twitter" class="btn btn-primary">Conectar con Twitter</a></div>
 		<div class="col-lg-2"><a class="btn btn-default showHide" >Crear Carpeta</a></div>
 
-		<div  class="col-lg-6 clearfix  hidden"  >
+		<div  class="col-lg-6 clearfix divCreateFolder  hidden"  >
 			<form id="createFolder" action="" class="form-horitzonal">
 				<div class="message"></div>
 				<div class="col-lg-12 form-group">

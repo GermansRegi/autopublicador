@@ -1,4 +1,3 @@
-
 	    //Contador de caracteres
 	    
 if($('#tweet_txt').length>0)
@@ -15,6 +14,23 @@ if($('#tweet_txt').length>0)
         {
             updateContadorTa(idtextarea, idcontador,max);
         });
+        $('body').on('input',"input[name='link']",function()
+        {
+        	updateContadorlink($(this),idtextarea,idcontador,max)
+        });
+    }
+    function updateContadorlink(idlink,idtextarea,idcontador,max)
+    {
+    	    var contador = $("#"+idcontador);
+	        var ta =     $("#"+idtextarea);
+	        console.log('pp');
+        contador.html("0/"+max+' car&aacute;cteres disponibles');
+        contador.html((ta.val().length+idlink.val().length+6)+"/"+max +' car&aacute;cteres disponibles');
+    if(parseInt(ta.val().length+idlink.val().length+6)>max)
+        {
+            ta.val(ta.val().substring(0,max-1));
+            contador.html(max+"/"+max+' car&aacute;cteres disponibles');
+        }
     }
     function updateContadorTa(idtextarea, idcontador,max)
     {
@@ -61,13 +77,14 @@ if($('#tweet_txt').length>0)
 										dataType:'json',
 										success:function(data){
 											var res=showResults(data,',','.message');
-											
+											console.log('pasa',res);
 											if(res){
 												$('body').delay(1000).queue(function( nxt ) {
 													document.location.href=current_url;
 													nxt();
-							                      }); 	
-											}
+										                      }); 	
+											}else{console.log('pasa');
+											 $("html, body").animate({ scrollTop: 0 }, "slow");}
 										}
 									});
 								}
@@ -175,7 +192,7 @@ $("body").on("click",".deleteautoprog",function(){
 	var prog=$this.data("prog-id")
 	var account=$this.data("account-id");
 	var type=$this.data("type-prog");
-	if(confirm("Seguro que quiere eliminar a autoprogramación?"))
+	if(confirm("Seguro que quiere eliminar la programación periódica?"))
 	{
 		$.ajax({
 			type:'post',
@@ -523,6 +540,9 @@ $("body").on("click",".deleteautoprog",function(){
 	// serveix per eliminar una programacio puntual
 	$('body').on('click','.deleteprog',function()
 	{
+		if(confirm("Seguro que quiere eliminar la programación?"))
+	{
+	
 		$this=$(this);
 		$this.data('id');
           $.ajax(
@@ -543,7 +563,7 @@ $("body").on("click",".deleteautoprog",function(){
                   }
               }
           );
-          
+    	}      
 
 	})
 	$('body').on('submit',"#periodicasmultiple",function(e){
@@ -686,8 +706,29 @@ $("body").on("click",".deleteautoprog",function(){
 
 			success:function(data)
 			{
+				if(data.errors)
+				{	
+					var str='<div class="errors"><a class=" btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Mostrar los errores </a><div class="collapse" id="collapseExample"><div class="well">';
 				
-				var res=showResults(data,',','.message');
+					str+='<ul class="list-group"><li class="list-group-item row"><span class="col-lg-4"><strong>Usuario, grupo, página o evento</strong></span><span class="col-lg-8"><strong>Error</strong></span></li>';
+					for (p in data.errors['user'])
+					{
+						str+="<li class='list-group-item row'><span class='col-lg-4'>"+data.errors['user'][p]['name']+"</span> <span class='col-lg-8'>"+data.errors['user'][p]['error']['error']+"</span></li>";
+					}
+
+					for (p in data.errors['account'])
+					{
+						
+						str+="<li class='list-group-item'><span class='col-lg-4'>"+data.errors['account'][p]['name']+" </span> <span class='col-lg-8'>"+data.errors['account'][p]['error']['error']+"</span></li>";
+						
+					}
+					str+="</ul></div></div></div>";
+					console.log(str);
+					$('.message').find('.errors').remove();
+					$('.message').append(str);
+				}
+				var res=showResults(data,',','.message')
+
 				if(res){
 						$('body').delay(2000).queue(function( nxt ) {
 						///	document.location.href=current_url;

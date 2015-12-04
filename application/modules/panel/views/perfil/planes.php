@@ -89,7 +89,7 @@
 			<div class="container">
 				<div class="row">
 					<p class="text-center">
-						Elija el tipo de facturación
+						Elija la oferta que desee:
 
 					</p>
 					<div class="col-md-4">
@@ -118,7 +118,7 @@
 
 									<input type="hidden" name="cancel_return" value="<?php echo base_url(); ?>panel/perfil/errordepago">
 
-									<input type="submit" value="Pagar" class="btn btn-primary"/>
+									<input type="submit" value="Contratar" class="btn btn-primary"/>
 
 								</form>
 
@@ -146,7 +146,7 @@
 
 									<input type="hidden" name="cancel_return" value="<?php echo base_url(); ?>panel/perfil/errordepago"/>
 
-									<input type="submit" value="Pagar" class="btn btn-primary"/>
+									<input type="submit" value="Contratar" class="btn btn-primary"/>
 								</form>
 
 							</div>
@@ -174,16 +174,16 @@
 
 
 									<input type="hidden" name="cancel_return" value="<?php echo base_url(); ?>panel/perfil/errordepago"/>
-									<input type="submit" value="Pagar" class="btn btn-primary"/>
+									<input type="submit" value="Contratar" class="btn btn-primary"/>
 								</form>
 
 							</div>
 						</div>
 					</div>  
 
-					<div class="col-lg-12 text-center">
+					<div class="col-lg-2 col-lg-offset-10">
 						<p>
-							<a class="closeplan btn btn-danger">Cancelar</a>
+							<a class="closeplan btn btn-danger">Volver</a>
 						</p>
 					</div>
 				</div>
