@@ -41,7 +41,7 @@ $(function(){
 				var res=showResults(data,',','.message');
 				if(res){
 						$('body').delay(2000).queue(function( nxt ) {
-							document.location.href=base_url+'panel/herramientas';
+					//		document.location.href=base_url+'panel/herramientas';
 							nxt();
 	                      }); 	
 					}

@@ -569,28 +569,26 @@ class Herramientas extends CI_Controller {
           			$query=array('q'=>(($inclrt==1)?"from:":'#').$account,'count'=>50);
                     $results=$this->searchTwits($query);	                   
 //                    	var_dump($results);
-          			
-                    while(count($results->statuses)>1 && $number>$count) {
-                    	$count=$count+count($results->statuses);
+                    while(count($results->statuses)>0 && $count<$number) {
+                    	
                     	$arrayt=array_merge($arrayt,$results->statuses); 
-                    	//echo $count."<br>";
-                //    	echo count($results->statuses)."<br>";
-                    	if(count($results->statuses)>0	)
-                    	{
-                    		$query=array('q'=>(($inclrt==1)?"from:":'#').$account,'count'=>50,'max_id'=>$results->statuses[count($results->statuses)-1]->id);
+                    	$count=$count+count($results->statuses);
+
+//                    	if(count($results->statuses)>0	)
+  //                  	{
+                    		$query=array('q'=>(($inclrt==1)?"from:":'#').$account,'count'=>50,'since_id'=>$results->statuses[count($results->statuses)-1]->id);
                     		$results=$this->searchTwits($query); 
                     		
                     		
-                    	}
+    //                	}
                     	
-
           	    	
           	    	
                     	
                     }
 		$this->twtlib->setAppToken(null);
 
-//var_dump($arrayt);
+var_dump($arrayt);
     		foreach ($arrayt as $twit) {
     			
     			      $this->bases_datos_model->insertElement('sentence',array(

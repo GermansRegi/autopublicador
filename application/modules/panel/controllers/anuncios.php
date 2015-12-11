@@ -79,8 +79,26 @@ class Anuncios extends CI_Controller {
 	                    //sino sha pujat be
 	                    if (! $this->upload->do_upload('imagen'))
 	                    {
-	                        //$upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
-	                        echo json_encode(array('msg_error'=>$this->upload->display_errors()));        
+
+
+	                       if( $_FILES['imagen']['error'] == 4)
+							{
+								$idcreated=$this->anuncios_model->insertNew(array(
+									'socialnetwork'=>$this->input->post('basededatos_create_social'),
+									'content'=>$this->input->post('content'),
+		//							'watermark_image'=>$file['full_path'], 
+									'name'=>$this->input->post('basededatos_create_name'),
+									'user_app'=>$this->flexi_auth->get_user_id(),
+									'is_admin'=>0));
+								echo json_encode(array('msg_success'=>'Datos guardados con éxito','idcreated'=>$idcreated));
+
+							}
+							else
+							{
+
+				 				//$upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
+	                        	echo json_encode(array('msg_errors'=>array('p'=>$this->upload->display_errors())));        
+							}
 
 	                    }
 	                    else 

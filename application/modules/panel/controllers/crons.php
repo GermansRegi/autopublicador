@@ -377,17 +377,39 @@ class Crons extends CI_Controller {
 					{
 						continue;
 					}
-					$itemsTopublish=array();
-					$itemTopublish=$xml->channel->item;
+					if(isset($rss->last_date_publish))
+                    {
+                        $last_date=$rss->last_date_publish;
+                    }
+                    else
+                    {
+                    //aki recorro els items del feed
+					   $last_date=strtotime($itemTopublish=$xml->channel->item[0]->pubDate[0]);
+                    }
+                    $itemsTopublish=array();
+                    $LastsItems=array();
 					foreach ($xml->channel->item  as $item) {
-						echo "timerss public".strtotime($item->pubDate[0])."<br>";
-						echo (time()-(60*10));
-						if(strtotime($item->pubDate[0])>(time()-60*10))
+						echo "timerss public  ".date('d-m-Y H:i:s',strtotime($item->pubDate[0]))."<br>";
+						echo date('d-m-Y H:i:s',$last_date)."<br>";
+					   //per cada un miro si la data d publicacio es superior a la data actual  ok i aqui es on no entra i hauria d'entrar?
+                        //no entra pk no hi ha cap publicacio k sigui posterior ok i dki k es el k no funciona?
+                        //dons k en el feed hi ha unespublicacions amb unes dates  
+                        //si ?
+                        //i com k nomes agafo les lpublicacions k tenen data més gran k la data actual  pero no te 
+                        if(strtotime($item->pubDate[0])>$last_date)
 						{
-							$itemsTopublish[]=$item;
+							$LastsItems[]=$item;
+                            				$this->rss_model->update_by(array('last_date_publish'=>strtotime($item->pubDate[0])),
+                                                                        array('id'=>$rss->id,'user_app'=>$rss->user_app));
 
+                            
 						}
 					}
+                    if(count($LastsItems)>0)
+                    {
+                        $itemsTopublish=$LastsItems;
+                    }
+                    var_dump($LastsItems);
 					var_dump($itemsTopublish);
 					if($rss->perm_sentences!="")
 					{
@@ -399,7 +421,7 @@ class Crons extends CI_Controller {
 
 					} 
 
-					log_message('error','publicador rss'.$itemTopublish->pubDate[0]);
+					//log_message('error','publicador rss'.$itemTopublish->pubDate[0]);
 
 					//log_message('error','link: '.$itemTopublish->link. " , ".$itemTopublish->link[0] );
 					$fbaccesstoken=array();
@@ -625,7 +647,7 @@ class Crons extends CI_Controller {
 		$comuAutoprog="autoprog_".$var_name;
 		else
 		$comuAutoprog="autoprog_basede".$var_name;
-//		echo $comuAutoprog;
+		echo $comuAutoprog;
 		$this->load->model($comuAutoprog);
 		$autoprogs=$this->$comuAutoprog->get_all();
 		if(count($autoprogs)>0)

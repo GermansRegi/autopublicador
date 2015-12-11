@@ -40,7 +40,7 @@
 						
 				   </div>
 				   <div class="col-lg-6 form-group">
-				   			<label class="control-label">Selecciona las bases de datos </label>
+				   			<label class="control-label">Selecciona las bases de datos de tipo imagen</label>
 				   			<select name="asociard" id="selectbd" class="form-control">
 				   			<option value="">Selecciona una opción</option>
 				   						

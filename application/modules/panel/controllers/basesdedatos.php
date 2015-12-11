@@ -361,11 +361,11 @@ class Basesdedatos extends CI_Controller {
 
 
 				$this->form_validation->set_rules($rules_validate);
-
+				//sila validacio es correcte
 				if($this->form_validation->run()==TRUE)
 				{
 
-					if(!file_exists('upload/'.$this->flexi_auth->get_user_identity()))
+						if(!file_exists('upload/'.$this->flexi_auth->get_user_identity()))
 	                    {
 	                        mkdir('upload/'.$this->flexi_auth->get_user_identity());
 	                    }
@@ -375,28 +375,44 @@ class Basesdedatos extends CI_Controller {
 	                    $config['max_size'] = '800'; //in KB
 
 	                    $this->load->library('upload', $config);
-	                    //sino sha pujat be
+	                    //sino sha pujat be el fitxer
 	                    if (! $this->upload->do_upload('imagen'))
 	                    {
-	                        //$upload_error['upload_error'] = array('error' => $this->upload->display_errors()); 
-	                        echo json_encode(array('msg_error'=>$this->upload->display_errors()));        
+	                    	//sino hi havia fitxer faig insert sense imatge
+	        	            if( $_FILES['imagen']['error'] == 4)
+							{
+								$idcreated=$this->bases_datos_model->insertNew(array(
+									'socialnetwork'=>$this->input->post('basededatos_create_social'),
+									'content'=>$this->input->post('content'),
+		//							'watermark_image'=>$file['full_path'], 
+									'name'=>$this->input->post('basededatos_create_name'),
+									'user_app'=>$this->flexi_auth->get_user_id(),
+									'is_admin'=>0));
+								echo json_encode(array('msg_success'=>'Datos guardados con éxito','idcreated'=>$idcreated));
 
+							} 
+							//si  no sa pujat be i hi havia fitxer mostro els errors de la pujada
+							else
+							{
+	                	        echo json_encode(array('msg_errors'=>array('p'=>$this->upload->display_errors())));        
+							}
 	                    }
+	                    //is sha pujat be el fitxer afegixo les dades a mysql
 	                    else 
 	                    {
 	                    
 					
 						
-						$file=$this->upload->data();
-						$idcreated=$this->bases_datos_model->insertNew(array(
-							'socialnetwork'=>$this->input->post('basededatos_create_social'),
-							'content'=>$this->input->post('content'),
-							'watermark_image'=>$file['full_path'],
-							'name'=>$this->input->post('basededatos_create_name'),
-							'user_app'=>$this->flexi_auth->get_user_id(),
-							'is_admin'=>0));
-						echo json_encode(array('msg_success'=>'Datos guardados con éxito','idcreated'=>$idcreated));
-					}
+							$file=$this->upload->data();
+							$idcreated=$this->bases_datos_model->insertNew(array(
+								'socialnetwork'=>$this->input->post('basededatos_create_social'),
+								'content'=>$this->input->post('content'),
+								'watermark_image'=>$file['full_path'],
+								'name'=>$this->input->post('basededatos_create_name'),
+								'user_app'=>$this->flexi_auth->get_user_id(),
+								'is_admin'=>0));
+							echo json_encode(array('msg_success'=>'Datos guardados con éxito','idcreated'=>$idcreated));
+						}
 				}
 				else
 				{

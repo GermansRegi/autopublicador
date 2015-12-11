@@ -46,7 +46,7 @@
 						</select>
 				   </div>
 				   <div class="col-lg-3">
-				   			<label class="control-label">Selecciona las bases de datos </label>
+				   			<label class="control-label">Selecciona las bases de datos de tipo texto</label>
 				   			<select name="asociard" class="form-control">
 				   			<option value="">Selecciona una base de datos</option>
 				   						<?php foreach ($basesdedatos as $bd)

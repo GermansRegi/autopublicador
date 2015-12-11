@@ -120,7 +120,8 @@ $(function(){
 				var res=showResults(data,',','.message');
 				
 				if(res!=false)
-				setTimeout(function(){location.href=editUrl+'/'+data.idcreated},1500)
+				setTimeout(function(){
+					location.href=editUrl+'/'+data.idcreated},1500)
 
 			} ,
 			processData:false,
