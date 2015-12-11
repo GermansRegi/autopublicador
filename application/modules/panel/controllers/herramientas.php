@@ -24,6 +24,8 @@ class Herramientas extends CI_Controller {
 		$this->load->database();
 		$this->load->library('session');
  		$this->load->helper('url');
+        $this->load->helper('array');
+            
  		$this->load->helper('form');
  		$this->load->helper('language');
  		$this->load->library('form_validation');
@@ -433,10 +435,30 @@ class Herramientas extends CI_Controller {
 				// aplico el token de aplicacio 	
     			$this->twtlib->setAccessToken(json_decode($userRow[0]->access_token));
     			$page=1;
+                $last_id=0;
+                $exit=false;
     			$result=array();
             	do{
+                    //var_dump(array('q'=>$this->input->post('search'),'count'=>20,'page'=>$page));
+                    
             	$res=$this->twtlib->get('users/search',array('q'=>$this->input->post('search'),'count'=>20,'page'=>$page));	
-				$result[$page-1]=$res;
+                   //var_dump(array_search($last_id, array_column($res, 'id'))); 
+                    foreach($res as $r)
+                    {
+                        if($r->id===$last_id)
+                            $exit=true;
+                    }
+                 
+                if($exit==true)
+                {
+                    $page=7;
+                }
+                else
+                {
+                       $result[$page-1]=$res;       
+                    $last_id=$result[$page-1][count($res)-1]->id;    
+                }
+                    
 				$page++;
 				
 				
@@ -649,6 +671,9 @@ var_dump($arrayt);
 		$this->data['titlepage']="Herramientas - Contadores";
 		$this->load->view('herramientas/contadores',$this->data);			
 	}
+    
+
+
 
 }
 

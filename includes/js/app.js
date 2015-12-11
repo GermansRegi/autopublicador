@@ -69,9 +69,11 @@ $(function(){
 				{
 					var str='';
 					$("#resultsearch .users").children().remove();
-					for(var p=0;p<6;p++)
+                    
+					for(var p=0;p<data.users.length;p++)
 					{
 						str+='<div class="col-lg-2">'							
+                        console.log(data.users[p].length);
 						for(var i=0;i<data.users[p].length;i++)
 						{
 

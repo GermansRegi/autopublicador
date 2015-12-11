@@ -31,7 +31,7 @@
 						<label class="control-label">
 							Usuarios:
 						</label>
-						<div class="users">
+						<div class="users col-lg-12">
 
 						</div>	
 					</div>
