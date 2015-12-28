@@ -1,4 +1,7 @@
-  <!-- Include JS files -->
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+                                           <?php if(isset($section_app))
+                                    {?>
+                                      <!-- Include JS files -->
     <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="<?php echo base_url();?>includes/js/plupload.full.min.js"></script>
     <script src="<?php echo base_url();?>includes/js/moxie.min.js"></script>
@@ -29,3 +32,10 @@
 
    
    
+<?php }else{
+    ?>
+<script src="<?php echo base_url(); ?>includes/js/Landing_v1/script.js"></script>
+<!-- coded by Kirk -->
+</body>
+        <?php
+}

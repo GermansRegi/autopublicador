@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= "http://".$_SERVER['HTTP_HOST'].'/autopublicador/';
+$config['base_url']	= "http://".$_SERVER['HTTP_HOST'].'/autopublicador2/';
 /*
 |--------------------------------------------------------------------------
 | Index File

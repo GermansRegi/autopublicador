@@ -1,0 +1,129 @@
+/*========================   Menu   ==========================*/
+
+//--------------------------------------------------------------
+//                       Menu Styles
+//--------------------------------------------------------------
+.sf-menu {
+  @include clearfix;
+  display: inline-block;
+
+  > li {
+    position: relative;
+    float: left;
+
+    & + li {
+      margin-left: 30px;
+    }
+  }
+
+  a {
+    display: block;
+  }
+}
+
+//--------------------------------------------------------------
+//                     Menu item styles
+//--------------------------------------------------------------
+.sf-menu {
+  > li {
+    > a {
+      color: #FFF;
+    }
+
+    &.sfHover > a, > a:hover {
+      color: #7B7A7A;
+      background: $secondary;
+    }
+
+    &.active > a {
+      color: #212121;
+      background: $primary;
+    }
+  }
+}
+
+//--------------------------------------------------------------
+//                   Sub menu lvl1 styles
+//--------------------------------------------------------------
+.sf-menu ul {
+  display: none;
+  position: absolute;
+  top: 100%;
+  width: 235px;
+  margin-top: 10px;
+  padding: 10px 0 10px;
+  background: #FFF;
+  z-index: 2;
+  @include box-sizing(border-box);
+}
+
+//--------------------------------------------------------------
+//                 Sub menu lvl1 item styles
+//--------------------------------------------------------------
+.sf-menu ul {
+  > li {
+    > a {
+      color: #FFF;
+      background: $secondary;
+    }
+
+    &.sfHover > a, > a:hover {
+      color: #FFF;
+      background: $primary;
+    }
+  }
+}
+
+//--------------------------------------------------------------
+//                   Sub menu lvl2 styles
+//--------------------------------------------------------------
+.sf-menu ul ul {
+  position: static;
+  top: 100%;
+  width: auto;
+  margin-top: 0;
+  padding: 0;
+  z-index: 4;
+}
+
+//--------------------------------------------------------------
+//                 Sub menu lvl2 item styles
+//--------------------------------------------------------------
+.sf-menu ul ul {
+  > li {
+    > a {
+      color: #FFF;
+      background: $default;
+    }
+
+    &.sfHover > a, > a:hover {
+      color: #FFF;
+      background: $primary;
+    }
+  }
+}
+
+//--------------------------------------------------------------
+//                      sf-with-ul styles
+//--------------------------------------------------------------
+.sf-menu > li > .sf-with-ul {
+  position: relative;
+
+  &:before {
+    position: absolute;
+    left: 50%;
+    top: 62%;
+    margin-left: -6px;
+    content: $fa-caret-down;
+    font: 400 12px/12px $fa;
+  }
+}
+
+//--------------------------------------------------------------
+//                        Responsive
+//--------------------------------------------------------------
+@media (max-width: 767px) {
+  .sf-menu {
+    display: none;
+  }
+}

@@ -1,0 +1,365 @@
+/*==================   RD Mobile Menu    =====================*/
+$dark-theme: (
+        panel-background-color: #2B3643,
+        panel-text-color: #FFF,
+        menu-background-color: #2B3643,
+        menu-item-color: #A5BFD2,
+        menu-item-hover-color: #FFF,
+        menu-item-hover-background: $primary
+);
+
+$light-theme: (
+        panel-background-color: #FFF,
+        panel-text-color: #000,
+        menu-background-color: #FFF,
+        menu-item-color: #666,
+        menu-item-hover-color: #FFF,
+        menu-item-hover-background: $primary
+);
+
+$rd-theme: $light-theme;
+$rd-menu-toggle-preset: "button-lines-arrow-2";
+
+$rd-mobilepanel-height: 56px;
+$rd-button-size: 48px;
+$rd-icon-size: 24px;
+$rd-menu-width: 240px;
+
+.rd-mobilemenu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 9999999;
+  text-align: left;
+  @include transition(.3s all ease);
+
+  &.active {
+    right: 0;
+  }
+}
+
+.rd-mobilemenu_ul {
+  position: fixed;
+  top: $rd-mobilepanel-height;
+  left: 0;
+  bottom: 0;
+  width: $rd-menu-width;
+  padding: 20px 0;
+  color: map-get($rd-theme, menu-item-color);
+  background: map-get($rd-theme, menu-background-color);
+  font-size: 14px;
+  line-height: 20px;
+  overflow: auto;
+  @include box-shadow(5px 0 5px 0 rgba(0, 0, 0, .1));
+  @include transform(translateX(-$rd-menu-width));
+  @include transition(0.3s ease);
+  @include transition(0.3s cubic-bezier(.55, 0, .1, 1));
+
+  .rd-mobilemenu.active & {
+    @include transform(translateX(0));
+  }
+
+  a {
+    display: block;
+    padding: 9px 25px 11px;
+
+    &:hover {
+      background: map-get($rd-theme, menu-item-hover-background);
+      color: map-get($rd-theme, menu-item-hover-color);
+    }
+  }
+
+  ul a {
+    padding-left: 40px;
+  }
+
+  ul ul a {
+    padding-left: 60px;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    height: 20px;
+  }
+}
+
+.rd-mobilepanel {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $rd-mobilepanel-height;
+  background: map-get($rd-theme, panel-background-color);
+  color: map-get($rd-theme, panel-text-color);
+  @include box-shadow(0 3px 3px 0 rgba(0, 0, 0, .1));
+  z-index: 99999991;
+}
+
+.rd-mobilepanel_title {
+  position: fixed;
+  top: 4px;
+  left: $rd-mobilepanel-height;
+  right: $rd-mobilepanel-height;
+  color: map-get($rd-theme, panel-text-color);
+  font-size: $rd-icon-size;
+  line-height: $rd-button-size;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+//===========   Mobilepanel Toggle Presets   ==============
+
+// Hamburger
+@mixin button-lines() {
+  span {
+    position: relative;
+    display: block;
+    margin: auto;
+    @include transition(all .3s ease);
+
+    &:after,
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: (round($rd-icon-size / 6)) * -2;
+      @include transition(all .3s ease);
+    }
+
+    &:after {
+      top: (round($rd-icon-size / 6)) * 2;
+    }
+
+    &:after,
+    &:before,
+    & {
+      width: $rd-icon-size;
+      height: round($rd-icon-size / 6);
+      background-color: map-get($rd-theme, panel-text-color);
+      backface-visibility: hidden;
+      @include border-radius(2px);
+    }
+  }
+}
+
+// Hamburger to Cross
+@mixin button-lines__cross-1() {
+  &.active span {
+    background: transparent;
+
+    &:before, &:after {
+      @include transform-origin(50% 50%);
+      top: 0;
+    }
+
+    &:before {
+      @include transform(rotate(45deg));
+    }
+    &:after {
+      @include transform(rotate(-45deg));
+    }
+  }
+}
+
+@mixin button-lines__cross-2() {
+  span {
+    &:before, &:after {
+      -webkit-transition-duration: 0.3s, 0.3s;
+      transition-duration: 0.3s, 0.3s;
+      -webkit-transition-delay: 0.3s, 0s;
+      transition-delay: 0.3s, 0s;
+      -webkit-transition-property: top, -webkit-transform;
+      transition-property: top, transform;
+    }
+  }
+
+  &.active span {
+    transition: background .3s 0s ease;
+    background: transparent;
+
+    &:before, &:after {
+      top: 0;
+      -webkit-transition-delay: 0s, 0.3s;
+      transition-delay: 0s, 0.3s;
+    }
+    &:before {
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+    &:after {
+      -webkit-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+@mixin button-lines__cross-3() {
+  span {
+    &:before, &:after {
+      -webkit-transition-duration: 0.3s, 0.3s;
+      transition-duration: 0.3s, 0.3s;
+      -webkit-transition-delay: 0.3s, 0s;
+      transition-delay: 0.3s, 0s;
+      -webkit-transition-property: top, -webkit-transform;
+      transition-property: top, transform;
+    }
+  }
+
+  &.active span {
+    @include transform(rotate(180deg));
+    transition: background .3s 0s ease;
+    background: transparent;
+
+    &:before, &:after {
+      top: 0;
+      -webkit-transition-delay: 0s, 0.3s;
+      transition-delay: 0s, 0.3s;
+    }
+    &:before {
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+    &:after {
+      -webkit-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+// Hamburger to Arrow
+@mixin button-lines__arrow-1() {
+  span {
+    &:before,
+    &:after {
+      @include transform-origin($rd-icon-size/14 center);
+    }
+  }
+
+  &.active span {
+    &:before,
+    &:after {
+      top: 0;
+      width: $rd-icon-size/1.6;
+    }
+
+    &:before {
+      @include transform(rotate(-40deg));
+    }
+    &:after {
+      @include transform(rotate(40deg));
+    }
+  }
+}
+
+// Hamburger to Arrow (Material Design)
+@mixin button-lines__arrow-2() {
+  span {
+    @include transform(rotate(180deg));
+    &:before,
+    &:after {
+      @include transform-origin($rd-icon-size/14 center);
+      @include transform-origin($rd-icon-size/14 center);
+    }
+  }
+
+  &.active span {
+    @include transform(rotate(360deg));
+
+    &:before,
+    &:after {
+      top: 0;
+      width: $rd-icon-size/1.6;
+    }
+
+    &:before {
+      -webkit-transform: rotate3d(0, 0, 1, -40deg);
+      transform: rotate3d(0, 0, 1, -40deg);
+    }
+    &:after {
+      -webkit-transform: rotate3d(0, 0, 1, 40deg);
+      transform: rotate3d(0, 0, 1, 40deg);
+    }
+  }
+}
+
+// Hamburger to Minus
+@mixin button-lines__minus-1() {
+  span {
+    &:before,
+    &:after {
+      @include transition(all .3s ease);
+    }
+  }
+
+  &.active span {
+    &:before,
+    &:after {
+      top: 0;
+    }
+  }
+}
+
+//===============   Mobilepanel Toggle   =================
+.rd-mobilepanel_toggle {
+  @include reset-button();
+  position: fixed;
+  top: 4px;
+  left: 8px;
+  width: $rd-button-size;
+  height: $rd-button-size;
+
+  @if ($rd-menu-toggle-preset == button-lines-cross-1) {
+    @include button-lines();
+    @include button-lines__cross-1();
+  }
+
+  @if ($rd-menu-toggle-preset == button-lines-cross-2) {
+    @include button-lines();
+    @include button-lines__cross-2();
+  }
+
+  @if ($rd-menu-toggle-preset == button-lines-cross-3) {
+    @include button-lines();
+    @include button-lines__cross-3();
+  }
+
+  @if ($rd-menu-toggle-preset == button-lines-arrow-1) {
+    @include button-lines();
+    @include button-lines__arrow-1();
+  }
+
+  @if ($rd-menu-toggle-preset == button-lines-arrow-2) {
+    @include button-lines();
+    @include button-lines__arrow-2();
+  }
+
+  @if ($rd-menu-toggle-preset == button-lines-minus-1) {
+    @include button-lines();
+    @include button-lines__minus-1();
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-top: $rd-mobilepanel-height;
+  }
+
+  .rd-mobilemenu, .rd-mobilepanel {
+    display: block;
+  }
+}
+
+@media (max-width: 359px) {
+  .rd-mobilepanel_title {
+    font-size: 18px;
+  }
+}
+
